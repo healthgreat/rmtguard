@@ -36,6 +36,7 @@ publication_board = _load_script("build_publication_execution_board")
 github_release = _load_script("execute_github_release")
 submission_finalizer = _load_script("finalize_submission_release")
 reporting_summary = _load_script("build_reporting_summary_draft")
+editorial_risk = _load_script("build_editorial_risk_audit")
 
 
 class ReleasePlanTest(unittest.TestCase):
@@ -361,6 +362,31 @@ class ReleasePlanTest(unittest.TestCase):
         self.assertEqual(by_item["Official form status"]["status"], "pending_manual")
         lines = reporting_summary.build_markdown(rows)
         self.assertTrue(any("official Nature Portfolio reporting summary form" in line for line in lines))
+
+    def test_editorial_risk_blocks_without_software_release(self) -> None:
+        objections = [
+            {
+                "objection_id": "stability_advantage",
+                "current_status": "pass",
+                "likely_reviewer_concern": "stability concern",
+                "response_strategy": "keep no-call wording",
+            }
+        ]
+        compliance = [
+            {"check_id": "code_availability", "status": "blocked"},
+            {"check_id": "code_doi_repository", "status": "blocked"},
+            {"check_id": "reporting_summary", "status": "pending_manual"},
+        ]
+        journals = [{"journal": "Nature Methods", "current_readiness": "not_ready", "fit_for_current_project": "primary_target_if_gates_pass"}]
+        execution = [{"step_id": "02_create_public_github_repository", "status": "blocked_external"}]
+        rows = editorial_risk.build_rows(objections, compliance, journals, execution)
+        by_risk = {row["risk_id"]: row for row in rows}
+        self.assertEqual(by_risk["software_release_desk_reject"]["status"], "blocked")
+        self.assertEqual(editorial_risk.overall_status(rows), "blocked_before_editorial_submission")
+
+    def test_editorial_risk_never_promises_acceptance(self) -> None:
+        lines = editorial_risk.build_markdown([])
+        self.assertTrue(any("Acceptance guarantee: `impossible`" in line for line in lines))
 
 
 if __name__ == "__main__":

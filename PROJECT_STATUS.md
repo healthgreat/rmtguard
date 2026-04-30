@@ -49,6 +49,9 @@ wrapper.
 - `scripts/build_reporting_summary_draft.py` pre-fills a Nature Portfolio
   reporting-summary worksheet from local evidence while keeping the official
   form as a manual author-verified step.
+- `scripts/build_editorial_risk_audit.py` records desk-reject and transfer
+  risks so the Nature Methods first route is governed by explicit
+  go/no-go rules rather than optimism.
 
 ## Remaining Manuscript Work
 
@@ -152,6 +155,11 @@ wrapper.
   summary content. The draft marks Code availability and Code DOI as blocked
   until the public GitHub/Zenodo release is complete; the official Nature
   Portfolio form still requires author verification.
+- `docs/editorial_risk_audit.md` and
+  `results/submission/editorial_risk_audit.tsv` now track Nature Methods
+  desk-reject risk. The current blocking editorial risk is software release;
+  active non-blocking risks are method novelty framing, baseline sufficiency,
+  and PDAC/TME application depth.
 - Gate recommendation remains `continue_benchmarking` until the external
   software-release evidence is complete and the submission gate is rerun.
 
