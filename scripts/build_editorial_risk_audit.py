@@ -29,6 +29,7 @@ STABILITY_RUNNER = ROOT / "benchmarks" / "run_stability_benchmark.py"
 SEURAT_RUNNER = ROOT / "benchmarks" / "run_seurat_baseline.R"
 PHASE1_SUMMARY = ROOT / "results" / "phase1_benchmarks" / "phase1_benchmark_summary.tsv"
 STABILITY_SUMMARY = ROOT / "results" / "stability_benchmarks" / "stability_summary.tsv"
+SEURAT_BASELINE_RESULT = ROOT / "results" / "phase1_benchmarks" / "pbmc3k_10x_seurat_baseline.tsv"
 PC_RULE_BASELINES = {"elbow_rule", "parallel_analysis", "jackstraw_like"}
 
 
@@ -115,14 +116,17 @@ def _baseline_support_status(
     seurat_runner: Path = SEURAT_RUNNER,
     phase1_summary: Path = PHASE1_SUMMARY,
     stability_summary: Path = STABILITY_SUMMARY,
+    seurat_result: Path = SEURAT_BASELINE_RESULT,
 ) -> dict[str, str]:
     pc_rule_scripts_ready = _text_contains_all(phase1_runner, PC_RULE_BASELINES) and _text_contains_all(stability_runner, PC_RULE_BASELINES)
     seurat_script_ready = seurat_runner.exists()
     phase1_methods = _summary_methods(phase1_summary)
     stability_methods = _summary_methods(stability_summary)
+    seurat_methods = _summary_methods(seurat_result)
     pc_rule_results_ready = PC_RULE_BASELINES.issubset(phase1_methods) and PC_RULE_BASELINES.issubset(stability_methods)
+    seurat_results_ready = any(method.startswith("seurat_v5_like") for method in seurat_methods)
 
-    if pc_rule_scripts_ready and seurat_script_ready and pc_rule_results_ready:
+    if pc_rule_scripts_ready and seurat_script_ready and pc_rule_results_ready and seurat_results_ready:
         return {
             "status": "controlled",
             "mitigation": "Maintain Seurat, elbow, permutation PCA, and JackStraw-like baselines in final benchmark tables.",

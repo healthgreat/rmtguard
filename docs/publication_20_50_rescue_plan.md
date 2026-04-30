@@ -9,7 +9,7 @@ No one can guarantee journal acceptance. The controllable commitment is gate dis
 ## Current Decision
 
 - Strict 20-50 JIF route: `not ready`.
-- `stability_advantage`: `pass`.
+- `stability_advantage`: `fail`.
 - `diagnostic_no_call_validation`: `pass`.
 - `software_release`: `pending`.
 - Current best 20-50 target remains Nature Methods, not Nature Biotechnology.
@@ -24,7 +24,7 @@ No one can guarantee journal acceptance. The controllable commitment is gate dis
 - Within 20-50 JIF: `yes`.
 - Fit: `primary_target_if_gates_pass`.
 - Current readiness: `not_ready`.
-- Blocking items: `software_release`.
+- Blocking items: `stability_advantage;software_release`.
 - Required positioning: Methods Article centered on random-matrix noise control, diagnostic no-call, public benchmarks, and reproducible software.
 - Source: https://www.nature.com/nmeth/journal-impact
 

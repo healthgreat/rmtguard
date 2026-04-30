@@ -72,6 +72,30 @@ parse_args <- function(args) {
   values
 }
 
+contains_non_ascii <- function(x) {
+  codepoints <- utf8ToInt(enc2utf8(x))
+  any(codepoints > 127L, na.rm = TRUE)
+}
+
+check_basilisk_cache_path <- function() {
+  if (.Platform$OS.type != "windows") {
+    return(invisible(TRUE))
+  }
+  if (nzchar(Sys.getenv("BASILISK_EXTERNAL_DIR"))) {
+    return(invisible(TRUE))
+  }
+  home_path <- Sys.getenv("USERPROFILE", unset = path.expand("~"))
+  if (contains_non_ascii(home_path)) {
+    stop(
+      "Windows user path contains non-ASCII characters and zellkonverter/basilisk may fail while creating its Python environment. ",
+      "Set BASILISK_EXTERNAL_DIR to an ASCII-only directory before running this script, for example: ",
+      "BASILISK_EXTERNAL_DIR=D:/BioSoft/basilisk-cache",
+      call. = FALSE
+    )
+  }
+  invisible(TRUE)
+}
+
 atomic_write_tsv <- function(df, path) {
   dir.create(dirname(path), recursive = TRUE, showWarnings = FALSE)
   tmp <- paste0(path, ".tmp")
@@ -107,6 +131,7 @@ adjusted_rand_index <- function(x, y) {
 }
 
 load_h5ad_as_seurat <- function(path) {
+  check_basilisk_cache_path()
   sce <- zellkonverter::readH5AD(path)
   assay_names <- SummarizedExperiment::assayNames(sce)
   if (length(assay_names) == 0L) {

@@ -164,8 +164,10 @@ wrapper.
 - `docs/editorial_risk_audit.md` and
   `results/submission/editorial_risk_audit.tsv` now track Nature Methods
   desk-reject risk. The current blocking editorial risk is software release;
-  active non-blocking risks are method novelty framing, baseline result-table
-  completion, and PDAC/TME application depth.
+  active non-blocking risks are method novelty framing and PDAC/TME
+  application depth. Baseline sufficiency is controlled after the expanded
+  Phase 1 and stability tables were regenerated with elbow, permutation PCA,
+  JackStraw-like, and Seurat v5-like baseline support.
 - Gate recommendation remains `continue_benchmarking` until the external
   software-release evidence is complete and the submission gate is rerun.
 
@@ -173,7 +175,9 @@ wrapper.
 
 RMTGuard v3.2 reaches the pre-specified 0.80 floor on PBMC3k, exceeds the
 Scanpy-like PBMC3k stability baseline, and passes the expanded four-dataset
-gate only under the callability-aware stability/no-call framing. This is a
+gate under the callability-aware stability/no-call framing. The expanded
+baseline rerun now includes elbow, permutation PCA, JackStraw-like, fixed-PC,
+Scanpy-like, and an executable Seurat v5-like baseline path. This is a
 manuscript-safe but narrow methods claim, not broad fixed-PC superiority.
 
 The active 20-50 JIF blocker is now external software release rather than a

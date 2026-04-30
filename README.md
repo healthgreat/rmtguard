@@ -125,6 +125,14 @@ python benchmarks/run_h5ad_benchmark.py \
   --batch-key sample_id
 ```
 
+On Windows machines whose user path contains non-ASCII characters, set
+`BASILISK_EXTERNAL_DIR` to an ASCII-only directory before running the optional
+Seurat h5ad baseline, for example:
+
+```bash
+BASILISK_EXTERNAL_DIR=/mnt/d/BioSoft/basilisk-cache Rscript benchmarks/run_seurat_baseline.R --input data/processed/pbmc3k_10x.h5ad --dataset-id pbmc3k_10x
+```
+
 The planned public datasets are listed in:
 
 ```text

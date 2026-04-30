@@ -401,8 +401,10 @@ class ReleasePlanTest(unittest.TestCase):
             seurat_runner.write_text("# seurat baseline\n", encoding="utf-8")
             phase1_summary = tmp / "phase1.tsv"
             stability_summary = tmp / "stability.tsv"
+            seurat_result = tmp / "seurat.tsv"
             phase1_summary.write_text("method\nrmtguard\nfixed_pcs_30\n", encoding="utf-8")
             stability_summary.write_text("method\nrmtguard\nfixed_pcs_30\n", encoding="utf-8")
+            seurat_result.write_text("method\nseurat_v5_like_pcs_30\n", encoding="utf-8")
 
             status = editorial_risk._baseline_support_status(
                 phase1_runner=phase1_runner,
@@ -410,6 +412,7 @@ class ReleasePlanTest(unittest.TestCase):
                 seurat_runner=seurat_runner,
                 phase1_summary=phase1_summary,
                 stability_summary=stability_summary,
+                seurat_result=seurat_result,
             )
             self.assertEqual(status["status"], "implementation_ready_not_benchmarked")
 
@@ -422,6 +425,7 @@ class ReleasePlanTest(unittest.TestCase):
                 seurat_runner=seurat_runner,
                 phase1_summary=phase1_summary,
                 stability_summary=stability_summary,
+                seurat_result=seurat_result,
             )
             self.assertEqual(status["status"], "controlled")
 
