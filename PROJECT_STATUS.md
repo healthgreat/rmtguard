@@ -39,6 +39,9 @@ wrapper.
 - `scripts/build_stability_utility_report.py` quantifies stability-versus-
   annotation tradeoffs so the manuscript cannot turn a higher-stability but
   lower-annotation comparator into a false RMTGuard superiority claim.
+- `scripts/build_algorithm_rescue_probe_report.py` records local rescue probes
+  that should not be promoted to the default algorithm, including failed
+  resolution-path and PBMC68k low-signal probes.
 - `scripts/build_publication_20_50_plan.py` records the strict 20-50 JIF
   publication route. It keeps Nature Methods as the realistic 20-50 target
   only if gates pass, marks Nature Biotechnology as stretch-only, and keeps
@@ -112,6 +115,10 @@ wrapper.
 - `docs/stability_utility_tradeoff.md` now records the stability-annotation
   Pareto audit. It explicitly states that this audit does not rescue the
   failed stability gate; it only controls wording and reviewer-risk scope.
+- `docs/algorithm_rescue_probe_report.md` records the current rescue attempts:
+  graph-resolution path improves PBMC3k locally but hurts Kang IFN-beta PBMC,
+  while near-edge-window 2.0 and MP-only edge do not rescue PBMC68k. These
+  probes are not promoted to the default algorithm.
 - Gate status is now: synthetic noise control `pass`, diagnostic no-call
   validation `pass`, rare-state retention `pass`, annotation noninferiority
   `pass` on 3/3 labeled datasets, real dataset count `pass` with 4 datasets,

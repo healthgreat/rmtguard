@@ -19,8 +19,8 @@ python scripts/stage_github_release_files.py --execute
 
 | action | file_count | size_bytes |
 |---|---:|---:|
-| do_not_stage | 257 | 746003863 |
-| stage_for_initial_commit | 103 | 676904 |
+| do_not_stage | 284 | 746039294 |
+| stage_for_initial_commit | 105 | 691685 |
 
 ## Stage For Initial Commit
 
@@ -48,6 +48,7 @@ data/README.md
 data/external/.gitkeep
 data/processed/.gitkeep
 data/raw/.gitkeep
+docs/algorithm_rescue_probe_report.md
 docs/benchmark_plan.md
 docs/data_and_code_availability_template.md
 docs/editorial_risk_audit.md
@@ -81,6 +82,7 @@ metadata/submission_gates.tsv
 pyproject.toml
 requirements.txt
 results/.gitkeep
+scripts/build_algorithm_rescue_probe_report.py
 scripts/build_editorial_risk_audit.py
 scripts/build_external_release_plan.py
 scripts/build_figure_source_data.py
@@ -237,6 +239,7 @@ results/release/repository_metadata_update_plan.tsv
 results/release/rmtguard_v0.1.0-rc1_source.bundle
 results/release/submission_release_finalization.md
 results/release/submission_release_finalization.tsv
+results/rescue/algorithm_rescue_probe_summary.tsv
 results/stability_benchmarks/baron_pancreas_stability_runs.tsv
 results/stability_benchmarks/baron_pancreas_stability_summary.tsv
 results/stability_benchmarks/kang_ifnb_pbmc_stability_runs.tsv
@@ -305,6 +308,11 @@ results/stability_benchmarks_hvg_stability_minpc10_probe/stability_summary.tsv
 results/stability_benchmarks_hvg_stability_probe/stability_metadata.json
 results/stability_benchmarks_hvg_stability_probe/stability_runs.tsv
 results/stability_benchmarks_hvg_stability_probe/stability_summary.tsv
+results/stability_benchmarks_low_signal_near2_probe/pbmc68k_zheng2017_stability_runs.tsv
+results/stability_benchmarks_low_signal_near2_probe/pbmc68k_zheng2017_stability_summary.tsv
+results/stability_benchmarks_low_signal_near2_probe/stability_metadata.json
+results/stability_benchmarks_low_signal_near2_probe/stability_runs.tsv
+results/stability_benchmarks_low_signal_near2_probe/stability_summary.tsv
 results/stability_benchmarks_minpc10_probe/stability_metadata.json
 results/stability_benchmarks_minpc10_probe/stability_runs.tsv
 results/stability_benchmarks_minpc10_probe/stability_summary.tsv
@@ -319,6 +327,11 @@ results/stability_benchmarks_pbmc68k_mp_probe/pbmc68k_zheng2017_stability_summar
 results/stability_benchmarks_pbmc68k_mp_probe/stability_metadata.json
 results/stability_benchmarks_pbmc68k_mp_probe/stability_runs.tsv
 results/stability_benchmarks_pbmc68k_mp_probe/stability_summary.tsv
+results/stability_benchmarks_pbmc68k_mp_probe2/pbmc68k_zheng2017_stability_runs.tsv
+results/stability_benchmarks_pbmc68k_mp_probe2/pbmc68k_zheng2017_stability_summary.tsv
+results/stability_benchmarks_pbmc68k_mp_probe2/stability_metadata.json
+results/stability_benchmarks_pbmc68k_mp_probe2/stability_runs.tsv
+results/stability_benchmarks_pbmc68k_mp_probe2/stability_summary.tsv
 results/stability_benchmarks_pbmc68k_zscore_probe/pbmc68k_zheng2017_stability_runs.tsv
 results/stability_benchmarks_pbmc68k_zscore_probe/pbmc68k_zheng2017_stability_summary.tsv
 results/stability_benchmarks_pbmc68k_zscore_probe/stability_metadata.json
@@ -359,6 +372,22 @@ results/stability_benchmarks_probe_single_signal/pbmc68k_zheng2017_stability_sum
 results/stability_benchmarks_probe_single_signal/stability_metadata.json
 results/stability_benchmarks_probe_single_signal/stability_runs.tsv
 results/stability_benchmarks_probe_single_signal/stability_summary.tsv
+results/stability_benchmarks_resolution_path_min08_probe/kang_ifnb_pbmc_stability_runs.tsv
+results/stability_benchmarks_resolution_path_min08_probe/kang_ifnb_pbmc_stability_summary.tsv
+results/stability_benchmarks_resolution_path_min08_probe/pbmc3k_10x_stability_runs.tsv
+results/stability_benchmarks_resolution_path_min08_probe/pbmc3k_10x_stability_summary.tsv
+results/stability_benchmarks_resolution_path_min08_probe/stability_metadata.json
+results/stability_benchmarks_resolution_path_min08_probe/stability_runs.tsv
+results/stability_benchmarks_resolution_path_min08_probe/stability_summary.tsv
+results/stability_benchmarks_resolution_path_probe/pbmc3k_10x_stability_runs.tsv
+results/stability_benchmarks_resolution_path_probe/pbmc3k_10x_stability_summary.tsv
+results/stability_benchmarks_resolution_path_probe/pbmc68k_zheng2017_stability_runs.tsv
+results/stability_benchmarks_resolution_path_probe/pbmc68k_zheng2017_stability_summary.tsv
+results/stability_benchmarks_resolution_path_probe/stability_metadata.json
+results/stability_benchmarks_resolution_path_probe/stability_runs.tsv
+results/stability_benchmarks_resolution_path_probe/stability_summary.tsv
+results/stability_benchmarks_resolution_path_probe_kang_baron/kang_ifnb_pbmc_stability_runs.tsv
+results/stability_benchmarks_resolution_path_probe_kang_baron/kang_ifnb_pbmc_stability_summary.tsv
 results/stability_benchmarks_rmt_fixedk_probe/stability_metadata.json
 results/stability_benchmarks_rmt_fixedk_probe/stability_runs.tsv
 results/stability_benchmarks_rmt_fixedk_probe/stability_summary.tsv

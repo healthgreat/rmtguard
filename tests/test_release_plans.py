@@ -30,6 +30,7 @@ manuscript_evidence = _load_script("build_manuscript_evidence_package")
 manuscript_draft = _load_script("build_manuscript_draft_package")
 stability_gate = _load_script("build_stability_gate_report")
 stability_utility = _load_script("build_stability_utility_report")
+algorithm_rescue = _load_script("build_algorithm_rescue_probe_report")
 no_call_report = _load_script("build_no_call_benchmark_report")
 publication_plan = _load_script("build_publication_20_50_plan")
 presubmission_package = _load_script("build_presubmission_package")
@@ -197,6 +198,23 @@ class ReleasePlanTest(unittest.TestCase):
         self.assertEqual(by_method["elbow_rule"]["utility_relation_vs_rmtguard"], "comparator_higher_stability_lower_annotation")
         self.assertEqual(by_method["elbow_rule"]["comparator_dominates_rmtguard"], "no")
         self.assertEqual(by_method["fixed_pcs_30"]["rmtguard_dominates_comparator"], "yes")
+
+    def test_algorithm_rescue_report_rejects_harmful_probe(self) -> None:
+        rows = algorithm_rescue.build_rows(
+            [
+                {
+                    "probe_id": "resolution_path_min0p8",
+                    "path": ROOT / "missing.tsv",
+                    "tested_change": "missing probe",
+                    "decision_rule": "reject missing",
+                }
+            ]
+        )
+        self.assertEqual(rows[0]["decision"], "incomplete_or_missing_probe")
+        self.assertEqual(
+            algorithm_rescue._decision("resolution_path_min0p8", "kang_ifnb_pbmc", 0.69, 5.6),
+            "reject_hurts_kang_stability",
+        )
 
     def test_no_call_report_validates_null_and_planted_signal(self) -> None:
         rows = no_call_report.build_rows(

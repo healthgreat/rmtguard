@@ -115,6 +115,38 @@ Action:
   where RMTGuard underclusters relative to fixed-PC baselines, while preserving
   the Kang annotation recovery advantage.
 
+## Resolution-Path And Low-Signal Rescue Probes
+
+Date: 2026-04-30
+
+Observation: Local rescue probes do not yet justify changing the default
+RMTGuard algorithm.
+
+Evidence:
+
+- `results/stability_benchmarks_resolution_path_probe/stability_summary.tsv`
+- `results/stability_benchmarks_resolution_path_min08_probe/stability_summary.tsv`
+- `results/stability_benchmarks_low_signal_near2_probe/stability_summary.tsv`
+- `results/stability_benchmarks_pbmc68k_mp_probe2/stability_summary.tsv`
+- `docs/algorithm_rescue_probe_report.md`
+
+Interpretation:
+
+The broad graph-resolution path improves PBMC3k mean pairwise ARI from 0.891
+to 0.929, but does not resolve PBMC68k. The same resolution-path direction
+hurts Kang IFN-beta PBMC stability, dropping it below the current RMTGuard
+baseline. Increasing the PBMC68k near-edge window to 2.0 and switching to a
+plain MP edge also fail to rescue PBMC68k without violating the no forced-PC
+constraint.
+
+Action:
+
+- Do not promote graph-resolution path, near-edge-window 2.0, or MP-only edge
+  as a default rescue.
+- Keep these probes as negative evidence in the algorithm rescue report.
+- The next implementation attempt should target a principled low-signal
+  embedding diagnostic, not a manual PC or resolution override.
+
 ## PDAC/TME Showcase Boundary
 
 Date: 2026-04-29
