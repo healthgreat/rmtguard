@@ -34,6 +34,7 @@ presubmission_package = _load_script("build_presubmission_package")
 journal_compliance = _load_script("build_journal_compliance_audit")
 publication_board = _load_script("build_publication_execution_board")
 github_release = _load_script("execute_github_release")
+submission_finalizer = _load_script("finalize_submission_release")
 
 
 class ReleasePlanTest(unittest.TestCase):
@@ -328,6 +329,20 @@ class ReleasePlanTest(unittest.TestCase):
     def test_github_release_markdown_never_promises_acceptance(self) -> None:
         rows = github_release.build_plan("https://github.com/example-lab/rmtguard", "v0.1.0-rc1")
         lines = github_release.build_markdown(rows, "https://github.com/example-lab/rmtguard", "v0.1.0-rc1", execute_mode=False)
+        self.assertTrue(any("Acceptance guarantee: `impossible`" in line for line in lines))
+
+    def test_submission_finalizer_blocks_without_repo_and_doi(self) -> None:
+        rows = submission_finalizer.build_plan(None, None, "v0.1.0-rc1")
+        by_step = {row["step_id"]: row for row in rows}
+        self.assertEqual(by_step["01_validate_inputs"]["status"], "blocked")
+        self.assertEqual(by_step["04_record_external_metadata"]["status"], "blocked")
+
+    def test_submission_finalizer_parses_valid_inputs_and_requires_manual_tag_review(self) -> None:
+        rows = submission_finalizer.build_plan("https://github.com/example-lab/rmtguard", "10.5281/zenodo.12345", "v0.1.0-rc1")
+        by_step = {row["step_id"]: row for row in rows}
+        self.assertEqual(by_step["01_validate_inputs"]["status"], "ready")
+        self.assertIn(by_step["03_validate_tag_state"]["status"], {"ready", "manual_review"})
+        lines = submission_finalizer.build_markdown(rows, "https://github.com/example-lab/rmtguard", "10.5281/zenodo.12345", "v0.1.0-rc1", execute_mode=False)
         self.assertTrue(any("Acceptance guarantee: `impossible`" in line for line in lines))
 
 

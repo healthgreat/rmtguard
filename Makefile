@@ -1,4 +1,4 @@
-.PHONY: install test demo benchmark no-call phase1 stability stability-phase1 stability-report publication-plan journal-compliance publication-board github-release-dry-run gates gate-results release-manifests audit clean
+.PHONY: install test demo benchmark no-call phase1 stability stability-phase1 stability-report publication-plan journal-compliance publication-board github-release-dry-run finalize-release-dry-run gates gate-results release-manifests audit clean
 
 install:
 	python -m pip install -e ".[scanpy,dev]"
@@ -39,6 +39,9 @@ publication-board:
 
 github-release-dry-run:
 	python scripts/execute_github_release.py --repo-url https://github.com/your-lab/rmtguard
+
+finalize-release-dry-run:
+	python scripts/finalize_submission_release.py
 
 gates:
 	python scripts/evaluate_submission_gates.py
