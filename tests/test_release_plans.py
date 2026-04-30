@@ -32,6 +32,7 @@ no_call_report = _load_script("build_no_call_benchmark_report")
 publication_plan = _load_script("build_publication_20_50_plan")
 presubmission_package = _load_script("build_presubmission_package")
 journal_compliance = _load_script("build_journal_compliance_audit")
+publication_board = _load_script("build_publication_execution_board")
 
 
 class ReleasePlanTest(unittest.TestCase):
@@ -278,6 +279,39 @@ class ReleasePlanTest(unittest.TestCase):
     def test_journal_compliance_never_promises_acceptance(self) -> None:
         lines = journal_compliance.build_markdown([])
         self.assertTrue(any("Acceptance guarantee: `not possible`" in line for line in lines))
+
+    def test_publication_board_identifies_external_release_blockers(self) -> None:
+        compliance = [
+            {"check_id": "claim_boundary", "status": "pass"},
+            {"check_id": "code_availability", "status": "blocked"},
+            {"check_id": "code_doi_repository", "status": "blocked"},
+            {"check_id": "reporting_summary", "status": "pending_manual"},
+        ]
+        release = [
+            {"check_id": "repository_url", "status": "pending"},
+            {"check_id": "github_remote", "status": "pending"},
+            {"check_id": "github_release_tag", "status": "pass"},
+            {"check_id": "zenodo_doi", "status": "pending"},
+        ]
+        presubmission = [{"check_id": "nature_methods_submission_ready", "status": "blocked"}]
+        journals = [
+            {
+                "journal": "Nature Methods",
+                "fit_for_current_project": "primary_target_if_gates_pass",
+                "current_readiness": "not_ready",
+            },
+            {"journal": "Nature Biotechnology", "fit_for_current_project": "stretch_only"},
+            {"journal": "Genome Biology", "fit_for_current_project": "realistic_fallback_if_strict_jif_relaxed"},
+        ]
+        rows = publication_board.build_board_rows(compliance, release, presubmission, journals)
+        by_step = {row["step_id"]: row for row in rows}
+        self.assertEqual(by_step["02_create_public_github_repository"]["status"], "blocked_external")
+        self.assertEqual(by_step["05_create_github_release_and_zenodo_doi"]["status"], "blocked_external")
+        self.assertEqual(publication_board._overall_status(rows), "blocked_before_submission")
+
+    def test_publication_board_states_no_acceptance_guarantee(self) -> None:
+        lines = publication_board.build_markdown([])
+        self.assertTrue(any("Acceptance guarantee: `impossible`" in line for line in lines))
 
 
 if __name__ == "__main__":

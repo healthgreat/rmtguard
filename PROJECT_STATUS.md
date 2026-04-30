@@ -40,6 +40,12 @@ wrapper.
   publication route. It keeps Nature Methods as the realistic 20-50 target
   only if gates pass, marks Nature Biotechnology as stretch-only, and keeps
   Genome Biology as a fallback outside strict 20-50 JIF.
+- `scripts/build_journal_compliance_audit.py` converts Nature Methods and
+  Nature Portfolio code/data/reporting requirements into explicit local
+  pass/blocked rows.
+- `scripts/build_publication_execution_board.py` records the remaining
+  ownership boundary: Codex-owned local work versus external GitHub/Zenodo or
+  author-owned submission actions.
 
 ## Remaining Manuscript Work
 
@@ -87,11 +93,11 @@ wrapper.
   with RMTGuard mean pairwise ARI 0.600 and mean cluster count 1.4, but is
   now classified as diagnostic no-call because fixed `n_pcs=30` label ARI is
   only 0.106.
-- Gate status is now: synthetic noise control `pass`, rare-state retention
-  `pass`, annotation noninferiority `pass` on 3/3 labeled datasets, real
-  dataset count `pass` with 4 datasets, PDAC/TME interpretability `pass`,
-  figure source data `pass`, stability advantage `borderline`, and software
-  release `pending`.
+- Gate status is now: synthetic noise control `pass`, diagnostic no-call
+  validation `pass`, rare-state retention `pass`, annotation noninferiority
+  `pass` on 3/3 labeled datasets, real dataset count `pass` with 4 datasets,
+  PDAC/TME interpretability `pass`, figure source data `pass`, callability-aware
+  stability/no-call `pass`, and software release `pending`.
 - Figure source data have been generated under
   `results/figures/source_data/`, with the reproducibility manifest at
   `results/figures/figure_reproducibility.tsv`.
@@ -129,12 +135,26 @@ wrapper.
   working drafts, a reviewer objection matrix, and a storyline-to-panel map.
   These outputs are explicitly not submission-ready and preserve the current
   PBMC3k/software-release boundaries.
-- Gate recommendation remains `continue_benchmarking`.
+- `results/submission/nature_methods_compliance_audit.tsv` records Nature
+  Methods-facing compliance. Scope, content type, comparison, biological
+  application, data availability, reproducibility package, and claim boundary
+  pass. Code availability, code DOI, and final submission readiness remain
+  blocked until public GitHub/Zenodo release exists.
+- `docs/publication_execution_board.md` records the active execution state:
+  local Codex-owned manuscript/release artifacts are prepared, but public
+  GitHub repository creation, remote push, GitHub Release, Zenodo DOI, and
+  official reporting summary remain external/manual actions.
+- Gate recommendation remains `continue_benchmarking` until the external
+  software-release evidence is complete and the submission gate is rerun.
 
-## Current Algorithmic Blocker
+## Current Publication Blocker
 
-RMTGuard v3.2 reaches the pre-specified 0.80 floor on PBMC3k and exceeds the
-Scanpy-like stability baseline, but the expanded four-dataset stability gate is
-still not a Nature Methods performance win. The remaining 20-50 JIF blockers
-are the unresolved stability/no-call story and the missing public GitHub/Zenodo
-software release.
+RMTGuard v3.2 reaches the pre-specified 0.80 floor on PBMC3k, exceeds the
+Scanpy-like PBMC3k stability baseline, and passes the expanded four-dataset
+gate only under the callability-aware stability/no-call framing. This is a
+manuscript-safe but narrow methods claim, not broad fixed-PC superiority.
+
+The active 20-50 JIF blocker is now external software release rather than a
+local algorithm implementation failure: a real public GitHub repository,
+remote push, GitHub Release, Zenodo DOI, and final reporting-summary form are
+required before Nature Methods submission can be marked ready.

@@ -1,4 +1,4 @@
-.PHONY: install test demo benchmark no-call phase1 stability stability-phase1 stability-report publication-plan journal-compliance gates gate-results release-manifests audit clean
+.PHONY: install test demo benchmark no-call phase1 stability stability-phase1 stability-report publication-plan journal-compliance publication-board gates gate-results release-manifests audit clean
 
 install:
 	python -m pip install -e ".[scanpy,dev]"
@@ -34,6 +34,9 @@ publication-plan:
 journal-compliance:
 	python scripts/build_journal_compliance_audit.py
 
+publication-board:
+	python scripts/build_publication_execution_board.py
+
 gates:
 	python scripts/evaluate_submission_gates.py
 
@@ -61,8 +64,10 @@ release-manifests:
 	python scripts/build_manuscript_evidence_package.py
 	python scripts/build_manuscript_draft_package.py
 	python scripts/build_journal_compliance_audit.py
+	python scripts/build_publication_execution_board.py
 	python scripts/build_release_readiness.py
 	python scripts/build_journal_compliance_audit.py
+	python scripts/build_publication_execution_board.py
 	python scripts/build_presubmission_package.py
 	python scripts/build_release_artifact_manifest.py
 	python scripts/build_release_asset_bundle.py
