@@ -429,6 +429,26 @@ class ReleasePlanTest(unittest.TestCase):
             )
             self.assertEqual(status["status"], "controlled")
 
+    def test_editorial_risk_uses_pdac_depth_audit_boundary(self) -> None:
+        with tempfile.TemporaryDirectory() as tmpdir:
+            path = Path(tmpdir) / "pdac_depth.tsv"
+            path.write_text(
+                "item_id\tstatus\tevidence\tallowed_claim\tforbidden_claim\tnotes\n"
+                "primary_marker_structure\tpass\tx\ty\tz\tn\n"
+                "caf_fibroblast_boundary\tcontrolled_no_claim\tx\ty\tz\tn\n",
+                encoding="utf-8",
+            )
+            status = editorial_risk._pdac_depth_status(path)
+            self.assertEqual(status["status"], "controlled_with_public_use_case")
+
+            path.write_text(
+                "item_id\tstatus\tevidence\tallowed_claim\tforbidden_claim\tnotes\n"
+                "primary_marker_structure\tfail\tx\ty\tz\tn\n",
+                encoding="utf-8",
+            )
+            status = editorial_risk._pdac_depth_status(path)
+            self.assertEqual(status["status"], "active_risk")
+
 
 if __name__ == "__main__":
     unittest.main()

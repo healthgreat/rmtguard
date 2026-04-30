@@ -24,6 +24,7 @@ OBJECTIONS = ROOT / "results" / "manuscript" / "reviewer_objection_matrix.tsv"
 COMPLIANCE = ROOT / "results" / "submission" / "nature_methods_compliance_audit.tsv"
 JOURNAL_ROUTE = ROOT / "results" / "gates" / "publication_20_50_decision.tsv"
 EXECUTION_BOARD = ROOT / "results" / "submission" / "publication_execution_board.tsv"
+PDAC_DEPTH_AUDIT = ROOT / "results" / "pdac_tme" / "pdac_showcase_depth_audit.tsv"
 PHASE1_RUNNER = ROOT / "benchmarks" / "run_phase1_benchmark.py"
 STABILITY_RUNNER = ROOT / "benchmarks" / "run_stability_benchmark.py"
 SEURAT_RUNNER = ROOT / "benchmarks" / "run_seurat_baseline.R"
@@ -151,6 +152,28 @@ def _baseline_support_status(
     }
 
 
+def _pdac_depth_status(path: Path = PDAC_DEPTH_AUDIT) -> dict[str, str]:
+    rows = _read_tsv(path)
+    if not rows:
+        return {
+            "status": "active_risk",
+            "mitigation": "Use PDAC/TME as public workflow validation, not disease-mechanism proof.",
+            "go_no_go": "Do not describe CAF/fibroblast discovery unless stronger marker/pathway/external validation is added.",
+        }
+    blocking = {row.get("status") for row in rows} & {"fail", "needs_review"}
+    if blocking:
+        return {
+            "status": "active_risk",
+            "mitigation": "Resolve failed PDAC/TME depth-audit rows or keep the showcase as a narrow supplemental use case.",
+            "go_no_go": "Do not submit a main-text PDAC/TME claim while the depth audit has fail or needs_review rows.",
+        }
+    return {
+        "status": "controlled_with_public_use_case",
+        "mitigation": "Keep PDAC/TME as a public immune/ductal-context workflow validation with explicit forbidden-claim boundaries.",
+        "go_no_go": "PDAC/TME can remain in the manuscript only as a bounded public use case, not a disease-mechanism claim.",
+    }
+
+
 def build_rows(
     objections: list[dict[str, str]],
     compliance_rows: list[dict[str, str]],
@@ -176,6 +199,7 @@ def build_rows(
     baselines = _objection(objections, "benchmark_baselines")
     pdac = _objection(objections, "pdac_biology_depth")
     baseline_support = _baseline_support_status()
+    pdac_depth = _pdac_depth_status()
 
     rows = [
         _row(
@@ -231,11 +255,11 @@ def build_rows(
         _row(
             "biological_application_depth",
             "medium",
-            "active_risk",
+            pdac_depth["status"],
             pdac.get("likely_reviewer_concern", "PDAC/TME showcase may be too shallow for a top methods paper."),
-            OBJECTIONS,
-            pdac.get("response_strategy", "Use PDAC/TME as public workflow validation, not disease-mechanism proof."),
-            "Do not describe CAF/fibroblast discovery unless stronger marker/pathway/external validation is added.",
+            PDAC_DEPTH_AUDIT,
+            pdac_depth["mitigation"],
+            pdac_depth["go_no_go"],
             "If biological application is judged too light, recast as reproducible public-data software benchmark.",
         ),
         _row(

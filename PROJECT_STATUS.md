@@ -164,23 +164,28 @@ wrapper.
 - `docs/editorial_risk_audit.md` and
   `results/submission/editorial_risk_audit.tsv` now track Nature Methods
   desk-reject risk. The current blocking editorial risk is software release;
-  active non-blocking risks are method novelty framing and PDAC/TME
-  application depth. Baseline sufficiency is controlled after the expanded
-  Phase 1 and stability tables were regenerated with elbow, permutation PCA,
-  JackStraw-like, and Seurat v5-like baseline support.
+  active non-blocking risks are method novelty framing and stability claim
+  scope. Baseline sufficiency is controlled after the expanded Phase 1 and
+  stability tables were regenerated with elbow, permutation PCA,
+  JackStraw-like, and Seurat v5-like baseline support. PDAC/TME biological
+  application depth is controlled only as a bounded public immune/ductal use
+  case, not as a disease-mechanism claim.
 - Gate recommendation remains `continue_benchmarking` until the external
   software-release evidence is complete and the submission gate is rerun.
 
 ## Current Publication Blocker
 
 RMTGuard v3.2 reaches the pre-specified 0.80 floor on PBMC3k, exceeds the
-Scanpy-like PBMC3k stability baseline, and passes the expanded four-dataset
-gate under the callability-aware stability/no-call framing. The expanded
-baseline rerun now includes elbow, permutation PCA, JackStraw-like, fixed-PC,
-Scanpy-like, and an executable Seurat v5-like baseline path. This is a
-manuscript-safe but narrow methods claim, not broad fixed-PC superiority.
+Scanpy-like PBMC3k stability baseline, but the expanded baseline rerun shows
+that elbow-rule PCA is more stable on PBMC3k, Kang IFN-beta PBMC, and Baron
+pancreas. The `stability_advantage` gate is therefore `fail` under the strict
+expanded-baseline table, even though annotation noninferiority, synthetic
+noise control, rare-state retention, baseline sufficiency, and the bounded
+PDAC/TME public use case are controlled. This is not yet a Nature Methods-ready
+performance package.
 
 The active 20-50 JIF blocker is now external software release rather than a
-local algorithm implementation failure: a real public GitHub repository,
-remote push, GitHub Release, Zenodo DOI, and final reporting-summary form are
-required before Nature Methods submission can be marked ready.
+single local software-packaging failure: the algorithm still needs a stability
+claim rescue or a narrower manuscript route, and a real public GitHub
+repository, remote push, GitHub Release, Zenodo DOI, and final reporting-summary
+form are required before Nature Methods submission can be marked ready.

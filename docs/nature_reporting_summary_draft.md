@@ -79,7 +79,7 @@ This is a draft worksheet, not the official Nature Portfolio reporting summary f
 ### Method validation - Callability and no-call boundary
 
 - Status: `blocked`
-- Draft response: Callability-aware multi-dataset diagnostics: baron_pancreas: borderline_within_margin RMTGuard=0.859187 best=fixed_pcs_30 0.861058; kang_ifnb_pbmc: pass_beats_best_baseline RMTGuard=0.826068 best=fixed_pcs_30 0.699079; pbmc3k_10x: borderline_within_margin RMTGuard=0.891308 best=fixed_pcs_30 0.908348; pbmc68k_zheng2017: diagnostic_no_call RMTGuard=0.600000 best=fixed_pcs_30 0.805652. PBMC3k mean pairwise ARI: RMTGuard=0.8913076392119752, Scanpy-like=0.8210209608290601, fixed30=0.9083477856918997; PBMC68k is reported as a diagnostic no-call, not as a positive discovery.
+- Draft response: Callability-aware multi-dataset diagnostics: baron_pancreas: fail_below_best_baseline RMTGuard=0.859187 best=elbow_rule 0.980448; kang_ifnb_pbmc: fail_below_best_baseline RMTGuard=0.826068 best=elbow_rule 0.880112; pbmc3k_10x: fail_below_best_baseline RMTGuard=0.891308 best=elbow_rule 0.986578; pbmc68k_zheng2017: diagnostic_no_call RMTGuard=0.600000 best=fixed_pcs_30 0.805652. PBMC3k mean pairwise ARI: RMTGuard=0.8913076392119752, Scanpy-like=0.8210209608290601, fixed30=0.9083477856918997; PBMC68k is reported as a diagnostic no-call, not as a positive discovery.
 - Evidence: `results/manuscript/claim_evidence_matrix.tsv`
 - Author action required: Keep PBMC68k as diagnostic no-call in text and reviewer responses.
 - Notes: This is the key overclaim-control statement.

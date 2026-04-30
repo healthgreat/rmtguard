@@ -107,6 +107,7 @@ python scripts/prepare_pdac_datasets.py --dataset gse154778 --max-cells 1200
 python scripts/prepare_pdac_datasets.py --dataset gse263733 --max-cells 1200
 python benchmarks/run_pdac_showcase.py --h5ad data/processed/pdac_gse154778.h5ad --dataset-id pdac_gse154778
 python benchmarks/run_pdac_showcase.py --h5ad data/processed/pdac_gse263733.h5ad --dataset-id pdac_gse263733
+python scripts/build_pdac_showcase_depth_report.py
 python scripts/build_figure_source_data.py
 python scripts/render_main_figures.py
 python scripts/build_release_artifact_manifest.py
