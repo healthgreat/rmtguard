@@ -117,8 +117,9 @@ wrapper.
   failed stability gate; it only controls wording and reviewer-risk scope.
 - `docs/algorithm_rescue_probe_report.md` records the current rescue attempts:
   graph-resolution path improves PBMC3k locally but hurts Kang IFN-beta PBMC,
-  while near-edge-window 2.0 and MP-only edge do not rescue PBMC68k. These
-  probes are not promoted to the default algorithm.
+  while near-edge-window 2.0, MP-only edge, and optional stable low-signal PC
+  rescue do not rescue PBMC68k. These probes are not promoted to the default
+  algorithm.
 - Gate status is now: synthetic noise control `pass`, diagnostic no-call
   validation `pass`, rare-state retention `pass`, annotation noninferiority
   `pass` on 3/3 labeled datasets, real dataset count `pass` with 4 datasets,

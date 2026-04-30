@@ -32,6 +32,22 @@ class RMTGuardSyntheticTest(unittest.TestCase):
         self.assertIn("pc_records", result.embedding_diagnostics)
         self.assertLessEqual(result.embedding_diagnostics["accepted_embedding_pcs"], 3)
 
+    def test_low_signal_rescue_keeps_pure_null_no_call(self) -> None:
+        counts, _ = simulate_null_counts(n_cells=90, n_genes=160, random_state=11)
+        result = RMTGuard(
+            RMTGuardConfig(
+                hvg_grid=(80, 140),
+                max_pcs=20,
+                pc_rule="mp_tw",
+                embedding_stability_repeats=2,
+                low_signal_rescue_rule="stable_embedding",
+                low_signal_rescue_stability_threshold=0.95,
+            )
+        ).fit(counts)
+        self.assertLessEqual(result.n_signal_pcs, 1)
+        self.assertEqual(result.analysis_status, "diagnostic_no_call")
+        self.assertEqual(result.embedding_diagnostics["low_signal_rescue_rule"], "stable_embedding")
+
     def test_low_rank_signal_is_detected(self) -> None:
         counts, _labels, _batch = simulate_low_rank_counts(
             n_cells=140,

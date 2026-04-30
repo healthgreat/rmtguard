@@ -51,6 +51,12 @@ PROBES = [
         "tested_change": "use MP edge without Tracy-Widom proxy for PBMC68k",
         "decision_rule": "Promote only if PBMC68k stability and cluster count improve while null control remains plausible.",
     },
+    {
+        "probe_id": "pbmc68k_stable_low_signal_embedding",
+        "path": ROOT / "results" / "stability_benchmarks_low_signal_rescue_probe" / "stability_summary.tsv",
+        "tested_change": "optional stable low-signal PC rescue with pure-null guard",
+        "decision_rule": "Promote only if PBMC68k improves over current RMTGuard while synthetic pure-null remains diagnostic_no_call.",
+    },
 ]
 
 CURRENT_BASELINES = {
@@ -173,6 +179,7 @@ def build_markdown(rows: list[dict[str, str]]) -> list[str]:
         "- None of the current local rescue probes should be promoted to the default RMTGuard algorithm.",
         "- Resolution-path clustering improves PBMC3k stability locally but hurts Kang IFN-beta PBMC stability.",
         "- Low-signal PBMC68k probes do not resolve the collapse/no-call failure without forcing PCs.",
+        "- The optional stable low-signal PC rescue keeps synthetic pure-null guarded but worsens PBMC68k stability.",
         "- The `stability_advantage` gate therefore remains `fail`.",
         "",
         "## Probe Rows",

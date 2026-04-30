@@ -49,6 +49,10 @@ def _run_rmtguard(name: str, counts: np.ndarray, labels, batches, args) -> dict:
             embedding_stability_repeats=args.embedding_stability_repeats,
             embedding_stability_threshold=args.embedding_stability_threshold,
             embedding_subsample_fraction=args.embedding_subsample_fraction,
+            low_signal_rescue_rule=args.low_signal_rescue_rule,
+            low_signal_rescue_max_pcs=args.low_signal_rescue_max_pcs,
+            low_signal_rescue_min_pcs=args.low_signal_rescue_min_pcs,
+            low_signal_rescue_stability_threshold=args.low_signal_rescue_stability_threshold,
             resolution_rule=args.resolution_rule,
             graph_resolution_grid=tuple(args.graph_resolution_grid),
             low_signal_graph_resolution=args.low_signal_graph_resolution,
@@ -77,9 +81,12 @@ def _run_rmtguard(name: str, counts: np.ndarray, labels, batches, args) -> dict:
         "n_signal_pcs": result.n_signal_pcs,
         "strict_signal_pcs": result.embedding_diagnostics["strict_signal_pcs"],
         "near_edge_candidate_pcs": result.embedding_diagnostics["near_edge_candidate_pcs"],
+        "low_signal_candidate_pcs": result.embedding_diagnostics["low_signal_candidate_pcs"],
+        "accepted_low_signal_rescue_pcs": result.embedding_diagnostics["accepted_low_signal_rescue_pcs"],
         "accepted_embedding_pcs": result.embedding_diagnostics["accepted_embedding_pcs"],
         "embedding_rule": result.embedding_diagnostics["rule"],
         "embedding_source": result.embedding_diagnostics["source"],
+        "low_signal_rescue_rule": result.embedding_diagnostics["low_signal_rescue_rule"],
         "embedding_pc_stability_min": result.embedding_diagnostics["embedding_pc_stability_min"],
         "embedding_pc_stability_median": result.embedding_diagnostics["embedding_pc_stability_median"],
         "analysis_status": result.analysis_status,
@@ -137,6 +144,10 @@ def main() -> int:
     parser.add_argument("--embedding-stability-repeats", type=int, default=5)
     parser.add_argument("--embedding-stability-threshold", type=float, default=0.75)
     parser.add_argument("--embedding-subsample-fraction", type=float, default=0.80)
+    parser.add_argument("--low-signal-rescue-rule", default="off", choices=["off", "stable_embedding"])
+    parser.add_argument("--low-signal-rescue-max-pcs", type=int, default=12)
+    parser.add_argument("--low-signal-rescue-min-pcs", type=int, default=2)
+    parser.add_argument("--low-signal-rescue-stability-threshold", type=float, default=0.90)
     parser.add_argument("--resolution-rule", default="graph_modularity", choices=["graph_modularity", "kmeans_stability", "consensus_stability"])
     parser.add_argument("--graph-resolution-grid", type=float, nargs="+", default=[1.0])
     parser.add_argument("--low-signal-graph-resolution", type=float, default=1.0)

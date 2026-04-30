@@ -65,6 +65,10 @@ class RMTGuardConfig:
     embedding_stability_repeats: int = 5
     embedding_stability_threshold: float = 0.75
     embedding_subsample_fraction: float = 0.80
+    low_signal_rescue_rule: str = "off"
+    low_signal_rescue_max_pcs: int = 12
+    low_signal_rescue_min_pcs: int = 2
+    low_signal_rescue_stability_threshold: float = 0.90
     resolution_rule: str = "graph_modularity"
     batch_key: str | None = None
     n_permutations: int = 0
@@ -280,6 +284,8 @@ class RMTGuard:
             raise ValueError("embedding_rule must be one of: adaptive_near_edge, strict_signal")
         if self.config.embedding_source not in {"rmt_scores", "standard_pca"}:
             raise ValueError("embedding_source must be one of: rmt_scores, standard_pca")
+        if self.config.low_signal_rescue_rule not in {"off", "stable_embedding"}:
+            raise ValueError("low_signal_rescue_rule must be one of: off, stable_embedding")
         if self.config.near_edge_window < 1.0:
             raise ValueError("near_edge_window must be at least 1.0")
         if self.config.embedding_stability_repeats < 1:
@@ -292,6 +298,12 @@ class RMTGuard:
             raise ValueError("resolution_rule must be one of: kmeans_stability, leiden_stability, consensus_stability, graph_modularity")
         if self.config.low_signal_pc_threshold < 0:
             raise ValueError("low_signal_pc_threshold must be non-negative")
+        if self.config.low_signal_rescue_max_pcs < 2:
+            raise ValueError("low_signal_rescue_max_pcs must be at least 2")
+        if self.config.low_signal_rescue_min_pcs < 2:
+            raise ValueError("low_signal_rescue_min_pcs must be at least 2")
+        if not 0.0 <= self.config.low_signal_rescue_stability_threshold <= 1.0:
+            raise ValueError("low_signal_rescue_stability_threshold must be between 0 and 1")
         if self.config.n_permutations < 0:
             raise ValueError("n_permutations must be non-negative")
         if self.config.stability_repeats < 1:
@@ -547,22 +559,59 @@ class RMTGuard:
             for idx in selected_indices
         ]
 
+        low_signal_rescued = False
+        low_signal_stability: dict[int, float] = {}
         if strict_count < 2 and self.config.min_embedding_pcs == 0:
-            for record in pc_records:
-                record["accepted"] = False
-                record["reason"] = "insufficient_signal_pcs_for_embedding"
-            diagnostics = self._embedding_diagnostics(
-                strict_count,
-                [],
-                [],
-                near_edge_threshold,
-                pc_records,
-            )
-            return (
-                np.empty((embedding_spectrum.left_vectors.shape[0], 0), dtype=float),
-                np.empty((embedding_spectrum.left_vectors.shape[0], 0), dtype=float),
-                diagnostics,
-            )
+            if self.config.low_signal_rescue_rule == "stable_embedding" and self.config.embedding_rule == "adaptive_near_edge":
+                rescue_limit = min(candidate_limit, int(self.config.low_signal_rescue_max_pcs))
+                rescue_candidates = [idx for idx in range(strict_count, rescue_limit)]
+                low_signal_stability = self._pc_subsample_stability(
+                    x_embedding,
+                    embedding_spectrum,
+                    rescue_candidates,
+                )
+                for idx in rescue_candidates:
+                    score = low_signal_stability.get(idx, float("nan"))
+                    accepted = bool(
+                        np.isfinite(score)
+                        and score >= self.config.low_signal_rescue_stability_threshold
+                    )
+                    if accepted:
+                        selected_indices.append(idx)
+                    pc_records.append(
+                        {
+                            "pc": int(idx + 1),
+                            "eigenvalue": float(rmt_spectrum.eigenvalues[idx]),
+                            "role": "low_signal_rescue_candidate",
+                            "stability": float(score),
+                            "accepted": accepted,
+                            "reason": "stable_low_signal_embedding" if accepted else "below_low_signal_rescue_threshold",
+                        }
+                    )
+                selected_indices = sorted(set(selected_indices))
+                accepted_rescue_count = sum(idx >= strict_count for idx in selected_indices)
+                low_signal_rescued = accepted_rescue_count >= int(self.config.low_signal_rescue_min_pcs)
+
+            if not low_signal_rescued:
+                for record in pc_records:
+                    if record["role"] == "strict_signal":
+                        record["accepted"] = False
+                        record["reason"] = "insufficient_signal_pcs_for_embedding"
+                    if record["role"] == "low_signal_rescue_candidate" and record.get("accepted"):
+                        record["accepted"] = False
+                        record["reason"] = "insufficient_stable_low_signal_rescue_pcs"
+                diagnostics = self._embedding_diagnostics(
+                    strict_count,
+                    [],
+                    [],
+                    near_edge_threshold,
+                    pc_records,
+                )
+                return (
+                    np.empty((embedding_spectrum.left_vectors.shape[0], 0), dtype=float),
+                    np.empty((embedding_spectrum.left_vectors.shape[0], 0), dtype=float),
+                    diagnostics,
+                )
 
         near_edge_stability: dict[int, float] = {}
         if self.config.embedding_rule == "adaptive_near_edge" and near_edge_candidates:
@@ -572,6 +621,8 @@ class RMTGuard:
                 near_edge_candidates,
             )
             for idx in near_edge_candidates:
+                if idx in selected_indices and low_signal_rescued:
+                    continue
                 score = near_edge_stability.get(idx, float("nan"))
                 accepted = bool(np.isfinite(score) and score >= self.config.embedding_stability_threshold)
                 if accepted:
@@ -709,6 +760,10 @@ class RMTGuard:
             for record in pc_records
             if record.get("accepted") and np.isfinite(record.get("stability", float("nan")))
         ]
+        low_signal_records = [
+            record for record in pc_records
+            if record.get("role") == "low_signal_rescue_candidate"
+        ]
         return {
             "rule": self.config.embedding_rule,
             "source": self.config.embedding_source,
@@ -717,8 +772,14 @@ class RMTGuard:
             "stability_repeats": int(self.config.embedding_stability_repeats),
             "stability_threshold": float(self.config.embedding_stability_threshold),
             "subsample_fraction": float(self.config.embedding_subsample_fraction),
+            "low_signal_rescue_rule": self.config.low_signal_rescue_rule,
+            "low_signal_rescue_min_pcs": int(self.config.low_signal_rescue_min_pcs),
+            "low_signal_rescue_max_pcs": int(self.config.low_signal_rescue_max_pcs),
+            "low_signal_rescue_stability_threshold": float(self.config.low_signal_rescue_stability_threshold),
             "strict_signal_pcs": int(strict_count),
             "low_signal_pc_threshold": int(self.config.low_signal_pc_threshold),
+            "low_signal_candidate_pcs": int(len(low_signal_records)),
+            "accepted_low_signal_rescue_pcs": int(sum(bool(record.get("accepted")) for record in low_signal_records)),
             "near_edge_candidate_pcs": int(len(near_edge_candidates)),
             "accepted_embedding_pcs": int(len(selected_indices)),
             "accepted_pc_indices": [int(idx + 1) for idx in selected_indices],

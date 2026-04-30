@@ -127,6 +127,7 @@ Evidence:
 - `results/stability_benchmarks_resolution_path_probe/stability_summary.tsv`
 - `results/stability_benchmarks_resolution_path_min08_probe/stability_summary.tsv`
 - `results/stability_benchmarks_low_signal_near2_probe/stability_summary.tsv`
+- `results/stability_benchmarks_low_signal_rescue_probe/stability_summary.tsv`
 - `results/stability_benchmarks_pbmc68k_mp_probe2/stability_summary.tsv`
 - `docs/algorithm_rescue_probe_report.md`
 
@@ -137,12 +138,16 @@ to 0.929, but does not resolve PBMC68k. The same resolution-path direction
 hurts Kang IFN-beta PBMC stability, dropping it below the current RMTGuard
 baseline. Increasing the PBMC68k near-edge window to 2.0 and switching to a
 plain MP edge also fail to rescue PBMC68k without violating the no forced-PC
-constraint.
+constraint. A stricter optional stable low-signal PC rescue keeps synthetic
+pure-null as diagnostic no-call in smoke testing, but worsens PBMC68k stability
+to 0.120 and is rejected.
 
 Action:
 
 - Do not promote graph-resolution path, near-edge-window 2.0, or MP-only edge
   as a default rescue.
+- Do not promote stable low-signal PC rescue unless a future rule improves
+  PBMC68k while preserving synthetic pure-null no-call behavior.
 - Keep these probes as negative evidence in the algorithm rescue report.
 - The next implementation attempt should target a principled low-signal
   embedding diagnostic, not a manual PC or resolution override.
