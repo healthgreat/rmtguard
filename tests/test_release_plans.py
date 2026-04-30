@@ -31,6 +31,7 @@ stability_gate = _load_script("build_stability_gate_report")
 no_call_report = _load_script("build_no_call_benchmark_report")
 publication_plan = _load_script("build_publication_20_50_plan")
 presubmission_package = _load_script("build_presubmission_package")
+journal_compliance = _load_script("build_journal_compliance_audit")
 
 
 class ReleasePlanTest(unittest.TestCase):
@@ -238,6 +239,45 @@ class ReleasePlanTest(unittest.TestCase):
         by_check = {row["check_id"]: row for row in rows}
         self.assertEqual(by_check["scientific_gate_package"]["status"], "pass")
         self.assertEqual(by_check["nature_methods_submission_ready"]["status"], "blocked")
+
+    def test_journal_compliance_blocks_without_external_release(self) -> None:
+        gates = [
+            {"gate_id": "synthetic_null_false_signal", "status": "pass"},
+            {"gate_id": "diagnostic_no_call_validation", "status": "pass"},
+            {"gate_id": "rare_state_retention", "status": "pass"},
+            {"gate_id": "real_dataset_count", "status": "pass"},
+            {"gate_id": "stability_advantage", "status": "pass"},
+            {"gate_id": "annotation_noninferiority", "status": "pass"},
+            {"gate_id": "pdac_tme_interpretability", "status": "pass"},
+            {"gate_id": "figure_source_data", "status": "pass"},
+            {"gate_id": "software_release", "status": "pending"},
+        ]
+        release = [
+            {"check_id": "local_release_audit", "status": "pass"},
+            {"check_id": "ci_workflow", "status": "pass"},
+            {"check_id": "dockerfile", "status": "pass"},
+            {"check_id": "figure_source_data_manifest", "status": "pass"},
+            {"check_id": "manuscript_evidence_package", "status": "pass"},
+            {"check_id": "publication_20_50_plan", "status": "pass"},
+            {"check_id": "repository_url", "status": "pending"},
+            {"check_id": "github_remote", "status": "pending"},
+            {"check_id": "github_release_tag", "status": "pass"},
+            {"check_id": "zenodo_doi", "status": "pending"},
+        ]
+        presubmission = [{"check_id": "nature_methods_submission_ready", "status": "blocked"}]
+        datasets = [{"dataset_id": "pbmc3k_10x", "github_policy": "accession_and_script_only"}]
+        claims = [{"claim_id": "diagnostic_no_call_validation", "allowed_wording": "Diagnostic no-call validation passed."}]
+
+        rows = journal_compliance.build_compliance_rows(gates, release, presubmission, datasets, claims)
+        by_check = {row["check_id"]: row for row in rows}
+        self.assertEqual(by_check["nature_methods_scope_fit"]["status"], "pass")
+        self.assertEqual(by_check["code_availability"]["status"], "blocked")
+        self.assertEqual(by_check["code_doi_repository"]["status"], "blocked")
+        self.assertEqual(journal_compliance._overall_decision(rows), "not_submission_ready")
+
+    def test_journal_compliance_never_promises_acceptance(self) -> None:
+        lines = journal_compliance.build_markdown([])
+        self.assertTrue(any("Acceptance guarantee: `not possible`" in line for line in lines))
 
 
 if __name__ == "__main__":

@@ -224,6 +224,12 @@ def build_readiness_rows() -> list[dict[str, str]]:
             "20-50 JIF publication decision plan is present.",
             "Run python scripts/build_publication_20_50_plan.py.",
         ),
+        _exists_status(
+            "journal_compliance_audit",
+            ROOT / "results" / "submission" / "nature_methods_compliance_audit.tsv",
+            "Nature Methods compliance audit is present.",
+            "Run python scripts/build_journal_compliance_audit.py.",
+        ),
         _row("repository_url", url_status, ROOT / "pyproject.toml", url_notes),
         _row("github_remote", remote_status, ".git/config", remote_notes),
         _row("git_worktree", worktree_status, ".git", worktree_notes),
