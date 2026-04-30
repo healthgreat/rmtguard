@@ -1,0 +1,48 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Environments
+.venv/
+venv/
+env/
+.env
+
+# Large data
+data/*.h5ad
+data/*.h5
+data/*.rds
+data/*.rda
+data/*.mtx
+data/*.gz
+data/*.tar
+data/*.zip
+data/raw/*
+data/processed/*
+data/external/*
+!data/raw/.gitkeep
+!data/processed/.gitkeep
+!data/external/.gitkeep
+
+# Generated outputs
+results/*
+figures/*
+!results/.gitkeep
+!figures/.gitkeep
+
+# Unrelated sibling project in the current working directory
+SheafSignal/
+BioSignal_Stress_Test/
+StateBridge/
+
+# OS/editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

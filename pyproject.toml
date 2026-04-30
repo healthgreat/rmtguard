@@ -1,0 +1,40 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "rmtguard"
+version = "0.1.0"
+description = "Random Matrix Theory guarded parameter selection for single-cell cell-state discovery."
+readme = "README.md"
+requires-python = ">=3.10"
+license = {text = "MIT"}
+authors = [
+    {name = "RMTGuard contributors"},
+]
+dependencies = [
+    "numpy>=1.24",
+    "scipy>=1.10",
+    "scikit-learn>=1.3",
+]
+
+[project.optional-dependencies]
+scanpy = [
+    "anndata>=0.9",
+    "scanpy>=1.9",
+]
+figures = [
+    "matplotlib>=3.7",
+    "pandas>=2.0",
+]
+dev = [
+    "pytest>=8",
+]
+
+[project.urls]
+Homepage = "https://github.com/your-lab/rmtguard"
+Repository = "https://github.com/your-lab/rmtguard"
+Issues = "https://github.com/your-lab/rmtguard/issues"
+
+[tool.setuptools.packages.find]
+where = ["src"]

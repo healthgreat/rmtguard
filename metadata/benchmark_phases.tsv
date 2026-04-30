@@ -1,0 +1,9 @@
+phase	order	dataset_id	role	required_for_nm	required_for_gb	notes
+phase1	1	pbmc3k_10x	pipeline_smoke	true	true	Fast install and workflow sanity check.
+phase1	2	kang_ifnb_pbmc	perturbation_batch	true	true	Early test for batch and condition robustness.
+phase2	3	baron_pancreas	tissue_heterogeneity	true	true	Pancreas benchmark for known cell types and rare populations.
+phase2	4	pbmc68k_zheng2017	scale_immune	true	true	Larger immune benchmark for runtime and stability.
+phase3	5	pdac_gse154778	pdac_tme_primary	true	true	Primary PDAC/TME showcase.
+phase3	6	pdac_gse263733	pdac_tme_validation	true	true	External validation for PDAC/TME states.
+phase4	7	tabula_sapiens_selected	atlas_generalization	false	false	Add only if phases 1-3 support Nature Methods submission.
+phase4	8	pbmc_multisite	cross_site_reproducibility	false	false	Add if multisite benchmark is curated before manuscript freeze.

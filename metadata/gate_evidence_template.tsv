@@ -1,0 +1,10 @@
+gate_id	status	evidence_path	notes
+synthetic_null_false_signal	pending	results/synthetic_benchmarks/synthetic_benchmark_summary.csv	Run permutation-calibrated null benchmark and record false signal PC rate.
+diagnostic_no_call_validation	pending	results/no_call_benchmarks/no_call_summary.tsv	Validate that null data return diagnostic no-call while planted signal remains callable.
+rare_state_retention	pending	results/synthetic_benchmarks/synthetic_benchmark_summary.csv	Record rare_state ARI/NMI and rare-state preservation.
+real_dataset_count	pending	results/public_benchmarks/summary.tsv	Need at least four public real datasets.
+stability_advantage	pending	results/public_benchmarks/stability_summary.tsv	Compare RMTGuard against fixed-parameter and Scanpy/Seurat baselines.
+annotation_noninferiority	pending	results/public_benchmarks/annotation_summary.tsv	Check noninferiority against known labels.
+pdac_tme_interpretability	pending	results/pdac_tme/showcase_summary.tsv	Validate GSE154778 findings in GSE263733.
+software_release	pending	results/release/release_audit_summary.txt	Needs GitHub release plus Zenodo DOI.
+figure_source_data	pending	results/figures/figure_reproducibility.tsv	All main figures need source data and regeneration commands.

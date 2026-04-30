@@ -1,0 +1,18 @@
+{
+  "title": "RMTGuard: Random Matrix Theory guarded cell-state discovery",
+  "upload_type": "software",
+  "description": "Software and reproducible benchmark code for Random Matrix Theory guarded parameter selection in single-cell RNA-seq cell-state discovery.",
+  "creators": [
+    {
+      "name": "RMTGuard contributors"
+    }
+  ],
+  "license": "MIT",
+  "keywords": [
+    "single-cell RNA-seq",
+    "random matrix theory",
+    "PCA",
+    "clustering",
+    "bioinformatics"
+  ]
+}
