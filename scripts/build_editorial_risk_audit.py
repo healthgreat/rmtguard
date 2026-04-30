@@ -31,6 +31,7 @@ SEURAT_RUNNER = ROOT / "benchmarks" / "run_seurat_baseline.R"
 PHASE1_SUMMARY = ROOT / "results" / "phase1_benchmarks" / "phase1_benchmark_summary.tsv"
 STABILITY_SUMMARY = ROOT / "results" / "stability_benchmarks" / "stability_summary.tsv"
 SEURAT_BASELINE_RESULT = ROOT / "results" / "phase1_benchmarks" / "pbmc3k_10x_seurat_baseline.tsv"
+STABILITY_UTILITY = ROOT / "results" / "stability_benchmarks" / "stability_utility_tradeoff.tsv"
 PC_RULE_BASELINES = {"elbow_rule", "parallel_analysis", "jackstraw_like"}
 
 
@@ -237,9 +238,10 @@ def build_rows(
             "high",
             "controlled_with_narrow_wording" if stability.get("current_status") == "pass" else "active_risk",
             stability.get("likely_reviewer_concern", "Stability advantage could be overstated."),
-            OBJECTIONS,
-            stability.get("response_strategy", "Keep the benchmark claim callability-aware and preserve diagnostic no-call wording."),
-            "Do not claim broad fixed-PC superiority; Nature Methods submission must use callability-aware wording.",
+            STABILITY_UTILITY if STABILITY_UTILITY.exists() else OBJECTIONS,
+            stability.get("response_strategy", "Keep the benchmark claim callability-aware and preserve diagnostic no-call wording.")
+            + " Use the stability-utility tradeoff audit to separate reproducibility gains from annotation loss.",
+            "Do not claim broad fixed-PC superiority; Nature Methods submission must use callability-aware wording and disclose comparator tradeoffs.",
             "If editors reject the no-call framing, transfer to a genomics workflow journal rather than inflating the claim.",
         ),
         _row(

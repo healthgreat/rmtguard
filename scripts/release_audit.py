@@ -1,12 +1,13 @@
 from __future__ import annotations
 
+import argparse
 import sys
 import subprocess
 from pathlib import Path
 
 
 ROOT = Path(__file__).resolve().parents[1]
-REQUIRED_FILES = [
+REQUIRED_SOURCE_FILES = [
     "README.md",
     "LICENSE",
     "CITATION.cff",
@@ -23,6 +24,7 @@ REQUIRED_FILES = [
     "docs/github_staging_plan.md",
     "docs/external_release_plan.md",
     "docs/stability_gate_diagnostics.md",
+    "docs/stability_utility_tradeoff.md",
     "docs/no_call_benchmark.md",
     "docs/publication_20_50_rescue_plan.md",
     "docs/pdac_tme_showcase_depth.md",
@@ -40,6 +42,7 @@ REQUIRED_FILES = [
     "scripts/build_figure_source_data.py",
     "scripts/render_main_figures.py",
     "scripts/build_stability_gate_report.py",
+    "scripts/build_stability_utility_report.py",
     "scripts/build_pdac_showcase_depth_report.py",
     "scripts/build_no_call_benchmark_report.py",
     "scripts/build_publication_20_50_plan.py",
@@ -70,15 +73,21 @@ REQUIRED_FILES = [
     "manuscript/cover_letter_draft.md",
     "manuscript/nature_methods_outline.md",
     "manuscript/genome_biology_fallback_outline.md",
+    ".github/workflows/ci.yml",
+]
+
+REQUIRED_GENERATED_ARTIFACTS = [
     "results/manuscript/reviewer_objection_matrix.tsv",
     "results/manuscript/storyline_panel_map.tsv",
     "results/manuscript/manuscript_draft_package_manifest.tsv",
     "results/stability_benchmarks/stability_gate_diagnostics.tsv",
+    "results/stability_benchmarks/stability_utility_tradeoff.tsv",
     "results/pdac_tme/pdac_showcase_depth_audit.tsv",
     "results/no_call_benchmarks/no_call_summary.tsv",
     "results/gates/publication_20_50_decision.tsv",
-    ".github/workflows/ci.yml",
 ]
+
+REQUIRED_FILES = REQUIRED_SOURCE_FILES + REQUIRED_GENERATED_ARTIFACTS
 
 
 def _is_git_ignored(path: Path) -> bool:
@@ -96,9 +105,18 @@ def _is_git_ignored(path: Path) -> bool:
     return result.returncode == 0
 
 
-def main() -> int:
+def main(argv: list[str] | None = None) -> int:
+    parser = argparse.ArgumentParser(description="Audit RMTGuard release readiness files.")
+    parser.add_argument(
+        "--source-only",
+        action="store_true",
+        help="Check repository source files only. Use this mode in clean CI checkouts where generated results are intentionally not committed.",
+    )
+    args = parser.parse_args(argv)
+
     failures: list[str] = []
-    for rel in REQUIRED_FILES:
+    required_files = REQUIRED_SOURCE_FILES if args.source_only else REQUIRED_FILES
+    for rel in required_files:
         path = ROOT / rel
         if not path.exists():
             failures.append(f"missing required file: {rel}")
@@ -138,7 +156,10 @@ def main() -> int:
             print(f"- {failure}")
         return 1
 
-    print("Release audit passed.")
+    if args.source_only:
+        print("Release audit passed (source-only mode).")
+    else:
+        print("Release audit passed.")
     return 0
 
 

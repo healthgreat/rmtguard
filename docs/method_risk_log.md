@@ -90,23 +90,30 @@ Evidence:
 
 - `results/stability_benchmarks/stability_summary.tsv`
 - `results/stability_benchmarks/stability_gate_diagnostics.tsv`
+- `results/stability_benchmarks/stability_utility_tradeoff.tsv`
 - `docs/stability_gate_diagnostics.md`
+- `docs/stability_utility_tradeoff.md`
 
 Interpretation:
 
-RMTGuard beats all non-RMTGuard baselines on Kang IFN-beta PBMC and is within
-margin on Baron pancreas and PBMC3k, but PBMC68k/Zheng 2017 falls below the
-0.80 stability floor and collapses to fewer than two clusters on average.
-This should be treated as an algorithmic failure mode, not a manuscript caveat
-that can be explained away.
+The expanded baseline table is stricter than the original fixed-PC-only view.
+On Kang IFN-beta PBMC, `elbow_rule` is more stable but loses annotation
+recovery relative to RMTGuard, so the result is a tradeoff rather than a clean
+RMTGuard loss. On Baron pancreas, fixed `n_pcs=30` is noninferior on stability
+and higher on annotation. PBMC3k remains an unlabeled stability deficit against
+`elbow_rule` and fixed `n_pcs=30`. PBMC68k/Zheng 2017 falls below the 0.80
+stability floor and collapses to fewer than two clusters on average. This is a
+real method-risk boundary, not a manuscript caveat that can be explained away.
 
 Action:
 
-- Keep `stability_advantage` as `fail` until PBMC68k is fixed or an explicit,
-  pre-specified exclusion rule is justified before analysis.
+- Keep `stability_advantage` as `fail` until the expanded-baseline stability
+  deficit is fixed or the manuscript is narrowed away from broad stability
+  superiority.
 - Do not submit Nature Methods with the current stability gate.
 - The next algorithmic fix should target low-signal / fine-label immune data
-  where RMTGuard underclusters relative to fixed-PC baselines.
+  where RMTGuard underclusters relative to fixed-PC baselines, while preserving
+  the Kang annotation recovery advantage.
 
 ## PDAC/TME Showcase Boundary
 

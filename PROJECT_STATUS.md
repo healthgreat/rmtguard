@@ -36,6 +36,9 @@ wrapper.
 - `scripts/build_stability_gate_report.py` summarizes per-dataset stability
   status against Scanpy-like and fixed-PC baselines and writes the current
   blocker report to `docs/stability_gate_diagnostics.md`.
+- `scripts/build_stability_utility_report.py` quantifies stability-versus-
+  annotation tradeoffs so the manuscript cannot turn a higher-stability but
+  lower-annotation comparator into a false RMTGuard superiority claim.
 - `scripts/build_publication_20_50_plan.py` records the strict 20-50 JIF
   publication route. It keeps Nature Methods as the realistic 20-50 target
   only if gates pass, marks Nature Biotechnology as stretch-only, and keeps
@@ -59,11 +62,10 @@ wrapper.
 
 ## Remaining Manuscript Work
 
-1. Add per-dataset label quality notes and annotation-recovery summaries for
+1. Resolve the strict expanded-baseline `stability_advantage` failure, or
+   formally narrow the manuscript away from broad stability superiority.
+2. Add per-dataset label quality notes and annotation-recovery summaries for
    all real datasets.
-2. Rerun Phase 1 and stability benchmarks with the expanded PC-rule baselines,
-   then run the optional Seurat baseline where the R dependencies are
-   available.
 3. Run permutation calibration for final figures.
 4. Polish the rendered draft figures for final manuscript layout and complete
    the GitHub/Zenodo DOI release.
@@ -77,11 +79,11 @@ wrapper.
   and to 0.892 after v3.2 plateau-complete HVG selection. The
   `stability_advantage` gate remains `borderline`, not `pass`, because fixed
   `n_pcs=30` remains slightly higher at 0.908.
-- The four-dataset Phase 1 stability run is complete. It changes the
-  `stability_advantage` gate from PBMC3k-only borderline to multi-dataset
-  borderline/no-call: Kang is a win, Baron and PBMC3k are within margin, and
-  PBMC68k/Zheng 2017 is a diagnostic no-call because the strongest stable
-  baseline also has weak label recovery.
+- The four-dataset Phase 1 stability run is complete. After adding elbow,
+  permutation PCA, JackStraw-like, and Seurat-facing baseline support, the
+  `stability_advantage` gate is now `fail`: PBMC3k and Baron are below the
+  strongest stability comparator, Kang shows a stability-versus-annotation
+  tradeoff, and PBMC68k/Zheng 2017 remains a diagnostic no-call stress case.
 - Kang IFN-beta has been prepared from public GEO files with singlets retained.
   The corrected unsupervised graph baseline benchmark gives RMTGuard
   cell-type ARI 0.785 versus fixed `n_pcs=30` ARI 0.681.
@@ -99,17 +101,22 @@ wrapper.
   against public cell-type labels with ARI 0.568. CAF/fibroblast is not a
   standalone main cluster in the current smoke showcase and should not be a
   primary claim.
-- Multi-dataset stability diagnostics: Kang IFN-beta PBMC is a clear RMTGuard
-  win over fixed-PC baselines; Baron pancreas and PBMC3k are within margin but
-  still slightly below fixed `n_pcs=30`; PBMC68k/Zheng 2017 is below floor
-  with RMTGuard mean pairwise ARI 0.600 and mean cluster count 1.4, but is
-  now classified as diagnostic no-call because fixed `n_pcs=30` label ARI is
-  only 0.106.
+- Multi-dataset stability diagnostics: RMTGuard is above Scanpy-like and
+  fixed-PC baselines on Kang annotation recovery, but `elbow_rule` has higher
+  raw stability with lower annotation ARI. Baron pancreas has a fixed
+  `n_pcs=30` row that is noninferior on stability and higher on annotation.
+  PBMC3k is an unlabeled stability deficit against `elbow_rule` and fixed
+  `n_pcs=30`. PBMC68k/Zheng 2017 is below floor with RMTGuard mean pairwise
+  ARI 0.600 and mean cluster count 1.4, and must remain a diagnostic no-call
+  context rather than a positive discovery claim.
+- `docs/stability_utility_tradeoff.md` now records the stability-annotation
+  Pareto audit. It explicitly states that this audit does not rescue the
+  failed stability gate; it only controls wording and reviewer-risk scope.
 - Gate status is now: synthetic noise control `pass`, diagnostic no-call
   validation `pass`, rare-state retention `pass`, annotation noninferiority
   `pass` on 3/3 labeled datasets, real dataset count `pass` with 4 datasets,
-  PDAC/TME interpretability `pass`, figure source data `pass`, callability-aware
-  stability/no-call `pass`, and software release `pending`.
+  PDAC/TME interpretability `pass`, figure source data `pass`,
+  `stability_advantage` `fail`, and software release `pending`.
 - Figure source data have been generated under
   `results/figures/source_data/`, with the reproducibility manifest at
   `results/figures/figure_reproducibility.tsv`.
@@ -170,8 +177,9 @@ wrapper.
   JackStraw-like, and Seurat v5-like baseline support. PDAC/TME biological
   application depth is controlled only as a bounded public immune/ductal use
   case, not as a disease-mechanism claim.
-- Gate recommendation remains `continue_benchmarking` until the external
-  software-release evidence is complete and the submission gate is rerun.
+- Gate recommendation remains `continue_benchmarking` until the stability
+  claim is rescued or narrowed and the external software-release evidence is
+  complete.
 
 ## Current Publication Blocker
 
@@ -184,8 +192,8 @@ noise control, rare-state retention, baseline sufficiency, and the bounded
 PDAC/TME public use case are controlled. This is not yet a Nature Methods-ready
 performance package.
 
-The active 20-50 JIF blocker is now external software release rather than a
-single local software-packaging failure: the algorithm still needs a stability
-claim rescue or a narrower manuscript route, and a real public GitHub
-repository, remote push, GitHub Release, Zenodo DOI, and final reporting-summary
-form are required before Nature Methods submission can be marked ready.
+The active 20-50 JIF blockers are now twofold: the algorithm still needs a
+stability claim rescue or a narrower manuscript route, and a real public
+GitHub repository, remote push, GitHub Release, Zenodo DOI, and final
+reporting-summary form are required before Nature Methods submission can be
+marked ready.

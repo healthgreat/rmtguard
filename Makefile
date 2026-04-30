@@ -1,4 +1,4 @@
-.PHONY: install test demo benchmark no-call phase1 stability stability-phase1 seurat-baseline stability-report pdac-depth publication-plan journal-compliance publication-board reporting-summary-draft editorial-risk github-release-dry-run finalize-release-dry-run gates gate-results release-manifests audit clean
+.PHONY: install test demo benchmark no-call phase1 stability stability-phase1 seurat-baseline stability-report stability-utility pdac-depth publication-plan journal-compliance publication-board reporting-summary-draft editorial-risk github-release-dry-run finalize-release-dry-run gates gate-results release-manifests audit clean
 
 install:
 	python -m pip install -e ".[scanpy,dev]"
@@ -31,6 +31,9 @@ seurat-baseline:
 stability-report:
 	python scripts/build_stability_gate_report.py
 
+stability-utility:
+	python scripts/build_stability_utility_report.py
+
 pdac-depth:
 	python scripts/build_pdac_showcase_depth_report.py
 
@@ -61,6 +64,7 @@ gates:
 gate-results:
 	python scripts/build_no_call_benchmark_report.py
 	python scripts/build_stability_gate_report.py
+	python scripts/build_stability_utility_report.py
 	python scripts/build_pdac_showcase_depth_report.py
 	python scripts/update_gate_evidence_from_results.py
 	python scripts/evaluate_submission_gates.py --evidence results/gates/gate_evidence.tsv --out results/gates/gate_report.tsv
@@ -77,6 +81,7 @@ release-manifests:
 	python scripts/record_external_release.py
 	python scripts/build_no_call_benchmark_report.py
 	python scripts/build_stability_gate_report.py
+	python scripts/build_stability_utility_report.py
 	python scripts/build_pdac_showcase_depth_report.py
 	python scripts/build_publication_20_50_plan.py
 	python scripts/build_figure_source_data.py

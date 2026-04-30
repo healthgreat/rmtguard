@@ -19,8 +19,8 @@ python scripts/stage_github_release_files.py --execute
 
 | action | file_count | size_bytes |
 |---|---:|---:|
-| do_not_stage | 228 | 745403935 |
-| stage_for_initial_commit | 85 | 464974 |
+| do_not_stage | 257 | 746003863 |
+| stage_for_initial_commit | 103 | 676904 |
 
 ## Stage For Initial Commit
 
@@ -41,6 +41,7 @@ README.md
 benchmarks/run_h5ad_benchmark.py
 benchmarks/run_pdac_showcase.py
 benchmarks/run_phase1_benchmark.py
+benchmarks/run_seurat_baseline.R
 benchmarks/run_stability_benchmark.py
 benchmarks/run_synthetic_benchmark.py
 data/README.md
@@ -49,14 +50,19 @@ data/processed/.gitkeep
 data/raw/.gitkeep
 docs/benchmark_plan.md
 docs/data_and_code_availability_template.md
+docs/editorial_risk_audit.md
 docs/external_release_plan.md
 docs/github_release_checklist.md
 docs/github_staging_plan.md
 docs/method_risk_log.md
+docs/nature_reporting_summary_draft.md
 docs/no_call_benchmark.md
+docs/pdac_tme_showcase_depth.md
 docs/publication_20_50_rescue_plan.md
+docs/publication_execution_board.md
 docs/publication_strategy.md
 docs/stability_gate_diagnostics.md
+docs/stability_utility_tradeoff.md
 docs/statistical_analysis_plan.md
 examples/run_synthetic.py
 figures/.gitkeep
@@ -75,23 +81,34 @@ metadata/submission_gates.tsv
 pyproject.toml
 requirements.txt
 results/.gitkeep
+scripts/build_editorial_risk_audit.py
 scripts/build_external_release_plan.py
 scripts/build_figure_source_data.py
+scripts/build_github_release_handoff.py
 scripts/build_github_staging_plan.py
+scripts/build_journal_compliance_audit.py
 scripts/build_manuscript_draft_package.py
 scripts/build_manuscript_evidence_package.py
 scripts/build_no_call_benchmark_report.py
+scripts/build_pdac_showcase_depth_report.py
+scripts/build_presubmission_package.py
 scripts/build_publication_20_50_plan.py
+scripts/build_publication_execution_board.py
 scripts/build_release_artifact_manifest.py
 scripts/build_release_asset_bundle.py
 scripts/build_release_readiness.py
+scripts/build_reporting_summary_draft.py
 scripts/build_stability_gate_report.py
+scripts/build_stability_utility_report.py
 scripts/clean_artifacts.py
 scripts/download_public_datasets.py
 scripts/evaluate_submission_gates.py
+scripts/execute_github_release.py
+scripts/finalize_submission_release.py
 scripts/prepare_pdac_datasets.py
 scripts/prepare_phase1_datasets.py
 scripts/profile_rmtguard_fit.py
+scripts/record_external_release.py
 scripts/release_audit.py
 scripts/render_main_figures.py
 scripts/stage_github_release_files.py
@@ -106,6 +123,7 @@ src/rmtguard/preprocess.py
 src/rmtguard/rmt.py
 src/rmtguard/scanpy_api.py
 src/rmtguard/simulate.py
+tests/test_baseline_pc_rules.py
 tests/test_gate_evidence_update.py
 tests/test_release_plans.py
 tests/test_rmt_spectrum.py
@@ -193,12 +211,18 @@ results/pdac_tme/pdac_gse154778_cluster_marker_summary.tsv
 results/pdac_tme/pdac_gse154778_rmtguard_details.json
 results/pdac_tme/pdac_gse263733_cluster_marker_summary.tsv
 results/pdac_tme/pdac_gse263733_rmtguard_details.json
+results/pdac_tme/pdac_showcase_depth_audit.tsv
 results/pdac_tme/showcase_summary.tsv
+results/phase1_benchmarks/pbmc3k_10x_seurat_baseline.tsv
 results/phase1_benchmarks/phase1_benchmark_details.json
 results/phase1_benchmarks/phase1_benchmark_summary.tsv
 results/phase1_benchmarks_v31_probe/phase1_benchmark_details.json
 results/phase1_benchmarks_v31_probe/phase1_benchmark_summary.tsv
+results/release/external_release_metadata_plan.tsv
 results/release/external_release_plan.tsv
+results/release/github_release_execution_plan.tsv
+results/release/github_release_handoff.md
+results/release/github_release_handoff_manifest.tsv
 results/release/github_stage_dry_run.tsv
 results/release/github_staging_manifest.tsv
 results/release/github_staging_summary.tsv
@@ -210,6 +234,9 @@ results/release/release_asset_summary.tsv
 results/release/release_audit_summary.txt
 results/release/release_readiness.tsv
 results/release/repository_metadata_update_plan.tsv
+results/release/rmtguard_v0.1.0-rc1_source.bundle
+results/release/submission_release_finalization.md
+results/release/submission_release_finalization.tsv
 results/stability_benchmarks/baron_pancreas_stability_runs.tsv
 results/stability_benchmarks/baron_pancreas_stability_summary.tsv
 results/stability_benchmarks/kang_ifnb_pbmc_stability_runs.tsv
@@ -222,6 +249,7 @@ results/stability_benchmarks/stability_gate_diagnostics.tsv
 results/stability_benchmarks/stability_metadata.json
 results/stability_benchmarks/stability_runs.tsv
 results/stability_benchmarks/stability_summary.tsv
+results/stability_benchmarks/stability_utility_tradeoff.tsv
 results/stability_benchmarks/v3_run_stderr.log
 results/stability_benchmarks/v3_run_stdout.log
 results/stability_benchmarks_adaptive_fixedk7_probe/stability_metadata.json
@@ -286,6 +314,16 @@ results/stability_benchmarks_minpc20_probe/stability_summary.tsv
 results/stability_benchmarks_mp_probe/stability_metadata.json
 results/stability_benchmarks_mp_probe/stability_runs.tsv
 results/stability_benchmarks_mp_probe/stability_summary.tsv
+results/stability_benchmarks_pbmc68k_mp_probe/pbmc68k_zheng2017_stability_runs.tsv
+results/stability_benchmarks_pbmc68k_mp_probe/pbmc68k_zheng2017_stability_summary.tsv
+results/stability_benchmarks_pbmc68k_mp_probe/stability_metadata.json
+results/stability_benchmarks_pbmc68k_mp_probe/stability_runs.tsv
+results/stability_benchmarks_pbmc68k_mp_probe/stability_summary.tsv
+results/stability_benchmarks_pbmc68k_zscore_probe/pbmc68k_zheng2017_stability_runs.tsv
+results/stability_benchmarks_pbmc68k_zscore_probe/pbmc68k_zheng2017_stability_summary.tsv
+results/stability_benchmarks_pbmc68k_zscore_probe/stability_metadata.json
+results/stability_benchmarks_pbmc68k_zscore_probe/stability_runs.tsv
+results/stability_benchmarks_pbmc68k_zscore_probe/stability_summary.tsv
 results/stability_benchmarks_probe_pbmc68k_dispersion/pbmc68k_zheng2017_stability_runs.tsv
 results/stability_benchmarks_probe_pbmc68k_dispersion/pbmc68k_zheng2017_stability_summary.tsv
 results/stability_benchmarks_probe_pbmc68k_dispersion/stability_metadata.json
@@ -339,6 +377,15 @@ results/stability_benchmarks_zscore_adaptive_probe/stability_summary.tsv
 results/stability_benchmarks_zscore_probe/stability_metadata.json
 results/stability_benchmarks_zscore_probe/stability_runs.tsv
 results/stability_benchmarks_zscore_probe/stability_summary.tsv
+results/submission/editorial_risk_audit.tsv
+results/submission/nature_methods_compliance_audit.md
+results/submission/nature_methods_compliance_audit.tsv
+results/submission/nature_methods_presubmission_package_manifest.tsv
+results/submission/presubmission_gatekeeper.md
+results/submission/presubmission_gatekeeper.tsv
+results/submission/publication_execution_board.tsv
+results/submission/reporting_summary_draft.tsv
+results/submission/rmtguard_nature_methods_presubmission_package.zip
 results/synthetic_benchmarks/synthetic_benchmark_metadata.json
 results/synthetic_benchmarks/synthetic_benchmark_summary.csv
 results/synthetic_benchmarks_graphres10_probe/synthetic_benchmark_metadata.json

@@ -29,6 +29,7 @@ release_assets = _load_script("build_release_asset_bundle")
 manuscript_evidence = _load_script("build_manuscript_evidence_package")
 manuscript_draft = _load_script("build_manuscript_draft_package")
 stability_gate = _load_script("build_stability_gate_report")
+stability_utility = _load_script("build_stability_utility_report")
 no_call_report = _load_script("build_no_call_benchmark_report")
 publication_plan = _load_script("build_publication_20_50_plan")
 presubmission_package = _load_script("build_presubmission_package")
@@ -38,6 +39,7 @@ github_release = _load_script("execute_github_release")
 submission_finalizer = _load_script("finalize_submission_release")
 reporting_summary = _load_script("build_reporting_summary_draft")
 editorial_risk = _load_script("build_editorial_risk_audit")
+release_audit = _load_script("release_audit")
 
 
 class ReleasePlanTest(unittest.TestCase):
@@ -92,6 +94,9 @@ class ReleasePlanTest(unittest.TestCase):
     def test_repository_url_rejects_non_github_url(self) -> None:
         with self.assertRaises(ValueError):
             repo_metadata.normalize_repo_url("https://example.com/rmtguard")
+
+    def test_release_audit_supports_source_only_ci_mode(self) -> None:
+        self.assertEqual(release_audit.main(["--source-only"]), 0)
 
     def test_external_release_plan_keeps_external_steps_pending(self) -> None:
         rows = external_release.build_steps()
@@ -174,6 +179,24 @@ class ReleasePlanTest(unittest.TestCase):
         diagnostics = stability_gate.build_diagnostics(rows)
         self.assertEqual(diagnostics[0]["status"], "fail_below_floor")
         self.assertIn("collapses", diagnostics[0]["notes"])
+
+    def test_stability_utility_separates_stability_from_annotation(self) -> None:
+        stability_rows = [
+            {"dataset_id": "kang", "method": "rmtguard", "mean_pairwise_ari": "0.82", "mean_cluster_n": "4"},
+            {"dataset_id": "kang", "method": "elbow_rule", "mean_pairwise_ari": "0.88", "mean_cluster_n": "8"},
+            {"dataset_id": "kang", "method": "fixed_pcs_30", "mean_pairwise_ari": "0.70", "mean_cluster_n": "8"},
+        ]
+        annotation_rows = [
+            {"dataset_id": "kang", "method": "rmtguard", "ari": "0.78"},
+            {"dataset_id": "kang", "method": "elbow_rule", "ari": "0.66"},
+            {"dataset_id": "kang", "method": "fixed_pcs_30", "ari": "0.68"},
+        ]
+        diagnostics = [{"dataset_id": "kang", "status": "fail_below_best_baseline"}]
+        rows = stability_utility.build_rows(stability_rows, annotation_rows, diagnostics)
+        by_method = {row["method"]: row for row in rows}
+        self.assertEqual(by_method["elbow_rule"]["utility_relation_vs_rmtguard"], "comparator_higher_stability_lower_annotation")
+        self.assertEqual(by_method["elbow_rule"]["comparator_dominates_rmtguard"], "no")
+        self.assertEqual(by_method["fixed_pcs_30"]["rmtguard_dominates_comparator"], "yes")
 
     def test_no_call_report_validates_null_and_planted_signal(self) -> None:
         rows = no_call_report.build_rows(
