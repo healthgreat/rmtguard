@@ -101,7 +101,8 @@ python scripts/prepare_phase1_datasets.py --dataset baron_pancreas --max-cells 1
 python scripts/prepare_phase1_datasets.py --dataset pbmc68k_zheng2017 --max-cells 1000
 python benchmarks/run_phase1_benchmark.py --datasets pbmc3k_10x kang_ifnb_pbmc baron_pancreas pbmc68k_zheng2017
 python benchmarks/run_stability_benchmark.py --datasets pbmc3k_10x
-python benchmarks/run_stability_benchmark.py --datasets pbmc3k_10x kang_ifnb_pbmc baron_pancreas pbmc68k_zheng2017 --methods rmtguard rmtguard_strict_signal scanpy_default_like fixed_pcs_30 fixed_pcs_50
+python benchmarks/run_stability_benchmark.py --datasets pbmc3k_10x kang_ifnb_pbmc baron_pancreas pbmc68k_zheng2017 --methods rmtguard rmtguard_strict_signal scanpy_default_like fixed_pcs_30 fixed_pcs_50 elbow_rule parallel_analysis jackstraw_like
+Rscript benchmarks/run_seurat_baseline.R --input data/processed/pbmc3k_10x.h5ad --dataset-id pbmc3k_10x
 python scripts/prepare_pdac_datasets.py --dataset gse154778 --max-cells 1200
 python scripts/prepare_pdac_datasets.py --dataset gse263733 --max-cells 1200
 python benchmarks/run_pdac_showcase.py --h5ad data/processed/pdac_gse154778.h5ad --dataset-id pdac_gse154778

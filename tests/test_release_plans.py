@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import importlib.util
 from pathlib import Path
+import tempfile
 import unittest
 
 
@@ -387,6 +388,42 @@ class ReleasePlanTest(unittest.TestCase):
     def test_editorial_risk_never_promises_acceptance(self) -> None:
         lines = editorial_risk.build_markdown([])
         self.assertTrue(any("Acceptance guarantee: `impossible`" in line for line in lines))
+
+    def test_editorial_risk_distinguishes_baseline_implementation_from_results(self) -> None:
+        with tempfile.TemporaryDirectory() as tmpdir:
+            tmp = Path(tmpdir)
+            phase1_runner = tmp / "run_phase1_benchmark.py"
+            stability_runner = tmp / "run_stability_benchmark.py"
+            seurat_runner = tmp / "run_seurat_baseline.R"
+            marker_text = "elbow_rule parallel_analysis jackstraw_like"
+            phase1_runner.write_text(marker_text, encoding="utf-8")
+            stability_runner.write_text(marker_text, encoding="utf-8")
+            seurat_runner.write_text("# seurat baseline\n", encoding="utf-8")
+            phase1_summary = tmp / "phase1.tsv"
+            stability_summary = tmp / "stability.tsv"
+            phase1_summary.write_text("method\nrmtguard\nfixed_pcs_30\n", encoding="utf-8")
+            stability_summary.write_text("method\nrmtguard\nfixed_pcs_30\n", encoding="utf-8")
+
+            status = editorial_risk._baseline_support_status(
+                phase1_runner=phase1_runner,
+                stability_runner=stability_runner,
+                seurat_runner=seurat_runner,
+                phase1_summary=phase1_summary,
+                stability_summary=stability_summary,
+            )
+            self.assertEqual(status["status"], "implementation_ready_not_benchmarked")
+
+            expanded = "method\nelbow_rule\nparallel_analysis\njackstraw_like\n"
+            phase1_summary.write_text(expanded, encoding="utf-8")
+            stability_summary.write_text(expanded, encoding="utf-8")
+            status = editorial_risk._baseline_support_status(
+                phase1_runner=phase1_runner,
+                stability_runner=stability_runner,
+                seurat_runner=seurat_runner,
+                phase1_summary=phase1_summary,
+                stability_summary=stability_summary,
+            )
+            self.assertEqual(status["status"], "controlled")
 
 
 if __name__ == "__main__":

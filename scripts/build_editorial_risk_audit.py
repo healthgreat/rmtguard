@@ -24,6 +24,12 @@ OBJECTIONS = ROOT / "results" / "manuscript" / "reviewer_objection_matrix.tsv"
 COMPLIANCE = ROOT / "results" / "submission" / "nature_methods_compliance_audit.tsv"
 JOURNAL_ROUTE = ROOT / "results" / "gates" / "publication_20_50_decision.tsv"
 EXECUTION_BOARD = ROOT / "results" / "submission" / "publication_execution_board.tsv"
+PHASE1_RUNNER = ROOT / "benchmarks" / "run_phase1_benchmark.py"
+STABILITY_RUNNER = ROOT / "benchmarks" / "run_stability_benchmark.py"
+SEURAT_RUNNER = ROOT / "benchmarks" / "run_seurat_baseline.R"
+PHASE1_SUMMARY = ROOT / "results" / "phase1_benchmarks" / "phase1_benchmark_summary.tsv"
+STABILITY_SUMMARY = ROOT / "results" / "stability_benchmarks" / "stability_summary.tsv"
+PC_RULE_BASELINES = {"elbow_rule", "parallel_analysis", "jackstraw_like"}
 
 
 def _rel(path: Path) -> str:
@@ -92,6 +98,55 @@ def _journal(rows: list[dict[str, str]], journal: str) -> dict[str, str]:
     return next((row for row in rows if row.get("journal") == journal), {})
 
 
+def _text_contains_all(path: Path, needles: set[str]) -> bool:
+    if not path.exists():
+        return False
+    text = path.read_text(encoding="utf-8", errors="replace")
+    return all(needle in text for needle in needles)
+
+
+def _summary_methods(path: Path) -> set[str]:
+    return {row.get("method", "") for row in _read_tsv(path) if row.get("method")}
+
+
+def _baseline_support_status(
+    phase1_runner: Path = PHASE1_RUNNER,
+    stability_runner: Path = STABILITY_RUNNER,
+    seurat_runner: Path = SEURAT_RUNNER,
+    phase1_summary: Path = PHASE1_SUMMARY,
+    stability_summary: Path = STABILITY_SUMMARY,
+) -> dict[str, str]:
+    pc_rule_scripts_ready = _text_contains_all(phase1_runner, PC_RULE_BASELINES) and _text_contains_all(stability_runner, PC_RULE_BASELINES)
+    seurat_script_ready = seurat_runner.exists()
+    phase1_methods = _summary_methods(phase1_summary)
+    stability_methods = _summary_methods(stability_summary)
+    pc_rule_results_ready = PC_RULE_BASELINES.issubset(phase1_methods) and PC_RULE_BASELINES.issubset(stability_methods)
+
+    if pc_rule_scripts_ready and seurat_script_ready and pc_rule_results_ready:
+        return {
+            "status": "controlled",
+            "mitigation": "Maintain Seurat, elbow, permutation PCA, and JackStraw-like baselines in final benchmark tables.",
+            "go_no_go": "Baseline sufficiency can be treated as controlled only while final result tables include the expanded baselines.",
+        }
+    if pc_rule_scripts_ready and seurat_script_ready:
+        return {
+            "status": "implementation_ready_not_benchmarked",
+            "mitigation": "PC-rule and Seurat baseline runners exist; rerun Phase 1 and stability benchmarks so final tables include elbow, permutation PCA, JackStraw-like, and Seurat rows.",
+            "go_no_go": "Do not call baseline sufficiency resolved until the generated benchmark TSVs include the expanded baselines.",
+        }
+    if pc_rule_scripts_ready:
+        return {
+            "status": "partial_implementation",
+            "mitigation": "PC-rule baselines exist; add a Seurat baseline runner and rerun the final benchmark tables.",
+            "go_no_go": "Do not submit until missing Seurat and expanded baseline result rows are either added or explicitly justified.",
+        }
+    return {
+        "status": "active_risk",
+        "mitigation": "Add Seurat, elbow, permutation PCA, and JackStraw-like baselines where feasible.",
+        "go_no_go": "Before final submission, either add the missing baseline table or explicitly justify why fixed-PC/Scanpy-like baselines define the scoped claim.",
+    }
+
+
 def build_rows(
     objections: list[dict[str, str]],
     compliance_rows: list[dict[str, str]],
@@ -116,6 +171,7 @@ def build_rows(
     novelty = _objection(objections, "method_novelty")
     baselines = _objection(objections, "benchmark_baselines")
     pdac = _objection(objections, "pdac_biology_depth")
+    baseline_support = _baseline_support_status()
 
     rows = [
         _row(
@@ -161,11 +217,11 @@ def build_rows(
         _row(
             "baseline_sufficiency",
             "medium",
-            "active_risk",
+            baseline_support["status"],
             baselines.get("likely_reviewer_concern", "Baselines may be viewed as insufficient for a top methods journal."),
             OBJECTIONS,
-            baselines.get("response_strategy", "Add Seurat, elbow, permutation PCA, and JackStraw-like baselines where feasible."),
-            "Before final submission, either add the missing baseline table or explicitly justify why fixed-PC/Scanpy-like baselines define the scoped claim.",
+            baseline_support.get("mitigation") or baselines.get("response_strategy", "Add Seurat, elbow, permutation PCA, and JackStraw-like baselines where feasible."),
+            baseline_support["go_no_go"],
             "If baseline expansion is infeasible, keep Nature Methods as a presubmission attempt only and prepare fallback.",
         ),
         _row(
@@ -205,14 +261,16 @@ def build_rows(
 def overall_status(rows: list[dict[str, str]]) -> str:
     if any(row["status"] == "blocked" for row in rows):
         return "blocked_before_editorial_submission"
-    if any(row["status"] in {"active_risk", "pending_manual"} for row in rows):
+    not_ready_statuses = {"active_risk", "pending_manual", "partial_implementation", "implementation_ready_not_benchmarked"}
+    if any(row["status"] in not_ready_statuses for row in rows):
         return "not_ready_risk_active"
     return "ready_for_author_editorial_review_not_acceptance_guaranteed"
 
 
 def build_markdown(rows: list[dict[str, str]]) -> list[str]:
     blocked = [row for row in rows if row["status"] == "blocked"]
-    active = [row for row in rows if row["status"] in {"active_risk", "pending_manual"}]
+    active_statuses = {"active_risk", "pending_manual", "partial_implementation", "implementation_ready_not_benchmarked"}
+    active = [row for row in rows if row["status"] in active_statuses]
     lines = [
         "# Editorial Risk Audit",
         "",

@@ -6,6 +6,7 @@ import json
 from pathlib import Path
 
 import numpy as np
+from sklearn.decomposition import PCA
 from sklearn.metrics import adjusted_rand_score, normalized_mutual_info_score
 
 from rmtguard import RMTGuard, RMTGuardConfig
@@ -22,7 +23,62 @@ def _safe_metric(labels_true, labels_pred, metric):
     return float(metric(labels_true, np.asarray(labels_pred).astype(str)))
 
 
-def _scanpy_fixed_baseline(adata, n_pcs: int, label_key: str | None, random_state: int) -> dict:
+def _as_dense_array(x) -> np.ndarray:
+    if hasattr(x, "toarray"):
+        x = x.toarray()
+    return np.asarray(x, dtype=float)
+
+
+def _choose_elbow_n_pcs(variance_ratio: np.ndarray, min_pcs: int = 5) -> int:
+    """Select PCs by maximum distance from the cumulative-variance chord."""
+
+    variance_ratio = np.asarray(variance_ratio, dtype=float)
+    n = variance_ratio.size
+    if n == 0:
+        return 0
+    if n <= min_pcs:
+        return int(n)
+    cumulative = np.cumsum(variance_ratio)
+    x = np.linspace(0.0, 1.0, n)
+    y = (cumulative - cumulative[0]) / max(cumulative[-1] - cumulative[0], np.finfo(float).eps)
+    chord = x
+    distances = y - chord
+    start = max(0, min_pcs - 1)
+    return int(np.argmax(distances[start:]) + start + 1)
+
+
+def _count_contiguous_leading_passes(observed: np.ndarray, threshold: np.ndarray) -> int:
+    passing = np.asarray(observed) > np.asarray(threshold)
+    first_failed = np.flatnonzero(~passing)
+    return int(first_failed[0]) if first_failed.size else int(passing.size)
+
+
+def _choose_parallel_analysis_n_pcs(
+    scaled: np.ndarray,
+    max_pcs: int,
+    n_permutations: int,
+    random_state: int,
+    quantile: float = 0.95,
+) -> int:
+    """Select PCs whose variances exceed a column-permutation null."""
+
+    scaled = _as_dense_array(scaled)
+    n_components = min(max_pcs, scaled.shape[0] - 1, scaled.shape[1])
+    if n_components <= 0:
+        return 0
+    observed = PCA(n_components=n_components, random_state=random_state).fit(scaled).explained_variance_
+    rng = np.random.default_rng(random_state)
+    null_values = np.zeros((max(1, n_permutations), n_components), dtype=float)
+    for repeat in range(max(1, n_permutations)):
+        permuted = scaled.copy()
+        for col in range(permuted.shape[1]):
+            rng.shuffle(permuted[:, col])
+        null_values[repeat] = PCA(n_components=n_components, random_state=random_state + repeat + 1).fit(permuted).explained_variance_
+    threshold = np.quantile(null_values, quantile, axis=0)
+    return _count_contiguous_leading_passes(observed, threshold)
+
+
+def _prepare_scanpy_pca(adata, max_pcs: int, random_state: int):
     import scanpy as sc
 
     work = adata.copy()
@@ -34,12 +90,18 @@ def _scanpy_fixed_baseline(adata, n_pcs: int, label_key: str | None, random_stat
     if "highly_variable" in work.var and work.var["highly_variable"].sum() > 0:
         work = work[:, work.var["highly_variable"]].copy()
     sc.pp.scale(work, max_value=10)
-    n_components = min(n_pcs, work.n_obs - 1, work.n_vars - 1)
+    n_components = min(max_pcs, work.n_obs - 1, work.n_vars - 1)
     sc.tl.pca(work, n_comps=n_components, random_state=random_state)
-    labels = graph_modularity_labels(work.obsm["X_pca"], n_neighbors=15, resolution=1.0)
+    return work, n_components
+
+
+def _scanpy_fixed_baseline(adata, n_pcs: int, label_key: str | None, random_state: int) -> dict:
+    work, n_components = _prepare_scanpy_pca(adata, n_pcs, random_state)
+    labels = graph_modularity_labels(work.obsm["X_pca"][:, :n_components], n_neighbors=15, resolution=1.0)
     return {
         "method": f"fixed_pcs_{n_pcs}",
         "n_signal_pcs": n_components,
+        "baseline_pc_rule": f"fixed_{n_pcs}",
         "cluster_n": int(np.unique(labels).size),
         "baseline_clusterer": "graph_modularity",
         "baseline_resolution": 1.0,
@@ -53,6 +115,44 @@ def _scanpy_default_baseline(adata, label_key: str | None, random_state: int) ->
     baseline = _scanpy_fixed_baseline(adata, n_pcs=50, label_key=label_key, random_state=random_state)
     baseline["method"] = "scanpy_default_like"
     return baseline
+
+
+def _scanpy_pc_rule_baseline(
+    adata,
+    method: str,
+    label_key: str | None,
+    random_state: int,
+    max_pcs: int,
+    n_permutations: int,
+) -> dict:
+    work, n_components = _prepare_scanpy_pca(adata, max_pcs, random_state)
+    variance_ratio = np.asarray(work.uns["pca"]["variance_ratio"], dtype=float)
+    if method == "elbow_rule":
+        selected = _choose_elbow_n_pcs(variance_ratio, min_pcs=5)
+        rule = "curvature_elbow"
+    elif method == "parallel_analysis":
+        selected = _choose_parallel_analysis_n_pcs(work.X, max_pcs=n_components, n_permutations=n_permutations, random_state=random_state)
+        rule = "column_permutation_parallel_analysis"
+    elif method == "jackstraw_like":
+        selected = _choose_parallel_analysis_n_pcs(work.X, max_pcs=n_components, n_permutations=n_permutations, random_state=random_state, quantile=0.99)
+        rule = "jackstraw_like_gene_permutation"
+    else:
+        raise ValueError(f"Unknown baseline method: {method}")
+    selected_for_embedding = min(max(1, selected), n_components)
+    labels = graph_modularity_labels(work.obsm["X_pca"][:, :selected_for_embedding], n_neighbors=15, resolution=1.0)
+    return {
+        "method": method,
+        "n_signal_pcs": int(selected),
+        "n_embedding_pcs": int(selected_for_embedding),
+        "baseline_pc_rule": rule,
+        "baseline_n_permutations": int(n_permutations) if method in {"parallel_analysis", "jackstraw_like"} else 0,
+        "cluster_n": int(np.unique(labels).size),
+        "baseline_clusterer": "graph_modularity",
+        "baseline_resolution": 1.0,
+        "baseline_n_neighbors": 15,
+        "ari": _safe_metric(work.obs[label_key], labels, adjusted_rand_score) if label_key else float("nan"),
+        "nmi": _safe_metric(work.obs[label_key], labels, normalized_mutual_info_score) if label_key else float("nan"),
+    }
 
 
 def _run_rmtguard(adata, dataset_id: str, label_key: str | None, batch_key: str | None, args) -> tuple[dict, dict]:
@@ -138,6 +238,20 @@ def run_dataset(path: Path, dataset_id: str, label_key: str | None, batch_key: s
     rows.append({"dataset_id": dataset_id, **_scanpy_default_baseline(adata, label_key, args.random_state)})
     rows.append({"dataset_id": dataset_id, **_scanpy_fixed_baseline(adata, 30, label_key, args.random_state)})
     rows.append({"dataset_id": dataset_id, **_scanpy_fixed_baseline(adata, 50, label_key, args.random_state)})
+    for method in args.additional_baselines:
+        rows.append(
+            {
+                "dataset_id": dataset_id,
+                **_scanpy_pc_rule_baseline(
+                    adata,
+                    method,
+                    label_key,
+                    args.random_state,
+                    max_pcs=args.max_pcs,
+                    n_permutations=args.baseline_permutations,
+                ),
+            }
+        )
     return rows, detail
 
 
@@ -170,6 +284,13 @@ def main() -> int:
     parser.add_argument("--tw-alpha", type=float, default=0.01)
     parser.add_argument("--stability-repeats", type=int, default=5)
     parser.add_argument("--random-state", type=int, default=20260427)
+    parser.add_argument(
+        "--additional-baselines",
+        nargs="+",
+        default=["elbow_rule", "parallel_analysis", "jackstraw_like"],
+        choices=["elbow_rule", "parallel_analysis", "jackstraw_like"],
+    )
+    parser.add_argument("--baseline-permutations", type=int, default=20)
     args = parser.parse_args()
 
     dataset_specs = {

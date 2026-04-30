@@ -75,6 +75,93 @@ def _fixed_pca_labels(x, n_pcs: int, random_state: int) -> np.ndarray:
     ).fit_predict(pcs)
 
 
+def _choose_elbow_n_pcs(variance_ratio: np.ndarray, min_pcs: int = 5) -> int:
+    variance_ratio = np.asarray(variance_ratio, dtype=float)
+    n = variance_ratio.size
+    if n == 0:
+        return 0
+    if n <= min_pcs:
+        return int(n)
+    cumulative = np.cumsum(variance_ratio)
+    x = np.linspace(0.0, 1.0, n)
+    y = (cumulative - cumulative[0]) / max(cumulative[-1] - cumulative[0], np.finfo(float).eps)
+    distances = y - x
+    start = max(0, min_pcs - 1)
+    return int(np.argmax(distances[start:]) + start + 1)
+
+
+def _count_contiguous_leading_passes(observed: np.ndarray, threshold: np.ndarray) -> int:
+    passing = np.asarray(observed) > np.asarray(threshold)
+    first_failed = np.flatnonzero(~passing)
+    return int(first_failed[0]) if first_failed.size else int(passing.size)
+
+
+def _choose_parallel_analysis_n_pcs(
+    x_scaled: np.ndarray,
+    max_pcs: int,
+    n_permutations: int,
+    random_state: int,
+    quantile: float = 0.95,
+) -> int:
+    n_components = min(max_pcs, x_scaled.shape[0] - 1, x_scaled.shape[1])
+    if n_components <= 0:
+        return 0
+    observed = PCA(n_components=n_components, random_state=random_state).fit(x_scaled).explained_variance_
+    rng = np.random.default_rng(random_state)
+    null_values = np.zeros((max(1, n_permutations), n_components), dtype=float)
+    for repeat in range(max(1, n_permutations)):
+        permuted = x_scaled.copy()
+        for col in range(permuted.shape[1]):
+            rng.shuffle(permuted[:, col])
+        null_values[repeat] = PCA(n_components=n_components, random_state=random_state + repeat + 1).fit(permuted).explained_variance_
+    threshold = np.quantile(null_values, quantile, axis=0)
+    return _count_contiguous_leading_passes(observed, threshold)
+
+
+def _pc_rule_pca_labels(x, method: str, args, random_state: int) -> tuple[np.ndarray, dict]:
+    x_log = _normalize_log(x)
+    x_scaled = StandardScaler().fit_transform(x_log)
+    n_components = min(args.max_pcs, x_scaled.shape[0] - 1, x_scaled.shape[1])
+    if n_components <= 0:
+        return np.zeros(x_scaled.shape[0], dtype=int), {"baseline_selected_pcs": 0, "baseline_pc_rule": method}
+    pca = PCA(n_components=n_components, random_state=random_state).fit(x_scaled)
+    if method == "elbow_rule":
+        selected = _choose_elbow_n_pcs(pca.explained_variance_ratio_, min_pcs=5)
+        rule = "curvature_elbow"
+    elif method == "parallel_analysis":
+        selected = _choose_parallel_analysis_n_pcs(
+            x_scaled,
+            max_pcs=n_components,
+            n_permutations=args.baseline_permutations,
+            random_state=random_state,
+        )
+        rule = "column_permutation_parallel_analysis"
+    elif method == "jackstraw_like":
+        selected = _choose_parallel_analysis_n_pcs(
+            x_scaled,
+            max_pcs=n_components,
+            n_permutations=args.baseline_permutations,
+            random_state=random_state,
+            quantile=0.99,
+        )
+        rule = "jackstraw_like_gene_permutation"
+    else:
+        raise ValueError(f"Unknown PC-rule baseline: {method}")
+    selected_for_embedding = min(max(1, selected), n_components)
+    pcs = pca.transform(x_scaled)[:, :selected_for_embedding]
+    labels = KMeans(
+        n_clusters=_target_cluster_count(x_scaled.shape[0]),
+        n_init=20,
+        random_state=random_state,
+    ).fit_predict(pcs)
+    return labels, {
+        "baseline_selected_pcs": int(selected),
+        "baseline_embedding_pcs": int(selected_for_embedding),
+        "baseline_pc_rule": rule,
+        "baseline_n_permutations": int(args.baseline_permutations) if method in {"parallel_analysis", "jackstraw_like"} else 0,
+    }
+
+
 def _fit_rmtguard(
     x,
     args,
@@ -179,6 +266,8 @@ def _run_one_method(adata, method: str, args) -> list[dict]:
             labels = _fixed_pca_labels(x, 50, seed)
         elif method == "scanpy_default_like":
             labels = _fixed_pca_labels(x, 50, seed)
+        elif method in {"elbow_rule", "parallel_analysis", "jackstraw_like"}:
+            labels, metadata = _pc_rule_pca_labels(x, method, args, seed)
         else:
             raise ValueError(f"Unknown method: {method}")
         rows.append(
@@ -283,6 +372,7 @@ def main() -> int:
     parser.add_argument("--tw-alpha", type=float, default=0.01)
     parser.add_argument("--stability-repeats", type=int, default=5)
     parser.add_argument("--random-state", type=int, default=20260427)
+    parser.add_argument("--baseline-permutations", type=int, default=20)
     parser.add_argument("--force", action="store_true", help="Recompute dataset checkpoints even when they already exist.")
     args = parser.parse_args()
 

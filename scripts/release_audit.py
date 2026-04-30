@@ -32,6 +32,7 @@ REQUIRED_FILES = [
     "benchmarks/run_synthetic_benchmark.py",
     "benchmarks/run_phase1_benchmark.py",
     "benchmarks/run_stability_benchmark.py",
+    "benchmarks/run_seurat_baseline.R",
     "scripts/evaluate_submission_gates.py",
     "scripts/prepare_phase1_datasets.py",
     "scripts/prepare_pdac_datasets.py",

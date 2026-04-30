@@ -52,12 +52,18 @@ wrapper.
 - `scripts/build_editorial_risk_audit.py` records desk-reject and transfer
   risks so the Nature Methods first route is governed by explicit
   go/no-go rules rather than optimism.
+- Phase 1 and stability benchmark runners now include reviewer-facing PC-rule
+  baselines (`elbow_rule`, `parallel_analysis`, `jackstraw_like`), and
+  `benchmarks/run_seurat_baseline.R` provides an optional Seurat v5-like
+  baseline runner for prepared h5ad datasets.
 
 ## Remaining Manuscript Work
 
 1. Add per-dataset label quality notes and annotation-recovery summaries for
    all real datasets.
-2. Add R/Seurat baseline scripts and JackStraw-like baseline.
+2. Rerun Phase 1 and stability benchmarks with the expanded PC-rule baselines,
+   then run the optional Seurat baseline where the R dependencies are
+   available.
 3. Run permutation calibration for final figures.
 4. Polish the rendered draft figures for final manuscript layout and complete
    the GitHub/Zenodo DOI release.
@@ -158,8 +164,8 @@ wrapper.
 - `docs/editorial_risk_audit.md` and
   `results/submission/editorial_risk_audit.tsv` now track Nature Methods
   desk-reject risk. The current blocking editorial risk is software release;
-  active non-blocking risks are method novelty framing, baseline sufficiency,
-  and PDAC/TME application depth.
+  active non-blocking risks are method novelty framing, baseline result-table
+  completion, and PDAC/TME application depth.
 - Gate recommendation remains `continue_benchmarking` until the external
   software-release evidence is complete and the submission gate is rerun.
 
