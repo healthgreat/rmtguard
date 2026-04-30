@@ -41,6 +41,7 @@ REQUIRED_FILES = [
     "scripts/build_presubmission_package.py",
     "scripts/build_journal_compliance_audit.py",
     "scripts/build_publication_execution_board.py",
+    "scripts/execute_github_release.py",
     "scripts/build_release_readiness.py",
     "scripts/record_external_release.py",
     "scripts/build_release_artifact_manifest.py",

@@ -33,6 +33,7 @@ publication_plan = _load_script("build_publication_20_50_plan")
 presubmission_package = _load_script("build_presubmission_package")
 journal_compliance = _load_script("build_journal_compliance_audit")
 publication_board = _load_script("build_publication_execution_board")
+github_release = _load_script("execute_github_release")
 
 
 class ReleasePlanTest(unittest.TestCase):
@@ -311,6 +312,22 @@ class ReleasePlanTest(unittest.TestCase):
 
     def test_publication_board_states_no_acceptance_guarantee(self) -> None:
         lines = publication_board.build_markdown([])
+        self.assertTrue(any("Acceptance guarantee: `impossible`" in line for line in lines))
+
+    def test_github_release_url_parsing_and_dry_run(self) -> None:
+        self.assertEqual(
+            github_release.normalize_repo_url("https://github.com/example-lab/rmtguard.git"),
+            "https://github.com/example-lab/rmtguard",
+        )
+        self.assertEqual(github_release.parse_repo("https://github.com/example-lab/rmtguard"), ("example-lab", "rmtguard"))
+        rows = github_release.build_plan("https://github.com/example-lab/rmtguard", "v0.1.0-rc1")
+        by_step = {row["step_id"]: row for row in rows}
+        self.assertIn(by_step["02_validate_github_token"]["status"], {"ready", "blocked_external"})
+        self.assertEqual(by_step["05_create_github_release"]["status"], "would_run")
+
+    def test_github_release_markdown_never_promises_acceptance(self) -> None:
+        rows = github_release.build_plan("https://github.com/example-lab/rmtguard", "v0.1.0-rc1")
+        lines = github_release.build_markdown(rows, "https://github.com/example-lab/rmtguard", "v0.1.0-rc1", execute_mode=False)
         self.assertTrue(any("Acceptance guarantee: `impossible`" in line for line in lines))
 
 
