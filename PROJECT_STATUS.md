@@ -46,6 +46,9 @@ wrapper.
 - `scripts/build_publication_execution_board.py` records the remaining
   ownership boundary: Codex-owned local work versus external GitHub/Zenodo or
   author-owned submission actions.
+- `scripts/build_reporting_summary_draft.py` pre-fills a Nature Portfolio
+  reporting-summary worksheet from local evidence while keeping the official
+  form as a manual author-verified step.
 
 ## Remaining Manuscript Work
 
@@ -144,6 +147,11 @@ wrapper.
   local Codex-owned manuscript/release artifacts are prepared, but public
   GitHub repository creation, remote push, GitHub Release, Zenodo DOI, and
   official reporting summary remain external/manual actions.
+- `docs/nature_reporting_summary_draft.md` and
+  `results/submission/reporting_summary_draft.tsv` now pre-fill the reporting
+  summary content. The draft marks Code availability and Code DOI as blocked
+  until the public GitHub/Zenodo release is complete; the official Nature
+  Portfolio form still requires author verification.
 - Gate recommendation remains `continue_benchmarking` until the external
   software-release evidence is complete and the submission gate is rerun.
 

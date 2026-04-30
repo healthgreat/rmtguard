@@ -35,6 +35,7 @@ journal_compliance = _load_script("build_journal_compliance_audit")
 publication_board = _load_script("build_publication_execution_board")
 github_release = _load_script("execute_github_release")
 submission_finalizer = _load_script("finalize_submission_release")
+reporting_summary = _load_script("build_reporting_summary_draft")
 
 
 class ReleasePlanTest(unittest.TestCase):
@@ -344,6 +345,22 @@ class ReleasePlanTest(unittest.TestCase):
         self.assertIn(by_step["03_validate_tag_state"]["status"], {"ready", "manual_review"})
         lines = submission_finalizer.build_markdown(rows, "https://github.com/example-lab/rmtguard", "10.5281/zenodo.12345", "v0.1.0-rc1", execute_mode=False)
         self.assertTrue(any("Acceptance guarantee: `impossible`" in line for line in lines))
+
+    def test_reporting_summary_draft_marks_code_doi_blocked(self) -> None:
+        datasets = [{"dataset_id": "pbmc3k_10x", "accession": "NA", "github_policy": "accession_and_script_only"}]
+        claims = [{"claim_id": "noise_control_null", "allowed_wording": "Null control passes."}]
+        release = [
+            {"check_id": "repository_url", "status": "pending"},
+            {"check_id": "zenodo_doi", "status": "pending"},
+        ]
+        compliance = [{"check_id": "reporting_summary", "status": "pending_manual"}]
+        gates = [{"gate_id": "synthetic_null_false_signal", "status": "pass"}]
+        rows = reporting_summary.build_rows(datasets, claims, release, compliance, gates)
+        by_item = {row["item"]: row for row in rows}
+        self.assertEqual(by_item["Code DOI"]["status"], "blocked")
+        self.assertEqual(by_item["Official form status"]["status"], "pending_manual")
+        lines = reporting_summary.build_markdown(rows)
+        self.assertTrue(any("official Nature Portfolio reporting summary form" in line for line in lines))
 
 
 if __name__ == "__main__":

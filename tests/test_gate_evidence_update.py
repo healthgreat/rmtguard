@@ -205,6 +205,7 @@ class GateEvidenceUpdateTest(unittest.TestCase):
                     "publication_20_50_plan",
                     "journal_compliance_audit",
                     "publication_execution_board",
+                    "reporting_summary_draft",
                 ]:
                     writer.writerow({"check_id": check_id, "status": "pass", "evidence_path": "x", "notes": "ok"})
                 writer.writerow({"check_id": "github_release_tag", "status": "pending", "evidence_path": "x", "notes": "not tagged"})
@@ -241,7 +242,7 @@ class GateEvidenceUpdateTest(unittest.TestCase):
             self.assertIn("pdac_tme_interpretability\tpass", text)
             self.assertIn("figure_source_data\tpass", text)
             self.assertIn("software_release\tpending", text)
-            self.assertIn("Local release readiness checks passed 24/24", text)
+            self.assertIn("Local release readiness checks passed 25/25", text)
 
 
 if __name__ == "__main__":

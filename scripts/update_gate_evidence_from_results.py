@@ -318,6 +318,7 @@ def _software_release_status(rows: list[dict[str, str]]) -> tuple[str, str]:
         "publication_20_50_plan",
         "journal_compliance_audit",
         "publication_execution_board",
+        "reporting_summary_draft",
     ]
     local_passed = sum(1 for check_id in local_checks if by_check.get(check_id) == "pass")
     pending_external = [check_id for check_id in required_external if by_check.get(check_id) != "pass"]

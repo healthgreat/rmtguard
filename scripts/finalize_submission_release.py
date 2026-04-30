@@ -184,12 +184,14 @@ def _refresh_all() -> list[tuple[str, int, str]]:
         ("scripts/build_manuscript_draft_package.py", []),
         ("scripts/build_journal_compliance_audit.py", []),
         ("scripts/build_publication_execution_board.py", []),
+        ("scripts/build_reporting_summary_draft.py", []),
         ("scripts/build_presubmission_package.py", []),
         ("scripts/build_release_artifact_manifest.py", []),
         ("scripts/build_release_asset_bundle.py", []),
         ("scripts/build_release_readiness.py", []),
         ("scripts/build_journal_compliance_audit.py", []),
         ("scripts/build_publication_execution_board.py", []),
+        ("scripts/build_reporting_summary_draft.py", []),
         ("scripts/build_presubmission_package.py", []),
     ]
     results: list[tuple[str, int, str]] = []
