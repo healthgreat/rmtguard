@@ -275,6 +275,13 @@ wrapper.
   reviewer-defense language for Nature Methods and Genome Biology while
   preserving the software-release blocker, the stability reframe, PBMC68k
   no-call boundary, and PDAC/TME public-use-case scope.
+- `scripts/build_author_release_execution_packet.py` writes
+  `results/release/author_release_execution_checklist.tsv`,
+  `docs/author_release_execution_packet.md`, and
+  `manuscript/code_availability_finalization_draft.md`. It reduces the
+  remaining GitHub/Zenodo blocker to the minimal author-owned external actions
+  plus the local Codex rerun commands needed after a real repository URL and
+  DOI exist.
 - Gate recommendation remains `continue_benchmarking` until the stability
   claim is rescued or narrowed and the external software-release evidence is
   complete.

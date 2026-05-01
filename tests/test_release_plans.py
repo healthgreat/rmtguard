@@ -52,6 +52,7 @@ external_review_triage = _load_script("triage_external_review_feedback")
 post_feedback_route = _load_script("build_post_feedback_journal_route_gate")
 gb_transfer = _load_script("build_genome_biology_transfer_package")
 reviewer_defense = _load_script("build_reviewer_defense_package")
+author_release = _load_script("build_author_release_execution_packet")
 
 
 class ReleasePlanTest(unittest.TestCase):
@@ -533,6 +534,115 @@ class ReleasePlanTest(unittest.TestCase):
         self.assertIn("acceptance guarantee: `impossible`", markdown)
         self.assertNotIn("guaranteed acceptance", markdown)
         self.assertIn("pre-review scaffolds", response)
+
+    def test_author_release_packet_blocks_until_repo_and_doi(self) -> None:
+        rows = author_release.build_author_release_rows(
+            release_rows=[
+                {"check_id": "repository_url", "status": "pending"},
+                {"check_id": "github_remote", "status": "pending"},
+                {"check_id": "github_release_tag", "status": "pass"},
+                {"check_id": "zenodo_doi", "status": "pending"},
+            ],
+            blocker_rows=[
+                {
+                    "blocker_id": "github_release_page",
+                    "status": "blocked_external",
+                }
+            ],
+            handoff_rows=[
+                {
+                    "artifact": "source_git_bundle",
+                    "path": "results/release/rmtguard_v0.1.0-rc7_source.bundle",
+                    "notes": "Contains tag v0.1.0-rc7 at commit abc123.",
+                }
+            ],
+            post_feedback_rows=[
+                {
+                    "decision_id": "overall_post_feedback_route",
+                    "decision": "genome_biology_after_release",
+                }
+            ],
+            gb_transfer_rows=[
+                {
+                    "item_id": "overall_genome_biology_transfer",
+                    "status": "prepare_after_release",
+                }
+            ],
+            reviewer_defense_rows=[
+                {
+                    "defense_id": "overall_reviewer_defense",
+                    "status": "not_sendable_before_release",
+                }
+            ],
+        )
+        by_id = {row["action_id"]: row for row in rows}
+        self.assertEqual(
+            by_id["overall_author_release_execution"]["status"],
+            "blocked_waiting_author_release",
+        )
+        self.assertIn(
+            "02_create_empty_public_github_repository",
+            by_id["overall_author_release_execution"]["notes"],
+        )
+        self.assertIn(
+            "v0.1.0-rc7",
+            by_id["01_verify_local_release_candidate"]["notes"],
+        )
+
+    def test_author_release_packet_marks_release_ready_after_all_checks_pass(
+        self,
+    ) -> None:
+        rows = author_release.build_author_release_rows(
+            release_rows=[
+                {"check_id": "repository_url", "status": "pass"},
+                {"check_id": "github_remote", "status": "pass"},
+                {"check_id": "github_release_tag", "status": "pass"},
+                {"check_id": "zenodo_doi", "status": "pass"},
+            ],
+            blocker_rows=[{"blocker_id": "github_release_page", "status": "pass"}],
+            handoff_rows=[
+                {
+                    "artifact": "source_git_bundle",
+                    "path": "results/release/rmtguard_v0.1.0_source.bundle",
+                    "notes": "Contains tag v0.1.0 at commit abc123.",
+                }
+            ],
+            post_feedback_rows=[],
+            gb_transfer_rows=[],
+            reviewer_defense_rows=[],
+        )
+        by_id = {row["action_id"]: row for row in rows}
+        self.assertEqual(
+            by_id["overall_author_release_execution"]["status"],
+            "release_evidence_ready_for_gate_refresh",
+        )
+        self.assertEqual(
+            by_id["06_archive_github_release_with_zenodo"]["status"], "pass"
+        )
+
+    def test_author_release_packet_markdown_and_code_draft_keep_placeholders(
+        self,
+    ) -> None:
+        rows = [
+            {
+                "action_id": "overall_author_release_execution",
+                "phase": "summary",
+                "owner": "Author + Codex",
+                "status": "blocked_waiting_author_release",
+                "blocking_input": "repository URL and DOI",
+                "exact_action": "Complete release.",
+                "verification": "Release readiness passes.",
+                "evidence_path": "results/release/author_release_execution_checklist.tsv",
+                "stop_condition": "Do not submit.",
+                "notes": "blocked_actions=repo; route=hold.",
+            }
+        ]
+        markdown = "\n".join(author_release.build_markdown(rows)).lower()
+        draft = "\n".join(author_release.build_code_availability_draft(rows))
+        self.assertIn("acceptance guarantee: `impossible`", markdown)
+        self.assertNotIn("guaranteed acceptance", markdown)
+        self.assertIn("[TO CONFIRM: public repository URL]", draft)
+        self.assertIn("[TO CONFIRM: public archive DOI]", draft)
 
     def test_external_release_plan_keeps_external_steps_pending(self) -> None:
         rows = external_release.build_steps()

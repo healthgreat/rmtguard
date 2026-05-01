@@ -30,6 +30,7 @@ REQUIRED_SOURCE_FILES = [
     "docs/post_feedback_journal_route_gate.md",
     "docs/genome_biology_transfer_package.md",
     "docs/reviewer_defense_package.md",
+    "docs/author_release_execution_packet.md",
     "docs/claim_boundary_lint.md",
     "docs/claim_traceability.md",
     "docs/submission_guard.md",
@@ -83,6 +84,7 @@ REQUIRED_SOURCE_FILES = [
     "scripts/build_post_feedback_journal_route_gate.py",
     "scripts/build_genome_biology_transfer_package.py",
     "scripts/build_reviewer_defense_package.py",
+    "scripts/build_author_release_execution_packet.py",
     "scripts/build_manuscript_evidence_package.py",
     "scripts/build_manuscript_draft_package.py",
     "scripts/build_github_staging_plan.py",
@@ -101,6 +103,7 @@ REQUIRED_SOURCE_FILES = [
     "manuscript/genome_biology_conversion_draft.md",
     "manuscript/genome_biology_cover_letter_draft.md",
     "manuscript/reviewer_defense_response_draft.md",
+    "manuscript/code_availability_finalization_draft.md",
     "manuscript/top_paper_claim_ladder.md",
     "manuscript/nature_methods_presubmission_inquiry.md",
     "manuscript/reviewer_response_playbook.md",
@@ -130,6 +133,7 @@ REQUIRED_GENERATED_ARTIFACTS = [
     "results/submission/post_feedback_journal_route_gate.tsv",
     "results/submission/genome_biology_transfer_checklist.tsv",
     "results/submission/reviewer_defense_matrix.tsv",
+    "results/release/author_release_execution_checklist.tsv",
 ]
 
 REQUIRED_FILES = REQUIRED_SOURCE_FILES + REQUIRED_GENERATED_ARTIFACTS

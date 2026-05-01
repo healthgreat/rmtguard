@@ -8,7 +8,7 @@ The linter blocks unsupported journal-facing claims while allowing explicit forb
 ## Summary
 
 - Violations: `0`
-- Controlled boundary mentions: `170`
+- Controlled boundary mentions: `177`
 
 ## Violations
 
@@ -16,6 +16,11 @@ The linter blocks unsupported journal-facing claims while allowing explicit forb
 
 ## Controlled Boundary Mentions
 
+- `acceptance_guarantee` in `docs/author_release_execution_packet.md:5`
+- `premature_doi_release` in `docs/author_release_execution_packet.md:55`
+- `premature_doi_release` in `docs/author_release_execution_packet.md:56`
+- `premature_doi_release` in `docs/author_release_execution_packet.md:64`
+- `premature_doi_release` in `docs/author_release_execution_packet.md:182`
 - `acceptance_guarantee` in `docs/claim_scope_decision.md:7`
 - `pbmc68k_positive_discovery` in `docs/claim_scope_decision.md:19`
 - `acceptance_guarantee` in `docs/claim_scope_decision.md:20`
@@ -103,20 +108,15 @@ The linter blocks unsupported journal-facing claims while allowing explicit forb
 - `pbmc68k_positive_discovery` in `manuscript/abstract_draft.md:7`
 - `broad_fixed_pc_superiority` in `manuscript/abstract_draft.md:9`
 - `premature_submission_ready` in `manuscript/abstract_draft.md:9`
+- `premature_doi_release` in `manuscript/code_availability_finalization_draft.md:23`
+- `premature_submission_ready` in `manuscript/code_availability_finalization_draft.md:23`
 - `premature_submission_ready` in `manuscript/cover_letter_draft.md:3`
 - `broad_fixed_pc_superiority` in `manuscript/cover_letter_draft.md:13`
 - `premature_doi_release` in `manuscript/cover_letter_draft.md:13`
 - `premature_doi_release` in `manuscript/figure_claim_checklist.md:10`
 - `premature_doi_release` in `manuscript/figure_claim_checklist.md:11`
 - `broad_fixed_pc_superiority` in `manuscript/figure_claim_checklist.md:26`
-- `pbmc68k_positive_discovery` in `manuscript/figure_claim_checklist.md:28`
-- `broad_fixed_pc_superiority` in `manuscript/figure_claim_checklist.md:29`
-- `pbmc68k_positive_discovery` in `manuscript/figure_claim_checklist.md:29`
-- `pbmc68k_positive_discovery` in `manuscript/figure_claim_checklist.md:30`
-- `premature_doi_release` in `manuscript/figure_claim_checklist.md:46`
-- `premature_doi_release` in `manuscript/figure_claim_checklist.md:47`
-- `premature_doi_release` in `manuscript/figure_claim_checklist.md:48`
-- ... 70 additional controlled mentions omitted from Markdown summary.
+- ... 77 additional controlled mentions omitted from Markdown summary.
 
 ## Submission Rule
 
