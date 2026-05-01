@@ -314,6 +314,12 @@ def build_readiness_rows() -> list[dict[str, str]]:
             "Editorial desk-reject risk audit is present.",
             "Run python scripts/build_editorial_risk_audit.py.",
         ),
+        _exists_status(
+            "top_paper_route_package",
+            ROOT / "results" / "submission" / "top_paper_route_decision.tsv",
+            "Top-paper journal routing package is present.",
+            "Run python scripts/build_top_paper_route_package.py.",
+        ),
         _row("repository_url", url_status, ROOT / "pyproject.toml", url_notes),
         _row("github_remote", remote_status, ".git/config", remote_notes),
         _row("git_worktree", worktree_status, ".git", worktree_notes),

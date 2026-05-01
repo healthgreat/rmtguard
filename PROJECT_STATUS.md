@@ -208,6 +208,14 @@ wrapper.
   JackStraw-like, and Seurat v5-like baseline support. PDAC/TME biological
   application depth is controlled only as a bounded public immune/ductal use
   case, not as a disease-mechanism claim.
+- `scripts/build_top_paper_route_package.py` writes
+  `results/submission/top_paper_route_decision.tsv`,
+  `docs/top_paper_route_package.md`,
+  `manuscript/top_paper_claim_ladder.md`, and
+  `manuscript/genome_biology_conversion_draft.md`. It formalizes the current
+  route: Nature Methods first remains on hold until gates and public release
+  pass, while the most realistic fallback is a Genome Biology-style
+  reproducible genomics workflow after GitHub/Zenodo release completion.
 - Gate recommendation remains `continue_benchmarking` until the stability
   claim is rescued or narrowed and the external software-release evidence is
   complete.

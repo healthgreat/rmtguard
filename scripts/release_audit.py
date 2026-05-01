@@ -23,6 +23,7 @@ REQUIRED_SOURCE_FILES = [
     "docs/github_staging_plan.md",
     "docs/external_release_plan.md",
     "docs/public_release_blocker_report.md",
+    "docs/top_paper_route_package.md",
     "docs/stability_gate_diagnostics.md",
     "docs/stability_utility_tradeoff.md",
     "docs/algorithm_rescue_probe_report.md",
@@ -63,6 +64,7 @@ REQUIRED_SOURCE_FILES = [
     "scripts/build_release_asset_bundle.py",
     "scripts/build_external_release_plan.py",
     "scripts/build_public_release_blocker_report.py",
+    "scripts/build_top_paper_route_package.py",
     "scripts/build_manuscript_evidence_package.py",
     "scripts/build_manuscript_draft_package.py",
     "scripts/build_github_staging_plan.py",
@@ -78,6 +80,8 @@ REQUIRED_SOURCE_FILES = [
     "manuscript/cover_letter_draft.md",
     "manuscript/nature_methods_outline.md",
     "manuscript/genome_biology_fallback_outline.md",
+    "manuscript/genome_biology_conversion_draft.md",
+    "manuscript/top_paper_claim_ladder.md",
     ".github/workflows/ci.yml",
 ]
 
@@ -93,6 +97,7 @@ REQUIRED_GENERATED_ARTIFACTS = [
     "results/gates/publication_20_50_decision.tsv",
     "results/submission/claim_scope_decision.tsv",
     "results/release/public_release_blockers.tsv",
+    "results/submission/top_paper_route_decision.tsv",
 ]
 
 REQUIRED_FILES = REQUIRED_SOURCE_FILES + REQUIRED_GENERATED_ARTIFACTS

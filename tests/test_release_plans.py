@@ -42,6 +42,7 @@ reporting_summary = _load_script("build_reporting_summary_draft")
 editorial_risk = _load_script("build_editorial_risk_audit")
 release_audit = _load_script("release_audit")
 public_release_blockers = _load_script("build_public_release_blocker_report")
+top_paper_route = _load_script("build_top_paper_route_package")
 
 
 class ReleasePlanTest(unittest.TestCase):
@@ -177,6 +178,160 @@ class ReleasePlanTest(unittest.TestCase):
         text = "\n".join(lines).lower()
         self.assertIn("acceptance guarantee: `impossible`", text)
         self.assertNotIn("guaranteed publication", text)
+
+    def test_top_paper_route_holds_nature_methods_when_gates_are_blocked(self) -> None:
+        gates = [
+            {"gate_id": "diagnostic_no_call_validation", "status": "pass"},
+            {"gate_id": "annotation_noninferiority", "status": "pass"},
+            {"gate_id": "stability_advantage", "status": "fail"},
+            {"gate_id": "software_release", "status": "pending"},
+        ]
+        claims = [
+            {
+                "claim_id": "noise_control_null",
+                "status": "pass",
+                "allowed_wording": "Pure-null benchmark passed.",
+                "prohibited_wording": "Do not claim universal calibration.",
+            },
+            {
+                "claim_id": "diagnostic_no_call_validation",
+                "status": "pass",
+                "allowed_wording": "Diagnostic no-call validation passed.",
+                "prohibited_wording": "Do not call no-call outputs discoveries.",
+            },
+            {
+                "claim_id": "rare_state_retention",
+                "status": "pass",
+                "allowed_wording": "Rare-state retention passed.",
+                "prohibited_wording": "Do not guarantee all rare states.",
+            },
+            {
+                "claim_id": "pdac_tme_showcase",
+                "status": "pass",
+                "allowed_wording": "PDAC/TME public use case is bounded.",
+                "prohibited_wording": "Do not claim a standalone CAF discovery.",
+            },
+            {
+                "claim_id": "public_benchmark_breadth",
+                "status": "pass",
+                "allowed_wording": "Four public real datasets are present.",
+                "prohibited_wording": "Do not claim Tabula Sapiens is done.",
+            },
+            {
+                "claim_id": "annotation_noninferiority",
+                "status": "pass",
+                "allowed_wording": "Annotation noninferiority passed.",
+                "prohibited_wording": "Do not frame PBMC68k as strong.",
+            },
+            {
+                "claim_id": "figure_source_data",
+                "status": "pass",
+                "allowed_wording": "Figure source data exist.",
+                "prohibited_wording": "Do not call draft renders final.",
+            },
+            {
+                "claim_id": "pbmc3k_stability",
+                "status": "fail",
+                "allowed_wording": "Use callability-aware stability/no-call wording.",
+                "prohibited_wording": "Do not claim broad fixed-PC superiority.",
+            },
+            {
+                "claim_id": "software_release",
+                "status": "pending",
+                "allowed_wording": "Local release checks pass.",
+                "prohibited_wording": "Do not state DOI-archived release exists.",
+            },
+        ]
+        compliance = [
+            {"check_id": "nature_methods_scope_fit", "status": "blocked"},
+            {"check_id": "article_content_type_fit", "status": "blocked"},
+            {"check_id": "performance_comparison", "status": "blocked"},
+            {"check_id": "code_availability", "status": "blocked"},
+            {"check_id": "code_doi_repository", "status": "blocked"},
+            {"check_id": "nature_methods_submission_ready", "status": "blocked"},
+        ]
+        release = [
+            {"check_id": "repository_url", "status": "pending"},
+            {"check_id": "github_remote", "status": "pending"},
+            {"check_id": "github_release_tag", "status": "pending"},
+            {"check_id": "zenodo_doi", "status": "pending"},
+        ]
+        blockers = [
+            {"blocker_id": "github_remote", "status": "blocked_external"},
+            {"blocker_id": "zenodo_doi", "status": "blocked_external"},
+            {"blocker_id": "software_release_gate", "status": "blocked"},
+        ]
+
+        rows = top_paper_route.build_route_rows(
+            gates, claims, compliance, release, blockers
+        )
+        by_route = {row["route_id"]: row for row in rows}
+        self.assertEqual(
+            by_route["nature_methods_first"]["decision"], "hold_pre_submission"
+        )
+        self.assertIn(
+            "stability_advantage", by_route["nature_methods_first"]["blocking_items"]
+        )
+        self.assertEqual(
+            by_route["genome_biology_fallback"]["decision"],
+            "activate_after_software_release",
+        )
+        self.assertIn(
+            "software_release_gate",
+            by_route["public_release_action"]["blocking_items"],
+        )
+
+    def test_top_paper_route_outputs_do_not_promise_acceptance_or_mislabel_gb(
+        self,
+    ) -> None:
+        rows = [
+            {
+                "route_id": "nature_methods_first",
+                "journal": "Nature Methods",
+                "decision": "hold_pre_submission",
+                "claim_frame": "bounded",
+                "allowed_claims": "x",
+                "forbidden_claims": "y",
+                "blocking_items": "stability_advantage",
+                "next_action": "resolve blockers",
+                "risk_level": "blocking",
+                "evidence_path": "evidence.tsv",
+            },
+            {
+                "route_id": "genome_biology_fallback",
+                "journal": "Genome Biology",
+                "decision": "activate_after_software_release",
+                "claim_frame": "workflow",
+                "allowed_claims": "x",
+                "forbidden_claims": "y",
+                "blocking_items": "software_release",
+                "next_action": "release",
+                "risk_level": "major",
+                "evidence_path": "claims.tsv",
+            },
+        ]
+        claims = [
+            {
+                "claim_id": "software_release",
+                "status": "pending",
+                "allowed_wording": "Local release checks pass.",
+                "prohibited_wording": "Do not state DOI-archived release exists.",
+                "manuscript_claim": "release",
+                "evidence": "release.tsv",
+            }
+        ]
+        lines = top_paper_route.build_route_markdown(rows, claims, [])
+        text = "\n".join(lines).lower()
+        self.assertIn("acceptance guarantee: `impossible`", text)
+        self.assertNotIn("guaranteed publication", text)
+
+        draft = "\n".join(
+            top_paper_route.build_genome_biology_draft(claims, rows)
+        ).lower()
+        self.assertIn("not submission-ready", draft)
+        self.assertIn(
+            "do not present genome biology as a strict 20-50 jif target", draft
+        )
 
     def test_release_asset_selection_excludes_data_paths(self) -> None:
         rows = [
