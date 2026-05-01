@@ -1,0 +1,2 @@
+feedback_id	reviewer_source	reviewer_type	section	comment	suggested_action	evidence_path	severity_hint	journal_route_hint
+TEMPLATE-001	external_model	model	overall	Replace this row with one concrete review comment.	State the requested revision or leave blank if unclear.	manuscript/current_article_external_review_packet.md	pending	Nature Methods first; Genome Biology fallback

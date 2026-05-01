@@ -48,6 +48,7 @@ claim_lint = _load_script("lint_claim_boundaries")
 claim_traceability = _load_script("validate_claim_traceability")
 submission_guard = _load_script("build_submission_guard")
 external_review_packet = _load_script("export_current_article_review_packet")
+external_review_triage = _load_script("triage_external_review_feedback")
 
 
 class ReleasePlanTest(unittest.TestCase):
@@ -136,6 +137,65 @@ class ReleasePlanTest(unittest.TestCase):
         self.assertIn("### manuscript/nature_methods_presubmission_draft.md", text)
         self.assertIn("### results/manuscript/claim_evidence_matrix.tsv", text)
         self.assertIn("Binary Or Non-Text Assets Listed Only", text)
+
+    def test_external_review_triage_blocks_fatal_novelty_feedback(self) -> None:
+        rows = external_review_triage.triage_rows(
+            [
+                {
+                    "feedback_id": "M1",
+                    "reviewer_source": "model_a",
+                    "reviewer_type": "model",
+                    "section": "method novelty",
+                    "comment": "The method is not novel enough for Nature Methods.",
+                    "suggested_action": "",
+                    "evidence_path": "manuscript/current_article_external_review_packet.md",
+                    "severity_hint": "fatal",
+                    "journal_route_hint": "Nature Methods",
+                }
+            ]
+        )
+        self.assertEqual(rows[0]["triage_category"], "fatal_blocker")
+        self.assertEqual(rows[0]["priority"], "P0")
+        self.assertEqual(rows[0]["route_impact"], "nature_methods_go_no_go")
+
+    def test_external_review_triage_routes_release_feedback_to_gate(self) -> None:
+        rows = external_review_triage.triage_rows(
+            [
+                {
+                    "feedback_id": "M2",
+                    "reviewer_source": "model_b",
+                    "reviewer_type": "model",
+                    "section": "code availability",
+                    "comment": "Zenodo DOI and GitHub release are still missing.",
+                    "suggested_action": "",
+                    "evidence_path": "results/release/release_readiness.tsv",
+                    "severity_hint": "blocking",
+                    "journal_route_hint": "",
+                }
+            ]
+        )
+        self.assertEqual(rows[0]["triage_category"], "release_or_reproducibility")
+        self.assertEqual(rows[0]["priority"], "P0")
+        self.assertEqual(rows[0]["route_impact"], "software_release_gate")
+
+    def test_external_review_triage_template_rows_wait_for_feedback(self) -> None:
+        rows = external_review_triage.triage_rows(
+            [
+                {
+                    "feedback_id": "TEMPLATE-001",
+                    "reviewer_source": "external_model",
+                    "reviewer_type": "model",
+                    "section": "overall",
+                    "comment": "Replace this row with one concrete review comment.",
+                    "suggested_action": "",
+                    "evidence_path": "manuscript/current_article_external_review_packet.md",
+                    "severity_hint": "pending",
+                    "journal_route_hint": "",
+                }
+            ]
+        )
+        self.assertEqual(rows[0]["triage_category"], "awaiting_external_feedback")
+        self.assertEqual(rows[0]["status"], "awaiting_feedback")
 
     def test_external_release_plan_keeps_external_steps_pending(self) -> None:
         rows = external_release.build_steps()

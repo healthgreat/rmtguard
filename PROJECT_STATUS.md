@@ -143,7 +143,8 @@ wrapper.
   with the render manifest at `figures/manuscript/rendered_figure_manifest.tsv`.
 - Local release readiness is summarized under `results/release/`. This records
   local audit status, metadata availability, figure/source-data readiness, and
-  the still-missing GitHub release tag and Zenodo DOI.
+  the local release-candidate tag. Public GitHub remote, GitHub Release, and
+  Zenodo DOI evidence are still missing.
 - Release artifact destinations are summarized in
   `results/release/release_artifact_manifest.tsv`, separating GitHub files,
   public accession downloads, processed matrices, DOI-archived results, draft
@@ -245,6 +246,13 @@ wrapper.
   aggregating scientific gates, presubmission gatekeeper, public release
   objects, claim-boundary lint, traceability, route decision, and editor-send
   status. The current expected status is `do_not_submit`.
+- `scripts/triage_external_review_feedback.py` writes
+  `results/submission/external_review_feedback_triage.tsv` and
+  `docs/external_review_feedback_triage.md`. External model or collaborator
+  feedback should be pasted into
+  `metadata/external_review_feedback_template.tsv`; the triage script then
+  converts comments into P0/P1/P2 revision tickets without upgrading claims
+  or submission readiness automatically.
 - Gate recommendation remains `continue_benchmarking` until the stability
   claim is rescued or narrowed and the external software-release evidence is
   complete.

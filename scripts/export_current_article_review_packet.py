@@ -53,12 +53,14 @@ CORE_ARTICLE_FILES = [
 ]
 
 ADDITIONAL_REVIEW_FILES = [
+    "PROJECT_STATUS.md",
     "docs/benchmark_plan.md",
     "docs/statistical_analysis_plan.md",
     "docs/data_and_code_availability_template.md",
     "docs/publication_strategy.md",
     "docs/publication_20_50_rescue_plan.md",
     "docs/top_paper_route_package.md",
+    "docs/external_review_feedback_triage.md",
     "docs/submission_guard.md",
     "docs/claim_traceability.md",
     "docs/claim_boundary_lint.md",
@@ -80,6 +82,7 @@ ADDITIONAL_REVIEW_FILES = [
     "results/submission/top_paper_route_decision.tsv",
     "results/submission/editorial_presubmission_packet.tsv",
     "results/submission/submission_guard.tsv",
+    "results/submission/external_review_feedback_triage.tsv",
     "results/submission/presubmission_gatekeeper.tsv",
     "results/release/release_readiness.tsv",
     "results/release/public_release_blockers.tsv",

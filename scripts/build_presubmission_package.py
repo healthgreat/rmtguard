@@ -270,7 +270,7 @@ def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(
         description="Build the local Nature Methods presubmission package and gatekeeper report."
     )
-    parser.add_argument("--tag", default="v0.1.0-rc3")
+    parser.add_argument("--tag", default="v0.1.0-rc4")
     parser.add_argument("--zip", type=Path, default=PACKAGE_ZIP)
     args = parser.parse_args(argv)
 
