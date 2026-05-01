@@ -268,6 +268,13 @@ wrapper.
   preserving PBMC68k diagnostic no-call wording, Figure 3 stability caveats,
   PDAC/TME public-use-case boundaries, and the requirement for real GitHub and
   Zenodo release evidence before any cover letter is sent.
+- `scripts/build_reviewer_defense_package.py` writes
+  `results/submission/reviewer_defense_matrix.tsv`,
+  `docs/reviewer_defense_package.md`, and
+  `manuscript/reviewer_defense_response_draft.md`. It prepares route-specific
+  reviewer-defense language for Nature Methods and Genome Biology while
+  preserving the software-release blocker, the stability reframe, PBMC68k
+  no-call boundary, and PDAC/TME public-use-case scope.
 - Gate recommendation remains `continue_benchmarking` until the stability
   claim is rescued or narrowed and the external software-release evidence is
   complete.

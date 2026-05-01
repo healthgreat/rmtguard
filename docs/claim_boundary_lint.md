@@ -8,7 +8,7 @@ The linter blocks unsupported journal-facing claims while allowing explicit forb
 ## Summary
 
 - Violations: `0`
-- Controlled boundary mentions: `155`
+- Controlled boundary mentions: `170`
 
 ## Violations
 
@@ -78,6 +78,15 @@ The linter blocks unsupported journal-facing claims while allowing explicit forb
 - `premature_doi_release` in `docs/publication_execution_board.md:76`
 - `premature_doi_release` in `docs/publication_execution_board.md:79`
 - `premature_doi_release` in `docs/publication_strategy.md:27`
+- `acceptance_guarantee` in `docs/reviewer_defense_package.md:5`
+- `premature_doi_release` in `docs/reviewer_defense_package.md:28`
+- `premature_doi_release` in `docs/reviewer_defense_package.md:29`
+- `premature_doi_release` in `docs/reviewer_defense_package.md:32`
+- `broad_fixed_pc_superiority` in `docs/reviewer_defense_package.md:56`
+- `pbmc68k_positive_discovery` in `docs/reviewer_defense_package.md:56`
+- `pbmc68k_positive_discovery` in `docs/reviewer_defense_package.md:91`
+- `pbmc68k_positive_discovery` in `docs/reviewer_defense_package.md:92`
+- `broad_fixed_pc_superiority` in `docs/reviewer_defense_package.md:128`
 - `broad_fixed_pc_superiority` in `docs/stability_gate_diagnostics.md:7`
 - `broad_fixed_pc_superiority` in `docs/stability_utility_tradeoff.md:8`
 - `acceptance_guarantee` in `docs/submission_guard.md:5`
@@ -107,16 +116,7 @@ The linter blocks unsupported journal-facing claims while allowing explicit forb
 - `premature_doi_release` in `manuscript/figure_claim_checklist.md:46`
 - `premature_doi_release` in `manuscript/figure_claim_checklist.md:47`
 - `premature_doi_release` in `manuscript/figure_claim_checklist.md:48`
-- `premature_submission_ready` in `manuscript/genome_biology_conversion_draft.md:3`
-- `broad_fixed_pc_superiority` in `manuscript/genome_biology_conversion_draft.md:18`
-- `pbmc68k_positive_discovery` in `manuscript/genome_biology_conversion_draft.md:18`
-- `premature_doi_release` in `manuscript/genome_biology_conversion_draft.md:38`
-- `pbmc68k_positive_discovery` in `manuscript/genome_biology_cover_letter_draft.md:12`
-- `premature_doi_release` in `manuscript/genome_biology_cover_letter_draft.md:14`
-- `premature_doi_release` in `manuscript/nature_methods_outline.md:24`
-- `premature_submission_ready` in `manuscript/nature_methods_presubmission_draft.md:3`
-- `broad_fixed_pc_superiority` in `manuscript/nature_methods_presubmission_draft.md:19`
-- ... 55 additional controlled mentions omitted from Markdown summary.
+- ... 70 additional controlled mentions omitted from Markdown summary.
 
 ## Submission Rule
 

@@ -51,6 +51,7 @@ external_review_packet = _load_script("export_current_article_review_packet")
 external_review_triage = _load_script("triage_external_review_feedback")
 post_feedback_route = _load_script("build_post_feedback_journal_route_gate")
 gb_transfer = _load_script("build_genome_biology_transfer_package")
+reviewer_defense = _load_script("build_reviewer_defense_package")
 
 
 class ReleasePlanTest(unittest.TestCase):
@@ -436,6 +437,102 @@ class ReleasePlanTest(unittest.TestCase):
         self.assertNotIn("guaranteed acceptance", markdown)
         self.assertIn("[TO CONFIRM: public GitHub URL]", cover)
         self.assertIn("[TO CONFIRM: Zenodo DOI]", cover)
+
+    def test_reviewer_defense_blocks_all_routes_on_software_release(self) -> None:
+        rows = reviewer_defense.build_defense_rows(
+            objection_rows=[
+                {
+                    "objection_id": "software_release",
+                    "risk_level": "blocking",
+                    "linked_gate_or_claim": "software_release",
+                    "current_status": "pending",
+                    "evidence": "results/release/release_readiness.tsv",
+                    "response_strategy": "Complete the public release before submission.",
+                    "required_before_submission": "Create public repository and archive.",
+                }
+            ],
+            editorial_rows=[],
+            claim_rows=[
+                {
+                    "claim_id": "software_release",
+                    "prohibited_wording": "Do not state DOI-archived release exists.",
+                }
+            ],
+            post_feedback_rows=[],
+            gb_transfer_rows=[],
+        )
+        by_id = {row["defense_id"]: row for row in rows}
+        self.assertEqual(
+            by_id["software_release"]["status"], "blocked_until_public_release"
+        )
+        self.assertEqual(
+            by_id["software_release"]["route_impact"], "blocks_all_submission_routes"
+        )
+        self.assertEqual(
+            by_id["overall_reviewer_defense"]["status"],
+            "not_sendable_before_release",
+        )
+
+    def test_reviewer_defense_reframes_stability_without_superiority(self) -> None:
+        rows = reviewer_defense.build_defense_rows(
+            objection_rows=[
+                {
+                    "objection_id": "stability_advantage",
+                    "risk_level": "high",
+                    "linked_gate_or_claim": "pbmc3k_stability",
+                    "current_status": "fail",
+                    "evidence": "results/stability_benchmarks/stability_gate_diagnostics.tsv",
+                    "response_strategy": "Keep the benchmark claim callability-aware.",
+                    "required_before_submission": "Rewrite Figure 3.",
+                }
+            ],
+            editorial_rows=[
+                {
+                    "risk_id": "stability_advantage",
+                    "status": "active_risk",
+                }
+            ],
+            claim_rows=[
+                {
+                    "claim_id": "pbmc3k_stability",
+                    "prohibited_wording": "Do not claim broad fixed-PC superiority.",
+                }
+            ],
+            post_feedback_rows=[],
+            gb_transfer_rows=[],
+        )
+        by_id = {row["defense_id"]: row for row in rows}
+        self.assertEqual(
+            by_id["stability_advantage"]["status"], "major_reframe_required"
+        )
+        self.assertIn(
+            "no-call", by_id["stability_advantage"]["nature_methods_position"]
+        )
+        self.assertIn(
+            "Do not claim broad fixed-PC superiority",
+            by_id["stability_advantage"]["forbidden_response"],
+        )
+
+    def test_reviewer_defense_outputs_never_promise_acceptance(self) -> None:
+        rows = [
+            {
+                "defense_id": "overall_reviewer_defense",
+                "status": "not_sendable_before_release",
+                "route_impact": "controls_language",
+                "risk_level": "summary",
+                "evidence_path": "results/submission/reviewer_defense_matrix.tsv",
+                "safe_response": "Use evidence-bounded language.",
+                "nature_methods_position": "Hold Nature Methods.",
+                "genome_biology_position": "Use fallback after release.",
+                "required_action": "software_release",
+                "forbidden_response": "Do not claim acceptance.",
+            }
+        ]
+        markdown = "\n".join(reviewer_defense.build_markdown(rows)).lower()
+        response = "\n".join(reviewer_defense.build_response_draft(rows)).lower()
+        self.assertIn("acceptance guarantee: `impossible`", markdown)
+        self.assertNotIn("guaranteed acceptance", markdown)
+        self.assertIn("pre-review scaffolds", response)
 
     def test_external_release_plan_keeps_external_steps_pending(self) -> None:
         rows = external_release.build_steps()

@@ -88,10 +88,10 @@ git status --short
 - Owner: `codex`
 - Evidence: `.git`
 - Required action: Create an annotated release tag only after source, docs, tests, and metadata are final.
-- Notes: HEAD tag(s): v0.1.0-rc6
+- Notes: HEAD tag(s): v0.1.0-rc7
 
 ```bash
-git tag -a v0.1.0-rc6 -m "RMTGuard manuscript analysis release candidate 6"
+git tag -a v0.1.0-rc7 -m "RMTGuard manuscript analysis release candidate 7"
 ```
 
 ### github_release_page
@@ -103,7 +103,7 @@ git tag -a v0.1.0-rc6 -m "RMTGuard manuscript analysis release candidate 6"
 - Notes: Requires a GitHub remote and release tag; this script cannot create an account-owned repository without author authentication.
 
 ```bash
-python scripts/execute_github_release.py --repo-url https://github.com/<owner>/rmtguard --tag v0.1.0-rc6 --execute
+python scripts/execute_github_release.py --repo-url https://github.com/<owner>/rmtguard --tag v0.1.0-rc7 --execute
 ```
 
 ### zenodo_doi
