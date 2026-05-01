@@ -197,7 +197,7 @@ def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(
         description="Build a GitHub release handoff bundle and upload instructions."
     )
-    parser.add_argument("--tag", default="v0.1.0-rc2")
+    parser.add_argument("--tag", default="v0.1.0-rc3")
     parser.add_argument("--repo-url", default=None)
     args = parser.parse_args(argv)
     rows = build_handoff(args.tag, args.repo_url)

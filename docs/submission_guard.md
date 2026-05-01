@@ -35,7 +35,7 @@ This guard aggregates scientific, software-release, claim-boundary, traceability
 - Status: `blocked`
 - Severity: `blocking`
 - Evidence: `results/release/release_readiness.tsv`
-- Blocking items: `repository_url;github_remote;github_release_tag;zenodo_doi`
+- Blocking items: `repository_url;github_remote;zenodo_doi`
 - Required action: Create public GitHub repository, tag release, create GitHub Release, archive with Zenodo, and rerun finalizer.
 - Notes: External repository/release/DOI objects are incomplete.
 

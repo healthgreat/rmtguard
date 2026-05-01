@@ -224,7 +224,7 @@ def build_rows(
             "codex",
             ".git",
             "Create an annotated release tag only after source, docs, tests, and metadata are final.",
-            'git tag -a v0.1.0-rc2 -m "RMTGuard manuscript analysis release candidate 2"',
+            'git tag -a v0.1.0-rc3 -m "RMTGuard manuscript analysis release candidate 3"',
             (
                 "HEAD tag(s): " + ", ".join(head_tags)
                 if tag_ok
@@ -237,7 +237,7 @@ def build_rows(
             "author",
             "GitHub Releases",
             "Create a GitHub Release from the approved release tag.",
-            "python scripts/execute_github_release.py --repo-url https://github.com/<owner>/rmtguard --tag v0.1.0-rc2 --execute",
+            "python scripts/execute_github_release.py --repo-url https://github.com/<owner>/rmtguard --tag v0.1.0-rc3 --execute",
             "Requires a GitHub remote and release tag; this script cannot create an account-owned repository without author authentication.",
         ),
         _row(

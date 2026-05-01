@@ -47,6 +47,7 @@ editorial_packet = _load_script("build_editorial_presubmission_packet")
 claim_lint = _load_script("lint_claim_boundaries")
 claim_traceability = _load_script("validate_claim_traceability")
 submission_guard = _load_script("build_submission_guard")
+external_review_packet = _load_script("export_current_article_review_packet")
 
 
 class ReleasePlanTest(unittest.TestCase):
@@ -127,6 +128,14 @@ class ReleasePlanTest(unittest.TestCase):
 
     def test_release_audit_supports_source_only_ci_mode(self) -> None:
         self.assertEqual(release_audit.main(["--source-only"]), 0)
+
+    def test_external_review_packet_keeps_not_submission_ready_boundary(self) -> None:
+        text = "\n".join(external_review_packet.build_packet())
+        self.assertIn("Current submission guard: `do_not_submit`", text)
+        self.assertIn("Acceptance guarantee: `impossible`", text)
+        self.assertIn("### manuscript/nature_methods_presubmission_draft.md", text)
+        self.assertIn("### results/manuscript/claim_evidence_matrix.tsv", text)
+        self.assertIn("Binary Or Non-Text Assets Listed Only", text)
 
     def test_external_release_plan_keeps_external_steps_pending(self) -> None:
         rows = external_release.build_steps()
@@ -454,6 +463,13 @@ class ReleasePlanTest(unittest.TestCase):
         text = "\n".join(lines)
         self.assertIn("Violations: `1`", text)
         self.assertIn("broad_fixed_pc_superiority", text)
+
+    def test_claim_boundary_lint_excludes_external_review_packet(self) -> None:
+        path = ROOT / "manuscript" / "current_article_external_review_packet.md"
+        self.assertTrue(claim_lint._is_excluded_path(path))
+        self.assertTrue(
+            claim_lint._is_excluded_path(ROOT / "docs" / "claim_boundary_lint.md")
+        )
 
     def test_claim_traceability_flags_unknown_figure_claim(self) -> None:
         claims = {"noise_control_null": {"status": "pass"}}

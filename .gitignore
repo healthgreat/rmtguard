@@ -34,6 +34,7 @@ data/external/*
 results/*
 figures/*
 logs/*
+manuscript/current_article_external_review_packet.md
 !results/.gitkeep
 !figures/.gitkeep
 !logs/.gitkeep

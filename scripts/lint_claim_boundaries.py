@@ -142,6 +142,11 @@ CONTROLLED_PATH_HINTS = [
     "nature_methods_outline",
 ]
 
+EXCLUDED_PATH_HINTS = [
+    "docs/claim_boundary_lint.md",
+    "current_article_external_review_packet",
+]
+
 
 def _rel(path: Path) -> str:
     try:
@@ -191,10 +196,23 @@ def scan_paths() -> list[Path]:
         if not folder.exists():
             continue
         pattern = "*.md" if folder != ROOT else "*.md"
-        paths.extend(path for path in folder.glob(pattern) if path.is_file())
+        paths.extend(
+            path
+            for path in folder.glob(pattern)
+            if path.is_file() and not _is_excluded_path(path)
+        )
         if folder == ROOT / "results" / "submission":
-            paths.extend(path for path in folder.glob("*.txt") if path.is_file())
+            paths.extend(
+                path
+                for path in folder.glob("*.txt")
+                if path.is_file() and not _is_excluded_path(path)
+            )
     return sorted(set(paths))
+
+
+def _is_excluded_path(path: Path) -> bool:
+    rel = _rel(path).lower()
+    return any(hint in rel for hint in EXCLUDED_PATH_HINTS)
 
 
 def _is_controlled_context(line: str, path: Path) -> bool:

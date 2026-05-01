@@ -73,6 +73,7 @@ REQUIRED_SOURCE_FILES = [
     "scripts/lint_claim_boundaries.py",
     "scripts/validate_claim_traceability.py",
     "scripts/build_submission_guard.py",
+    "scripts/export_current_article_review_packet.py",
     "scripts/build_manuscript_evidence_package.py",
     "scripts/build_manuscript_draft_package.py",
     "scripts/build_github_staging_plan.py",
