@@ -60,6 +60,12 @@ PROBES = [
         "decision_rule": "Promote only if PBMC68k improves over current RMTGuard while synthetic pure-null remains diagnostic_no_call.",
     },
     {
+        "probe_id": "pbmc68k_null_calibrated_low_signal_embedding",
+        "path": ROOT / "results" / "stability_benchmarks_null_calibrated_rescue_probe" / "stability_summary.tsv",
+        "tested_change": "null-calibrated stable low-signal PC rescue with near-edge eigenvalue-ratio guard",
+        "decision_rule": "Promote only if synthetic pure-null remains diagnostic_no_call and PBMC68k improves over current RMTGuard without fixed-PC forcing.",
+    },
+    {
         "probe_id": "pbmc68k_coarse_to_fine_elbow",
         "path": ROOT / "results" / "stability_benchmarks_coarse_to_fine_probe" / "stability_summary.tsv",
         "run_path": ROOT / "results" / "stability_benchmarks_coarse_to_fine_probe" / "pbmc68k_zheng2017_stability_runs.tsv",
@@ -153,6 +159,8 @@ def _decision(
         mean_cluster_n = old_mean_cluster_n
     if mean_cluster_n is None:
         mean_cluster_n = float("nan")
+    if probe_id.startswith("pbmc68k_null_calibrated") and method != "rmtguard":
+        return "comparator_context"
     if probe_id.startswith("pbmc68k_coarse_to_fine") and method != "rmtguard_coarse_to_fine":
         return "comparator_context"
     if probe_id.startswith("pbmc68k_coarse_to_fine") and mean_fine_callable == mean_fine_callable and mean_fine_callable <= 0:
@@ -236,6 +244,7 @@ def build_markdown(rows: list[dict[str, str]]) -> list[str]:
         "- Resolution-path clustering improves PBMC3k stability locally but hurts Kang IFN-beta PBMC stability.",
         "- Low-signal PBMC68k probes do not resolve the collapse/no-call failure without forcing PCs.",
         "- The optional stable low-signal PC rescue keeps synthetic pure-null guarded but worsens PBMC68k stability.",
+        "- The null-calibrated low-signal rescue restores synthetic pure-null no-call in smoke testing but does not improve PBMC68k stability.",
         "- Coarse-to-fine probes improve only when they reduce to the coarse PC-rule baseline; no guarded fine layer activates on PBMC68k.",
         "- The `stability_advantage` gate therefore remains `fail`.",
         "",

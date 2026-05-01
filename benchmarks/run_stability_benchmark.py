@@ -237,6 +237,9 @@ def _fit_rmtguard(
             low_signal_rescue_max_pcs=args.low_signal_rescue_max_pcs,
             low_signal_rescue_min_pcs=args.low_signal_rescue_min_pcs,
             low_signal_rescue_stability_threshold=args.low_signal_rescue_stability_threshold,
+            low_signal_rescue_null_permutations=args.low_signal_rescue_null_permutations,
+            low_signal_rescue_null_quantile=args.low_signal_rescue_null_quantile,
+            low_signal_rescue_min_eigen_ratio=args.low_signal_rescue_min_eigen_ratio,
             resolution_rule=resolution_rule or args.resolution_rule,
             graph_resolution_grid=tuple(args.graph_resolution_grid),
             low_signal_graph_resolution=args.low_signal_graph_resolution,
@@ -266,6 +269,9 @@ def _rmtguard_metadata(result, args, resolution_rule: str) -> dict:
         "embedding_rule": embedding_diag.get("rule", args.embedding_rule),
         "embedding_source": embedding_diag.get("source", args.embedding_source),
         "low_signal_rescue_rule": embedding_diag.get("low_signal_rescue_rule", args.low_signal_rescue_rule),
+        "low_signal_rescue_null_permutations": embedding_diag.get("low_signal_rescue_null_permutations", args.low_signal_rescue_null_permutations),
+        "low_signal_rescue_null_quantile": embedding_diag.get("low_signal_rescue_null_quantile", args.low_signal_rescue_null_quantile),
+        "low_signal_rescue_min_eigen_ratio": embedding_diag.get("low_signal_rescue_min_eigen_ratio", args.low_signal_rescue_min_eigen_ratio),
         "embedding_pc_stability_min": embedding_diag.get("embedding_pc_stability_min", ""),
         "embedding_pc_stability_median": embedding_diag.get("embedding_pc_stability_median", ""),
         "n_neighbors": int(result.n_neighbors) if result.n_neighbors is not None else "",
@@ -471,10 +477,13 @@ def main() -> int:
     parser.add_argument("--embedding-stability-repeats", type=int, default=5)
     parser.add_argument("--embedding-stability-threshold", type=float, default=0.75)
     parser.add_argument("--embedding-subsample-fraction", type=float, default=0.80)
-    parser.add_argument("--low-signal-rescue-rule", default="off", choices=["off", "stable_embedding"])
+    parser.add_argument("--low-signal-rescue-rule", default="off", choices=["off", "stable_embedding", "null_calibrated_stable_embedding"])
     parser.add_argument("--low-signal-rescue-max-pcs", type=int, default=12)
     parser.add_argument("--low-signal-rescue-min-pcs", type=int, default=2)
     parser.add_argument("--low-signal-rescue-stability-threshold", type=float, default=0.90)
+    parser.add_argument("--low-signal-rescue-null-permutations", type=int, default=10)
+    parser.add_argument("--low-signal-rescue-null-quantile", type=float, default=0.95)
+    parser.add_argument("--low-signal-rescue-min-eigen-ratio", type=float, default=0.95)
     parser.add_argument("--resolution-rule", default="graph_modularity", choices=["graph_modularity", "kmeans_stability", "consensus_stability"])
     parser.add_argument("--graph-resolution-grid", type=float, nargs="+", default=[1.0])
     parser.add_argument("--low-signal-graph-resolution", type=float, default=1.0)

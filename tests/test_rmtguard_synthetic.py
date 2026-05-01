@@ -48,6 +48,37 @@ class RMTGuardSyntheticTest(unittest.TestCase):
         self.assertEqual(result.analysis_status, "diagnostic_no_call")
         self.assertEqual(result.embedding_diagnostics["low_signal_rescue_rule"], "stable_embedding")
 
+    def test_null_calibrated_low_signal_rescue_keeps_pure_null_no_call(self) -> None:
+        counts, _ = simulate_null_counts(n_cells=80, n_genes=140, random_state=12)
+        result = RMTGuard(
+            RMTGuardConfig(
+                hvg_grid=(70, 120),
+                max_pcs=16,
+                pc_rule="mp_tw",
+                embedding_stability_repeats=2,
+                low_signal_rescue_rule="null_calibrated_stable_embedding",
+                low_signal_rescue_max_pcs=6,
+                low_signal_rescue_min_pcs=2,
+                low_signal_rescue_stability_threshold=0.75,
+                low_signal_rescue_null_permutations=2,
+                low_signal_rescue_null_quantile=0.80,
+                low_signal_rescue_min_eigen_ratio=0.95,
+                random_state=12,
+            )
+        ).fit(counts)
+        self.assertEqual(result.analysis_status, "diagnostic_no_call")
+        self.assertEqual(result.embedding_diagnostics["low_signal_rescue_rule"], "null_calibrated_stable_embedding")
+        self.assertEqual(result.embedding_diagnostics["low_signal_rescue_null_permutations"], 2)
+        self.assertEqual(result.embedding_diagnostics["low_signal_rescue_min_eigen_ratio"], 0.95)
+        self.assertLessEqual(result.embedding_diagnostics["accepted_low_signal_rescue_pcs"], 1)
+        records = [
+            record
+            for record in result.embedding_diagnostics["pc_records"]
+            if record["role"] == "low_signal_rescue_candidate"
+        ]
+        self.assertTrue(records)
+        self.assertIn("null_stability_threshold", records[0])
+
     def test_low_rank_signal_is_detected(self) -> None:
         counts, _labels, _batch = simulate_low_rank_counts(
             n_cells=140,

@@ -69,6 +69,9 @@ class RMTGuardConfig:
     low_signal_rescue_max_pcs: int = 12
     low_signal_rescue_min_pcs: int = 2
     low_signal_rescue_stability_threshold: float = 0.90
+    low_signal_rescue_null_permutations: int = 10
+    low_signal_rescue_null_quantile: float = 0.95
+    low_signal_rescue_min_eigen_ratio: float = 0.95
     resolution_rule: str = "graph_modularity"
     batch_key: str | None = None
     n_permutations: int = 0
@@ -284,8 +287,8 @@ class RMTGuard:
             raise ValueError("embedding_rule must be one of: adaptive_near_edge, strict_signal")
         if self.config.embedding_source not in {"rmt_scores", "standard_pca"}:
             raise ValueError("embedding_source must be one of: rmt_scores, standard_pca")
-        if self.config.low_signal_rescue_rule not in {"off", "stable_embedding"}:
-            raise ValueError("low_signal_rescue_rule must be one of: off, stable_embedding")
+        if self.config.low_signal_rescue_rule not in {"off", "stable_embedding", "null_calibrated_stable_embedding"}:
+            raise ValueError("low_signal_rescue_rule must be one of: off, stable_embedding, null_calibrated_stable_embedding")
         if self.config.near_edge_window < 1.0:
             raise ValueError("near_edge_window must be at least 1.0")
         if self.config.embedding_stability_repeats < 1:
@@ -304,6 +307,12 @@ class RMTGuard:
             raise ValueError("low_signal_rescue_min_pcs must be at least 2")
         if not 0.0 <= self.config.low_signal_rescue_stability_threshold <= 1.0:
             raise ValueError("low_signal_rescue_stability_threshold must be between 0 and 1")
+        if self.config.low_signal_rescue_null_permutations < 0:
+            raise ValueError("low_signal_rescue_null_permutations must be non-negative")
+        if not 0.0 < self.config.low_signal_rescue_null_quantile < 1.0:
+            raise ValueError("low_signal_rescue_null_quantile must be in (0, 1)")
+        if not 0.0 < self.config.low_signal_rescue_min_eigen_ratio <= 1.0:
+            raise ValueError("low_signal_rescue_min_eigen_ratio must be in (0, 1]")
         if self.config.n_permutations < 0:
             raise ValueError("n_permutations must be non-negative")
         if self.config.stability_repeats < 1:
@@ -562,7 +571,10 @@ class RMTGuard:
         low_signal_rescued = False
         low_signal_stability: dict[int, float] = {}
         if strict_count < 2 and self.config.min_embedding_pcs == 0:
-            if self.config.low_signal_rescue_rule == "stable_embedding" and self.config.embedding_rule == "adaptive_near_edge":
+            if (
+                self.config.low_signal_rescue_rule in {"stable_embedding", "null_calibrated_stable_embedding"}
+                and self.config.embedding_rule == "adaptive_near_edge"
+            ):
                 rescue_limit = min(candidate_limit, int(self.config.low_signal_rescue_max_pcs))
                 rescue_candidates = [idx for idx in range(strict_count, rescue_limit)]
                 low_signal_stability = self._pc_subsample_stability(
@@ -570,22 +582,55 @@ class RMTGuard:
                     embedding_spectrum,
                     rescue_candidates,
                 )
+                null_thresholds = {}
+                if self.config.low_signal_rescue_rule == "null_calibrated_stable_embedding":
+                    null_thresholds = self._pc_subsample_stability_null_thresholds(
+                        x_embedding,
+                        rescue_candidates,
+                    )
                 for idx in rescue_candidates:
                     score = low_signal_stability.get(idx, float("nan"))
+                    null_threshold = null_thresholds.get(idx, float("nan"))
+                    eigen_ratio = float(rmt_spectrum.eigenvalues[idx] / max(selected_edge, np.finfo(float).eps))
+                    edge_pass = (
+                        self.config.low_signal_rescue_rule == "stable_embedding"
+                        or bool(eigen_ratio >= self.config.low_signal_rescue_min_eigen_ratio)
+                    )
+                    null_pass = (
+                        self.config.low_signal_rescue_rule == "stable_embedding"
+                        or (
+                            np.isfinite(null_threshold)
+                            and np.isfinite(score)
+                            and score > null_threshold
+                        )
+                    )
                     accepted = bool(
                         np.isfinite(score)
                         and score >= self.config.low_signal_rescue_stability_threshold
+                        and null_pass
+                        and edge_pass
                     )
                     if accepted:
                         selected_indices.append(idx)
+                    reason = "stable_low_signal_embedding" if accepted else "below_low_signal_rescue_threshold"
+                    if self.config.low_signal_rescue_rule == "null_calibrated_stable_embedding":
+                        if accepted:
+                            reason = "stable_above_permutation_null"
+                        elif not edge_pass:
+                            reason = "below_low_signal_edge_ratio"
+                        elif np.isfinite(score) and score >= self.config.low_signal_rescue_stability_threshold and not null_pass:
+                            reason = "below_low_signal_null_threshold"
                     pc_records.append(
                         {
                             "pc": int(idx + 1),
                             "eigenvalue": float(rmt_spectrum.eigenvalues[idx]),
+                            "eigen_ratio_to_selected_edge": eigen_ratio,
                             "role": "low_signal_rescue_candidate",
                             "stability": float(score),
+                            "null_stability_threshold": float(null_threshold),
+                            "stability_null_excess": float(score - null_threshold) if np.isfinite(score) and np.isfinite(null_threshold) else float("nan"),
                             "accepted": accepted,
-                            "reason": "stable_low_signal_embedding" if accepted else "below_low_signal_rescue_threshold",
+                            "reason": reason,
                         }
                     )
                 selected_indices = sorted(set(selected_indices))
@@ -735,6 +780,39 @@ class RMTGuard:
             out[idx] = float(np.median(finite)) if finite else float("nan")
         return out
 
+    def _pc_subsample_stability_null_thresholds(
+        self,
+        x_guarded: np.ndarray,
+        candidate_indices: list[int],
+    ) -> dict[int, float]:
+        if not candidate_indices or self.config.low_signal_rescue_null_permutations <= 0:
+            return {idx: float("nan") for idx in candidate_indices}
+
+        rng = np.random.default_rng(self.config.random_state + 7919)
+        null_scores = {idx: [] for idx in candidate_indices}
+        for repeat in range(int(self.config.low_signal_rescue_null_permutations)):
+            permuted = np.asarray(x_guarded, dtype=float).copy()
+            for col in range(permuted.shape[1]):
+                rng.shuffle(permuted[:, col])
+            null_spectrum = spectrum_from_matrix(permuted)
+            scores = self._pc_subsample_stability(
+                permuted,
+                null_spectrum,
+                candidate_indices,
+            )
+            for idx, score in scores.items():
+                if np.isfinite(score):
+                    null_scores[idx].append(float(score))
+
+        thresholds = {}
+        for idx, values in null_scores.items():
+            thresholds[idx] = (
+                float(np.quantile(values, self.config.low_signal_rescue_null_quantile))
+                if values
+                else float("nan")
+            )
+        return thresholds
+
     @staticmethod
     def _safe_abs_corr(left: np.ndarray, right: np.ndarray) -> float:
         left = np.asarray(left, dtype=float)
@@ -776,6 +854,9 @@ class RMTGuard:
             "low_signal_rescue_min_pcs": int(self.config.low_signal_rescue_min_pcs),
             "low_signal_rescue_max_pcs": int(self.config.low_signal_rescue_max_pcs),
             "low_signal_rescue_stability_threshold": float(self.config.low_signal_rescue_stability_threshold),
+            "low_signal_rescue_null_permutations": int(self.config.low_signal_rescue_null_permutations),
+            "low_signal_rescue_null_quantile": float(self.config.low_signal_rescue_null_quantile),
+            "low_signal_rescue_min_eigen_ratio": float(self.config.low_signal_rescue_min_eigen_ratio),
             "strict_signal_pcs": int(strict_count),
             "low_signal_pc_threshold": int(self.config.low_signal_pc_threshold),
             "low_signal_candidate_pcs": int(len(low_signal_records)),

@@ -128,6 +128,8 @@ Evidence:
 - `results/stability_benchmarks_resolution_path_min08_probe/stability_summary.tsv`
 - `results/stability_benchmarks_low_signal_near2_probe/stability_summary.tsv`
 - `results/stability_benchmarks_low_signal_rescue_probe/stability_summary.tsv`
+- `results/stability_benchmarks_null_calibrated_rescue_probe/stability_summary.tsv`
+- `results/synthetic_benchmarks_null_calibrated_rescue_probe/synthetic_benchmark_summary.csv`
 - `results/stability_benchmarks_pbmc68k_mp_probe2/stability_summary.tsv`
 - `docs/algorithm_rescue_probe_report.md`
 
@@ -140,7 +142,10 @@ baseline. Increasing the PBMC68k near-edge window to 2.0 and switching to a
 plain MP edge also fail to rescue PBMC68k without violating the no forced-PC
 constraint. A stricter optional stable low-signal PC rescue keeps synthetic
 pure-null as diagnostic no-call in smoke testing, but worsens PBMC68k stability
-to 0.120 and is rejected.
+to 0.120 and is rejected. A null-calibrated stable low-signal rescue adds
+gene-permutation stability thresholds and a near-edge eigenvalue-ratio guard;
+this restores synthetic pure-null diagnostic no-call but does not improve
+PBMC68k, which remains at mean pairwise ARI 0.600.
 
 Action:
 
@@ -148,6 +153,8 @@ Action:
   as a default rescue.
 - Do not promote stable low-signal PC rescue unless a future rule improves
   PBMC68k while preserving synthetic pure-null no-call behavior.
+- Do not promote null-calibrated low-signal rescue; it is safer than
+  stability-only rescue but still does not rescue the real-data gate.
 - Keep these probes as negative evidence in the algorithm rescue report.
 - The next implementation attempt should target a principled low-signal
   embedding diagnostic, not a manual PC or resolution override.
