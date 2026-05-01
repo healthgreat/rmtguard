@@ -253,6 +253,13 @@ wrapper.
   `metadata/external_review_feedback_template.tsv`; the triage script then
   converts comments into P0/P1/P2 revision tickets without upgrading claims
   or submission readiness automatically.
+- `scripts/build_post_feedback_journal_route_gate.py` writes
+  `results/submission/post_feedback_journal_route_gate.tsv` and
+  `docs/post_feedback_journal_route_gate.md`. This is the post-feedback
+  routing control: active P0/P1 external feedback pauses route escalation,
+  Nature Methods remains on hold unless the generated submission guard becomes
+  candidate, and the Genome Biology fallback activates only through the
+  bounded reproducible-workflow route after public release completion.
 - Gate recommendation remains `continue_benchmarking` until the stability
   claim is rescued or narrowed and the external software-release evidence is
   complete.

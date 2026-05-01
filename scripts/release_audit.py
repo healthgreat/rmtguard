@@ -27,6 +27,7 @@ REQUIRED_SOURCE_FILES = [
     "docs/top_paper_route_package.md",
     "docs/editorial_presubmission_packet.md",
     "docs/external_review_feedback_triage.md",
+    "docs/post_feedback_journal_route_gate.md",
     "docs/claim_boundary_lint.md",
     "docs/claim_traceability.md",
     "docs/submission_guard.md",
@@ -77,6 +78,7 @@ REQUIRED_SOURCE_FILES = [
     "scripts/build_submission_guard.py",
     "scripts/export_current_article_review_packet.py",
     "scripts/triage_external_review_feedback.py",
+    "scripts/build_post_feedback_journal_route_gate.py",
     "scripts/build_manuscript_evidence_package.py",
     "scripts/build_manuscript_draft_package.py",
     "scripts/build_github_staging_plan.py",
@@ -119,6 +121,7 @@ REQUIRED_GENERATED_ARTIFACTS = [
     "results/submission/claim_traceability.tsv",
     "results/submission/submission_guard.tsv",
     "results/submission/external_review_feedback_triage.tsv",
+    "results/submission/post_feedback_journal_route_gate.tsv",
 ]
 
 REQUIRED_FILES = REQUIRED_SOURCE_FILES + REQUIRED_GENERATED_ARTIFACTS

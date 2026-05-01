@@ -49,6 +49,7 @@ claim_traceability = _load_script("validate_claim_traceability")
 submission_guard = _load_script("build_submission_guard")
 external_review_packet = _load_script("export_current_article_review_packet")
 external_review_triage = _load_script("triage_external_review_feedback")
+post_feedback_route = _load_script("build_post_feedback_journal_route_gate")
 
 
 class ReleasePlanTest(unittest.TestCase):
@@ -196,6 +197,117 @@ class ReleasePlanTest(unittest.TestCase):
         )
         self.assertEqual(rows[0]["triage_category"], "awaiting_external_feedback")
         self.assertEqual(rows[0]["status"], "awaiting_feedback")
+
+    def test_post_feedback_route_pauses_for_p0_feedback(self) -> None:
+        rows = post_feedback_route.build_route_gate_rows(
+            triage_rows=[
+                {
+                    "feedback_id": "M1",
+                    "priority": "P0",
+                    "status": "open",
+                }
+            ],
+            submission_guard_rows=[
+                {
+                    "guard_id": "overall_submission_guard",
+                    "status": "submission_candidate",
+                }
+            ],
+            route_rows=[
+                {
+                    "route_id": "nature_methods_first",
+                    "decision": "submission_candidate",
+                },
+                {
+                    "route_id": "genome_biology_fallback",
+                    "decision": "standby",
+                },
+            ],
+            release_rows=[
+                {"check_id": "repository_url", "status": "pass"},
+                {"check_id": "github_remote", "status": "pass"},
+                {"check_id": "github_release_tag", "status": "pass"},
+                {"check_id": "zenodo_doi", "status": "pass"},
+            ],
+            gate_rows=[{"gate_id": "software_release", "status": "pass"}],
+        )
+        by_id = {row["decision_id"]: row for row in rows}
+        self.assertEqual(
+            by_id["external_feedback_gate"]["decision"],
+            "blocked_by_external_feedback",
+        )
+        self.assertEqual(
+            by_id["overall_post_feedback_route"]["decision"],
+            "pause_for_p0_feedback",
+        )
+
+    def test_post_feedback_route_current_hold_activates_gb_after_release(self) -> None:
+        rows = post_feedback_route.build_route_gate_rows(
+            triage_rows=[
+                {
+                    "feedback_id": "NO_EXTERNAL_FEEDBACK",
+                    "priority": "P2",
+                    "status": "awaiting_feedback",
+                }
+            ],
+            submission_guard_rows=[
+                {
+                    "guard_id": "overall_submission_guard",
+                    "status": "do_not_submit",
+                }
+            ],
+            route_rows=[
+                {
+                    "route_id": "nature_methods_first",
+                    "decision": "hold_pre_submission",
+                },
+                {
+                    "route_id": "genome_biology_fallback",
+                    "decision": "activate_after_software_release",
+                },
+            ],
+            release_rows=[
+                {"check_id": "repository_url", "status": "pending"},
+                {"check_id": "github_remote", "status": "pending"},
+                {"check_id": "github_release_tag", "status": "pass"},
+                {"check_id": "zenodo_doi", "status": "pending"},
+            ],
+            gate_rows=[
+                {"gate_id": "stability_advantage", "status": "fail"},
+                {"gate_id": "software_release", "status": "pending"},
+            ],
+        )
+        by_id = {row["decision_id"]: row for row in rows}
+        self.assertEqual(
+            by_id["nature_methods_gate"]["decision"], "hold_nature_methods"
+        )
+        self.assertEqual(
+            by_id["genome_biology_gate"]["decision"], "activate_after_release"
+        )
+        self.assertEqual(
+            by_id["overall_post_feedback_route"]["decision"],
+            "genome_biology_after_release",
+        )
+        self.assertIn(
+            "repository_url",
+            by_id["software_release_gate"]["blocking_items"],
+        )
+
+    def test_post_feedback_route_markdown_never_promises_acceptance(self) -> None:
+        rows = [
+            {
+                "decision_id": "overall_post_feedback_route",
+                "decision": "genome_biology_after_release",
+                "status": "fallback_after_release",
+                "blocking_items": "zenodo_doi",
+                "evidence_path": "results/submission/post_feedback_journal_route_gate.tsv",
+                "required_action": "Finish release.",
+                "notes": "Acceptance guarantee remains impossible.",
+            }
+        ]
+        text = "\n".join(post_feedback_route.build_markdown(rows)).lower()
+        self.assertIn("acceptance guarantee: `impossible`", text)
+        self.assertNotIn("guaranteed acceptance", text)
 
     def test_external_release_plan_keeps_external_steps_pending(self) -> None:
         rows = external_release.build_steps()
