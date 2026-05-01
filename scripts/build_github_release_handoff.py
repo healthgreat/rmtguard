@@ -6,7 +6,6 @@ import hashlib
 import subprocess
 from pathlib import Path
 
-
 ROOT = Path(__file__).resolve().parents[1]
 OUT_DIR = ROOT / "results" / "release"
 DOC_MD = OUT_DIR / "github_release_handoff.md"
@@ -77,10 +76,16 @@ def build_handoff(tag: str, repo_url: str | None = None) -> list[dict[str, str]]
     _require_git_ok(["rev-parse", "--is-inside-work-tree"], "Not a Git work tree")
     status = _require_git_ok(["status", "--short"], "Could not read git status")
     if status.strip():
-        raise RuntimeError("Git work tree must be clean before building the release handoff bundle.")
-    _require_git_ok(["rev-parse", "--verify", tag], f"Required tag does not exist: {tag}")
+        raise RuntimeError(
+            "Git work tree must be clean before building the release handoff bundle."
+        )
+    _require_git_ok(
+        ["rev-parse", "--verify", tag], f"Required tag does not exist: {tag}"
+    )
     head = _require_git_ok(["rev-parse", "--short", "HEAD"], "Could not read HEAD")
-    tag_target = _require_git_ok(["rev-list", "-n", "1", tag], f"Could not resolve tag: {tag}")
+    tag_target = _require_git_ok(
+        ["rev-list", "-n", "1", tag], f"Could not resolve tag: {tag}"
+    )
     head_full = _require_git_ok(["rev-parse", "HEAD"], "Could not resolve HEAD")
     if tag_target != head_full:
         raise RuntimeError(f"Tag {tag} does not point at HEAD {head}.")
@@ -139,7 +144,9 @@ def build_handoff(tag: str, repo_url: str | None = None) -> list[dict[str, str]]
     return rows
 
 
-def _handoff_markdown(tag: str, head: str, bundle: Path, bundle_hash: str, repo_url: str | None) -> list[str]:
+def _handoff_markdown(
+    tag: str, head: str, bundle: Path, bundle_hash: str, repo_url: str | None
+) -> list[str]:
     repo_placeholder = repo_url or "https://github.com/<owner>/rmtguard"
     git_url = repo_placeholder.rstrip("/") + ".git"
     return [
@@ -187,8 +194,10 @@ def _handoff_markdown(tag: str, head: str, bundle: Path, bundle_hash: str, repo_
 
 
 def main(argv: list[str] | None = None) -> int:
-    parser = argparse.ArgumentParser(description="Build a GitHub release handoff bundle and upload instructions.")
-    parser.add_argument("--tag", default="v0.1.0-rc1")
+    parser = argparse.ArgumentParser(
+        description="Build a GitHub release handoff bundle and upload instructions."
+    )
+    parser.add_argument("--tag", default="v0.1.0-rc2")
     parser.add_argument("--repo-url", default=None)
     args = parser.parse_args(argv)
     rows = build_handoff(args.tag, args.repo_url)

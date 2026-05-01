@@ -14,7 +14,6 @@ acceptance guarantee.
 import csv
 from pathlib import Path
 
-
 ROOT = Path(__file__).resolve().parents[1]
 OUT_TSV = ROOT / "results" / "submission" / "publication_execution_board.tsv"
 OUT_MD = ROOT / "docs" / "publication_execution_board.md"
@@ -57,7 +56,9 @@ def _write_text(path: Path, lines: list[str]) -> None:
 
 
 def _status_map(rows: list[dict[str, str]], key: str) -> dict[str, str]:
-    return {row.get(key, ""): row.get("status", "pending") for row in rows if row.get(key)}
+    return {
+        row.get(key, ""): row.get("status", "pending") for row in rows if row.get(key)
+    }
 
 
 def _journal_row(rows: list[dict[str, str]], journal: str) -> dict[str, str]:
@@ -104,10 +105,15 @@ def build_board_rows(
     nat_biotech = _journal_row(journal_rows, "Nature Biotechnology")
     genome_biology = _journal_row(journal_rows, "Genome Biology")
 
-    repo_ready = release.get("repository_url") == "pass" and release.get("github_remote") == "pass"
+    repo_ready = (
+        release.get("repository_url") == "pass"
+        and release.get("github_remote") == "pass"
+    )
     doi_ready = release.get("zenodo_doi") == "pass"
     compliance_blocked = any(row.get("status") == "blocked" for row in compliance_rows)
-    manual_pending = any(row.get("status", "").startswith("pending") for row in compliance_rows)
+    manual_pending = any(
+        row.get("status", "").startswith("pending") for row in compliance_rows
+    )
     presubmission_ready = presubmission.get("nature_methods_submission_ready") == "pass"
 
     return [
@@ -138,7 +144,11 @@ def build_board_rows(
         _board_row(
             "03_update_repository_metadata",
             "local_release",
-            "pass" if release.get("repository_url") == "pass" else "waiting_external_input",
+            (
+                "pass"
+                if release.get("repository_url") == "pass"
+                else "waiting_external_input"
+            ),
             "Codex",
             "yes_after_repo_url",
             "real repository URL",
@@ -150,12 +160,17 @@ def build_board_rows(
         _board_row(
             "04_push_source_and_tag",
             "external_release",
-            "pass" if release.get("github_remote") == "pass" and release.get("github_release_tag") == "pass" else "blocked_external",
+            (
+                "pass"
+                if release.get("github_remote") == "pass"
+                and release.get("github_release_tag") == "pass"
+                else "blocked_external"
+            ),
             "GitHub account owner + Codex",
             "yes_after_git_auth",
             "GitHub authentication and remote",
             RELEASE_READINESS,
-            "Push the current commit and tag `v0.1.0-rc1`; verify the GitHub file list excludes raw and processed data.",
+            "Push the current commit and tag `v0.1.0-rc2`; verify the GitHub file list excludes raw and processed data.",
             "Stop if GitHub auth is absent or raw data would be pushed.",
             "The local tag exists, but the remote release object does not.",
         ),
@@ -225,14 +240,21 @@ def build_board_rows(
 def _overall_status(rows: list[dict[str, str]]) -> str:
     if any(row["status"] in {"blocked", "blocked_external"} for row in rows):
         return "blocked_before_submission"
-    if any(row["status"].startswith("waiting") or row["status"].startswith("pending") for row in rows):
+    if any(
+        row["status"].startswith("waiting") or row["status"].startswith("pending")
+        for row in rows
+    ):
         return "pending_before_submission"
     return "ready_for_author_submission_review_not_acceptance_guaranteed"
 
 
 def build_markdown(rows: list[dict[str, str]]) -> list[str]:
     blocked = [row for row in rows if row["status"] in {"blocked", "blocked_external"}]
-    waiting = [row for row in rows if row["status"].startswith("waiting") or row["status"].startswith("pending")]
+    waiting = [
+        row
+        for row in rows
+        if row["status"].startswith("waiting") or row["status"].startswith("pending")
+    ]
     lines = [
         "# Publication Execution Board",
         "",
@@ -249,12 +271,18 @@ def build_markdown(rows: list[dict[str, str]]) -> list[str]:
         "",
     ]
     if blocked:
-        lines.extend(f"- `{row['step_id']}` ({row['owner']}): {row['next_action']}" for row in blocked)
+        lines.extend(
+            f"- `{row['step_id']}` ({row['owner']}): {row['next_action']}"
+            for row in blocked
+        )
     else:
         lines.append("- none")
     lines.extend(["", "## Waiting Or Manual Rows", ""])
     if waiting:
-        lines.extend(f"- `{row['step_id']}` ({row['status']}): {row['external_input_required']}" for row in waiting)
+        lines.extend(
+            f"- `{row['step_id']}` ({row['status']}): {row['external_input_required']}"
+            for row in waiting
+        )
     else:
         lines.append("- none")
     lines.extend(["", "## Execution Rows", ""])

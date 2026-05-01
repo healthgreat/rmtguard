@@ -23,7 +23,6 @@ import urllib.request
 from pathlib import Path
 from typing import Any
 
-
 ROOT = Path(__file__).resolve().parents[1]
 OUT_DIR = ROOT / "results" / "release"
 EXECUTION_TSV = OUT_DIR / "github_release_execution_plan.tsv"
@@ -42,8 +41,12 @@ def normalize_repo_url(repo_url: str) -> str:
     repo_url = repo_url.strip().rstrip("/")
     if repo_url.endswith(".git"):
         repo_url = repo_url[:-4]
-    if not re.fullmatch(r"https://github\.com/[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+", repo_url):
-        raise ValueError("Repository URL must look like https://github.com/<owner>/<repo>")
+    if not re.fullmatch(
+        r"https://github\.com/[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+", repo_url
+    ):
+        raise ValueError(
+            "Repository URL must look like https://github.com/<owner>/<repo>"
+        )
     return repo_url
 
 
@@ -52,7 +55,9 @@ def parse_repo(repo_url: str) -> tuple[str, str]:
     parsed = urllib.parse.urlparse(repo_url)
     parts = parsed.path.strip("/").split("/")
     if len(parts) != 2:
-        raise ValueError("Repository URL must look like https://github.com/<owner>/<repo>")
+        raise ValueError(
+            "Repository URL must look like https://github.com/<owner>/<repo>"
+        )
     return parts[0], parts[1]
 
 
@@ -60,7 +65,9 @@ def _token() -> str | None:
     return os.environ.get("GITHUB_TOKEN") or os.environ.get("GH_TOKEN")
 
 
-def _git(args: list[str], *, token: str | None = None, check: bool = False) -> tuple[int, str]:
+def _git(
+    args: list[str], *, token: str | None = None, check: bool = False
+) -> tuple[int, str]:
     cmd = ["git"]
     if token:
         cmd.extend(["-c", f"http.extraheader=AUTHORIZATION: bearer {token}"])
@@ -115,7 +122,13 @@ def _write_tsv(path: Path, rows: list[dict[str, str]]) -> None:
     with tmp.open("w", encoding="utf-8", newline="") as handle:
         writer = csv.DictWriter(
             handle,
-            fieldnames=["step_id", "status", "command_or_endpoint", "evidence_path", "notes"],
+            fieldnames=[
+                "step_id",
+                "status",
+                "command_or_endpoint",
+                "evidence_path",
+                "notes",
+            ],
             delimiter="\t",
         )
         writer.writeheader()
@@ -147,7 +160,9 @@ def _selected_assets(max_assets: int) -> list[Path]:
     return out
 
 
-def build_plan(repo_url: str, tag: str, upload_assets: bool = False, max_assets: int = 0) -> list[dict[str, str]]:
+def build_plan(
+    repo_url: str, tag: str, upload_assets: bool = False, max_assets: int = 0
+) -> list[dict[str, str]]:
     repo_url = normalize_repo_url(repo_url)
     owner, repo = parse_repo(repo_url)
     token_available = _token() is not None
@@ -214,7 +229,9 @@ def _set_remote(repo_url: str) -> None:
         _git(["remote", "add", "origin", remote_url], check=True)
 
 
-def _create_or_get_release(repo_url: str, tag: str, token: str, prerelease: bool) -> dict[str, Any]:
+def _create_or_get_release(
+    repo_url: str, tag: str, token: str, prerelease: bool
+) -> dict[str, Any]:
     owner, repo = parse_repo(repo_url)
     get_url = f"https://api.github.com/repos/{owner}/{repo}/releases/tags/{urllib.parse.quote(tag)}"
     status, payload = _github_api("GET", get_url, token)
@@ -252,14 +269,18 @@ def _upload_asset(upload_url_template: str, path: Path, token: str) -> str:
     return ""
 
 
-def execute(repo_url: str, tag: str, upload_assets: bool, max_assets: int, prerelease: bool) -> list[dict[str, str]]:
+def execute(
+    repo_url: str, tag: str, upload_assets: bool, max_assets: int, prerelease: bool
+) -> list[dict[str, str]]:
     token = _token()
     if token is None:
         raise RuntimeError("--execute requires GITHUB_TOKEN or GH_TOKEN")
     plan = build_plan(repo_url, tag, upload_assets=upload_assets, max_assets=max_assets)
     blocked = [row for row in plan if row["status"].startswith("blocked")]
     if blocked:
-        raise RuntimeError("Blocked release execution: " + ", ".join(row["step_id"] for row in blocked))
+        raise RuntimeError(
+            "Blocked release execution: " + ", ".join(row["step_id"] for row in blocked)
+        )
 
     _set_remote(repo_url)
     _git(["push", "-u", "origin", "HEAD:main"], token=token, check=True)
@@ -288,7 +309,9 @@ def execute(repo_url: str, tag: str, upload_assets: bool, max_assets: int, prere
     return rows
 
 
-def build_markdown(rows: list[dict[str, str]], repo_url: str, tag: str, execute_mode: bool) -> list[str]:
+def build_markdown(
+    rows: list[dict[str, str]], repo_url: str, tag: str, execute_mode: bool
+) -> list[str]:
     blocked = [row for row in rows if row["status"].startswith("blocked")]
     lines = [
         "# GitHub Release Execution",
@@ -324,13 +347,23 @@ def build_markdown(rows: list[dict[str, str]], repo_url: str, tag: str, execute_
 
 
 def main(argv: list[str] | None = None) -> int:
-    parser = argparse.ArgumentParser(description="Dry-run or execute GitHub push/release creation for RMTGuard.")
-    parser.add_argument("--repo-url", required=True, help="Real GitHub URL, e.g. https://github.com/<owner>/rmtguard")
-    parser.add_argument("--tag", default="v0.1.0-rc1")
+    parser = argparse.ArgumentParser(
+        description="Dry-run or execute GitHub push/release creation for RMTGuard."
+    )
+    parser.add_argument(
+        "--repo-url",
+        required=True,
+        help="Real GitHub URL, e.g. https://github.com/<owner>/rmtguard",
+    )
+    parser.add_argument("--tag", default="v0.1.0-rc2")
     parser.add_argument("--execute", action="store_true")
     parser.add_argument("--upload-assets", action="store_true")
     parser.add_argument("--max-assets", type=int, default=0)
-    parser.add_argument("--final-release", action="store_true", help="Mark release as non-prerelease. Default keeps rc tag as prerelease.")
+    parser.add_argument(
+        "--final-release",
+        action="store_true",
+        help="Mark release as non-prerelease. Default keeps rc tag as prerelease.",
+    )
     parser.add_argument("--out", type=Path, default=EXECUTION_TSV)
     args = parser.parse_args(argv)
 
@@ -345,12 +378,22 @@ def main(argv: list[str] | None = None) -> int:
             prerelease=not args.final_release,
         )
     else:
-        rows = build_plan(args.repo_url, args.tag, upload_assets=args.upload_assets, max_assets=args.max_assets)
+        rows = build_plan(
+            args.repo_url,
+            args.tag,
+            upload_assets=args.upload_assets,
+            max_assets=args.max_assets,
+        )
     _write_tsv(args.out, rows)
-    _write_text(EXECUTION_MD, build_markdown(rows, args.repo_url, args.tag, execute_mode=args.execute))
+    _write_text(
+        EXECUTION_MD,
+        build_markdown(rows, args.repo_url, args.tag, execute_mode=args.execute),
+    )
     print(_rel(args.out))
     print(_rel(EXECUTION_MD))
-    print(f"{'executed' if args.execute else 'dry_run'}\t{sum(row['status'].startswith('blocked') for row in rows)}")
+    print(
+        f"{'executed' if args.execute else 'dry_run'}\t{sum(row['status'].startswith('blocked') for row in rows)}"
+    )
     return 0
 
 

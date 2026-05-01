@@ -92,7 +92,7 @@ git status --short
 - Notes: Current HEAD has no release tag.
 
 ```bash
-git tag -a v0.1.0 -m "RMTGuard manuscript analysis release"
+git tag -a v0.1.0-rc2 -m "RMTGuard manuscript analysis release candidate 2"
 ```
 
 ### github_release_page
@@ -104,7 +104,7 @@ git tag -a v0.1.0 -m "RMTGuard manuscript analysis release"
 - Notes: Requires a GitHub remote and release tag; this script cannot create an account-owned repository without author authentication.
 
 ```bash
-python scripts/execute_github_release.py --repo-url https://github.com/<owner>/rmtguard --tag v0.1.0 --execute
+python scripts/execute_github_release.py --repo-url https://github.com/<owner>/rmtguard --tag v0.1.0-rc2 --execute
 ```
 
 ### zenodo_doi
