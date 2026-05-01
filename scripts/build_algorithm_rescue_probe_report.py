@@ -14,6 +14,8 @@ journal acceptance and does not change the official benchmark gate.
 import csv
 from pathlib import Path
 
+import numpy as np
+
 
 ROOT = Path(__file__).resolve().parents[1]
 OUT_DIR = ROOT / "results" / "rescue"
@@ -56,6 +58,20 @@ PROBES = [
         "path": ROOT / "results" / "stability_benchmarks_low_signal_rescue_probe" / "stability_summary.tsv",
         "tested_change": "optional stable low-signal PC rescue with pure-null guard",
         "decision_rule": "Promote only if PBMC68k improves over current RMTGuard while synthetic pure-null remains diagnostic_no_call.",
+    },
+    {
+        "probe_id": "pbmc68k_coarse_to_fine_elbow",
+        "path": ROOT / "results" / "stability_benchmarks_coarse_to_fine_probe" / "stability_summary.tsv",
+        "run_path": ROOT / "results" / "stability_benchmarks_coarse_to_fine_probe" / "pbmc68k_zheng2017_stability_runs.tsv",
+        "tested_change": "experimental label-free coarse PCA compartments followed by within-compartment RMTGuard",
+        "decision_rule": "Reject as an RMTGuard rescue if no coarse compartments receive a guarded fine split or if performance simply matches the coarse PC-rule baseline.",
+    },
+    {
+        "probe_id": "pbmc68k_coarse_to_fine_parallel",
+        "path": ROOT / "results" / "stability_benchmarks_coarse_to_fine_parallel_probe" / "stability_summary.tsv",
+        "run_path": ROOT / "results" / "stability_benchmarks_coarse_to_fine_parallel_probe" / "pbmc68k_zheng2017_stability_runs.tsv",
+        "tested_change": "experimental coarse-to-fine workflow using parallel-analysis coarse PCs",
+        "decision_rule": "Reject if the guarded fine layer never activates or stability falls below the fixed-PC comparator.",
     },
 ]
 
@@ -110,7 +126,37 @@ def _fmt(value: float) -> str:
     return f"{value:.6f}"
 
 
-def _decision(probe_id: str, dataset_id: str, mean_pairwise_ari: float, mean_cluster_n: float) -> str:
+def _mean_fine_callable(run_path: Path, dataset_id: str, method: str) -> float:
+    rows = [
+        row
+        for row in _read_tsv(run_path)
+        if row.get("dataset_id") == dataset_id and row.get("method") == method and row.get("fine_callable_compartments", "") != ""
+    ]
+    if not rows:
+        return float("nan")
+    return float(np.mean([_float(row.get("fine_callable_compartments")) for row in rows]))
+
+
+def _decision(
+    probe_id: str,
+    dataset_id: str,
+    method: str | float,
+    mean_pairwise_ari: float,
+    mean_cluster_n: float | None = None,
+    mean_fine_callable: float = float("nan"),
+) -> str:
+    if not isinstance(method, str):
+        old_mean_pairwise_ari = float(method)
+        old_mean_cluster_n = float(mean_pairwise_ari)
+        method = "rmtguard"
+        mean_pairwise_ari = old_mean_pairwise_ari
+        mean_cluster_n = old_mean_cluster_n
+    if mean_cluster_n is None:
+        mean_cluster_n = float("nan")
+    if probe_id.startswith("pbmc68k_coarse_to_fine") and method != "rmtguard_coarse_to_fine":
+        return "comparator_context"
+    if probe_id.startswith("pbmc68k_coarse_to_fine") and mean_fine_callable == mean_fine_callable and mean_fine_callable <= 0:
+        return "reject_reduces_to_coarse_baseline"
     current = CURRENT_BASELINES.get((dataset_id, "rmtguard"), float("nan"))
     delta = mean_pairwise_ari - current if current == current else float("nan")
     if probe_id.startswith("resolution_path") and dataset_id == "pbmc3k_10x" and delta > 0.02:
@@ -136,9 +182,11 @@ def build_rows(probes: list[dict[str, object]] = PROBES) -> list[dict[str, str]]
                 {
                     "probe_id": str(probe["probe_id"]),
                     "dataset_id": "not_available",
+                    "method": "not_available",
                     "tested_change": str(probe["tested_change"]),
                     "mean_pairwise_ari": "nan",
                     "mean_cluster_n": "nan",
+                    "mean_fine_callable_compartments": "nan",
                     "delta_vs_current_rmtguard": "nan",
                     "decision": "incomplete_or_missing_probe",
                     "decision_rule": str(probe["decision_rule"]),
@@ -148,19 +196,27 @@ def build_rows(probes: list[dict[str, object]] = PROBES) -> list[dict[str, str]]
             continue
         for row in source_rows:
             dataset_id = row.get("dataset_id", "")
+            method = row.get("method", "")
             mean_pairwise_ari = _float(row.get("mean_pairwise_ari"))
             mean_cluster_n = _float(row.get("mean_cluster_n"))
             current = CURRENT_BASELINES.get((dataset_id, "rmtguard"), float("nan"))
             delta = mean_pairwise_ari - current if current == current else float("nan")
+            mean_fine_callable = _mean_fine_callable(
+                Path(probe.get("run_path", "")),
+                dataset_id,
+                method,
+            ) if probe.get("run_path") else float("nan")
             rows.append(
                 {
                     "probe_id": str(probe["probe_id"]),
                     "dataset_id": dataset_id,
+                    "method": method,
                     "tested_change": str(probe["tested_change"]),
                     "mean_pairwise_ari": _fmt(mean_pairwise_ari),
                     "mean_cluster_n": _fmt(mean_cluster_n),
+                    "mean_fine_callable_compartments": _fmt(mean_fine_callable),
                     "delta_vs_current_rmtguard": _fmt(delta),
-                    "decision": _decision(str(probe["probe_id"]), dataset_id, mean_pairwise_ari, mean_cluster_n),
+                    "decision": _decision(str(probe["probe_id"]), dataset_id, method, mean_pairwise_ari, mean_cluster_n, mean_fine_callable),
                     "decision_rule": str(probe["decision_rule"]),
                     "evidence_path": _rel(path),
                 }
@@ -180,6 +236,7 @@ def build_markdown(rows: list[dict[str, str]]) -> list[str]:
         "- Resolution-path clustering improves PBMC3k stability locally but hurts Kang IFN-beta PBMC stability.",
         "- Low-signal PBMC68k probes do not resolve the collapse/no-call failure without forcing PCs.",
         "- The optional stable low-signal PC rescue keeps synthetic pure-null guarded but worsens PBMC68k stability.",
+        "- Coarse-to-fine probes improve only when they reduce to the coarse PC-rule baseline; no guarded fine layer activates on PBMC68k.",
         "- The `stability_advantage` gate therefore remains `fail`.",
         "",
         "## Probe Rows",
@@ -187,8 +244,9 @@ def build_markdown(rows: list[dict[str, str]]) -> list[str]:
     ]
     for row in rows:
         lines.append(
-            "- `{probe_id}` / `{dataset_id}`: `{decision}`; stability={mean_pairwise_ari}, "
-            "cluster_n={mean_cluster_n}, delta={delta_vs_current_rmtguard}. {tested_change}".format(**row)
+            "- `{probe_id}` / `{dataset_id}` / `{method}`: `{decision}`; stability={mean_pairwise_ari}, "
+            "cluster_n={mean_cluster_n}, fine_callable={mean_fine_callable_compartments}, "
+            "delta={delta_vs_current_rmtguard}. {tested_change}".format(**row)
         )
     lines.extend(
         [
@@ -211,9 +269,11 @@ def build_markdown(rows: list[dict[str, str]]) -> list[str]:
 FIELDNAMES = [
     "probe_id",
     "dataset_id",
+    "method",
     "tested_change",
     "mean_pairwise_ari",
     "mean_cluster_n",
+    "mean_fine_callable_compartments",
     "delta_vs_current_rmtguard",
     "decision",
     "decision_rule",

@@ -162,6 +162,55 @@ def _pc_rule_pca_labels(x, method: str, args, random_state: int) -> tuple[np.nda
     }
 
 
+def _coarse_pca_labels(x, args, random_state: int) -> tuple[np.ndarray, dict]:
+    """Build a label-free coarse partition before within-compartment RMTGuard."""
+
+    x_log = _normalize_log(x)
+    x_scaled = StandardScaler().fit_transform(x_log)
+    max_pcs = min(args.coarse_max_pcs, args.max_pcs)
+    n_components = min(max_pcs, x_scaled.shape[0] - 1, x_scaled.shape[1])
+    if n_components <= 0:
+        return np.zeros(x_scaled.shape[0], dtype=int), {
+            "coarse_pc_rule": args.coarse_pc_rule,
+            "coarse_selected_pcs": 0,
+            "coarse_embedding_pcs": 0,
+            "coarse_cluster_n": 1,
+        }
+
+    pca = PCA(n_components=n_components, random_state=random_state).fit(x_scaled)
+    if args.coarse_pc_rule == "elbow_rule":
+        selected = _choose_elbow_n_pcs(pca.explained_variance_ratio_, min_pcs=args.coarse_min_pcs)
+        rule = "curvature_elbow"
+    elif args.coarse_pc_rule == "parallel_analysis":
+        selected = _choose_parallel_analysis_n_pcs(
+            x_scaled,
+            max_pcs=n_components,
+            n_permutations=args.baseline_permutations,
+            random_state=random_state,
+        )
+        rule = "column_permutation_parallel_analysis"
+    else:
+        raise ValueError(f"Unknown coarse PC rule: {args.coarse_pc_rule}")
+
+    selected_for_embedding = min(max(1, selected), n_components)
+    pcs = pca.transform(x_scaled)[:, :selected_for_embedding]
+    n_clusters = min(args.coarse_max_clusters, _target_cluster_count(x_scaled.shape[0]), x_scaled.shape[0])
+    if n_clusters <= 1:
+        labels = np.zeros(x_scaled.shape[0], dtype=int)
+    else:
+        labels = KMeans(
+            n_clusters=n_clusters,
+            n_init=20,
+            random_state=random_state,
+        ).fit_predict(pcs)
+    return labels, {
+        "coarse_pc_rule": rule,
+        "coarse_selected_pcs": int(selected),
+        "coarse_embedding_pcs": int(selected_for_embedding),
+        "coarse_cluster_n": int(np.unique(labels).size),
+    }
+
+
 def _fit_rmtguard(
     x,
     args,
@@ -252,6 +301,57 @@ def _rmtguard_strict_signal_run(x, args, seed: int) -> tuple[np.ndarray, dict]:
     return result.cluster_labels, _rmtguard_metadata(result, args, args.resolution_rule)
 
 
+def _rmtguard_coarse_to_fine_run(x, args, seed: int) -> tuple[np.ndarray, dict]:
+    """Probe a label-free coarse-to-fine workflow without promoting it to default.
+
+    The coarse layer uses a PC-rule baseline only to define broad compartments.
+    RMTGuard is then allowed to split a compartment only when its own guarded
+    fit returns an interpretable multi-cluster result.
+    """
+
+    coarse_labels, metadata = _coarse_pca_labels(x, args, seed)
+    final_labels = np.asarray([f"coarse_{label}.no_fine_call" for label in coarse_labels], dtype=object)
+    fine_signal_pcs: list[int] = []
+    fine_embedding_pcs: list[int] = []
+    fine_ok = 0
+    fine_no_call = 0
+    fine_skipped = 0
+
+    for coarse_label in sorted(np.unique(coarse_labels)):
+        idx = np.flatnonzero(coarse_labels == coarse_label)
+        if idx.size < args.coarse_min_cells:
+            fine_skipped += 1
+            continue
+        fine_seed = int(seed + 1009 + int(coarse_label))
+        result = _fit_rmtguard(x[idx], args, fine_seed)
+        fine_signal_pcs.append(int(result.n_signal_pcs))
+        fine_embedding_pcs.append(int(result.n_embedding_pcs))
+        fine_cluster_n = int(np.unique(result.cluster_labels).size)
+        if result.analysis_status == "ok" and fine_cluster_n >= 2:
+            fine_ok += 1
+            final_labels[idx] = np.asarray(
+                [f"coarse_{coarse_label}.fine_{label}" for label in result.cluster_labels],
+                dtype=object,
+            )
+        else:
+            fine_no_call += 1
+
+    metadata.update(
+        {
+            "coarse_to_fine_rule": "label_free_coarse_pca_then_guarded_within_compartment_rmtguard",
+            "coarse_min_cells": int(args.coarse_min_cells),
+            "fine_total_compartments": int(np.unique(coarse_labels).size),
+            "fine_callable_compartments": int(fine_ok),
+            "fine_no_call_compartments": int(fine_no_call),
+            "fine_skipped_compartments": int(fine_skipped),
+            "fine_mean_signal_pcs": float(np.mean(fine_signal_pcs)) if fine_signal_pcs else "",
+            "fine_mean_embedding_pcs": float(np.mean(fine_embedding_pcs)) if fine_embedding_pcs else "",
+            "analysis_status": "experimental_probe",
+        }
+    )
+    return final_labels, metadata
+
+
 def _run_one_method(adata, method: str, args) -> list[dict]:
     rng = np.random.default_rng(args.random_state)
     rows = []
@@ -267,6 +367,8 @@ def _run_one_method(adata, method: str, args) -> list[dict]:
             labels, metadata = _rmtguard_strict_signal_run(x, args, seed)
         elif method == "rmtguard_fixed_k":
             labels, metadata = _rmtguard_fixed_k_run(x, args, seed)
+        elif method == "rmtguard_coarse_to_fine":
+            labels, metadata = _rmtguard_coarse_to_fine_run(x, args, seed)
         elif method == "fixed_pcs_30":
             labels = _fixed_pca_labels(x, 30, seed)
         elif method == "fixed_pcs_50":
@@ -384,6 +486,11 @@ def main() -> int:
     parser.add_argument("--stability-repeats", type=int, default=5)
     parser.add_argument("--random-state", type=int, default=20260427)
     parser.add_argument("--baseline-permutations", type=int, default=20)
+    parser.add_argument("--coarse-pc-rule", default="elbow_rule", choices=["elbow_rule", "parallel_analysis"])
+    parser.add_argument("--coarse-min-pcs", type=int, default=5)
+    parser.add_argument("--coarse-max-pcs", type=int, default=50)
+    parser.add_argument("--coarse-max-clusters", type=int, default=8)
+    parser.add_argument("--coarse-min-cells", type=int, default=60)
     parser.add_argument("--force", action="store_true", help="Recompute dataset checkpoints even when they already exist.")
     args = parser.parse_args()
 
