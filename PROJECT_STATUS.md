@@ -232,6 +232,13 @@ wrapper.
   premature submission-ready language. Boundary/prohibited-claim statements
   are allowed as controlled mentions; any unqualified violation blocks
   submission packaging.
+- `scripts/validate_claim_traceability.py` writes
+  `results/submission/claim_traceability.tsv` and
+  `docs/claim_traceability.md`. It verifies that figure panels,
+  editor-facing pitch rows, route decisions, and figure-caption checklists
+  trace back to the generated claim-evidence matrix or an explicit evidence
+  path. Failed or pending claims are allowed only as caveats, blockers, or
+  controlled route decisions.
 - Gate recommendation remains `continue_benchmarking` until the stability
   claim is rescued or narrowed and the external software-release evidence is
   complete.

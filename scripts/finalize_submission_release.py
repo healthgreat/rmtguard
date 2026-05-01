@@ -198,6 +198,7 @@ def _refresh_all() -> list[tuple[str, int, str]]:
         ("scripts/build_top_paper_route_package.py", []),
         ("scripts/build_editorial_presubmission_packet.py", []),
         ("scripts/lint_claim_boundaries.py", []),
+        ("scripts/validate_claim_traceability.py", []),
         ("scripts/build_presubmission_package.py", []),
         ("scripts/build_release_artifact_manifest.py", []),
         ("scripts/build_release_asset_bundle.py", []),

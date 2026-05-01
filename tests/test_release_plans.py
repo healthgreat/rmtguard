@@ -45,6 +45,7 @@ public_release_blockers = _load_script("build_public_release_blocker_report")
 top_paper_route = _load_script("build_top_paper_route_package")
 editorial_packet = _load_script("build_editorial_presubmission_packet")
 claim_lint = _load_script("lint_claim_boundaries")
+claim_traceability = _load_script("validate_claim_traceability")
 
 
 class ReleasePlanTest(unittest.TestCase):
@@ -452,6 +453,71 @@ class ReleasePlanTest(unittest.TestCase):
         text = "\n".join(lines)
         self.assertIn("Violations: `1`", text)
         self.assertIn("broad_fixed_pc_superiority", text)
+
+    def test_claim_traceability_flags_unknown_figure_claim(self) -> None:
+        claims = {"noise_control_null": {"status": "pass"}}
+        rows = claim_traceability.validate_storyline(
+            [
+                {
+                    "figure": "Figure X",
+                    "linked_claim_ids": "missing_claim",
+                    "status": "pass",
+                    "source_artifact": "README.md",
+                }
+            ],
+            claims,
+        )
+        self.assertEqual(rows[0]["trace_status"], "violation")
+        self.assertEqual(rows[0]["decision"], "unknown_claim")
+
+    def test_claim_traceability_flags_failed_claim_used_as_positive(self) -> None:
+        claims = {"pbmc3k_stability": {"status": "fail"}}
+        rows = claim_traceability.validate_storyline(
+            [
+                {
+                    "figure": "Figure 3",
+                    "linked_claim_ids": "pbmc3k_stability",
+                    "status": "pass",
+                    "source_artifact": "README.md",
+                }
+            ],
+            claims,
+        )
+        self.assertEqual(rows[0]["trace_status"], "violation")
+        self.assertEqual(rows[0]["decision"], "failed_claim_not_blocked")
+
+    def test_claim_traceability_allows_failed_claim_as_blocked_caveat(self) -> None:
+        claims = {"pbmc3k_stability": {"status": "fail"}}
+        rows = claim_traceability.validate_storyline(
+            [
+                {
+                    "figure": "Figure 3",
+                    "linked_claim_ids": "pbmc3k_stability",
+                    "status": "blocked",
+                    "source_artifact": "README.md",
+                }
+            ],
+            claims,
+        )
+        self.assertEqual(rows[0]["trace_status"], "controlled")
+        self.assertEqual(rows[0]["decision"], "caveated_claim_traceable")
+
+    def test_claim_traceability_markdown_reports_violations(self) -> None:
+        rows = [
+            {
+                "artifact": "storyline_panel_map",
+                "item_id": "Figure X",
+                "linked_claim_ids": "missing_claim",
+                "claim_statuses": "missing_claim:missing",
+                "trace_status": "violation",
+                "evidence_path": "README.md",
+                "decision": "unknown_claim",
+                "notes": "missing",
+            }
+        ]
+        text = "\n".join(claim_traceability.build_markdown(rows))
+        self.assertIn("Violations: `1`", text)
+        self.assertIn("unknown_claim", text)
 
     def test_release_asset_selection_excludes_data_paths(self) -> None:
         rows = [

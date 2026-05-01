@@ -26,6 +26,7 @@ REQUIRED_SOURCE_FILES = [
     "docs/top_paper_route_package.md",
     "docs/editorial_presubmission_packet.md",
     "docs/claim_boundary_lint.md",
+    "docs/claim_traceability.md",
     "docs/stability_gate_diagnostics.md",
     "docs/stability_utility_tradeoff.md",
     "docs/algorithm_rescue_probe_report.md",
@@ -69,6 +70,7 @@ REQUIRED_SOURCE_FILES = [
     "scripts/build_top_paper_route_package.py",
     "scripts/build_editorial_presubmission_packet.py",
     "scripts/lint_claim_boundaries.py",
+    "scripts/validate_claim_traceability.py",
     "scripts/build_manuscript_evidence_package.py",
     "scripts/build_manuscript_draft_package.py",
     "scripts/build_github_staging_plan.py",
@@ -108,6 +110,7 @@ REQUIRED_GENERATED_ARTIFACTS = [
     "results/submission/editorial_presubmission_packet.tsv",
     "results/submission/figure_claim_checklist.tsv",
     "results/submission/claim_boundary_lint.tsv",
+    "results/submission/claim_traceability.tsv",
 ]
 
 REQUIRED_FILES = REQUIRED_SOURCE_FILES + REQUIRED_GENERATED_ARTIFACTS
