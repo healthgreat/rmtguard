@@ -225,6 +225,12 @@ def build_readiness_rows() -> list[dict[str, str]]:
             "Run python scripts/build_publication_20_50_plan.py.",
         ),
         _exists_status(
+            "claim_scope_decision",
+            ROOT / "results" / "submission" / "claim_scope_decision.tsv",
+            "Claim-scope decision register is present.",
+            "Run python scripts/build_claim_scope_decision.py.",
+        ),
+        _exists_status(
             "journal_compliance_audit",
             ROOT / "results" / "submission" / "nature_methods_compliance_audit.tsv",
             "Nature Methods compliance audit is present.",

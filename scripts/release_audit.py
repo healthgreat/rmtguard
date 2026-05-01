@@ -28,6 +28,7 @@ REQUIRED_SOURCE_FILES = [
     "docs/algorithm_rescue_probe_report.md",
     "docs/no_call_benchmark.md",
     "docs/publication_20_50_rescue_plan.md",
+    "docs/claim_scope_decision.md",
     "docs/pdac_tme_showcase_depth.md",
     "docs/publication_execution_board.md",
     "docs/nature_reporting_summary_draft.md",
@@ -48,6 +49,7 @@ REQUIRED_SOURCE_FILES = [
     "scripts/build_pdac_showcase_depth_report.py",
     "scripts/build_no_call_benchmark_report.py",
     "scripts/build_publication_20_50_plan.py",
+    "scripts/build_claim_scope_decision.py",
     "scripts/build_presubmission_package.py",
     "scripts/build_journal_compliance_audit.py",
     "scripts/build_publication_execution_board.py",
@@ -88,6 +90,7 @@ REQUIRED_GENERATED_ARTIFACTS = [
     "results/pdac_tme/pdac_showcase_depth_audit.tsv",
     "results/no_call_benchmarks/no_call_summary.tsv",
     "results/gates/publication_20_50_decision.tsv",
+    "results/submission/claim_scope_decision.tsv",
 ]
 
 REQUIRED_FILES = REQUIRED_SOURCE_FILES + REQUIRED_GENERATED_ARTIFACTS

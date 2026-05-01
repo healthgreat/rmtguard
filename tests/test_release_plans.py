@@ -33,6 +33,7 @@ stability_utility = _load_script("build_stability_utility_report")
 algorithm_rescue = _load_script("build_algorithm_rescue_probe_report")
 no_call_report = _load_script("build_no_call_benchmark_report")
 publication_plan = _load_script("build_publication_20_50_plan")
+claim_scope = _load_script("build_claim_scope_decision")
 presubmission_package = _load_script("build_presubmission_package")
 journal_compliance = _load_script("build_journal_compliance_audit")
 publication_board = _load_script("build_publication_execution_board")
@@ -263,6 +264,38 @@ class ReleasePlanTest(unittest.TestCase):
         by_journal = {row["journal"]: row for row in rows}
         self.assertEqual(by_journal["Nature Methods"]["within_20_50_jif"], "yes")
         self.assertEqual(by_journal["Genome Biology"]["within_20_50_jif"], "no")
+
+    def test_claim_scope_blocks_strict_route_when_stability_fails(self) -> None:
+        gates = [
+            {"gate_id": "stability_advantage", "status": "fail"},
+            {"gate_id": "software_release", "status": "pending"},
+        ]
+        journals = [
+            {"journal": "Nature Methods", "current_readiness": "not_ready"},
+        ]
+        claims = [
+            {
+                "claim_id": "pbmc3k_stability",
+                "status": "fail",
+                "allowed_wording": "callability-aware wording",
+                "prohibited_wording": "broad fixed-PC superiority",
+            },
+            {"claim_id": "noise_control_null", "status": "pass"},
+            {"claim_id": "diagnostic_no_call_validation", "status": "pass"},
+            {"claim_id": "rare_state_retention", "status": "pass"},
+            {"claim_id": "public_benchmark_breadth", "status": "pass"},
+        ]
+        rows = claim_scope.build_rows(gates, journals, claims)
+        by_id = {row["decision_id"]: row for row in rows}
+        self.assertEqual(by_id["strict_20_50_methods_article"]["status"], "blocked_by_stability_advantage")
+        self.assertIn("guaranteed", by_id["guarantee_language"]["forbidden_claim"].lower())
+        self.assertIn("PBMC68k", by_id["pbmc68k_boundary"]["allowed_claim"])
+
+    def test_claim_scope_markdown_never_promises_acceptance(self) -> None:
+        rows = claim_scope.build_rows([], [], [])
+        text = "\n".join(claim_scope.build_markdown(rows))
+        self.assertIn("Acceptance guarantee: `impossible`", text)
+        self.assertIn("Strict 20-50 JIF route: `blocked`", text)
 
     def test_presubmission_gatekeeper_blocks_without_zenodo(self) -> None:
         gates = [

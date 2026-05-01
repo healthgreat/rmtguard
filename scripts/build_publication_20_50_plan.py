@@ -11,6 +11,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 GATE_EVIDENCE = ROOT / "results" / "gates" / "gate_evidence.tsv"
+CLAIM_SCOPE = ROOT / "results" / "submission" / "claim_scope_decision.tsv"
 OUT_TSV = ROOT / "results" / "gates" / "publication_20_50_decision.tsv"
 OUT_MD = ROOT / "docs" / "publication_20_50_rescue_plan.md"
 
@@ -144,10 +145,12 @@ def build_markdown(rows: list[dict[str, str]], gates: list[dict[str, str]]) -> l
             "3. Benchmark baselines must include Scanpy-like, fixed PCs, and at least one stronger parameter-selection baseline before final submission.",
             "4. PDAC/TME must remain a public use case unless it produces externally validated biology.",
             "5. No claim can exceed the generated claim-evidence matrix.",
+            "6. No draft may bypass the claim-scope decision register.",
             "",
             "## Source Tables",
             "",
             f"- Gate evidence: `{_rel(GATE_EVIDENCE)}`",
+            f"- Claim-scope decision: `{_rel(CLAIM_SCOPE)}`",
             f"- Publication decision TSV: `{_rel(OUT_TSV)}`",
         ]
     )

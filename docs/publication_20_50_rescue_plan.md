@@ -57,8 +57,10 @@ No one can guarantee journal acceptance. The controllable commitment is gate dis
 3. Benchmark baselines must include Scanpy-like, fixed PCs, and at least one stronger parameter-selection baseline before final submission.
 4. PDAC/TME must remain a public use case unless it produces externally validated biology.
 5. No claim can exceed the generated claim-evidence matrix.
+6. No draft may bypass the claim-scope decision register.
 
 ## Source Tables
 
 - Gate evidence: `results/gates/gate_evidence.tsv`
+- Claim-scope decision: `results/submission/claim_scope_decision.tsv`
 - Publication decision TSV: `results/gates/publication_20_50_decision.tsv`

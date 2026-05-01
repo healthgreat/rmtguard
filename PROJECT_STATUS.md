@@ -50,6 +50,11 @@ wrapper.
   publication route. It keeps Nature Methods as the realistic 20-50 target
   only if gates pass, marks Nature Biotechnology as stretch-only, and keeps
   Genome Biology as a fallback outside strict 20-50 JIF.
+- `scripts/build_claim_scope_decision.py` now locks the current claim boundary:
+  strict 20-50 submission is blocked by `stability_advantage` and
+  `software_release`, while the only usable manuscript story is a
+  callability-aware random-matrix noise-control claim with diagnostic no-call
+  boundaries.
 - `scripts/build_journal_compliance_audit.py` converts Nature Methods and
   Nature Portfolio code/data/reporting requirements into explicit local
   pass/blocked rows.
@@ -150,6 +155,11 @@ wrapper.
   `results/release/github_staging_manifest.tsv` and
   `docs/github_staging_plan.md`. It currently separates commit-ready source
   files from  data/results/figure outputs that must stay out of GitHub.
+- `docs/claim_scope_decision.md` and
+  `results/submission/claim_scope_decision.tsv` explicitly prohibit guarantee
+  language and PBMC68k positive-discovery claims. They mark the strict
+  Nature Methods 20-50 route as `blocked_by_stability_advantage` in the
+  current evidence snapshot.
 - `scripts/stage_github_release_files.py` performs a dry-run by default and
   writes `results/release/github_stage_dry_run.tsv`; it only stages files if
   explicitly called with `--execute`.

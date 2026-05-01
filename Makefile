@@ -1,4 +1,4 @@
-.PHONY: install test demo benchmark no-call phase1 stability stability-phase1 seurat-baseline stability-report stability-utility algorithm-rescue pdac-depth publication-plan journal-compliance publication-board reporting-summary-draft editorial-risk github-release-dry-run finalize-release-dry-run gates gate-results release-manifests audit clean
+.PHONY: install test demo benchmark no-call phase1 stability stability-phase1 seurat-baseline stability-report stability-utility algorithm-rescue pdac-depth publication-plan claim-scope journal-compliance publication-board reporting-summary-draft editorial-risk github-release-dry-run finalize-release-dry-run gates gate-results release-manifests audit clean
 
 install:
 	python -m pip install -e ".[scanpy,dev]"
@@ -43,6 +43,9 @@ pdac-depth:
 publication-plan:
 	python scripts/build_publication_20_50_plan.py
 
+claim-scope:
+	python scripts/build_claim_scope_decision.py
+
 journal-compliance:
 	python scripts/build_journal_compliance_audit.py
 
@@ -73,6 +76,7 @@ gate-results:
 	python scripts/update_gate_evidence_from_results.py
 	python scripts/evaluate_submission_gates.py --evidence results/gates/gate_evidence.tsv --out results/gates/gate_report.tsv
 	python scripts/build_publication_20_50_plan.py
+	python scripts/build_claim_scope_decision.py
 
 release-manifests:
 	python scripts/build_release_artifact_manifest.py
@@ -89,6 +93,7 @@ release-manifests:
 	python scripts/build_algorithm_rescue_probe_report.py
 	python scripts/build_pdac_showcase_depth_report.py
 	python scripts/build_publication_20_50_plan.py
+	python scripts/build_claim_scope_decision.py
 	python scripts/build_figure_source_data.py
 	python scripts/render_main_figures.py
 	python scripts/build_manuscript_evidence_package.py
