@@ -224,6 +224,14 @@ wrapper.
   materials bind the abstract, cover-letter pitch, figure claims, and reviewer
   responses to the generated claim matrix and keep the current do-not-send
   boundary explicit.
+- `scripts/lint_claim_boundaries.py` writes
+  `results/submission/claim_boundary_lint.tsv` and
+  `docs/claim_boundary_lint.md`. It scans journal-facing Markdown/TXT files
+  for unsupported acceptance guarantees, broad fixed-PC superiority claims,
+  PBMC68k positive-discovery claims, premature DOI/release claims, and
+  premature submission-ready language. Boundary/prohibited-claim statements
+  are allowed as controlled mentions; any unqualified violation blocks
+  submission packaging.
 - Gate recommendation remains `continue_benchmarking` until the stability
   claim is rescued or narrowed and the external software-release evidence is
   complete.

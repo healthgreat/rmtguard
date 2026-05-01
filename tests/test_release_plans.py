@@ -44,6 +44,7 @@ release_audit = _load_script("release_audit")
 public_release_blockers = _load_script("build_public_release_blocker_report")
 top_paper_route = _load_script("build_top_paper_route_package")
 editorial_packet = _load_script("build_editorial_presubmission_packet")
+claim_lint = _load_script("lint_claim_boundaries")
 
 
 class ReleasePlanTest(unittest.TestCase):
@@ -417,6 +418,40 @@ class ReleasePlanTest(unittest.TestCase):
         self.assertIn("callability-aware", rows[0]["allowed_caption_claim"])
         self.assertIn("broad fixed-PC superiority", rows[0]["prohibited_caption_claim"])
         self.assertIn("diagnostic no-call", rows[0]["must_show_caveat"])
+
+    def test_claim_boundary_lint_blocks_unqualified_acceptance_guarantee(self) -> None:
+        rows = claim_lint.scan_text(
+            ROOT / "manuscript" / "bad.md",
+            "RMTGuard has guaranteed publication in a top journal.",
+        )
+        self.assertEqual(rows[0]["rule_id"], "acceptance_guarantee")
+        self.assertEqual(rows[0]["status"], "violation")
+
+    def test_claim_boundary_lint_allows_explicit_boundary_statement(self) -> None:
+        rows = claim_lint.scan_text(
+            ROOT / "docs" / "claim_boundary_lint.md",
+            "Acceptance guarantee: `impossible`.",
+        )
+        self.assertEqual(rows[0]["rule_id"], "acceptance_guarantee")
+        self.assertEqual(rows[0]["status"], "controlled_boundary")
+
+    def test_claim_boundary_lint_blocks_pbmc68k_positive_discovery(self) -> None:
+        rows = claim_lint.scan_text(
+            ROOT / "manuscript" / "bad.md",
+            "PBMC68k produced a positive cell-state discovery success.",
+        )
+        self.assertEqual(rows[0]["rule_id"], "pbmc68k_positive_discovery")
+        self.assertEqual(rows[0]["status"], "violation")
+
+    def test_claim_boundary_lint_markdown_reports_violations(self) -> None:
+        rows = claim_lint.scan_text(
+            ROOT / "manuscript" / "bad.md",
+            "RMTGuard shows broad fixed-PC superiority.",
+        )
+        lines = claim_lint.build_markdown(rows)
+        text = "\n".join(lines)
+        self.assertIn("Violations: `1`", text)
+        self.assertIn("broad_fixed_pc_superiority", text)
 
     def test_release_asset_selection_excludes_data_paths(self) -> None:
         rows = [

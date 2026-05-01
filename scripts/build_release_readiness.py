@@ -326,6 +326,12 @@ def build_readiness_rows() -> list[dict[str, str]]:
             "Editor-facing presubmission packet is present.",
             "Run python scripts/build_editorial_presubmission_packet.py.",
         ),
+        _exists_status(
+            "claim_boundary_lint",
+            ROOT / "results" / "submission" / "claim_boundary_lint.tsv",
+            "Claim-boundary lint report is present.",
+            "Run python scripts/lint_claim_boundaries.py.",
+        ),
         _row("repository_url", url_status, ROOT / "pyproject.toml", url_notes),
         _row("github_remote", remote_status, ".git/config", remote_notes),
         _row("git_worktree", worktree_status, ".git", worktree_notes),
