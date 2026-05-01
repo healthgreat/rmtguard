@@ -260,6 +260,14 @@ wrapper.
   Nature Methods remains on hold unless the generated submission guard becomes
   candidate, and the Genome Biology fallback activates only through the
   bounded reproducible-workflow route after public release completion.
+- `scripts/build_genome_biology_transfer_package.py` writes
+  `results/submission/genome_biology_transfer_checklist.tsv`,
+  `docs/genome_biology_transfer_package.md`, and
+  `manuscript/genome_biology_cover_letter_draft.md`. It converts the current
+  `genome_biology_after_release` route into a fallback execution package while
+  preserving PBMC68k diagnostic no-call wording, Figure 3 stability caveats,
+  PDAC/TME public-use-case boundaries, and the requirement for real GitHub and
+  Zenodo release evidence before any cover letter is sent.
 - Gate recommendation remains `continue_benchmarking` until the stability
   claim is rescued or narrowed and the external software-release evidence is
   complete.

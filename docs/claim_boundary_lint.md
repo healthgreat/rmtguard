@@ -8,7 +8,7 @@ The linter blocks unsupported journal-facing claims while allowing explicit forb
 ## Summary
 
 - Violations: `0`
-- Controlled boundary mentions: `139`
+- Controlled boundary mentions: `155`
 
 ## Violations
 
@@ -45,6 +45,16 @@ The linter blocks unsupported journal-facing claims while allowing explicit forb
 - `premature_doi_release` in `docs/external_release_plan.md:136`
 - `premature_doi_release` in `docs/external_release_plan.md:147`
 - `acceptance_guarantee` in `docs/external_review_feedback_triage.md:5`
+- `acceptance_guarantee` in `docs/genome_biology_transfer_package.md:5`
+- `premature_doi_release` in `docs/genome_biology_transfer_package.md:31`
+- `premature_doi_release` in `docs/genome_biology_transfer_package.md:33`
+- `broad_fixed_pc_superiority` in `docs/genome_biology_transfer_package.md:43`
+- `pbmc68k_positive_discovery` in `docs/genome_biology_transfer_package.md:43`
+- `pbmc68k_positive_discovery` in `docs/genome_biology_transfer_package.md:52`
+- `broad_fixed_pc_superiority` in `docs/genome_biology_transfer_package.md:53`
+- `pbmc68k_positive_discovery` in `docs/genome_biology_transfer_package.md:53`
+- `pbmc68k_positive_discovery` in `docs/genome_biology_transfer_package.md:54`
+- `premature_doi_release` in `docs/genome_biology_transfer_package.md:89`
 - `premature_doi_release` in `docs/github_release_checklist.md:13`
 - `premature_doi_release` in `docs/method_risk_log.md:358`
 - `premature_doi_release` in `docs/method_risk_log.md:401`
@@ -53,10 +63,14 @@ The linter blocks unsupported journal-facing claims while allowing explicit forb
 - `pbmc68k_positive_discovery` in `docs/nature_reporting_summary_draft.md:82`
 - `premature_doi_release` in `docs/nature_reporting_summary_draft.md:103`
 - `premature_doi_release` in `docs/nature_reporting_summary_draft.md:106`
+- `acceptance_guarantee` in `docs/post_feedback_journal_route_gate.md:5`
+- `premature_doi_release` in `docs/post_feedback_journal_route_gate.md:42`
+- `premature_doi_release` in `docs/post_feedback_journal_route_gate.md:51`
+- `broad_fixed_pc_superiority` in `docs/post_feedback_journal_route_gate.md:73`
 - `acceptance_guarantee` in `docs/public_release_blocker_report.md:5`
-- `acceptance_guarantee` in `docs/public_release_blocker_report.md:32`
-- `premature_doi_release` in `docs/public_release_blocker_report.md:116`
-- `premature_submission_ready` in `docs/public_release_blocker_report.md:136`
+- `acceptance_guarantee` in `docs/public_release_blocker_report.md:31`
+- `premature_doi_release` in `docs/public_release_blocker_report.md:115`
+- `premature_submission_ready` in `docs/public_release_blocker_report.md:135`
 - `acceptance_guarantee` in `docs/publication_20_50_rescue_plan.md:7`
 - `broad_fixed_pc_superiority` in `docs/publication_20_50_rescue_plan.md:55`
 - `acceptance_guarantee` in `docs/publication_execution_board.md:8`
@@ -97,26 +111,12 @@ The linter blocks unsupported journal-facing claims while allowing explicit forb
 - `broad_fixed_pc_superiority` in `manuscript/genome_biology_conversion_draft.md:18`
 - `pbmc68k_positive_discovery` in `manuscript/genome_biology_conversion_draft.md:18`
 - `premature_doi_release` in `manuscript/genome_biology_conversion_draft.md:38`
+- `pbmc68k_positive_discovery` in `manuscript/genome_biology_cover_letter_draft.md:12`
+- `premature_doi_release` in `manuscript/genome_biology_cover_letter_draft.md:14`
 - `premature_doi_release` in `manuscript/nature_methods_outline.md:24`
 - `premature_submission_ready` in `manuscript/nature_methods_presubmission_draft.md:3`
 - `broad_fixed_pc_superiority` in `manuscript/nature_methods_presubmission_draft.md:19`
-- `broad_fixed_pc_superiority` in `manuscript/nature_methods_presubmission_draft.md:33`
-- `pbmc68k_positive_discovery` in `manuscript/nature_methods_presubmission_draft.md:33`
-- `premature_doi_release` in `manuscript/nature_methods_presubmission_draft.md:34`
-- `broad_fixed_pc_superiority` in `manuscript/nature_methods_presubmission_draft.md:39`
-- `premature_doi_release` in `manuscript/nature_methods_presubmission_draft.md:40`
-- `broad_fixed_pc_superiority` in `manuscript/nature_methods_presubmission_draft.md:54`
-- `premature_doi_release` in `manuscript/nature_methods_presubmission_draft.md:62`
-- `acceptance_guarantee` in `manuscript/nature_methods_presubmission_inquiry.md:4`
-- `broad_fixed_pc_superiority` in `manuscript/nature_methods_presubmission_inquiry.md:15`
-- `pbmc68k_positive_discovery` in `manuscript/nature_methods_presubmission_inquiry.md:15`
-- `premature_doi_release` in `manuscript/nature_methods_presubmission_inquiry.md:20`
-- `premature_submission_ready` in `manuscript/README.md:53`
-- `broad_fixed_pc_superiority` in `manuscript/reviewer_response_playbook.md:12`
-- `broad_fixed_pc_superiority` in `manuscript/reviewer_response_playbook.md:17`
-- `premature_doi_release` in `manuscript/reviewer_response_playbook.md:25`
-- `premature_doi_release` in `manuscript/reviewer_response_playbook.md:30`
-- ... 39 additional controlled mentions omitted from Markdown summary.
+- ... 55 additional controlled mentions omitted from Markdown summary.
 
 ## Submission Rule
 

@@ -28,6 +28,7 @@ REQUIRED_SOURCE_FILES = [
     "docs/editorial_presubmission_packet.md",
     "docs/external_review_feedback_triage.md",
     "docs/post_feedback_journal_route_gate.md",
+    "docs/genome_biology_transfer_package.md",
     "docs/claim_boundary_lint.md",
     "docs/claim_traceability.md",
     "docs/submission_guard.md",
@@ -79,6 +80,7 @@ REQUIRED_SOURCE_FILES = [
     "scripts/export_current_article_review_packet.py",
     "scripts/triage_external_review_feedback.py",
     "scripts/build_post_feedback_journal_route_gate.py",
+    "scripts/build_genome_biology_transfer_package.py",
     "scripts/build_manuscript_evidence_package.py",
     "scripts/build_manuscript_draft_package.py",
     "scripts/build_github_staging_plan.py",
@@ -95,6 +97,7 @@ REQUIRED_SOURCE_FILES = [
     "manuscript/nature_methods_outline.md",
     "manuscript/genome_biology_fallback_outline.md",
     "manuscript/genome_biology_conversion_draft.md",
+    "manuscript/genome_biology_cover_letter_draft.md",
     "manuscript/top_paper_claim_ladder.md",
     "manuscript/nature_methods_presubmission_inquiry.md",
     "manuscript/reviewer_response_playbook.md",
@@ -122,6 +125,7 @@ REQUIRED_GENERATED_ARTIFACTS = [
     "results/submission/submission_guard.tsv",
     "results/submission/external_review_feedback_triage.tsv",
     "results/submission/post_feedback_journal_route_gate.tsv",
+    "results/submission/genome_biology_transfer_checklist.tsv",
 ]
 
 REQUIRED_FILES = REQUIRED_SOURCE_FILES + REQUIRED_GENERATED_ARTIFACTS

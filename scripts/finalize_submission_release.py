@@ -310,7 +310,7 @@ def main(argv: list[str] | None = None) -> int:
     )
     parser.add_argument("--repo-url", default=None)
     parser.add_argument("--doi", default=None)
-    parser.add_argument("--tag", default="v0.1.0-rc5")
+    parser.add_argument("--tag", default="v0.1.0-rc6")
     parser.add_argument("--set-remote", action="store_true")
     parser.add_argument("--execute", action="store_true")
     parser.add_argument("--out", type=Path, default=PLAN_TSV)

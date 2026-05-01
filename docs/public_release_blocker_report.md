@@ -7,8 +7,8 @@ This report is a release-engineering control surface, not a promise of journal a
 
 ## Summary
 
-- Passing release checks: `1`
-- Blocking checks: `7`
+- Passing release checks: `2`
+- Blocking checks: `6`
 - Strict Nature Methods / 20-50 JIF route remains gated by real evidence, public release completion, and editorial review.
 
 ## Immediate Blockers
@@ -16,7 +16,6 @@ This report is a release-engineering control surface, not a promise of journal a
 - `github_cli_or_web_access` (blocked_external): Provide either GitHub CLI authentication or use the GitHub web UI for repository/release creation.
 - `github_remote` (blocked_external): Create a real public GitHub repository and connect this checkout to it.
 - `repository_url_metadata` (blocked_external): Replace placeholder repository URLs after the real GitHub repository exists.
-- `release_tag_at_head` (blocked_local): Create an annotated release tag only after source, docs, tests, and metadata are final.
 - `github_release_page` (blocked_external): Create a GitHub Release from the approved release tag.
 - `zenodo_doi` (blocked_external): Archive the GitHub Release with Zenodo and record the DOI.
 - `software_release_gate` (blocked): Rebuild release readiness after GitHub and Zenodo evidence are real.
@@ -85,14 +84,14 @@ git status --short
 
 ### release_tag_at_head
 
-- Status: `blocked_local`
+- Status: `pass`
 - Owner: `codex`
 - Evidence: `.git`
 - Required action: Create an annotated release tag only after source, docs, tests, and metadata are final.
-- Notes: Current HEAD has no release tag.
+- Notes: HEAD tag(s): v0.1.0-rc6
 
 ```bash
-git tag -a v0.1.0-rc5 -m "RMTGuard manuscript analysis release candidate 5"
+git tag -a v0.1.0-rc6 -m "RMTGuard manuscript analysis release candidate 6"
 ```
 
 ### github_release_page
@@ -104,7 +103,7 @@ git tag -a v0.1.0-rc5 -m "RMTGuard manuscript analysis release candidate 5"
 - Notes: Requires a GitHub remote and release tag; this script cannot create an account-owned repository without author authentication.
 
 ```bash
-python scripts/execute_github_release.py --repo-url https://github.com/<owner>/rmtguard --tag v0.1.0-rc5 --execute
+python scripts/execute_github_release.py --repo-url https://github.com/<owner>/rmtguard --tag v0.1.0-rc6 --execute
 ```
 
 ### zenodo_doi

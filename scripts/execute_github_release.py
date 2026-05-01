@@ -355,7 +355,7 @@ def main(argv: list[str] | None = None) -> int:
         required=True,
         help="Real GitHub URL, e.g. https://github.com/<owner>/rmtguard",
     )
-    parser.add_argument("--tag", default="v0.1.0-rc5")
+    parser.add_argument("--tag", default="v0.1.0-rc6")
     parser.add_argument("--execute", action="store_true")
     parser.add_argument("--upload-assets", action="store_true")
     parser.add_argument("--max-assets", type=int, default=0)

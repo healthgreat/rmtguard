@@ -50,6 +50,7 @@ submission_guard = _load_script("build_submission_guard")
 external_review_packet = _load_script("export_current_article_review_packet")
 external_review_triage = _load_script("triage_external_review_feedback")
 post_feedback_route = _load_script("build_post_feedback_journal_route_gate")
+gb_transfer = _load_script("build_genome_biology_transfer_package")
 
 
 class ReleasePlanTest(unittest.TestCase):
@@ -308,6 +309,133 @@ class ReleasePlanTest(unittest.TestCase):
         text = "\n".join(post_feedback_route.build_markdown(rows)).lower()
         self.assertIn("acceptance guarantee: `impossible`", text)
         self.assertNotIn("guaranteed acceptance", text)
+
+    def test_gb_transfer_package_prepares_after_release(self) -> None:
+        rows = gb_transfer.build_transfer_rows(
+            post_feedback_rows=[
+                {
+                    "decision_id": "overall_post_feedback_route",
+                    "decision": "genome_biology_after_release",
+                    "status": "fallback_after_release",
+                },
+                {
+                    "decision_id": "genome_biology_gate",
+                    "decision": "activate_after_release",
+                    "status": "ready_after_external_release",
+                },
+            ],
+            claim_rows=[
+                {
+                    "claim_id": "software_release",
+                    "status": "pending",
+                    "allowed_wording": "Local release checks pass.",
+                    "prohibited_wording": "Do not state DOI-archived release exists.",
+                },
+                {
+                    "claim_id": "pbmc3k_stability",
+                    "status": "fail",
+                    "allowed_wording": "Use callability-aware wording.",
+                    "prohibited_wording": "Do not claim broad fixed-PC superiority.",
+                },
+                {
+                    "claim_id": "pdac_tme_showcase",
+                    "status": "pass",
+                    "allowed_wording": "PDAC/TME use case is bounded.",
+                    "prohibited_wording": "Do not claim standalone CAF discovery.",
+                },
+            ],
+            figure_rows=[
+                {
+                    "figure": "Figure 3",
+                    "status": "blocked",
+                    "allowed_caption_claim": "Use callability-aware benchmark evidence.",
+                    "prohibited_caption_claim": "Do not claim broad superiority.",
+                    "must_show_caveat": "PBMC68k is diagnostic no-call.",
+                }
+            ],
+            release_rows=[
+                {"check_id": "repository_url", "status": "pending"},
+                {"check_id": "github_remote", "status": "pending"},
+                {"check_id": "github_release_tag", "status": "pass"},
+                {"check_id": "zenodo_doi", "status": "pending"},
+            ],
+        )
+        by_id = {row["item_id"]: row for row in rows}
+        self.assertEqual(by_id["route_activation"]["status"], "ready_after_release")
+        self.assertEqual(
+            by_id["public_release_completion"]["status"], "blocked_external"
+        )
+        self.assertEqual(by_id["figure3_reframe"]["status"], "needs_reframe")
+        self.assertEqual(
+            by_id["overall_genome_biology_transfer"]["status"],
+            "prepare_after_release",
+        )
+
+    def test_gb_transfer_package_marks_candidate_after_release_passes(self) -> None:
+        rows = gb_transfer.build_transfer_rows(
+            post_feedback_rows=[
+                {
+                    "decision_id": "overall_post_feedback_route",
+                    "decision": "genome_biology_conversion_candidate",
+                    "status": "fallback_candidate",
+                },
+                {
+                    "decision_id": "genome_biology_gate",
+                    "decision": "conversion_candidate",
+                    "status": "candidate",
+                },
+            ],
+            claim_rows=[
+                {
+                    "claim_id": "software_release",
+                    "status": "pass",
+                    "prohibited_wording": "Do not overclaim release.",
+                },
+                {
+                    "claim_id": "pbmc3k_stability",
+                    "status": "fail",
+                    "prohibited_wording": "Do not claim broad fixed-PC superiority.",
+                },
+                {
+                    "claim_id": "pdac_tme_showcase",
+                    "status": "pass",
+                    "allowed_wording": "PDAC/TME use case is bounded.",
+                    "prohibited_wording": "Do not claim standalone CAF discovery.",
+                },
+            ],
+            figure_rows=[{"figure": "Figure 3", "status": "pass"}],
+            release_rows=[
+                {"check_id": "repository_url", "status": "pass"},
+                {"check_id": "github_remote", "status": "pass"},
+                {"check_id": "github_release_tag", "status": "pass"},
+                {"check_id": "zenodo_doi", "status": "pass"},
+            ],
+        )
+        by_id = {row["item_id"]: row for row in rows}
+        self.assertEqual(
+            by_id["overall_genome_biology_transfer"]["status"],
+            "transfer_candidate",
+        )
+
+    def test_gb_transfer_outputs_never_promise_acceptance(self) -> None:
+        rows = [
+            {
+                "item_id": "overall_genome_biology_transfer",
+                "status": "prepare_after_release",
+                "owner": "Codex",
+                "evidence_path": "results/submission/genome_biology_transfer_checklist.tsv",
+                "required_action": "Finish release.",
+                "allowed_wording": "Use bounded workflow language.",
+                "forbidden_wording": "Do not claim acceptance.",
+                "notes": "zenodo_doi",
+            }
+        ]
+        markdown = "\n".join(gb_transfer.build_markdown(rows)).lower()
+        cover = "\n".join(gb_transfer.build_cover_letter(rows))
+        self.assertIn("acceptance guarantee: `impossible`", markdown)
+        self.assertNotIn("guaranteed acceptance", markdown)
+        self.assertIn("[TO CONFIRM: public GitHub URL]", cover)
+        self.assertIn("[TO CONFIRM: Zenodo DOI]", cover)
 
     def test_external_release_plan_keeps_external_steps_pending(self) -> None:
         rows = external_release.build_steps()

@@ -50,6 +50,7 @@ CORE_ARTICLE_FILES = [
     "manuscript/figure_claim_checklist.md",
     "manuscript/genome_biology_fallback_outline.md",
     "manuscript/genome_biology_conversion_draft.md",
+    "manuscript/genome_biology_cover_letter_draft.md",
 ]
 
 ADDITIONAL_REVIEW_FILES = [
@@ -62,6 +63,7 @@ ADDITIONAL_REVIEW_FILES = [
     "docs/top_paper_route_package.md",
     "docs/external_review_feedback_triage.md",
     "docs/post_feedback_journal_route_gate.md",
+    "docs/genome_biology_transfer_package.md",
     "docs/submission_guard.md",
     "docs/claim_traceability.md",
     "docs/claim_boundary_lint.md",
@@ -85,6 +87,7 @@ ADDITIONAL_REVIEW_FILES = [
     "results/submission/submission_guard.tsv",
     "results/submission/external_review_feedback_triage.tsv",
     "results/submission/post_feedback_journal_route_gate.tsv",
+    "results/submission/genome_biology_transfer_checklist.tsv",
     "results/submission/presubmission_gatekeeper.tsv",
     "results/release/release_readiness.tsv",
     "results/release/public_release_blockers.tsv",
