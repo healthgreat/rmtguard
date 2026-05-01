@@ -171,6 +171,13 @@ wrapper.
   `results/release/external_release_plan.tsv` and
   `docs/external_release_plan.md`, splitting the remaining release work into
   local dry-run-safe steps and truly external GitHub/Zenodo actions.
+- `scripts/build_public_release_blocker_report.py` writes
+  `results/release/public_release_blockers.tsv` and
+  `docs/public_release_blocker_report.md`, converting the still-missing
+  GitHub remote, release tag, GitHub Release, Zenodo DOI, and metadata
+  replacement steps into explicit owner/action/status rows. This report
+  preserves the no-acceptance-guarantee boundary while making the public
+  release blocker auditable before submission.
 - `scripts/build_manuscript_evidence_package.py` writes the claim-evidence
   matrix and `manuscript/submission_readiness.md`, keeping manuscript-safe
   claims separate from prohibited overclaims.

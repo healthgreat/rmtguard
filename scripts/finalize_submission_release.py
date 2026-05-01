@@ -18,7 +18,6 @@ import subprocess
 import sys
 from pathlib import Path
 
-
 ROOT = Path(__file__).resolve().parents[1]
 OUT_DIR = ROOT / "results" / "release"
 PLAN_TSV = OUT_DIR / "submission_release_finalization.tsv"
@@ -93,7 +92,9 @@ def _validate_repo_and_doi(repo_url: str, doi: str) -> tuple[str, str]:
     return module.normalize_repo_url(repo_url), module.normalize_doi(doi)
 
 
-def build_plan(repo_url: str | None, doi: str | None, tag: str, execute: bool = False) -> list[dict[str, str]]:
+def build_plan(
+    repo_url: str | None, doi: str | None, tag: str, execute: bool = False
+) -> list[dict[str, str]]:
     rows: list[dict[str, str]] = []
     code, status = _git(["status", "--short"])
     clean = code == 0 and not status.strip()
@@ -178,7 +179,15 @@ def _refresh_all() -> list[tuple[str, int, str]]:
         ("scripts/build_github_release_handoff.py", []),
         ("scripts/build_release_readiness.py", []),
         ("scripts/update_gate_evidence_from_results.py", []),
-        ("scripts/evaluate_submission_gates.py", ["--evidence", "results/gates/gate_evidence.tsv", "--out", "results/gates/gate_report.tsv"]),
+        (
+            "scripts/evaluate_submission_gates.py",
+            [
+                "--evidence",
+                "results/gates/gate_evidence.tsv",
+                "--out",
+                "results/gates/gate_report.tsv",
+            ],
+        ),
         ("scripts/build_publication_20_50_plan.py", []),
         ("scripts/build_manuscript_evidence_package.py", []),
         ("scripts/build_manuscript_draft_package.py", []),
@@ -189,6 +198,7 @@ def _refresh_all() -> list[tuple[str, int, str]]:
         ("scripts/build_presubmission_package.py", []),
         ("scripts/build_release_artifact_manifest.py", []),
         ("scripts/build_release_asset_bundle.py", []),
+        ("scripts/build_public_release_blocker_report.py", []),
         ("scripts/build_release_readiness.py", []),
         ("scripts/build_journal_compliance_audit.py", []),
         ("scripts/build_publication_execution_board.py", []),
@@ -205,7 +215,9 @@ def _refresh_all() -> list[tuple[str, int, str]]:
     return results
 
 
-def execute(repo_url: str, doi: str, tag: str, set_remote: bool) -> list[dict[str, str]]:
+def execute(
+    repo_url: str, doi: str, tag: str, set_remote: bool
+) -> list[dict[str, str]]:
     repo_url, doi = _validate_repo_and_doi(repo_url, doi)
     plan = build_plan(repo_url, doi, tag, execute=True)
     _require_no_blockers(plan)
@@ -215,21 +227,37 @@ def execute(repo_url: str, doi: str, tag: str, set_remote: bool) -> list[dict[st
     failed = [script for script, code, _out in refresh_results if code != 0]
     rows = build_plan(repo_url, doi, tag, execute=False)
     for row in rows:
-        if row["step_id"] in {"04_record_external_metadata", "05_rebuild_submission_artifacts"} and not failed:
+        if (
+            row["step_id"]
+            in {"04_record_external_metadata", "05_rebuild_submission_artifacts"}
+            and not failed
+        ):
             row["status"] = "executed"
     rows.append(
         {
             "step_id": "07_refresh_command_log",
             "status": "pass" if not failed else "blocked",
-            "command": "; ".join(f"{script}:{code}" for script, code, _out in refresh_results),
+            "command": "; ".join(
+                f"{script}:{code}" for script, code, _out in refresh_results
+            ),
             "evidence_path": _rel(PLAN_TSV),
-            "notes": "All refresh commands completed." if not failed else "Refresh failed at: " + ", ".join(failed),
+            "notes": (
+                "All refresh commands completed."
+                if not failed
+                else "Refresh failed at: " + ", ".join(failed)
+            ),
         }
     )
     return rows
 
 
-def build_markdown(rows: list[dict[str, str]], repo_url: str | None, doi: str | None, tag: str, execute_mode: bool) -> list[str]:
+def build_markdown(
+    rows: list[dict[str, str]],
+    repo_url: str | None,
+    doi: str | None,
+    tag: str,
+    execute_mode: bool,
+) -> list[str]:
     blocked = [row for row in rows if row["status"] == "blocked"]
     manual = [row for row in rows if row["status"] == "manual_review"]
     lines = [
@@ -272,7 +300,9 @@ def build_markdown(rows: list[dict[str, str]], repo_url: str | None, doi: str | 
 
 
 def main(argv: list[str] | None = None) -> int:
-    parser = argparse.ArgumentParser(description="Finalize local gates after real GitHub/Zenodo release metadata exists.")
+    parser = argparse.ArgumentParser(
+        description="Finalize local gates after real GitHub/Zenodo release metadata exists."
+    )
     parser.add_argument("--repo-url", default=None)
     parser.add_argument("--doi", default=None)
     parser.add_argument("--tag", default="v0.1.0-rc1")
@@ -288,10 +318,14 @@ def main(argv: list[str] | None = None) -> int:
     else:
         rows = build_plan(args.repo_url, args.doi, args.tag, execute=False)
     _write_tsv(args.out, rows)
-    _write_text(PLAN_MD, build_markdown(rows, args.repo_url, args.doi, args.tag, args.execute))
+    _write_text(
+        PLAN_MD, build_markdown(rows, args.repo_url, args.doi, args.tag, args.execute)
+    )
     print(_rel(args.out))
     print(_rel(PLAN_MD))
-    print(f"{'executed' if args.execute else 'dry_run'}\t{sum(row['status'] == 'blocked' for row in rows)}")
+    print(
+        f"{'executed' if args.execute else 'dry_run'}\t{sum(row['status'] == 'blocked' for row in rows)}"
+    )
     return 0
 
 

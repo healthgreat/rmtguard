@@ -5,7 +5,6 @@ from pathlib import Path
 import tempfile
 import unittest
 
-
 ROOT = Path(__file__).resolve().parents[1]
 
 
@@ -42,12 +41,15 @@ submission_finalizer = _load_script("finalize_submission_release")
 reporting_summary = _load_script("build_reporting_summary_draft")
 editorial_risk = _load_script("build_editorial_risk_audit")
 release_audit = _load_script("release_audit")
+public_release_blockers = _load_script("build_public_release_blocker_report")
 
 
 class ReleasePlanTest(unittest.TestCase):
     def test_artifact_classification_keeps_processed_h5ad_out_of_git(self) -> None:
         path = ROOT / "data" / "processed" / "pbmc3k_10x.h5ad"
-        artifact_type, destination, required, _notes = artifact_manifest._classify(path, ignored=True)
+        artifact_type, destination, required, _notes = artifact_manifest._classify(
+            path, ignored=True
+        )
         self.assertEqual(artifact_type, "processed_public_data")
         self.assertEqual(destination, "do_not_commit_rebuild_or_archive_large_outputs")
         self.assertEqual(required, "yes")
@@ -63,19 +65,35 @@ class ReleasePlanTest(unittest.TestCase):
 
     def test_stageable_paths_only_accepts_unignored_github_rows(self) -> None:
         rows = [
-            {"action": "stage_for_initial_commit", "path": "README.md", "git_ignored": "False"},
-            {"action": "do_not_stage", "path": "data/pbmc3k_raw.h5ad", "git_ignored": "True"},
+            {
+                "action": "stage_for_initial_commit",
+                "path": "README.md",
+                "git_ignored": "False",
+            },
+            {
+                "action": "do_not_stage",
+                "path": "data/pbmc3k_raw.h5ad",
+                "git_ignored": "True",
+            },
         ]
         self.assertEqual(stage_files.stageable_paths(rows), ["README.md"])
 
     def test_stageable_paths_refuses_ignored_stage_row(self) -> None:
-        rows = [{"action": "stage_for_initial_commit", "path": "README.md", "git_ignored": "True"}]
+        rows = [
+            {
+                "action": "stage_for_initial_commit",
+                "path": "README.md",
+                "git_ignored": "True",
+            }
+        ]
         with self.assertRaises(ValueError):
             stage_files.stageable_paths(rows)
 
     def test_repository_url_normalization(self) -> None:
         self.assertEqual(
-            repo_metadata.normalize_repo_url("https://github.com/example-lab/rmtguard.git"),
+            repo_metadata.normalize_repo_url(
+                "https://github.com/example-lab/rmtguard.git"
+            ),
             "https://github.com/example-lab/rmtguard",
         )
 
@@ -84,7 +102,12 @@ class ReleasePlanTest(unittest.TestCase):
         self.assertEqual(path.name, "rmtguard_v0.1.0-rc1_source.bundle")
 
     def test_external_release_metadata_validates_doi(self) -> None:
-        self.assertEqual(external_release_record.normalize_doi("https://doi.org/10.5281/zenodo.12345"), "10.5281/zenodo.12345")
+        self.assertEqual(
+            external_release_record.normalize_doi(
+                "https://doi.org/10.5281/zenodo.12345"
+            ),
+            "10.5281/zenodo.12345",
+        )
         with self.assertRaises(ValueError):
             external_release_record.normalize_doi("zenodo pending")
 
@@ -106,7 +129,54 @@ class ReleasePlanTest(unittest.TestCase):
         command_by_step = {row["step_id"]: row["command"] for row in rows}
         self.assertEqual(status_by_step["01_create_github_repo"], "pending_external")
         self.assertEqual(status_by_step["11_archive_with_zenodo"], "pending_external")
-        self.assertIn("stage_github_release_files.py --execute", command_by_step["05_stage_approved_files"])
+        self.assertIn(
+            "stage_github_release_files.py --execute",
+            command_by_step["05_stage_approved_files"],
+        )
+
+    def test_public_release_blocker_report_blocks_without_remote_or_doi(self) -> None:
+        rows = public_release_blockers.build_rows(
+            release_readiness_rows=[
+                {"check_id": "repository_url", "status": "pending"},
+                {"check_id": "github_remote", "status": "pending"},
+                {"check_id": "github_release_tag", "status": "pending"},
+                {"check_id": "zenodo_doi", "status": "pending"},
+            ],
+            gh_path="",
+            remote_url="",
+            worktree_clean=True,
+            head_tags=[],
+            placeholder_repo_present=True,
+            zenodo_doi_present=False,
+        )
+        by_id = {row["blocker_id"]: row for row in rows}
+        self.assertEqual(
+            by_id["github_cli_or_web_access"]["status"], "blocked_external"
+        )
+        self.assertEqual(by_id["github_remote"]["status"], "blocked_external")
+        self.assertEqual(by_id["repository_url_metadata"]["status"], "blocked_external")
+        self.assertEqual(by_id["zenodo_doi"]["status"], "blocked_external")
+        self.assertEqual(by_id["software_release_gate"]["status"], "blocked")
+
+    def test_public_release_blocker_markdown_never_promises_acceptance(self) -> None:
+        rows = public_release_blockers.build_rows(
+            release_readiness_rows=[
+                {"check_id": "repository_url", "status": "pass"},
+                {"check_id": "github_remote", "status": "pass"},
+                {"check_id": "github_release_tag", "status": "pass"},
+                {"check_id": "zenodo_doi", "status": "pass"},
+            ],
+            gh_path="gh",
+            remote_url="https://github.com/example-lab/rmtguard.git",
+            worktree_clean=True,
+            head_tags=["v0.1.0"],
+            placeholder_repo_present=False,
+            zenodo_doi_present=True,
+        )
+        lines = public_release_blockers.build_markdown(rows)
+        text = "\n".join(lines).lower()
+        self.assertIn("acceptance guarantee: `impossible`", text)
+        self.assertNotIn("guaranteed publication", text)
 
     def test_release_asset_selection_excludes_data_paths(self) -> None:
         rows = [
@@ -150,7 +220,9 @@ class ReleasePlanTest(unittest.TestCase):
     def test_manuscript_draft_keeps_not_submission_ready_boundary(self) -> None:
         claims = manuscript_evidence.build_claim_rows()
         checklist = manuscript_evidence.build_checklist_rows()
-        draft_text = "\n".join(manuscript_draft.build_presubmission_draft(claims, checklist))
+        draft_text = "\n".join(
+            manuscript_draft.build_presubmission_draft(claims, checklist)
+        )
         self.assertIn("not submission-ready", draft_text)
         self.assertIn("PBMC3k", draft_text)
         self.assertNotIn("Nature Methods ready", draft_text)
@@ -162,7 +234,9 @@ class ReleasePlanTest(unittest.TestCase):
         self.assertIn("stability_advantage", objection_ids)
         self.assertIn("software_release", objection_ids)
         status_by_id = {row["objection_id"]: row["current_status"] for row in rows}
-        self.assertIn(status_by_id["stability_advantage"], {"pass", "borderline", "fail"})
+        self.assertIn(
+            status_by_id["stability_advantage"], {"pass", "borderline", "fail"}
+        )
         self.assertEqual(status_by_id["software_release"], "pending")
 
     def test_storyline_map_preserves_callability_caveat_for_figure3(self) -> None:
@@ -175,8 +249,22 @@ class ReleasePlanTest(unittest.TestCase):
 
     def test_stability_gate_diagnostics_flags_below_floor(self) -> None:
         rows = [
-            {"dataset_id": "pbmc68k", "method": "rmtguard", "mean_pairwise_ari": "0.60", "mean_cluster_n": "1.4", "n_repeats": "5", "sample_fraction": "0.8"},
-            {"dataset_id": "pbmc68k", "method": "fixed_pcs_30", "mean_pairwise_ari": "0.81", "mean_cluster_n": "8", "n_repeats": "5", "sample_fraction": "0.8"},
+            {
+                "dataset_id": "pbmc68k",
+                "method": "rmtguard",
+                "mean_pairwise_ari": "0.60",
+                "mean_cluster_n": "1.4",
+                "n_repeats": "5",
+                "sample_fraction": "0.8",
+            },
+            {
+                "dataset_id": "pbmc68k",
+                "method": "fixed_pcs_30",
+                "mean_pairwise_ari": "0.81",
+                "mean_cluster_n": "8",
+                "n_repeats": "5",
+                "sample_fraction": "0.8",
+            },
         ]
         diagnostics = stability_gate.build_diagnostics(rows)
         self.assertEqual(diagnostics[0]["status"], "fail_below_floor")
@@ -184,9 +272,24 @@ class ReleasePlanTest(unittest.TestCase):
 
     def test_stability_utility_separates_stability_from_annotation(self) -> None:
         stability_rows = [
-            {"dataset_id": "kang", "method": "rmtguard", "mean_pairwise_ari": "0.82", "mean_cluster_n": "4"},
-            {"dataset_id": "kang", "method": "elbow_rule", "mean_pairwise_ari": "0.88", "mean_cluster_n": "8"},
-            {"dataset_id": "kang", "method": "fixed_pcs_30", "mean_pairwise_ari": "0.70", "mean_cluster_n": "8"},
+            {
+                "dataset_id": "kang",
+                "method": "rmtguard",
+                "mean_pairwise_ari": "0.82",
+                "mean_cluster_n": "4",
+            },
+            {
+                "dataset_id": "kang",
+                "method": "elbow_rule",
+                "mean_pairwise_ari": "0.88",
+                "mean_cluster_n": "8",
+            },
+            {
+                "dataset_id": "kang",
+                "method": "fixed_pcs_30",
+                "mean_pairwise_ari": "0.70",
+                "mean_cluster_n": "8",
+            },
         ]
         annotation_rows = [
             {"dataset_id": "kang", "method": "rmtguard", "ari": "0.78"},
@@ -194,11 +297,18 @@ class ReleasePlanTest(unittest.TestCase):
             {"dataset_id": "kang", "method": "fixed_pcs_30", "ari": "0.68"},
         ]
         diagnostics = [{"dataset_id": "kang", "status": "fail_below_best_baseline"}]
-        rows = stability_utility.build_rows(stability_rows, annotation_rows, diagnostics)
+        rows = stability_utility.build_rows(
+            stability_rows, annotation_rows, diagnostics
+        )
         by_method = {row["method"]: row for row in rows}
-        self.assertEqual(by_method["elbow_rule"]["utility_relation_vs_rmtguard"], "comparator_higher_stability_lower_annotation")
+        self.assertEqual(
+            by_method["elbow_rule"]["utility_relation_vs_rmtguard"],
+            "comparator_higher_stability_lower_annotation",
+        )
         self.assertEqual(by_method["elbow_rule"]["comparator_dominates_rmtguard"], "no")
-        self.assertEqual(by_method["fixed_pcs_30"]["rmtguard_dominates_comparator"], "yes")
+        self.assertEqual(
+            by_method["fixed_pcs_30"]["rmtguard_dominates_comparator"], "yes"
+        )
 
     def test_algorithm_rescue_report_rejects_harmful_probe(self) -> None:
         rows = algorithm_rescue.build_rows(
@@ -213,7 +323,9 @@ class ReleasePlanTest(unittest.TestCase):
         )
         self.assertEqual(rows[0]["decision"], "incomplete_or_missing_probe")
         self.assertEqual(
-            algorithm_rescue._decision("resolution_path_min0p8", "kang_ifnb_pbmc", 0.69, 5.6),
+            algorithm_rescue._decision(
+                "resolution_path_min0p8", "kang_ifnb_pbmc", 0.69, 5.6
+            ),
             "reject_hurts_kang_stability",
         )
 
@@ -287,8 +399,13 @@ class ReleasePlanTest(unittest.TestCase):
         ]
         rows = claim_scope.build_rows(gates, journals, claims)
         by_id = {row["decision_id"]: row for row in rows}
-        self.assertEqual(by_id["strict_20_50_methods_article"]["status"], "blocked_by_stability_advantage")
-        self.assertIn("guaranteed", by_id["guarantee_language"]["forbidden_claim"].lower())
+        self.assertEqual(
+            by_id["strict_20_50_methods_article"]["status"],
+            "blocked_by_stability_advantage",
+        )
+        self.assertIn(
+            "guaranteed", by_id["guarantee_language"]["forbidden_claim"].lower()
+        )
         self.assertIn("PBMC68k", by_id["pbmc68k_boundary"]["allowed_claim"])
 
     def test_claim_scope_markdown_never_promises_acceptance(self) -> None:
@@ -318,7 +435,9 @@ class ReleasePlanTest(unittest.TestCase):
         rows = presubmission_package.evaluate_presubmission(gates, release)
         by_check = {row["check_id"]: row for row in rows}
         self.assertEqual(by_check["scientific_gate_package"]["status"], "pass")
-        self.assertEqual(by_check["nature_methods_submission_ready"]["status"], "blocked")
+        self.assertEqual(
+            by_check["nature_methods_submission_ready"]["status"], "blocked"
+        )
 
     def test_journal_compliance_blocks_without_external_release(self) -> None:
         gates = [
@@ -344,20 +463,35 @@ class ReleasePlanTest(unittest.TestCase):
             {"check_id": "github_release_tag", "status": "pass"},
             {"check_id": "zenodo_doi", "status": "pending"},
         ]
-        presubmission = [{"check_id": "nature_methods_submission_ready", "status": "blocked"}]
-        datasets = [{"dataset_id": "pbmc3k_10x", "github_policy": "accession_and_script_only"}]
-        claims = [{"claim_id": "diagnostic_no_call_validation", "allowed_wording": "Diagnostic no-call validation passed."}]
+        presubmission = [
+            {"check_id": "nature_methods_submission_ready", "status": "blocked"}
+        ]
+        datasets = [
+            {"dataset_id": "pbmc3k_10x", "github_policy": "accession_and_script_only"}
+        ]
+        claims = [
+            {
+                "claim_id": "diagnostic_no_call_validation",
+                "allowed_wording": "Diagnostic no-call validation passed.",
+            }
+        ]
 
-        rows = journal_compliance.build_compliance_rows(gates, release, presubmission, datasets, claims)
+        rows = journal_compliance.build_compliance_rows(
+            gates, release, presubmission, datasets, claims
+        )
         by_check = {row["check_id"]: row for row in rows}
         self.assertEqual(by_check["nature_methods_scope_fit"]["status"], "pass")
         self.assertEqual(by_check["code_availability"]["status"], "blocked")
         self.assertEqual(by_check["code_doi_repository"]["status"], "blocked")
-        self.assertEqual(journal_compliance._overall_decision(rows), "not_submission_ready")
+        self.assertEqual(
+            journal_compliance._overall_decision(rows), "not_submission_ready"
+        )
 
     def test_journal_compliance_never_promises_acceptance(self) -> None:
         lines = journal_compliance.build_markdown([])
-        self.assertTrue(any("Acceptance guarantee: `not possible`" in line for line in lines))
+        self.assertTrue(
+            any("Acceptance guarantee: `not possible`" in line for line in lines)
+        )
 
     def test_publication_board_identifies_external_release_blockers(self) -> None:
         compliance = [
@@ -372,41 +506,78 @@ class ReleasePlanTest(unittest.TestCase):
             {"check_id": "github_release_tag", "status": "pass"},
             {"check_id": "zenodo_doi", "status": "pending"},
         ]
-        presubmission = [{"check_id": "nature_methods_submission_ready", "status": "blocked"}]
+        presubmission = [
+            {"check_id": "nature_methods_submission_ready", "status": "blocked"}
+        ]
         journals = [
             {
                 "journal": "Nature Methods",
                 "fit_for_current_project": "primary_target_if_gates_pass",
                 "current_readiness": "not_ready",
             },
-            {"journal": "Nature Biotechnology", "fit_for_current_project": "stretch_only"},
-            {"journal": "Genome Biology", "fit_for_current_project": "realistic_fallback_if_strict_jif_relaxed"},
+            {
+                "journal": "Nature Biotechnology",
+                "fit_for_current_project": "stretch_only",
+            },
+            {
+                "journal": "Genome Biology",
+                "fit_for_current_project": "realistic_fallback_if_strict_jif_relaxed",
+            },
         ]
-        rows = publication_board.build_board_rows(compliance, release, presubmission, journals)
+        rows = publication_board.build_board_rows(
+            compliance, release, presubmission, journals
+        )
         by_step = {row["step_id"]: row for row in rows}
-        self.assertEqual(by_step["02_create_public_github_repository"]["status"], "blocked_external")
-        self.assertEqual(by_step["05_create_github_release_and_zenodo_doi"]["status"], "blocked_external")
-        self.assertEqual(publication_board._overall_status(rows), "blocked_before_submission")
+        self.assertEqual(
+            by_step["02_create_public_github_repository"]["status"], "blocked_external"
+        )
+        self.assertEqual(
+            by_step["05_create_github_release_and_zenodo_doi"]["status"],
+            "blocked_external",
+        )
+        self.assertEqual(
+            publication_board._overall_status(rows), "blocked_before_submission"
+        )
 
     def test_publication_board_states_no_acceptance_guarantee(self) -> None:
         lines = publication_board.build_markdown([])
-        self.assertTrue(any("Acceptance guarantee: `impossible`" in line for line in lines))
+        self.assertTrue(
+            any("Acceptance guarantee: `impossible`" in line for line in lines)
+        )
 
     def test_github_release_url_parsing_and_dry_run(self) -> None:
         self.assertEqual(
-            github_release.normalize_repo_url("https://github.com/example-lab/rmtguard.git"),
+            github_release.normalize_repo_url(
+                "https://github.com/example-lab/rmtguard.git"
+            ),
             "https://github.com/example-lab/rmtguard",
         )
-        self.assertEqual(github_release.parse_repo("https://github.com/example-lab/rmtguard"), ("example-lab", "rmtguard"))
-        rows = github_release.build_plan("https://github.com/example-lab/rmtguard", "v0.1.0-rc1")
+        self.assertEqual(
+            github_release.parse_repo("https://github.com/example-lab/rmtguard"),
+            ("example-lab", "rmtguard"),
+        )
+        rows = github_release.build_plan(
+            "https://github.com/example-lab/rmtguard", "v0.1.0-rc1"
+        )
         by_step = {row["step_id"]: row for row in rows}
-        self.assertIn(by_step["02_validate_github_token"]["status"], {"ready", "blocked_external"})
+        self.assertIn(
+            by_step["02_validate_github_token"]["status"], {"ready", "blocked_external"}
+        )
         self.assertEqual(by_step["05_create_github_release"]["status"], "would_run")
 
     def test_github_release_markdown_never_promises_acceptance(self) -> None:
-        rows = github_release.build_plan("https://github.com/example-lab/rmtguard", "v0.1.0-rc1")
-        lines = github_release.build_markdown(rows, "https://github.com/example-lab/rmtguard", "v0.1.0-rc1", execute_mode=False)
-        self.assertTrue(any("Acceptance guarantee: `impossible`" in line for line in lines))
+        rows = github_release.build_plan(
+            "https://github.com/example-lab/rmtguard", "v0.1.0-rc1"
+        )
+        lines = github_release.build_markdown(
+            rows,
+            "https://github.com/example-lab/rmtguard",
+            "v0.1.0-rc1",
+            execute_mode=False,
+        )
+        self.assertTrue(
+            any("Acceptance guarantee: `impossible`" in line for line in lines)
+        )
 
     def test_submission_finalizer_blocks_without_repo_and_doi(self) -> None:
         rows = submission_finalizer.build_plan(None, None, "v0.1.0-rc1")
@@ -414,29 +585,63 @@ class ReleasePlanTest(unittest.TestCase):
         self.assertEqual(by_step["01_validate_inputs"]["status"], "blocked")
         self.assertEqual(by_step["04_record_external_metadata"]["status"], "blocked")
 
-    def test_submission_finalizer_parses_valid_inputs_and_requires_manual_tag_review(self) -> None:
-        rows = submission_finalizer.build_plan("https://github.com/example-lab/rmtguard", "10.5281/zenodo.12345", "v0.1.0-rc1")
+    def test_submission_finalizer_parses_valid_inputs_and_requires_manual_tag_review(
+        self,
+    ) -> None:
+        rows = submission_finalizer.build_plan(
+            "https://github.com/example-lab/rmtguard",
+            "10.5281/zenodo.12345",
+            "v0.1.0-rc1",
+        )
         by_step = {row["step_id"]: row for row in rows}
         self.assertEqual(by_step["01_validate_inputs"]["status"], "ready")
-        self.assertIn(by_step["03_validate_tag_state"]["status"], {"ready", "manual_review"})
-        lines = submission_finalizer.build_markdown(rows, "https://github.com/example-lab/rmtguard", "10.5281/zenodo.12345", "v0.1.0-rc1", execute_mode=False)
-        self.assertTrue(any("Acceptance guarantee: `impossible`" in line for line in lines))
+        self.assertIn(
+            by_step["03_validate_tag_state"]["status"], {"ready", "manual_review"}
+        )
+        lines = submission_finalizer.build_markdown(
+            rows,
+            "https://github.com/example-lab/rmtguard",
+            "10.5281/zenodo.12345",
+            "v0.1.0-rc1",
+            execute_mode=False,
+        )
+        self.assertTrue(
+            any("Acceptance guarantee: `impossible`" in line for line in lines)
+        )
 
     def test_reporting_summary_draft_marks_code_doi_blocked(self) -> None:
-        datasets = [{"dataset_id": "pbmc3k_10x", "accession": "NA", "github_policy": "accession_and_script_only"}]
-        claims = [{"claim_id": "noise_control_null", "allowed_wording": "Null control passes."}]
+        datasets = [
+            {
+                "dataset_id": "pbmc3k_10x",
+                "accession": "NA",
+                "github_policy": "accession_and_script_only",
+            }
+        ]
+        claims = [
+            {
+                "claim_id": "noise_control_null",
+                "allowed_wording": "Null control passes.",
+            }
+        ]
         release = [
             {"check_id": "repository_url", "status": "pending"},
             {"check_id": "zenodo_doi", "status": "pending"},
         ]
         compliance = [{"check_id": "reporting_summary", "status": "pending_manual"}]
         gates = [{"gate_id": "synthetic_null_false_signal", "status": "pass"}]
-        rows = reporting_summary.build_rows(datasets, claims, release, compliance, gates)
+        rows = reporting_summary.build_rows(
+            datasets, claims, release, compliance, gates
+        )
         by_item = {row["item"]: row for row in rows}
         self.assertEqual(by_item["Code DOI"]["status"], "blocked")
         self.assertEqual(by_item["Official form status"]["status"], "pending_manual")
         lines = reporting_summary.build_markdown(rows)
-        self.assertTrue(any("official Nature Portfolio reporting summary form" in line for line in lines))
+        self.assertTrue(
+            any(
+                "official Nature Portfolio reporting summary form" in line
+                for line in lines
+            )
+        )
 
     def test_editorial_risk_blocks_without_software_release(self) -> None:
         objections = [
@@ -452,18 +657,35 @@ class ReleasePlanTest(unittest.TestCase):
             {"check_id": "code_doi_repository", "status": "blocked"},
             {"check_id": "reporting_summary", "status": "pending_manual"},
         ]
-        journals = [{"journal": "Nature Methods", "current_readiness": "not_ready", "fit_for_current_project": "primary_target_if_gates_pass"}]
-        execution = [{"step_id": "02_create_public_github_repository", "status": "blocked_external"}]
+        journals = [
+            {
+                "journal": "Nature Methods",
+                "current_readiness": "not_ready",
+                "fit_for_current_project": "primary_target_if_gates_pass",
+            }
+        ]
+        execution = [
+            {
+                "step_id": "02_create_public_github_repository",
+                "status": "blocked_external",
+            }
+        ]
         rows = editorial_risk.build_rows(objections, compliance, journals, execution)
         by_risk = {row["risk_id"]: row for row in rows}
         self.assertEqual(by_risk["software_release_desk_reject"]["status"], "blocked")
-        self.assertEqual(editorial_risk.overall_status(rows), "blocked_before_editorial_submission")
+        self.assertEqual(
+            editorial_risk.overall_status(rows), "blocked_before_editorial_submission"
+        )
 
     def test_editorial_risk_never_promises_acceptance(self) -> None:
         lines = editorial_risk.build_markdown([])
-        self.assertTrue(any("Acceptance guarantee: `impossible`" in line for line in lines))
+        self.assertTrue(
+            any("Acceptance guarantee: `impossible`" in line for line in lines)
+        )
 
-    def test_editorial_risk_distinguishes_baseline_implementation_from_results(self) -> None:
+    def test_editorial_risk_distinguishes_baseline_implementation_from_results(
+        self,
+    ) -> None:
         with tempfile.TemporaryDirectory() as tmpdir:
             tmp = Path(tmpdir)
             phase1_runner = tmp / "run_phase1_benchmark.py"
@@ -476,9 +698,15 @@ class ReleasePlanTest(unittest.TestCase):
             phase1_summary = tmp / "phase1.tsv"
             stability_summary = tmp / "stability.tsv"
             seurat_result = tmp / "seurat.tsv"
-            phase1_summary.write_text("method\nrmtguard\nfixed_pcs_30\n", encoding="utf-8")
-            stability_summary.write_text("method\nrmtguard\nfixed_pcs_30\n", encoding="utf-8")
-            seurat_result.write_text("method\nseurat_v5_like_pcs_30\n", encoding="utf-8")
+            phase1_summary.write_text(
+                "method\nrmtguard\nfixed_pcs_30\n", encoding="utf-8"
+            )
+            stability_summary.write_text(
+                "method\nrmtguard\nfixed_pcs_30\n", encoding="utf-8"
+            )
+            seurat_result.write_text(
+                "method\nseurat_v5_like_pcs_30\n", encoding="utf-8"
+            )
 
             status = editorial_risk._baseline_support_status(
                 phase1_runner=phase1_runner,

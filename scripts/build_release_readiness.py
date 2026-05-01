@@ -5,7 +5,6 @@ import importlib.util
 import subprocess
 from pathlib import Path
 
-
 ROOT = Path(__file__).resolve().parents[1]
 OUT_DIR = ROOT / "results" / "release"
 READINESS_TSV = OUT_DIR / "release_readiness.tsv"
@@ -19,7 +18,9 @@ def _rel(path: Path) -> str:
         return str(path)
 
 
-def _row(check_id: str, status: str, evidence_path: Path | str, notes: str) -> dict[str, str]:
+def _row(
+    check_id: str, status: str, evidence_path: Path | str, notes: str
+) -> dict[str, str]:
     evidence = _rel(evidence_path) if isinstance(evidence_path, Path) else evidence_path
     return {
         "check_id": check_id,
@@ -62,14 +63,24 @@ def _release_audit_status() -> tuple[str, str]:
     code = module.main()
     if code == 0:
         return "pass", "Local release audit passed."
-    return "fail", "Local release audit failed; run python scripts/clean_artifacts.py then python scripts/release_audit.py."
+    return (
+        "fail",
+        "Local release audit failed; run python scripts/clean_artifacts.py then python scripts/release_audit.py.",
+    )
 
 
 def _placeholder_url_status() -> tuple[str, str]:
-    paths = [ROOT / "pyproject.toml", ROOT / "CITATION.cff", ROOT / "docs" / "data_and_code_availability_template.md"]
+    paths = [
+        ROOT / "pyproject.toml",
+        ROOT / "CITATION.cff",
+        ROOT / "docs" / "data_and_code_availability_template.md",
+    ]
     text = "\n".join(_text(path) for path in paths)
     if "your-lab/rmtguard" in text:
-        return "pending", "Repository URLs still contain the placeholder your-lab/rmtguard."
+        return (
+            "pending",
+            "Repository URLs still contain the placeholder your-lab/rmtguard.",
+        )
     if "github.com" in text and "rmtguard" in text.lower():
         return "pass", "Repository URLs no longer use the placeholder."
     return "pending", "Repository URL is not yet recorded in release metadata."
@@ -92,7 +103,10 @@ def _git_release_status() -> tuple[str, str]:
     code, tags = _git(["tag", "--points-at", "HEAD"])
     if code == 0 and tags:
         return "pass", f"Current HEAD has release tag(s): {tags}."
-    return "pending", "Git repository exists, but the current HEAD is not tagged for release."
+    return (
+        "pending",
+        "Git repository exists, but the current HEAD is not tagged for release.",
+    )
 
 
 def _git_remote_status() -> tuple[str, str]:
@@ -112,7 +126,9 @@ def _git_worktree_status() -> tuple[str, str]:
     return "pending", f"Git work tree has {len(lines)} uncommitted/untracked entries."
 
 
-def _exists_status(check_id: str, path: Path, pass_notes: str, missing_notes: str) -> dict[str, str]:
+def _exists_status(
+    check_id: str, path: Path, pass_notes: str, missing_notes: str
+) -> dict[str, str]:
     if path.exists() and path.stat().st_size > 0:
         return _row(check_id, "pass", path, pass_notes)
     return _row(check_id, "pending", path, missing_notes)
@@ -127,13 +143,48 @@ def build_readiness_rows() -> list[dict[str, str]]:
     worktree_status, worktree_notes = _git_worktree_status()
 
     rows = [
-        _row("local_release_audit", audit_status, ROOT / "scripts" / "release_audit.py", audit_notes),
-        _exists_status("license", ROOT / "LICENSE", "MIT license file is present.", "LICENSE file is missing."),
-        _exists_status("citation_metadata", ROOT / "CITATION.cff", "Citation metadata is present.", "CITATION.cff is missing."),
-        _exists_status("zenodo_metadata", ROOT / ".zenodo.json", "Zenodo metadata file is present.", ".zenodo.json is missing."),
-        _exists_status("ci_workflow", ROOT / ".github" / "workflows" / "ci.yml", "GitHub Actions CI workflow is present.", "CI workflow is missing."),
-        _exists_status("dockerfile", ROOT / "Dockerfile", "Dockerfile is present.", "Dockerfile is missing."),
-        _exists_status("dataset_manifest", ROOT / "metadata" / "datasets.tsv", "Public dataset manifest is present.", "Dataset manifest is missing."),
+        _row(
+            "local_release_audit",
+            audit_status,
+            ROOT / "scripts" / "release_audit.py",
+            audit_notes,
+        ),
+        _exists_status(
+            "license",
+            ROOT / "LICENSE",
+            "MIT license file is present.",
+            "LICENSE file is missing.",
+        ),
+        _exists_status(
+            "citation_metadata",
+            ROOT / "CITATION.cff",
+            "Citation metadata is present.",
+            "CITATION.cff is missing.",
+        ),
+        _exists_status(
+            "zenodo_metadata",
+            ROOT / ".zenodo.json",
+            "Zenodo metadata file is present.",
+            ".zenodo.json is missing.",
+        ),
+        _exists_status(
+            "ci_workflow",
+            ROOT / ".github" / "workflows" / "ci.yml",
+            "GitHub Actions CI workflow is present.",
+            "CI workflow is missing.",
+        ),
+        _exists_status(
+            "dockerfile",
+            ROOT / "Dockerfile",
+            "Dockerfile is present.",
+            "Dockerfile is missing.",
+        ),
+        _exists_status(
+            "dataset_manifest",
+            ROOT / "metadata" / "datasets.tsv",
+            "Public dataset manifest is present.",
+            "Dataset manifest is missing.",
+        ),
         _exists_status(
             "figure_source_data_manifest",
             ROOT / "results" / "figures" / "figure_reproducibility.tsv",
@@ -189,6 +240,12 @@ def build_readiness_rows() -> list[dict[str, str]]:
             "Run python scripts/build_external_release_plan.py.",
         ),
         _exists_status(
+            "public_release_blocker_report",
+            ROOT / "results" / "release" / "public_release_blockers.tsv",
+            "Public release blocker report is present.",
+            "Run python scripts/build_public_release_blocker_report.py.",
+        ),
+        _exists_status(
             "release_asset_manifest",
             ROOT / "results" / "release" / "release_asset_manifest.tsv",
             "Release/Zenodo asset checksum manifest is present.",
@@ -208,7 +265,10 @@ def build_readiness_rows() -> list[dict[str, str]]:
         ),
         _exists_status(
             "stability_gate_report",
-            ROOT / "results" / "stability_benchmarks" / "stability_gate_diagnostics.tsv",
+            ROOT
+            / "results"
+            / "stability_benchmarks"
+            / "stability_gate_diagnostics.tsv",
             "Multi-dataset stability gate diagnostics are present.",
             "Run python scripts/build_stability_gate_report.py.",
         ),
@@ -267,7 +327,11 @@ def write_rows(rows: list[dict[str, str]]) -> None:
     OUT_DIR.mkdir(parents=True, exist_ok=True)
     tmp = READINESS_TSV.with_suffix(READINESS_TSV.suffix + ".tmp")
     with tmp.open("w", encoding="utf-8", newline="") as handle:
-        writer = csv.DictWriter(handle, fieldnames=["check_id", "status", "evidence_path", "notes"], delimiter="\t")
+        writer = csv.DictWriter(
+            handle,
+            fieldnames=["check_id", "status", "evidence_path", "notes"],
+            delimiter="\t",
+        )
         writer.writeheader()
         writer.writerows(rows)
     tmp.replace(READINESS_TSV)
@@ -287,7 +351,9 @@ def write_summary(rows: list[dict[str, str]]) -> None:
         "Blocking or pending items:",
     ]
     if blocking:
-        lines.extend(f"- {row['check_id']}: {row['status']} - {row['notes']}" for row in blocking)
+        lines.extend(
+            f"- {row['check_id']}: {row['status']} - {row['notes']}" for row in blocking
+        )
     else:
         lines.append("- none")
     lines.extend(
