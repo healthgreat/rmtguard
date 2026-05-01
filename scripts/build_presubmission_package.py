@@ -162,6 +162,7 @@ def package_files(tag: str) -> list[Path]:
         ROOT / "docs" / "editorial_presubmission_packet.md",
         ROOT / "docs" / "claim_boundary_lint.md",
         ROOT / "docs" / "claim_traceability.md",
+        ROOT / "docs" / "submission_guard.md",
         ROOT / "manuscript" / "top_paper_claim_ladder.md",
         ROOT / "manuscript" / "nature_methods_presubmission_inquiry.md",
         ROOT / "manuscript" / "reviewer_response_playbook.md",
@@ -169,6 +170,7 @@ def package_files(tag: str) -> list[Path]:
         ROOT / "results" / "release" / "github_release_handoff_manifest.tsv",
         ROOT / "results" / "submission" / "claim_boundary_lint.tsv",
         ROOT / "results" / "submission" / "claim_traceability.tsv",
+        ROOT / "results" / "submission" / "submission_guard.tsv",
         ROOT / "results" / "release" / "github_release_handoff.md",
         ROOT / "results" / "release" / f"rmtguard_{tag}_source.bundle",
     ]

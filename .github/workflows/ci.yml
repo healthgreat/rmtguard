@@ -22,5 +22,11 @@ jobs:
         run: python benchmarks/run_synthetic_benchmark.py --n-cells 120 --n-genes 250 --hvg-grid 80 160 --max-pcs 20
       - name: Submission gate report
         run: python scripts/evaluate_submission_gates.py
+      - name: Claim boundary lint
+        run: python scripts/lint_claim_boundaries.py
+      - name: Claim traceability
+        run: python scripts/validate_claim_traceability.py
+      - name: Submission guard
+        run: python scripts/build_submission_guard.py
       - name: Release audit
         run: python scripts/release_audit.py --source-only

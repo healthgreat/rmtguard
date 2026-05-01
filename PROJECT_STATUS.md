@@ -239,6 +239,12 @@ wrapper.
   trace back to the generated claim-evidence matrix or an explicit evidence
   path. Failed or pending claims are allowed only as caveats, blockers, or
   controlled route decisions.
+- `scripts/build_submission_guard.py` writes
+  `results/submission/submission_guard.tsv` and
+  `docs/submission_guard.md`. This is the single top-level go/no-go table
+  aggregating scientific gates, presubmission gatekeeper, public release
+  objects, claim-boundary lint, traceability, route decision, and editor-send
+  status. The current expected status is `do_not_submit`.
 - Gate recommendation remains `continue_benchmarking` until the stability
   claim is rescued or narrowed and the external software-release evidence is
   complete.

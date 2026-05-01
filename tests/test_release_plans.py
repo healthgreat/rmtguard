@@ -46,6 +46,7 @@ top_paper_route = _load_script("build_top_paper_route_package")
 editorial_packet = _load_script("build_editorial_presubmission_packet")
 claim_lint = _load_script("lint_claim_boundaries")
 claim_traceability = _load_script("validate_claim_traceability")
+submission_guard = _load_script("build_submission_guard")
 
 
 class ReleasePlanTest(unittest.TestCase):
@@ -1091,6 +1092,107 @@ class ReleasePlanTest(unittest.TestCase):
             )
             status = editorial_risk._pdac_depth_status(path)
             self.assertEqual(status["status"], "active_risk")
+
+    def test_submission_guard_blocks_current_not_ready_route(self) -> None:
+        gates = [
+            {"gate_id": "synthetic_null_false_signal", "status": "pass"},
+            {"gate_id": "stability_advantage", "status": "fail"},
+            {"gate_id": "software_release", "status": "pending"},
+        ]
+        presubmission = [
+            {"check_id": "nature_methods_submission_ready", "status": "blocked"}
+        ]
+        release = [
+            {"check_id": "repository_url", "status": "pending"},
+            {"check_id": "github_remote", "status": "pending"},
+            {"check_id": "github_release_tag", "status": "pending"},
+            {"check_id": "zenodo_doi", "status": "pending"},
+        ]
+        routes = [
+            {
+                "route_id": "nature_methods_first",
+                "decision": "hold_pre_submission",
+            }
+        ]
+        editorial = [{"item_id": "send_status", "status": "do_not_send"}]
+
+        rows = submission_guard.build_guard_rows(
+            gates,
+            presubmission,
+            release,
+            [],
+            [],
+            routes,
+            editorial,
+        )
+        by_guard = {row["guard_id"]: row for row in rows}
+        self.assertEqual(by_guard["scientific_gates"]["status"], "blocked")
+        self.assertEqual(by_guard["external_release"]["status"], "blocked")
+        self.assertEqual(
+            by_guard["overall_submission_guard"]["status"], "do_not_submit"
+        )
+        self.assertIn(
+            "stability_advantage", by_guard["scientific_gates"]["blocking_items"]
+        )
+
+    def test_submission_guard_marks_claim_lint_violation_as_integrity_issue(
+        self,
+    ) -> None:
+        rows = submission_guard.build_guard_rows(
+            [{"gate_id": "synthetic_null_false_signal", "status": "pass"}],
+            [],
+            [],
+            [
+                {
+                    "rule_id": "acceptance_guarantee",
+                    "status": "violation",
+                    "path": "manuscript/cover_letter.md",
+                    "line": "12",
+                }
+            ],
+            [],
+            [{"route_id": "nature_methods_first", "decision": "submission_candidate"}],
+            [{"item_id": "send_status", "status": "send_ready"}],
+        )
+        by_guard = {row["guard_id"]: row for row in rows}
+        self.assertEqual(
+            by_guard["claim_boundary_lint"]["status"], "integrity_violation"
+        )
+        self.assertEqual(
+            by_guard["overall_submission_guard"]["status"], "do_not_submit"
+        )
+
+    def test_submission_guard_parses_gate_report_preamble(self) -> None:
+        with tempfile.TemporaryDirectory() as tmpdir:
+            report = Path(tmpdir) / "gate_report.tsv"
+            report.write_text(
+                "RMTGuard submission gate summary\n"
+                "recommendation\tcontinue_benchmarking\n"
+                "gate_id\tstatus\tcategory\tnature_methods_requirement\n"
+                "stability_advantage\tfail\tbenchmark\tNeed stronger stability.\n",
+                encoding="utf-8",
+            )
+            rows = submission_guard._read_tsv_from_header(report, "gate_id")
+        self.assertEqual(rows[0]["gate_id"], "stability_advantage")
+        self.assertEqual(rows[0]["status"], "fail")
+
+    def test_submission_guard_markdown_never_promises_acceptance(self) -> None:
+        lines = submission_guard.build_markdown(
+            [
+                {
+                    "guard_id": "overall_submission_guard",
+                    "status": "do_not_submit",
+                    "severity": "blocking",
+                    "evidence_path": "results/submission/submission_guard.tsv",
+                    "blocking_items": "scientific_gates",
+                    "required_action": "Resolve blockers.",
+                    "notes": "Acceptance guarantee remains impossible.",
+                }
+            ]
+        )
+        text = "\n".join(lines)
+        self.assertIn("Acceptance guarantee: `impossible`", text)
+        self.assertNotIn("guaranteed acceptance", text.lower())
 
 
 if __name__ == "__main__":

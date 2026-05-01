@@ -8,7 +8,7 @@ The linter blocks unsupported journal-facing claims while allowing explicit forb
 ## Summary
 
 - Violations: `0`
-- Controlled boundary mentions: `137`
+- Controlled boundary mentions: `139`
 
 ## Violations
 
@@ -66,6 +66,8 @@ The linter blocks unsupported journal-facing claims while allowing explicit forb
 - `premature_doi_release` in `docs/publication_strategy.md:27`
 - `broad_fixed_pc_superiority` in `docs/stability_gate_diagnostics.md:7`
 - `broad_fixed_pc_superiority` in `docs/stability_utility_tradeoff.md:8`
+- `acceptance_guarantee` in `docs/submission_guard.md:5`
+- `premature_submission_ready` in `docs/submission_guard.md:62`
 - `acceptance_guarantee` in `docs/top_paper_route_package.md:5`
 - `premature_doi_release` in `docs/top_paper_route_package.md:69`
 - `pbmc68k_positive_discovery` in `docs/top_paper_route_package.md:106`
@@ -114,9 +116,7 @@ The linter blocks unsupported journal-facing claims while allowing explicit forb
 - `broad_fixed_pc_superiority` in `manuscript/reviewer_response_playbook.md:17`
 - `premature_doi_release` in `manuscript/reviewer_response_playbook.md:25`
 - `premature_doi_release` in `manuscript/reviewer_response_playbook.md:30`
-- `pbmc68k_positive_discovery` in `manuscript/reviewer_response_playbook.md:91`
-- `broad_fixed_pc_superiority` in `manuscript/submission_readiness.md:12`
-- ... 37 additional controlled mentions omitted from Markdown summary.
+- ... 39 additional controlled mentions omitted from Markdown summary.
 
 ## Submission Rule
 
