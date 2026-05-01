@@ -320,6 +320,12 @@ def build_readiness_rows() -> list[dict[str, str]]:
             "Top-paper journal routing package is present.",
             "Run python scripts/build_top_paper_route_package.py.",
         ),
+        _exists_status(
+            "editorial_presubmission_packet",
+            ROOT / "results" / "submission" / "editorial_presubmission_packet.tsv",
+            "Editor-facing presubmission packet is present.",
+            "Run python scripts/build_editorial_presubmission_packet.py.",
+        ),
         _row("repository_url", url_status, ROOT / "pyproject.toml", url_notes),
         _row("github_remote", remote_status, ".git/config", remote_notes),
         _row("git_worktree", worktree_status, ".git", worktree_notes),

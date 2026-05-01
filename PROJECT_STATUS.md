@@ -216,6 +216,14 @@ wrapper.
   route: Nature Methods first remains on hold until gates and public release
   pass, while the most realistic fallback is a Genome Biology-style
   reproducible genomics workflow after GitHub/Zenodo release completion.
+- `scripts/build_editorial_presubmission_packet.py` writes the editor-facing
+  controlled drafts: `docs/editorial_presubmission_packet.md`,
+  `manuscript/nature_methods_presubmission_inquiry.md`,
+  `manuscript/reviewer_response_playbook.md`,
+  `manuscript/figure_claim_checklist.md`, and their TSV source tables. These
+  materials bind the abstract, cover-letter pitch, figure claims, and reviewer
+  responses to the generated claim matrix and keep the current do-not-send
+  boundary explicit.
 - Gate recommendation remains `continue_benchmarking` until the stability
   claim is rescued or narrowed and the external software-release evidence is
   complete.

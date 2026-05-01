@@ -6,7 +6,6 @@ import hashlib
 import zipfile
 from pathlib import Path
 
-
 ROOT = Path(__file__).resolve().parents[1]
 OUT_DIR = ROOT / "results" / "submission"
 GATEKEEPER_TSV = OUT_DIR / "presubmission_gatekeeper.tsv"
@@ -63,15 +62,24 @@ def _status_map(rows: list[dict[str, str]], key: str) -> dict[str, str]:
     return {row.get(key, ""): row.get("status", "pending") for row in rows}
 
 
-def evaluate_presubmission(gate_rows: list[dict[str, str]], release_rows: list[dict[str, str]]) -> list[dict[str, str]]:
+def evaluate_presubmission(
+    gate_rows: list[dict[str, str]], release_rows: list[dict[str, str]]
+) -> list[dict[str, str]]:
     gate_status = _status_map(gate_rows, "gate_id")
     release_status = _status_map(release_rows, "check_id")
     scientific_gates = [gate for gate in gate_status if gate != "software_release"]
-    scientific_pass = bool(scientific_gates) and all(gate_status.get(gate) == "pass" for gate in scientific_gates)
+    scientific_pass = bool(scientific_gates) and all(
+        gate_status.get(gate) == "pass" for gate in scientific_gates
+    )
     software_pass = gate_status.get("software_release") == "pass"
     external_release_pass = all(
         release_status.get(check_id) == "pass"
-        for check_id in ["repository_url", "github_remote", "github_release_tag", "zenodo_doi"]
+        for check_id in [
+            "repository_url",
+            "github_remote",
+            "github_release_tag",
+            "zenodo_doi",
+        ]
     )
     nature_methods_ready = scientific_pass and software_pass and external_release_pass
     rows = [
@@ -79,11 +87,19 @@ def evaluate_presubmission(gate_rows: list[dict[str, str]], release_rows: list[d
             "check_id": "scientific_gate_package",
             "status": "pass" if scientific_pass else "blocked",
             "evidence_path": _rel(GATE_EVIDENCE),
-            "notes": "All non-software gates pass." if scientific_pass else "One or more non-software gates are not pass.",
+            "notes": (
+                "All non-software gates pass."
+                if scientific_pass
+                else "One or more non-software gates are not pass."
+            ),
         },
         {
             "check_id": "callability_boundary",
-            "status": "pass" if gate_status.get("stability_advantage") == "pass" else "blocked",
+            "status": (
+                "pass"
+                if gate_status.get("stability_advantage") == "pass"
+                else "blocked"
+            ),
             "evidence_path": _rel(GATE_EVIDENCE),
             "notes": "Stability is pass only under callability-aware no-call wording; do not claim broad fixed-PC superiority.",
         },
@@ -142,6 +158,12 @@ def package_files(tag: str) -> list[Path]:
         ROOT / "docs" / "nature_reporting_summary_draft.md",
         ROOT / "results" / "submission" / "editorial_risk_audit.tsv",
         ROOT / "docs" / "editorial_risk_audit.md",
+        ROOT / "docs" / "top_paper_route_package.md",
+        ROOT / "docs" / "editorial_presubmission_packet.md",
+        ROOT / "manuscript" / "top_paper_claim_ladder.md",
+        ROOT / "manuscript" / "nature_methods_presubmission_inquiry.md",
+        ROOT / "manuscript" / "reviewer_response_playbook.md",
+        ROOT / "manuscript" / "figure_claim_checklist.md",
         ROOT / "results" / "release" / "github_release_handoff_manifest.tsv",
         ROOT / "results" / "release" / "github_release_handoff.md",
         ROOT / "results" / "release" / f"rmtguard_{tag}_source.bundle",
@@ -186,7 +208,11 @@ def write_package(zip_path: Path, manifest_rows: list[dict[str, str]]) -> None:
     tmp.replace(zip_path)
 
 
-def build_report(gatekeeper_rows: list[dict[str, str]], manifest_rows: list[dict[str, str]], package_zip: Path) -> list[str]:
+def build_report(
+    gatekeeper_rows: list[dict[str, str]],
+    manifest_rows: list[dict[str, str]],
+    package_zip: Path,
+) -> list[str]:
     blocked = [row for row in gatekeeper_rows if row["status"] != "pass"]
     missing = [row for row in manifest_rows if row["package_status"] != "included"]
     lines = [
@@ -197,7 +223,11 @@ def build_report(gatekeeper_rows: list[dict[str, str]], manifest_rows: list[dict
         "## Decision",
         "",
         "- Target journal route: `Nature Methods` within the 20-50 JIF target band.",
-        "- Current status: `not_submission_ready`." if blocked else "- Current status: `submission_ready_for_editorial_review`.",
+        (
+            "- Current status: `not_submission_ready`."
+            if blocked
+            else "- Current status: `submission_ready_for_editorial_review`."
+        ),
         "- Acceptance guarantee: `not possible`; this package enforces evidence and release gates.",
         "- Journal compliance audit: `results/submission/nature_methods_compliance_audit.tsv`.",
         "- Publication execution board: `results/submission/publication_execution_board.tsv`.",
@@ -223,6 +253,7 @@ def build_report(gatekeeper_rows: list[dict[str, str]], manifest_rows: list[dict
             "## Claim Boundary",
             "",
             "The stability result is valid only as a callability-aware stability/no-call result. PBMC68k is a diagnostic no-call, not a positive cell-state discovery. Do not claim broad superiority over fixed-PC baselines.",
+            "Editor-facing drafts are controlled outputs and must not be sent until the public release and scientific gate boundaries are current.",
             "",
         ]
     )
@@ -230,15 +261,27 @@ def build_report(gatekeeper_rows: list[dict[str, str]], manifest_rows: list[dict
 
 
 def main(argv: list[str] | None = None) -> int:
-    parser = argparse.ArgumentParser(description="Build the local Nature Methods presubmission package and gatekeeper report.")
+    parser = argparse.ArgumentParser(
+        description="Build the local Nature Methods presubmission package and gatekeeper report."
+    )
     parser.add_argument("--tag", default="v0.1.0-rc1")
     parser.add_argument("--zip", type=Path, default=PACKAGE_ZIP)
     args = parser.parse_args(argv)
 
-    gatekeeper_rows = evaluate_presubmission(_read_tsv(GATE_EVIDENCE), _read_tsv(RELEASE_READINESS))
+    gatekeeper_rows = evaluate_presubmission(
+        _read_tsv(GATE_EVIDENCE), _read_tsv(RELEASE_READINESS)
+    )
     manifest_rows = build_manifest(package_files(args.tag))
-    _write_tsv(GATEKEEPER_TSV, gatekeeper_rows, ["check_id", "status", "evidence_path", "notes"])
-    _write_tsv(PACKAGE_MANIFEST, manifest_rows, ["path", "package_status", "size_bytes", "sha256", "notes"])
+    _write_tsv(
+        GATEKEEPER_TSV,
+        gatekeeper_rows,
+        ["check_id", "status", "evidence_path", "notes"],
+    )
+    _write_tsv(
+        PACKAGE_MANIFEST,
+        manifest_rows,
+        ["path", "package_status", "size_bytes", "sha256", "notes"],
+    )
     write_package(args.zip, manifest_rows)
     _write_text(REPORT_MD, build_report(gatekeeper_rows, manifest_rows, args.zip))
     print(_rel(GATEKEEPER_TSV))

@@ -43,6 +43,7 @@ editorial_risk = _load_script("build_editorial_risk_audit")
 release_audit = _load_script("release_audit")
 public_release_blockers = _load_script("build_public_release_blocker_report")
 top_paper_route = _load_script("build_top_paper_route_package")
+editorial_packet = _load_script("build_editorial_presubmission_packet")
 
 
 class ReleasePlanTest(unittest.TestCase):
@@ -332,6 +333,90 @@ class ReleasePlanTest(unittest.TestCase):
         self.assertIn(
             "do not present genome biology as a strict 20-50 jif target", draft
         )
+
+    def test_editorial_packet_keeps_presubmission_inquiry_do_not_send(self) -> None:
+        claims = [
+            {
+                "claim_id": "noise_control_null",
+                "allowed_wording": "Pure-null benchmark passed.",
+                "prohibited_wording": "Do not claim universal calibration.",
+            },
+            {
+                "claim_id": "diagnostic_no_call_validation",
+                "allowed_wording": "Diagnostic no-call validation passed.",
+                "prohibited_wording": "Do not call no-calls discoveries.",
+            },
+            {
+                "claim_id": "rare_state_retention",
+                "allowed_wording": "Rare-state retention passed.",
+                "prohibited_wording": "Do not guarantee all rare states.",
+            },
+            {
+                "claim_id": "public_benchmark_breadth",
+                "allowed_wording": "Four public datasets are present.",
+                "prohibited_wording": "Do not claim extra datasets.",
+            },
+            {
+                "claim_id": "pbmc3k_stability",
+                "allowed_wording": "Use callability-aware benchmark wording.",
+                "prohibited_wording": "Do not claim broad fixed-PC superiority.",
+            },
+        ]
+        objections = [
+            {
+                "objection_id": "stability_advantage",
+                "response_strategy": "Disclose diagnostic no-call boundaries.",
+            }
+        ]
+        routes = [
+            {
+                "route_id": "nature_methods_first",
+                "next_action": "Resolve software release and claim boundaries.",
+            },
+            {
+                "route_id": "genome_biology_fallback",
+                "decision": "activate_after_software_release",
+                "next_action": "Complete public release.",
+            },
+        ]
+        blockers = [
+            {"blocker_id": "github_remote", "status": "blocked_external"},
+            {"blocker_id": "zenodo_doi", "status": "blocked_external"},
+        ]
+        rows = editorial_packet.build_packet_rows(claims, objections, routes, blockers)
+        by_id = {row["item_id"]: row for row in rows}
+        self.assertEqual(by_id["send_status"]["status"], "do_not_send")
+        self.assertEqual(by_id["software_release_disclosure"]["status"], "blocked")
+        inquiry = "\n".join(editorial_packet.build_inquiry_markdown(rows)).lower()
+        self.assertIn("status: do not send", inquiry)
+        self.assertIn("acceptance guarantee: `impossible`", inquiry)
+        self.assertNotIn("guaranteed publication", inquiry)
+
+    def test_editorial_figure_checklist_preserves_prohibited_caption_claims(
+        self,
+    ) -> None:
+        storyline = [
+            {
+                "figure": "Figure 3",
+                "status": "blocked",
+                "linked_claim_ids": "pbmc3k_stability",
+                "caveat": "PBMC68k is diagnostic no-call.",
+                "source_artifact": "figure3.tsv",
+                "manuscript_use": "Use as callability-aware benchmark evidence.",
+            }
+        ]
+        claims = [
+            {
+                "claim_id": "pbmc3k_stability",
+                "allowed_wording": "Use callability-aware benchmark wording.",
+                "prohibited_wording": "Do not claim broad fixed-PC superiority.",
+            }
+        ]
+        rows = editorial_packet.build_figure_rows(storyline, claims)
+        self.assertEqual(rows[0]["figure"], "Figure 3")
+        self.assertIn("callability-aware", rows[0]["allowed_caption_claim"])
+        self.assertIn("broad fixed-PC superiority", rows[0]["prohibited_caption_claim"])
+        self.assertIn("diagnostic no-call", rows[0]["must_show_caveat"])
 
     def test_release_asset_selection_excludes_data_paths(self) -> None:
         rows = [

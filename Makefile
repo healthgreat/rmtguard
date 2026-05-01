@@ -1,4 +1,4 @@
-.PHONY: install test demo benchmark no-call phase1 stability stability-phase1 seurat-baseline stability-report stability-utility algorithm-rescue pdac-depth publication-plan claim-scope journal-compliance publication-board reporting-summary-draft editorial-risk public-release-blockers top-paper-route github-release-dry-run finalize-release-dry-run gates gate-results release-manifests audit clean
+.PHONY: install test demo benchmark no-call phase1 stability stability-phase1 seurat-baseline stability-report stability-utility algorithm-rescue pdac-depth publication-plan claim-scope journal-compliance publication-board reporting-summary-draft editorial-risk public-release-blockers top-paper-route editorial-presubmission github-release-dry-run finalize-release-dry-run gates gate-results release-manifests audit clean
 
 install:
 	python -m pip install -e ".[scanpy,dev]"
@@ -64,6 +64,9 @@ public-release-blockers:
 top-paper-route:
 	python scripts/build_top_paper_route_package.py
 
+editorial-presubmission:
+	python scripts/build_editorial_presubmission_packet.py
+
 github-release-dry-run:
 	python scripts/execute_github_release.py --repo-url https://github.com/your-lab/rmtguard
 
@@ -110,6 +113,7 @@ release-manifests:
 	python scripts/build_reporting_summary_draft.py
 	python scripts/build_editorial_risk_audit.py
 	python scripts/build_top_paper_route_package.py
+	python scripts/build_editorial_presubmission_packet.py
 	python scripts/build_release_readiness.py
 	python scripts/build_journal_compliance_audit.py
 	python scripts/build_publication_execution_board.py

@@ -24,6 +24,7 @@ REQUIRED_SOURCE_FILES = [
     "docs/external_release_plan.md",
     "docs/public_release_blocker_report.md",
     "docs/top_paper_route_package.md",
+    "docs/editorial_presubmission_packet.md",
     "docs/stability_gate_diagnostics.md",
     "docs/stability_utility_tradeoff.md",
     "docs/algorithm_rescue_probe_report.md",
@@ -65,6 +66,7 @@ REQUIRED_SOURCE_FILES = [
     "scripts/build_external_release_plan.py",
     "scripts/build_public_release_blocker_report.py",
     "scripts/build_top_paper_route_package.py",
+    "scripts/build_editorial_presubmission_packet.py",
     "scripts/build_manuscript_evidence_package.py",
     "scripts/build_manuscript_draft_package.py",
     "scripts/build_github_staging_plan.py",
@@ -82,6 +84,9 @@ REQUIRED_SOURCE_FILES = [
     "manuscript/genome_biology_fallback_outline.md",
     "manuscript/genome_biology_conversion_draft.md",
     "manuscript/top_paper_claim_ladder.md",
+    "manuscript/nature_methods_presubmission_inquiry.md",
+    "manuscript/reviewer_response_playbook.md",
+    "manuscript/figure_claim_checklist.md",
     ".github/workflows/ci.yml",
 ]
 
@@ -98,6 +103,8 @@ REQUIRED_GENERATED_ARTIFACTS = [
     "results/submission/claim_scope_decision.tsv",
     "results/release/public_release_blockers.tsv",
     "results/submission/top_paper_route_decision.tsv",
+    "results/submission/editorial_presubmission_packet.tsv",
+    "results/submission/figure_claim_checklist.tsv",
 ]
 
 REQUIRED_FILES = REQUIRED_SOURCE_FILES + REQUIRED_GENERATED_ARTIFACTS
