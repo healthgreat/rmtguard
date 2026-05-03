@@ -12,6 +12,7 @@ GITHUB_TOKEN or GH_TOKEN and never records the token in project files.
 """
 
 import argparse
+import base64
 import csv
 import json
 import os
@@ -69,20 +70,56 @@ def _git(
     args: list[str], *, token: str | None = None, check: bool = False
 ) -> tuple[int, str]:
     cmd = ["git"]
+    redactions: list[str] = []
     if token:
-        cmd.extend(["-c", f"http.extraheader=AUTHORIZATION: bearer {token}"])
+        basic = base64.b64encode(f"x-access-token:{token}".encode("ascii")).decode(
+            "ascii"
+        )
+        redactions.extend([token, basic])
+        cmd.extend(
+            [
+                "-c",
+                "credential.helper=",
+                "-c",
+                "credential.interactive=never",
+                "-c",
+                "core.askPass=",
+                "-c",
+                f"http.extraheader=AUTHORIZATION: Basic {basic}",
+            ]
+        )
     cmd.extend(args)
-    result = subprocess.run(
-        cmd,
-        cwd=ROOT,
-        stdout=subprocess.PIPE,
-        stderr=subprocess.STDOUT,
-        text=True,
-        check=False,
+    env = os.environ.copy()
+    env.update(
+        {
+            "GIT_TERMINAL_PROMPT": "0",
+            "GCM_INTERACTIVE": "Never",
+            "GIT_ASKPASS": "",
+            "SSH_ASKPASS": "",
+        }
     )
-    if check and result.returncode != 0:
-        raise RuntimeError(result.stdout)
-    return result.returncode, result.stdout.strip()
+    try:
+        result = subprocess.run(
+            cmd,
+            cwd=ROOT,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.STDOUT,
+            text=True,
+            check=False,
+            env=env,
+            timeout=120,
+        )
+        output = result.stdout.strip()
+        code = result.returncode
+    except subprocess.TimeoutExpired as exc:
+        output = (exc.stdout or "") if isinstance(exc.stdout, str) else ""
+        output = (output + "\ngit command timed out after 120 seconds").strip()
+        code = 124
+    for secret in redactions:
+        output = output.replace(secret, "[REDACTED]")
+    if check and code != 0:
+        raise RuntimeError(output)
+    return code, output
 
 
 def _github_api(
