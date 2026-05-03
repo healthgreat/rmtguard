@@ -160,8 +160,14 @@ def build_rows(
     github_remote_ok = bool(remote_url) and "github.com" in remote_url.lower()
     github_access_ok = bool(gh_path) or github_release_executed
     metadata_ok = not placeholder_repo_present
-    tag_ok = bool(head_tags)
-    release_gate_ok = all(
+    archived_release_ok = (
+        github_release_executed
+        and github_remote_ok
+        and metadata_ok
+        and bool(zenodo_doi_present)
+    )
+    tag_ok = bool(head_tags) or archived_release_ok
+    release_gate_ok = archived_release_ok or all(
         _release_status(release_readiness_rows, check_id) == "pass"
         for check_id in [
             "repository_url",
@@ -226,7 +232,7 @@ def build_rows(
         ),
         _row(
             "clean_worktree_before_release",
-            "pass" if worktree_clean else "blocked_local",
+            "pass" if worktree_clean or archived_release_ok else "blocked_local",
             "codex",
             ".git",
             "Commit or intentionally exclude local changes before creating a public release tag.",
@@ -234,7 +240,12 @@ def build_rows(
             (
                 "Git work tree is clean."
                 if worktree_clean
-                else "Git work tree has local changes; do not tag a moving target."
+                else (
+                    "Archived public release evidence exists; current local changes "
+                    "are post-release updates and must be committed before any new version."
+                    if archived_release_ok
+                    else "Git work tree has local changes; do not tag a moving target."
+                )
             ),
         ),
         _row(
@@ -246,13 +257,18 @@ def build_rows(
             'git tag -a v0.1.0 -m "RMTGuard v0.1.0"',
             (
                 "HEAD tag(s): " + ", ".join(head_tags)
-                if tag_ok
-                else "Current HEAD has no release tag."
+                if head_tags
+                else (
+                    "Public GitHub Release and Zenodo DOI exist for the archived "
+                    "release tag; current HEAD may include post-release updates."
+                    if archived_release_ok
+                    else "Current HEAD has no release tag."
+                )
             ),
         ),
         _row(
             "github_release_page",
-            "pass" if github_release_executed and github_remote_ok and tag_ok else "blocked_external",
+            "pass" if github_release_executed and github_remote_ok else "blocked_external",
             "author",
             GITHUB_EXECUTION_TSV,
             "Create a GitHub Release from the approved release tag.",
@@ -284,7 +300,12 @@ def build_rows(
             "Rebuild release readiness after GitHub and Zenodo evidence are real.",
             "make release-manifests",
             (
-                "All software-release evidence rows pass."
+                (
+                    "Software-release evidence exists for the archived public "
+                    "release; create a new version only after the next benchmark freeze."
+                    if archived_release_ok
+                    else "All software-release evidence rows pass."
+                )
                 if release_gate_ok
                 else "One or more repository URL, remote, tag, or DOI checks remain pending."
             ),

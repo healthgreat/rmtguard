@@ -5,6 +5,7 @@ type: software
 authors:
   - family-names: "Chen"
     given-names: "Chongfa"
+    orcid: "https://orcid.org/0000-0001-6597-5181"
   - family-names: "Yan"
     given-names: "Han"
     orcid: "https://orcid.org/0000-0002-2041-3115"

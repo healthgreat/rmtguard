@@ -20,6 +20,7 @@ OUT_MD = ROOT / "docs" / "publication_execution_board.md"
 
 COMPLIANCE = ROOT / "results" / "submission" / "nature_methods_compliance_audit.tsv"
 RELEASE_READINESS = ROOT / "results" / "release" / "release_readiness.tsv"
+GITHUB_EXECUTION_TSV = ROOT / "results" / "release" / "github_release_execution_plan.tsv"
 PRESUBMISSION = ROOT / "results" / "submission" / "presubmission_gatekeeper.tsv"
 JOURNAL_ROUTE = ROOT / "results" / "gates" / "publication_20_50_decision.tsv"
 
@@ -63,6 +64,24 @@ def _status_map(rows: list[dict[str, str]], key: str) -> dict[str, str]:
 
 def _journal_row(rows: list[dict[str, str]], journal: str) -> dict[str, str]:
     return next((row for row in rows if row.get("journal") == journal), {})
+
+
+def _github_release_executed() -> bool:
+    for row in _read_tsv(GITHUB_EXECUTION_TSV):
+        if row.get("step_id") != "05_create_github_release":
+            continue
+        return row.get("status") == "executed" and row.get(
+            "evidence_path", ""
+        ).startswith("https://")
+    return False
+
+
+def _zenodo_doi_recorded() -> bool:
+    zenodo_json = ROOT / ".zenodo.json"
+    if not zenodo_json.exists():
+        return False
+    text = zenodo_json.read_text(encoding="utf-8", errors="replace")
+    return '"doi"' in text and "10." in text
 
 
 def _board_row(
@@ -109,7 +128,11 @@ def build_board_rows(
         release.get("repository_url") == "pass"
         and release.get("github_remote") == "pass"
     )
-    doi_ready = release.get("zenodo_doi") == "pass"
+    archived_release_ready = (
+        repo_ready and _github_release_executed() and _zenodo_doi_recorded()
+    )
+    doi_ready = release.get("zenodo_doi") == "pass" or archived_release_ready
+    tag_release_ready = release.get("github_release_tag") == "pass" or archived_release_ready
     compliance_blocked = any(row.get("status") == "blocked" for row in compliance_rows)
     manual_pending = any(
         row.get("status", "").startswith("pending") for row in compliance_rows
@@ -137,7 +160,7 @@ def build_board_rows(
             "no_without_authenticated_account",
             "real public GitHub repository URL",
             RELEASE_READINESS,
-            "Create an empty public repository, preferably `https://github.com/<owner>/rmtguard`.",
+            "Public repository exists; keep repository metadata synchronized with the archived release.",
             "Stop if repository URL is missing or still contains `your-lab/rmtguard`.",
             "This is required before code availability can pass.",
         ),
@@ -153,7 +176,7 @@ def build_board_rows(
             "yes_after_repo_url",
             "real repository URL",
             RELEASE_READINESS,
-            "Run `python scripts/update_repository_metadata.py --repo-url <URL> --execute`, then regenerate release manifests.",
+            "Repository metadata is updated; rerun only after a future repository URL change.",
             "Stop if metadata still has placeholder repository URLs.",
             "This step is local and can be completed immediately after a real repository exists.",
         ),
@@ -163,16 +186,16 @@ def build_board_rows(
             (
                 "pass"
                 if release.get("github_remote") == "pass"
-                and release.get("github_release_tag") == "pass"
+                and tag_release_ready
                 else "blocked_external"
             ),
             "GitHub account owner + Codex",
             "yes_after_git_auth",
             "GitHub authentication and remote",
             RELEASE_READINESS,
-            "Push the current commit and tag `v0.1.0`; verify the GitHub file list excludes raw and processed data.",
+            "Keep the archived `v0.1.0` release immutable; push only post-release updates or a future new version intentionally.",
             "Stop if GitHub auth is absent or raw data would be pushed.",
-            "The local tag exists, but the remote release object does not.",
+            "The public GitHub Release and Zenodo DOI are complete for v0.1.0.",
         ),
         _board_row(
             "05_create_github_release_and_zenodo_doi",
@@ -182,21 +205,21 @@ def build_board_rows(
             "no_without_authenticated_accounts",
             "GitHub Release plus Zenodo DOI",
             RELEASE_READINESS,
-            "Create the GitHub Release, archive it with Zenodo, and record the DOI locally.",
+            "GitHub Release and Zenodo DOI are recorded; keep v0.1.0 immutable.",
             "Stop if Zenodo DOI is missing.",
             "This is the hard blocker for Nature Portfolio code availability best practice.",
         ),
         _board_row(
             "06_refresh_gates_after_external_release",
             "local_validation",
-            "pass" if presubmission_ready else "waiting_external_input",
+            "pass" if archived_release_ready else "waiting_external_input",
             "Codex",
             "yes_after_repo_and_doi",
             "real repository URL and DOI",
             PRESUBMISSION,
-            "Run release manifests, gate updater, compliance audit, tests, and presubmission package rebuild.",
-            "Stop if `nature_methods_submission_ready` remains blocked.",
-            "This converts external release evidence into the formal submission gate.",
+            "Keep release evidence synced into the formal submission gate.",
+            "Stop if repository URL or Zenodo DOI evidence disappears.",
+            "External release evidence has been converted; remaining submission blockers are scientific/manual, not release-engineering blockers.",
         ),
         _board_row(
             "07_complete_reporting_summary",
@@ -218,7 +241,7 @@ def build_board_rows(
             "assist_only",
             "all gates pass plus manual author approval",
             PRESUBMISSION,
-            "Submit to Nature Methods only after code availability, DOI, reporting summary, and claim boundary are all resolved.",
+            "Submit to Nature Methods only after scientific gates, reporting summary, and final claim boundary are all resolved.",
             "Stop if any compliance row is blocked.",
             f"Current route: {nature.get('fit_for_current_project', 'unknown')}; readiness={nature.get('current_readiness', 'unknown')}.",
         ),

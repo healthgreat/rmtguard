@@ -71,7 +71,7 @@ python scripts/update_repository_metadata.py --repo-url https://github.com/<owne
 - Owner: `codex`
 - Evidence: `.git`
 - Required action: Commit or intentionally exclude local changes before creating a public release tag.
-- Notes: Git work tree is clean.
+- Notes: Archived public release evidence exists; current local changes are post-release updates and must be committed before any new version.
 
 ```bash
 git status --short
@@ -83,7 +83,7 @@ git status --short
 - Owner: `codex`
 - Evidence: `.git`
 - Required action: Create an annotated release tag only after source, docs, tests, and metadata are final.
-- Notes: HEAD tag(s): v0.1.0
+- Notes: Public GitHub Release and Zenodo DOI exist for the archived release tag; current HEAD may include post-release updates.
 
 ```bash
 git tag -a v0.1.0 -m "RMTGuard v0.1.0"
@@ -119,7 +119,7 @@ python scripts/finalize_submission_release.py --repo-url https://github.com/<own
 - Owner: `codex_author_joint`
 - Evidence: `results/release/release_readiness.tsv`
 - Required action: Rebuild release readiness after GitHub and Zenodo evidence are real.
-- Notes: All software-release evidence rows pass.
+- Notes: Software-release evidence exists for the archived public release; create a new version only after the next benchmark freeze.
 
 ```bash
 make release-manifests

@@ -7,8 +7,8 @@ This packet reduces the remaining public-release blocker to author-owned externa
 
 ## Overall Status
 
-- Status: `release_evidence_ready_for_gate_refresh`
-- Blocking actions: `blocked_actions=none; route=pause_for_p0_feedback; gb_transfer=hold; reviewer_defense=not_sendable_before_release.`
+- Status: `blocked_waiting_author_release`
+- Blocking actions: `blocked_actions=01_verify_local_release_candidate; route=pause_for_p0_feedback; gb_transfer=hold; reviewer_defense=not_sendable_before_release.`
 - Stop condition: Do not mark Nature Methods, Genome Biology, or any route as sendable while this row is blocked.
 
 ## Minimal Author Actions
@@ -34,8 +34,8 @@ This packet reduces the remaining public-release blocker to author-owned externa
 ### 05_create_github_release
 
 - Status: `pass`
-- Blocking input: pushed tag v0.1.0-rc8
-- Exact action: Create a GitHub Release from `v0.1.0-rc8` and attach only approved release/Zenodo assets if needed.
+- Blocking input: pushed tag v0.1.0
+- Exact action: Create a GitHub Release from `v0.1.0` and attach only approved release/Zenodo assets if needed.
 - Verification: GitHub Release page exists for the pushed tag.
 - Stop condition: Stop if unapproved raw data, processed matrices, private clinical data, or local-only probe outputs would be attached.
 - Notes: Use release manifests to decide attachments.
@@ -60,12 +60,12 @@ This packet reduces the remaining public-release blocker to author-owned externa
 
 ### overall_author_release_execution
 
-- Status: `release_evidence_ready_for_gate_refresh`
+- Status: `blocked_waiting_author_release`
 - Blocking input: repository URL, GitHub Release, Zenodo DOI
 - Exact action: Complete the external author-owned release actions, then rerun the local gates.
 - Verification: All release readiness rows pass and route gates are regenerated.
 - Stop condition: Do not mark Nature Methods, Genome Biology, or any route as sendable while this row is blocked.
-- Notes: blocked_actions=none; route=pause_for_p0_feedback; gb_transfer=hold; reviewer_defense=not_sendable_before_release.
+- Notes: blocked_actions=01_verify_local_release_candidate; route=pause_for_p0_feedback; gb_transfer=hold; reviewer_defense=not_sendable_before_release.
 
 ## Full Execution Checklist
 
@@ -73,17 +73,17 @@ This packet reduces the remaining public-release blocker to author-owned externa
 
 - Phase: `local`
 - Owner: `Codex`
-- Status: `pass`
+- Status: `blocked_local`
 - Evidence: `results/release/github_release_handoff_manifest.tsv`
 - Exact action:
 
 ```bash
-Verify `results/release/rmtguard_v0.1.0-rc8_source.bundle` and keep `v0.1.0-rc8` as the current local release candidate.
+Verify `results/release/rmtguard_v0.1.0_source.bundle` and keep `v0.1.0` as the current local release candidate.
 ```
 
-- Verification: git bundle verify results/release/rmtguard_v0.1.0-rc8_source.bundle
+- Verification: git bundle verify results/release/rmtguard_v0.1.0_source.bundle
 - Stop condition: Stop if the bundle does not verify or does not point to the current tag.
-- Notes: Current tag candidate: v0.1.0-rc8.
+- Notes: Current tag candidate: v0.1.0.
 
 ### 02_create_empty_public_github_repository
 
@@ -131,7 +131,7 @@ python scripts/build_release_readiness.py
 git remote add origin <REPO_URL>.git
 git branch -M main
 git push -u origin main
-git push origin v0.1.0-rc8
+git push origin v0.1.0
 ```
 
 - Verification: GitHub repository shows source files and the release tag.
@@ -147,7 +147,7 @@ git push origin v0.1.0-rc8
 - Exact action:
 
 ```bash
-Create a GitHub Release from `v0.1.0-rc8` and attach only approved release/Zenodo assets if needed.
+Create a GitHub Release from `v0.1.0` and attach only approved release/Zenodo assets if needed.
 ```
 
 - Verification: GitHub Release page exists for the pushed tag.
@@ -211,7 +211,7 @@ python scripts/build_post_feedback_journal_route_gate.py
 
 - Phase: `summary`
 - Owner: `Author + Codex`
-- Status: `release_evidence_ready_for_gate_refresh`
+- Status: `blocked_waiting_author_release`
 - Evidence: `results/release/author_release_execution_checklist.tsv`
 - Exact action:
 
@@ -221,7 +221,7 @@ Complete the external author-owned release actions, then rerun the local gates.
 
 - Verification: All release readiness rows pass and route gates are regenerated.
 - Stop condition: Do not mark Nature Methods, Genome Biology, or any route as sendable while this row is blocked.
-- Notes: blocked_actions=none; route=pause_for_p0_feedback; gb_transfer=hold; reviewer_defense=not_sendable_before_release.
+- Notes: blocked_actions=01_verify_local_release_candidate; route=pause_for_p0_feedback; gb_transfer=hold; reviewer_defense=not_sendable_before_release.
 
 ## Non-Negotiable Boundary
 

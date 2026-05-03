@@ -14,13 +14,13 @@ corresponding_author_2_email	carrick8862@163.com	author_provided	Confirm this is
 corresponding_author_2_orcid	https://orcid.org/0000-0002-2041-3115	author_provided	Confirm ORCID ownership.
 postal_code_author_provided	350000	author_provided_conflicts_public_sources	Do not finalize title page until author confirms whether 350000 or the public-source candidate 210019 should be used.
 postal_code_public_source_candidate	210019	external_source_candidate	Public sources for No. 71 Hexi Street / Hexi Avenue, Jianye District, Nanjing list 210019; author should verify against hospital or journal submission requirements.
-chongfa_chen_orcid	unverified_candidates_found	Two public ORCID records match the name but have no public employment/works; do not insert into CITATION.cff or .zenodo.json until Chongfa Chen confirms ownership.
-chongfa_chen_orcid_candidate_1	https://orcid.org/0000-0001-7367-9972	unverified_name_match	Public ORCID profile has matching given/family names but no public employment or works.
-chongfa_chen_orcid_candidate_2	https://orcid.org/0000-0001-6597-5181	unverified_name_match	Public ORCID profile has matching given/family names but no public employment or works.
+chongfa_chen_orcid	https://orcid.org/0000-0001-6597-5181	author_confirmed_from_logged_in_orcid_screenshot	Use this ORCID in title page, CRediT metadata, CITATION.cff, and future Zenodo releases.
+chongfa_chen_orcid_candidate_1	https://orcid.org/0000-0001-7367-9972	possible_duplicate_not_used	Do not use unless Chongfa Chen can also log in and confirms this is a duplicate record.
+chongfa_chen_orcid_candidate_2	https://orcid.org/0000-0001-6597-5181	confirmed_primary_orcid	User screenshot shows Chongfa Chen managing this ORCID account.
 feihu_sun_author_record	Not an author on this manuscript	author_confirmed_not_author	Do not include Feihu Sun in the RMTGuard title page, CRediT roles, CITATION.cff, .zenodo.json, or manuscript author metadata.
 credit_roles_draft	metadata/credit_roles.tsv	drafted_needs_author_confirmation	CRediT roles are drafted based on project responsibilities and must be approved by all authors.
 funding_statement	TO CONFIRM: grant details or no specific funding.	pending_author_content	Provide exact grants/funders or confirm no specific funding before submission.
 competing_interests_statement	The authors declare no competing interests.	drafted_needs_author_confirmation	Use only if all authors confirm there are no financial or non-financial competing interests.
 ethics_public_data_statement	This study uses public, de-identified datasets and does not include newly collected private clinical data. Dataset-specific consent and ethics approvals were reported by the original studies.	drafted_from_project_scope	Confirm the manuscript remains public-data-only before submission.
 repository_url	https://github.com/healthgreat/rmtguard	author_created_public_repo	Public GitHub repository exists and local origin remote is configured.
-zenodo_doi		blocked_external	Replace only after the GitHub Release is archived by Zenodo.
+zenodo_doi	https://doi.org/10.5281/zenodo.20012350	published_release_doi	Version DOI for the public RMTGuard v0.1.0 software archive.

@@ -19,6 +19,7 @@ GATE_REPORT = ROOT / "results" / "gates" / "gate_report.tsv"
 ACTION_PLAN = ROOT / "results" / "submission" / "external_review_action_plan.tsv"
 SUBMISSION_GUARD = ROOT / "results" / "submission" / "submission_guard.tsv"
 RELEASE_READINESS = ROOT / "results" / "release" / "release_readiness.tsv"
+GITHUB_EXECUTION_TSV = ROOT / "results" / "release" / "github_release_execution_plan.tsv"
 CALIBRATION_POWER = ROOT / "results" / "calibration" / "rare_state_power_summary.tsv"
 CALIBRATION_NULL = ROOT / "results" / "calibration" / "realistic_null_summary.tsv"
 MANUSCRIPT_STABILITY_STATS = (
@@ -128,6 +129,24 @@ def _release_status(release_rows: list[dict[str, str]], check_id: str) -> str:
         if row.get("check_id") == check_id:
             return row.get("status", "pending")
     return "pending"
+
+
+def _github_release_executed() -> bool:
+    for row in _read_tsv(GITHUB_EXECUTION_TSV):
+        if row.get("step_id") != "05_create_github_release":
+            continue
+        return row.get("status") == "executed" and row.get(
+            "evidence_path", ""
+        ).startswith("https://")
+    return False
+
+
+def _zenodo_doi_recorded() -> bool:
+    zenodo_json = ROOT / ".zenodo.json"
+    if not zenodo_json.exists():
+        return False
+    text = zenodo_json.read_text(encoding="utf-8", errors="replace")
+    return '"doi"' in text and "10." in text
 
 
 def _status_at_least(status: str, accepted: set[str]) -> bool:
@@ -575,6 +594,17 @@ def build_gap_rows() -> list[dict[str, object]]:
             "shown across the four prepared datasets through a MatrixMarket "
             "bridge, with fixed30 and elbow-rule smoke rows generated."
         )
+    archived_release_pass = _github_release_executed() and _zenodo_doi_recorded()
+    release_core_pass = archived_release_pass or all(
+        _release_status(release_rows, check_id) == "pass"
+        for check_id in [
+            "repository_url",
+            "github_remote",
+            "git_worktree",
+            "github_release_tag",
+            "zenodo_doi",
+        ]
+    )
 
     rows = [
         {
@@ -614,13 +644,15 @@ def build_gap_rows() -> list[dict[str, object]]:
         {
             "domain": "release_reproducibility",
             "weight": 25,
-            "current_score": 12,
-            "status": "blocked_external",
+            "current_score": 25 if release_core_pass else 12,
+            "status": "pass" if release_core_pass else "blocked_external",
             "evidence": _rel(RELEASE_READINESS),
-            "blocking_items": "repository_url;github_remote;zenodo_doi",
-            "what_is_done": "Local code, CI scaffold, Dockerfile, license, citation metadata, release manifests, figures, and table artifacts are present.",
-            "what_is_missing": "Real public GitHub repository, remote push, GitHub Release, Zenodo DOI, and final metadata replacement are not complete.",
-            "next_supplement": "Create public repository, push the exact current commit/tag, create release, mint Zenodo DOI, then rerun release and submission gates.",
+            "blocking_items": (
+                "none" if release_core_pass else "repository_url;github_remote;zenodo_doi"
+            ),
+            "what_is_done": "Public GitHub repository, v0.1.0 GitHub Release, Zenodo version DOI, source audit, CI scaffold, Dockerfile, license, citation metadata, release manifests, figures, and table artifacts are present.",
+            "what_is_missing": "No release-engineering blocker remains; future changes should be issued as a new release version rather than moving the archived v0.1.0 DOI snapshot.",
+            "next_supplement": "Keep v0.1.0 archived and immutable; create a future v0.1.1 only after the next benchmark/metadata freeze.",
         },
         {
             "domain": "benchmark_breadth_and_baselines",
@@ -685,7 +717,7 @@ def build_journal_rows() -> list[dict[str, object]]:
             "cas_zone_note": "Likely CAS 1区 based on third-party 2025 lookup; verify with institutional CAS table before submission.",
             "warning_note": "Not observed in searched 2025 warning-list summaries; verify against the official current warning PDF before submission.",
             "source_url": "https://www.nature.com/nmeth/journal-impact",
-            "current_fit": "only plausible strict 20-50 target, but not ready until stability/release/benchmark blockers clear",
+            "current_fit": "only plausible strict 20-50 target; release is complete, but stability, benchmark, and biological-application blockers remain",
         },
         {
             "journal": "Nature Biotechnology",
@@ -706,7 +738,7 @@ def build_journal_rows() -> list[dict[str, object]]:
             "current_route": "possible_if_biological_or_methods_impact_strengthens",
             "cas_zone_note": "Third-party 2025 pages report CAS 1区; verify locally.",
             "warning_note": "Verify against official current warning PDF.",
-            "source_url": "https://www.nature.com/ncomms/ncomms/journal-information",
+            "source_url": "https://www.nature.com/ncomms/journal-impact",
             "current_fit": "below strict 20 JIF; requires stronger cross-field or biological application than current package",
         },
         {
@@ -718,7 +750,7 @@ def build_journal_rows() -> list[dict[str, object]]:
             "cas_zone_note": "Third-party 2025 pages report CAS 1区 Top; verify locally.",
             "warning_note": "Verify against official current warning PDF.",
             "source_url": "https://genomebiology.biomedcentral.com/about",
-            "current_fit": "best realistic fallback after public release and reframe, but not a 20-50 JIF journal by 2024 JIF",
+            "current_fit": "best realistic high-quality fallback after reframe, but not a 20-50 JIF journal by 2024 JIF",
         },
         {
             "journal": "Cell Reports Medicine",
@@ -932,7 +964,7 @@ def build_markdown(
         "- Acceptance guarantee: `impossible`.",
         "- Current strict 20-50 JIF status: `not ready`.",
         "- Current best strict 20-50 target: `Nature Methods`, but only after gate recovery.",
-        "- Current most realistic fallback if strict 20-50 is relaxed: `Genome Biology` after public release and reframe.",
+        "- Current most realistic fallback if strict 20-50 is relaxed: `Genome Biology`, but this is below strict 20 JIF by 2024 JIF and should be treated as a high-quality genomics fallback rather than a 20-50 target.",
         f"- Active blocker groups: `{blocker_text}`.",
         "",
         "## Distance By Domain",
@@ -964,7 +996,7 @@ def build_markdown(
             "",
             "## What Is Still Missing",
             "",
-            "1. Public GitHub repository, GitHub Release, and external archive record.",
+            "1. Release engineering is complete for v0.1.0; the remaining gap is scientific evidence, not public code availability.",
             missing_real_data,
             missing_statistics,
             "4. Manuscript-grade component ablation experiments for MP edge, TW proxy, permutation calibration, HVG plateau, adaptive embedding, rare-state guard, no-call contract, and batch residualization. A resumable draft benchmark now includes null, rare-state, synthetic batch-effect, real-data annotation screens, and a pilot forest/table asset layer, but P0 runs still need 20-50 repeats, confidence intervals, and executed matched baselines.",

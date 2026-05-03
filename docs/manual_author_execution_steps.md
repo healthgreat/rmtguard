@@ -13,7 +13,7 @@ The following fields have been recorded in `metadata/author_metadata.tsv`, `CITA
 - Corresponding author 1: Yi Miao, MD, PhD, FACS, FRCS, FICS(Hon); `miaoyi@njmu.edu.cn`; ORCID `https://orcid.org/0000-0003-2542-8663`.
 - Corresponding author 2: Han Yan, MD, PhD; `carrick8862@163.com`; ORCID `https://orcid.org/0000-0002-2041-3115`.
 - Corresponding author order is confirmed as Yi Miao first, Han Yan second.
-- Chongfa Chen ORCID remains unverified. Two name-matched public ORCID records exist, but neither has public employment or works to confirm identity.
+- Chongfa Chen ORCID is confirmed from logged-in ORCID screenshots: `https://orcid.org/0000-0001-6597-5181`.
 - Postal code remains unresolved: author provided `350000`, but public sources for the same hospital/street address list `210019`.
 
 ## Remaining Manual Items
@@ -35,7 +35,7 @@ Do not include any equal-contribution sentence naming Feihu Sun.
 Send Codex the following final confirmations:
 
 - Final author order.
-- Chongfa Chen ORCID ownership, or explicit confirmation that no ORCID should be used.
+- Confirm that Chongfa Chen wants to keep `https://orcid.org/0000-0001-6597-5181` as the primary ORCID and treat `https://orcid.org/0000-0001-7367-9972` as unused unless it can also be recovered.
 - Final postal code: `350000` or `210019`.
 - Approval or correction of `metadata/credit_roles.tsv`.
 - Funding statement: exact grant details, or explicit confirmation of no specific funding.
@@ -46,19 +46,14 @@ Send Codex the following final confirmations:
 
 Completed: the public GitHub repository exists at `https://github.com/healthgreat/rmtguard`.
 
-Still pending: code push, GitHub Release, Zenodo archive, and DOI verification. Codex should not push until the source-only release audit and intentional commit/tag scope are checked.
+Completed: code push, GitHub Release, Zenodo archive, and DOI verification.
+
+- GitHub Release: `https://github.com/healthgreat/rmtguard/releases/tag/v0.1.0`
+- Zenodo DOI: `https://doi.org/10.5281/zenodo.20012350`
 
 ### 4. Complete The External Software Archive Step
 
-After Codex pushes the release candidate and tag:
-
-1. Open the GitHub repository Releases page.
-2. Create a release from the approved version tag.
-3. Connect or use Zenodo GitHub integration to archive the release.
-4. Confirm the Zenodo record is public.
-5. Send Codex the DOI in the form `10.5281/zenodo.<id>`.
-
-Do not write `DOI archived`, `publicly released`, or `available at GitHub` in the manuscript until Codex verifies the live URL and DOI.
+Completed for `v0.1.0`. Do not move the archived `v0.1.0` tag. If a new benchmark freeze changes the code or metadata materially, create a new release such as `v0.1.1` and archive that new release as a new Zenodo version.
 
 ### 5. External Reproduction Check
 
@@ -69,6 +64,10 @@ After GitHub and Zenodo are public:
 3. Return any errors, missing files, unclear instructions, and runtime/memory notes to Codex.
 
 This is required before targeting a 20-50 JIF methods or genomics journal.
+
+## Detailed 20-50 JIF Manual Checklist
+
+Use `docs/manual_next_actions_20_50.md` for the full author-owned checklist, including ORCID cleanup, postal code confirmation, author declarations, CAS/JCR/warning-list verification, and the PDAC/TME showcase decision.
 
 ## Codex-Owned Follow-Up After Author Inputs
 

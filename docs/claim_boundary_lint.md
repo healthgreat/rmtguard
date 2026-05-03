@@ -8,7 +8,7 @@ The linter blocks unsupported journal-facing claims while allowing explicit forb
 ## Summary
 
 - Violations: `0`
-- Controlled boundary mentions: `197`
+- Controlled boundary mentions: `202`
 
 ## Violations
 
@@ -68,9 +68,10 @@ The linter blocks unsupported journal-facing claims while allowing explicit forb
 - `premature_doi_release` in `docs/github_release_checklist.md:13`
 - `acceptance_guarantee` in `docs/github_release_execution.md:8`
 - `acceptance_guarantee` in `docs/jif20_50_gap_assessment.md:8`
-- `premature_doi_release` in `docs/jif20_50_gap_assessment.md:20`
 - `premature_submission_ready` in `docs/manual_author_execution_steps.md:5`
-- `premature_doi_release` in `docs/manual_author_execution_steps.md:61`
+- `premature_doi_release` in `docs/manual_author_execution_steps.md:52`
+- `acceptance_guarantee` in `docs/manual_next_actions_20_50.md:6`
+- `premature_doi_release` in `docs/manual_next_actions_20_50.md:176`
 - `premature_doi_release` in `docs/method_risk_log.md:358`
 - `premature_doi_release` in `docs/method_risk_log.md:401`
 - `acceptance_guarantee` in `docs/nature_reporting_summary_draft.md:13`
@@ -84,14 +85,18 @@ The linter blocks unsupported journal-facing claims while allowing explicit forb
 - `broad_fixed_pc_superiority` in `docs/post_feedback_journal_route_gate.md:73`
 - `acceptance_guarantee` in `docs/public_release_blocker_report.md:5`
 - `acceptance_guarantee` in `docs/public_release_blocker_report.md:26`
+- `premature_doi_release` in `docs/public_release_blocker_report.md:86`
 - `premature_doi_release` in `docs/public_release_blocker_report.md:110`
 - `premature_submission_ready` in `docs/public_release_blocker_report.md:130`
 - `acceptance_guarantee` in `docs/publication_20_50_rescue_plan.md:7`
 - `broad_fixed_pc_superiority` in `docs/publication_20_50_rescue_plan.md:55`
 - `acceptance_guarantee` in `docs/publication_execution_board.md:8`
-- `broad_fixed_pc_superiority` in `docs/publication_execution_board.md:30`
-- `premature_doi_release` in `docs/publication_execution_board.md:72`
-- `premature_doi_release` in `docs/publication_execution_board.md:75`
+- `broad_fixed_pc_superiority` in `docs/publication_execution_board.md:29`
+- `premature_doi_release` in `docs/publication_execution_board.md:64`
+- `premature_doi_release` in `docs/publication_execution_board.md:71`
+- `premature_doi_release` in `docs/publication_execution_board.md:73`
+- `premature_doi_release` in `docs/publication_execution_board.md:74`
+- `premature_doi_release` in `docs/publication_execution_board.md:85`
 - `premature_doi_release` in `docs/publication_strategy.md:27`
 - `pbmc68k_positive_discovery` in `docs/realdata_ablation_figure_table.md:10`
 - `acceptance_guarantee` in `docs/reviewer_defense_package.md:5`
@@ -111,12 +116,7 @@ The linter blocks unsupported journal-facing claims while allowing explicit forb
 - `premature_doi_release` in `docs/route_reframe_package.md:59`
 - `premature_doi_release` in `docs/route_reframe_package.md:60`
 - `premature_submission_ready` in `docs/route_reframe_package.md:78`
-- `broad_fixed_pc_superiority` in `docs/stability_gate_diagnostics.md:7`
-- `broad_fixed_pc_superiority` in `docs/stability_utility_tradeoff.md:8`
-- `acceptance_guarantee` in `docs/submission_guard.md:5`
-- `premature_submission_ready` in `docs/submission_guard.md:62`
-- `acceptance_guarantee` in `docs/top_paper_route_package.md:5`
-- ... 97 additional controlled mentions omitted from Markdown summary.
+- ... 102 additional controlled mentions omitted from Markdown summary.
 
 ## Submission Rule
 
