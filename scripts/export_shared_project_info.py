@@ -3,9 +3,9 @@
 
 Author: RMTGuard development team
 Date: 2026-05-04
-Purpose: Copy release, journal-routing, Gantt, and manual-action artifacts into
-a cross-project shared information folder for reuse by other manuscript
-projects.
+Purpose: Copy release, journal-routing, Gantt, manual-action, and next-sprint
+artifacts into a cross-project shared information folder for reuse by other
+manuscript projects.
 Data source: Local generated reports under docs/, results/, figures/, and
 manuscript/.
 Method notes: This script does not copy raw data, processed matrices, tokens,
@@ -123,6 +123,66 @@ COPY_ITEMS = [
         "RMTGuard_AUTHOR_DECLARATIONS_AND_CREDIT_ROLES.md",
         "author declarations and CRediT roles",
     ),
+    CopyItem(
+        ROOT / "docs" / "nature_methods_48h_execution_packet.md",
+        "06_next_sprint_inputs",
+        "RMTGuard_NATURE_METHODS_48H_EXECUTION_PACKET.md",
+        "48-hour Nature Methods science execution packet",
+    ),
+    CopyItem(
+        ROOT / "results" / "submission" / "nature_methods_48h_execution_packet.tsv",
+        "06_next_sprint_inputs",
+        "RMTGuard_NATURE_METHODS_48H_EXECUTION_PACKET.tsv",
+        "machine-readable 48-hour execution packet",
+    ),
+    CopyItem(
+        ROOT / "manuscript" / "claim_scope_final.md",
+        "06_next_sprint_inputs",
+        "RMTGuard_CLAIM_SCOPE_FINAL.md",
+        "locked final claim boundary for current evidence",
+    ),
+    CopyItem(
+        ROOT / "results" / "submission" / "claim_scope_final_audit.tsv",
+        "06_next_sprint_inputs",
+        "RMTGuard_CLAIM_SCOPE_FINAL_AUDIT.tsv",
+        "machine-readable claim scope audit",
+    ),
+    CopyItem(
+        ROOT / "docs" / "p0_component_ablation_run_sheet.md",
+        "06_next_sprint_inputs",
+        "RMTGuard_P0_COMPONENT_ABLATION_RUN_SHEET.md",
+        "P0 component ablation run sheet",
+    ),
+    CopyItem(
+        ROOT / "results" / "ablation" / "p0_component_ablation_run_sheet.tsv",
+        "06_next_sprint_inputs",
+        "RMTGuard_P0_COMPONENT_ABLATION_RUN_SHEET.tsv",
+        "machine-readable P0 component ablation run sheet",
+    ),
+    CopyItem(
+        ROOT / "docs" / "manuscript_grade_null_power_grid_design.md",
+        "06_next_sprint_inputs",
+        "RMTGuard_NULL_POWER_GRID_DESIGN.md",
+        "manuscript-grade null and power grid design",
+    ),
+    CopyItem(
+        ROOT / "results" / "calibration" / "manuscript_grade_null_power_grid_design.tsv",
+        "06_next_sprint_inputs",
+        "RMTGuard_NULL_POWER_GRID_DESIGN.tsv",
+        "machine-readable null and power grid design",
+    ),
+    CopyItem(
+        ROOT / "docs" / "added_dataset_annotation_boundary.md",
+        "06_next_sprint_inputs",
+        "RMTGuard_ADDED_DATASET_ANNOTATION_BOUNDARY.md",
+        "annotation boundary table for added datasets",
+    ),
+    CopyItem(
+        ROOT / "results" / "submission" / "added_dataset_annotation_boundary.tsv",
+        "06_next_sprint_inputs",
+        "RMTGuard_ADDED_DATASET_ANNOTATION_BOUNDARY.tsv",
+        "machine-readable annotation boundary table",
+    ),
 ]
 
 
@@ -157,9 +217,9 @@ Generated: {today.isoformat()}
 
 This folder is a reusable handoff snapshot for RMTGuard and other
 publication-oriented bioinformatics projects. It contains only project reports,
-manual checklists, release evidence, and figure-management files. It does not
-contain raw data, processed expression matrices, tokens, passwords, or private
-clinical materials.
+manual checklists, release evidence, next-sprint run sheets, and
+figure-management files. It does not contain raw data, processed expression
+matrices, tokens, passwords, or private clinical materials.
 
 ## Current RMTGuard Status
 
@@ -180,6 +240,10 @@ clinical materials.
 - `03_release_evidence/RMTGuard_PUBLIC_RELEASE_BLOCKER_REPORT.md`
 - `04_gantt_and_figures/RMTGuard_PROJECT_GANTT.png`
 - `05_author_metadata/RMTGuard_TITLE_PAGE_AUTHOR_METADATA.md`
+- `06_next_sprint_inputs/RMTGuard_NATURE_METHODS_48H_EXECUTION_PACKET.md`
+- `06_next_sprint_inputs/RMTGuard_P0_COMPONENT_ABLATION_RUN_SHEET.md`
+- `06_next_sprint_inputs/RMTGuard_NULL_POWER_GRID_DESIGN.md`
+- `06_next_sprint_inputs/RMTGuard_ADDED_DATASET_ANNOTATION_BOUNDARY.md`
 
 ## Manual Inputs Still Needed
 
@@ -218,13 +282,16 @@ Package path:
 RMTGuard has passed the public release engineering gate, but is not ready for a
 strict 20-50 JIF submission because the remaining blockers are scientific:
 stability-superiority is not supported, manuscript-grade component ablations
-need final repeats/CI, and the PDAC/TME biological showcase needs deepening or
-demotion.
+need final repeats/CI, realistic null and power grids need execution, and the
+PDAC/TME biological showcase needs deepening or demotion.
 
 ## Fast Open
 
 - Gap report: `{package_dir / "01_project_status" / "RMTGuard_JIF20_50_GAP_ASSESSMENT.md"}`
 - Next-round gate board: `{package_dir / "01_project_status" / "RMTGuard_NATURE_METHODS_NEXT_ROUND_GATE_BOARD.md"}`
+- 48-hour execution packet: `{package_dir / "06_next_sprint_inputs" / "RMTGuard_NATURE_METHODS_48H_EXECUTION_PACKET.md"}`
+- P0 ablation run sheet: `{package_dir / "06_next_sprint_inputs" / "RMTGuard_P0_COMPONENT_ABLATION_RUN_SHEET.md"}`
+- Null/power grid design: `{package_dir / "06_next_sprint_inputs" / "RMTGuard_NULL_POWER_GRID_DESIGN.md"}`
 - Gantt PNG: `{package_dir / "04_gantt_and_figures" / "RMTGuard_PROJECT_GANTT.png"}`
 - Manual checklist: `{package_dir / "02_manual_actions" / "RMTGuard_MANUAL_NEXT_ACTIONS_20_50.md"}`
 - Release blocker report: `{package_dir / "03_release_evidence" / "RMTGuard_PUBLIC_RELEASE_BLOCKER_REPORT.md"}`
@@ -258,7 +325,7 @@ patient data, or private clinical data.
 
 | Project | Package Path | Primary Use | Status |
 | --- | --- | --- | --- |
-| RMTGuard | `{package_dir}` | 20-50 JIF methods-paper routing, GitHub/Zenodo release evidence, manual submission checks, external-AI review handoff | active snapshot |
+| RMTGuard | `{package_dir}` | 20-50 JIF methods-paper routing, GitHub/Zenodo release evidence, manual submission checks, external-AI review handoff, next-sprint gate execution | active snapshot |
 
 ## Common Templates
 

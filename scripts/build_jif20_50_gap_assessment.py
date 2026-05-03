@@ -65,6 +65,9 @@ RMTGUARD_SEURAT_PAIRED_STATUS = (
 RMTGUARD_SEURAT_PAIRED_STATS = (
     ROOT / "results" / "submission" / "rmtguard_seurat_paired_stats.tsv"
 )
+ANNOTATION_BOUNDARY = (
+    ROOT / "results" / "submission" / "added_dataset_annotation_boundary.tsv"
+)
 OUT_TSV = ROOT / "results" / "submission" / "jif20_50_gap_assessment.tsv"
 OUT_JOURNALS = ROOT / "results" / "submission" / "jif20_50_journal_route.tsv"
 OUT_MD = ROOT / "docs" / "jif20_50_gap_assessment.md"
@@ -310,6 +313,7 @@ def build_gap_rows() -> list[dict[str, object]]:
             if row.get("metric") == "label_ari" and row.get("dataset_id")
         }
     )
+    annotation_boundary_present = ANNOTATION_BOUNDARY.exists()
     seurat_executable_present = (
         seurat_status_by_id.get("seurat_mtx_bridge") == "pass"
         and _status_at_least(
@@ -388,6 +392,7 @@ def build_gap_rows() -> list[dict[str, object]]:
             benchmark_blockers = (
                 "none"
                 if paired_label_dataset_count >= benchmark_dataset_count
+                or annotation_boundary_present
                 else "added_dataset_label_free_boundary"
             )
         elif (
@@ -444,9 +449,12 @@ def build_gap_rows() -> list[dict[str, object]]:
             benchmark_next = (
                 "Freeze the final comparator table."
                 if paired_label_dataset_count >= benchmark_dataset_count
-                else "Treat PBMC3k and PDAC GSE154778 as label-free stability/"
-                "runtime comparator evidence, or add reliable cell-state "
-                "annotations before using them in annotation-ARI claims."
+                or annotation_boundary_present
+                else (
+                    "Treat PBMC3k and PDAC GSE154778 as label-free stability/"
+                    "runtime comparator evidence, or add reliable cell-state "
+                    "annotations before using them in annotation-ARI claims."
+                )
             )
         elif (
             seurat_full_20_present
@@ -546,6 +554,12 @@ def build_gap_rows() -> list[dict[str, object]]:
         benchmark_done += (
             f" Paired RMTGuard-versus-official-Seurat annotation statistics now "
             f"cover {paired_label_dataset_count} labeled comparator dataset(s)."
+        )
+    if annotation_boundary_present:
+        benchmark_done += (
+            " The added-dataset annotation-boundary table is present, so PBMC3k "
+            "and PDAC GSE154778 are explicitly treated as label-free stability/"
+            "runtime evidence unless reliable annotations are later documented."
         )
     if matched_baseline_pilot_present:
         benchmark_done += (
@@ -658,8 +672,10 @@ def build_gap_rows() -> list[dict[str, object]]:
             "domain": "benchmark_breadth_and_baselines",
             "weight": 15,
             "current_score": benchmark_score,
-            "status": _action_status(
-                actions, "03_manuscript_grade_stability_baselines"
+            "status": (
+                "controlled"
+                if benchmark_blockers == "none"
+                else _action_status(actions, "03_manuscript_grade_stability_baselines")
             ),
             "evidence": f"{_rel(ACTION_PLAN)};{_rel(MANUSCRIPT_STABILITY_STATS)}",
             "blocking_items": benchmark_blockers,
@@ -671,8 +687,8 @@ def build_gap_rows() -> list[dict[str, object]]:
                 "official Seurat fixed-PC, elbow, and JackStraw baselines have "
                 "20-repeat rows across the prepared benchmark set, and paired "
                 "RMTGuard annotation statistics are available on the labeled "
-                "subset. Label-free dataset boundaries and component ablation "
-                "remain incomplete for a Nature Methods-style claim."
+                "subset. Component ablation and power calibration remain "
+                "incomplete for a Nature Methods-style claim."
             ),
             "next_supplement": benchmark_next,
         },
@@ -855,7 +871,27 @@ def build_markdown(
             "annotation, and rare-state power."
         )
     else:
-        if "added_dataset_label_free_boundary" in blocker_text:
+        if not any(
+            token in blocker_text
+            for token in [
+                "added_dataset_label_free_boundary",
+                "additional_datasets",
+                "full_Seurat_v5",
+                "JackStraw",
+                "paired_RMTGuard_vs_Seurat_statistics",
+                "RMTGuard_paired_repeat_depth_20",
+                "official_Seurat",
+                "20_plus_repeat_matched_baselines",
+                "20_50_repeat_matched_baselines",
+            ]
+        ):
+            missing_real_data = (
+                "2. Benchmark breadth, official Seurat/JackStraw baselines, "
+                "paired statistics on the labeled subset, and label-free "
+                "dataset boundaries are now controlled. Do not reopen this "
+                "layer unless adding optional atlas-scale evidence."
+            )
+        elif "added_dataset_label_free_boundary" in blocker_text:
             missing_real_data = (
                 "2. Label-free added-dataset boundary: the stability benchmark "
                 "and official Seurat/JackStraw rows now cover seven public "
@@ -1032,6 +1068,7 @@ def build_markdown(
             f"- Official Seurat JackStraw feasibility status: `{_rel(SEURAT_JACKSTRAW_FEASIBILITY_STATUS)}`",
             f"- Paired RMTGuard-versus-official-Seurat statistics: `{_rel(RMTGUARD_SEURAT_PAIRED_STATS)}`",
             f"- Paired RMTGuard-versus-official-Seurat status: `{_rel(RMTGUARD_SEURAT_PAIRED_STATUS)}`",
+            f"- Added-dataset annotation boundary: `{_rel(ANNOTATION_BOUNDARY)}`",
             f"- Submission guard: `{_rel(SUBMISSION_GUARD)}`",
         ]
     )

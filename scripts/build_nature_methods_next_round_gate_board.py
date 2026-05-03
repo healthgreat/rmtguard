@@ -42,11 +42,11 @@ GATES = [
     Gate(
         "NM-G01",
         "P0",
-        "ready_to_execute",
+        "done",
         "Codex",
         "stability_advantage",
-        "docs/jif20_50_gap_assessment.md",
-        "Freeze the main claim as callability-aware random-matrix noise control unless a new algorithm run beats the strongest comparator.",
+        "manuscript/claim_scope_final.md",
+        "Keep the main claim frozen as callability-aware random-matrix noise control unless a new algorithm run beats the strongest comparator.",
         "manuscript/claim_scope_final.md",
         "No abstract, figure legend, or cover-letter sentence claims broad stability superiority over Seurat/Scanpy/fixed-PC baselines.",
         "Stop Nature Methods submission if any main-text claim implies universal superiority from the current benchmark.",
@@ -55,11 +55,11 @@ GATES = [
     Gate(
         "NM-G02",
         "P0",
-        "pending_execution",
+        "run_sheet_ready",
         "Codex",
         "draft_repeat_count;component_ablation",
-        "results/ablation/component_ablation_summary.tsv",
-        "Scale component ablations from pilot runs to 20-50 repeats with confidence intervals and paired real-data annotation checks.",
+        "docs/p0_component_ablation_run_sheet.md",
+        "Execute the prepared P0 component-ablation run sheet at 20-50 repeats with confidence intervals and paired real-data annotation checks.",
         "results/ablation/p0_component_ablation_20_50_repeat_summary.tsv",
         "Each core component has effect estimate, CI, paired test where applicable, and a clear keep/drop interpretation.",
         "Stop claiming a component is necessary if its CI overlaps zero or if it only helps synthetic data while harming labeled real data.",
@@ -68,11 +68,11 @@ GATES = [
     Gate(
         "NM-G03",
         "P0",
-        "partial",
+        "grid_design_ready",
         "Codex",
         "weak_effect_low_prevalence_power",
-        "results/calibration/rare_state_power_summary.tsv",
-        "Expand realistic null and rare-state power grids across prevalence, effect size, dropout, library-size, and batch structures.",
+        "docs/manuscript_grade_null_power_grid_design.md",
+        "Execute the prepared realistic null and rare-state power grids across prevalence, effect size, dropout, library-size, and batch structures.",
         "results/calibration/manuscript_grade_null_power_grid.tsv",
         "False signal rate remains near preset alpha under realistic nulls, and rare-state power is reported as a power curve rather than one positive setting.",
         "Stop Nature Methods if weak-effect/low-prevalence regimes fail and cannot be reframed honestly as method limits.",
@@ -120,11 +120,11 @@ GATES = [
     Gate(
         "NM-G07",
         "P1",
-        "pending_manual_or_external_annotation",
+        "done",
         "Codex + author",
         "added_dataset_label_free_boundary",
-        "results/submission/rmtguard_seurat_paired_stats.tsv",
-        "Either add reliable annotations for PBMC3k and PDAC GSE154778, or keep them label-free stability/runtime evidence only.",
+        "docs/added_dataset_annotation_boundary.md",
+        "Keep PBMC3k and PDAC GSE154778 as label-free stability/runtime evidence unless reliable annotations are later documented.",
         "results/submission/added_dataset_annotation_boundary.tsv",
         "Every dataset is explicitly typed as labeled annotation evidence or label-free stability/runtime evidence.",
         "Stop reporting annotation ARI for PBMC3k/PDAC GSE154778 unless labels are documented and defensible.",
@@ -225,10 +225,11 @@ def build_markdown(rows: list[dict[str, str]]) -> str:
         "",
         "## Immediate 48-Hour Actions",
         "",
-        "1. Lock the claim wording as callability-aware noise control unless a new benchmark justifies stronger wording.",
-        "2. Prepare the P0 component-ablation 20-50 repeat run sheet and expected source-data columns.",
+        "1. Execute the P0 component-ablation run sheet and keep all CI/source-data outputs.",
+        "2. Execute the realistic null and rare-state power grid; report power curves, not one favorable setting.",
         "3. Obtain the author decision on PDAC/TME: deepen as main figure or demote to supplement.",
         "4. Keep PBMC3k and PDAC GSE154778 label-free unless reliable labels are documented.",
+        "5. Use `docs/nature_methods_48h_execution_packet.md` as the sprint control file.",
         "",
         "## Two-Week Science Sprint",
         "",
@@ -290,7 +291,9 @@ def main() -> int:
     print(_rel(OUT_TSV))
     print(_rel(OUT_MD))
     p0_open = sum(
-        1 for row in rows if row["priority"] == "P0" and row["status"] != "pass"
+        1
+        for row in rows
+        if row["priority"] == "P0" and row["status"] not in {"pass", "done"}
     )
     print(f"open_p0_gates\t{p0_open}")
     return 0
