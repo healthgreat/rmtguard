@@ -82,9 +82,9 @@ The linter blocks unsupported journal-facing claims while allowing explicit forb
 - `premature_doi_release` in `docs/post_feedback_journal_route_gate.md:51`
 - `broad_fixed_pc_superiority` in `docs/post_feedback_journal_route_gate.md:73`
 - `acceptance_guarantee` in `docs/public_release_blocker_report.md:5`
-- `acceptance_guarantee` in `docs/public_release_blocker_report.md:29`
-- `premature_doi_release` in `docs/public_release_blocker_report.md:113`
-- `premature_submission_ready` in `docs/public_release_blocker_report.md:133`
+- `acceptance_guarantee` in `docs/public_release_blocker_report.md:27`
+- `premature_doi_release` in `docs/public_release_blocker_report.md:111`
+- `premature_submission_ready` in `docs/public_release_blocker_report.md:131`
 - `acceptance_guarantee` in `docs/publication_20_50_rescue_plan.md:7`
 - `broad_fixed_pc_superiority` in `docs/publication_20_50_rescue_plan.md:55`
 - `acceptance_guarantee` in `docs/publication_execution_board.md:8`

@@ -138,6 +138,7 @@ def build_rows(
     head_tags: list[str] | None = None,
     placeholder_repo_present: bool | None = None,
     zenodo_doi_present: bool | None = None,
+    github_release_executed: bool | None = None,
 ) -> list[dict[str, str]]:
     if release_readiness_rows is None:
         release_readiness_rows = _read_tsv(READINESS_TSV)
@@ -153,9 +154,10 @@ def build_rows(
         placeholder_repo_present = _detect_placeholder_repo_present()
     if zenodo_doi_present is None:
         zenodo_doi_present = _detect_zenodo_doi_present()
+    if github_release_executed is None:
+        github_release_executed = _detect_github_release_executed()
 
     github_remote_ok = bool(remote_url) and "github.com" in remote_url.lower()
-    github_release_executed = _detect_github_release_executed()
     github_access_ok = bool(gh_path) or github_release_executed
     metadata_ok = not placeholder_repo_present
     tag_ok = bool(head_tags)

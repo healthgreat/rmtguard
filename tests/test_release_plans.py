@@ -758,6 +758,7 @@ class ReleasePlanTest(unittest.TestCase):
             head_tags=[],
             placeholder_repo_present=True,
             zenodo_doi_present=False,
+            github_release_executed=False,
         )
         by_id = {row["blocker_id"]: row for row in rows}
         self.assertEqual(
