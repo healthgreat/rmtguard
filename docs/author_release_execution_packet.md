@@ -7,8 +7,8 @@ This packet reduces the remaining public-release blocker to author-owned externa
 
 ## Overall Status
 
-- Status: `blocked_waiting_author_release`
-- Blocking actions: `blocked_actions=06_archive_github_release_with_zenodo;07_provide_zenodo_doi_to_codex;08_record_doi_and_rerun_submission_gates; route=pause_for_p0_feedback; gb_transfer=hold; reviewer_defense=not_sendable_before_release.`
+- Status: `release_evidence_ready_for_gate_refresh`
+- Blocking actions: `blocked_actions=none; route=pause_for_p0_feedback; gb_transfer=hold; reviewer_defense=not_sendable_before_release.`
 - Stop condition: Do not mark Nature Methods, Genome Biology, or any route as sendable while this row is blocked.
 
 ## Minimal Author Actions
@@ -42,7 +42,7 @@ This packet reduces the remaining public-release blocker to author-owned externa
 
 ### 06_archive_github_release_with_zenodo
 
-- Status: `blocked_external`
+- Status: `pass`
 - Blocking input: GitHub Release page
 - Exact action: Archive the GitHub Release with Zenodo and capture the assigned DOI.
 - Verification: DOI has the form `10.5281/zenodo.<id>`.
@@ -51,7 +51,7 @@ This packet reduces the remaining public-release blocker to author-owned externa
 
 ### 07_provide_zenodo_doi_to_codex
 
-- Status: `waiting_external_input`
+- Status: `pass`
 - Blocking input: Zenodo DOI
 - Exact action: Send Codex the Zenodo DOI after the archive is public.
 - Verification: DOI validation passes in `scripts/finalize_submission_release.py`.
@@ -60,12 +60,12 @@ This packet reduces the remaining public-release blocker to author-owned externa
 
 ### overall_author_release_execution
 
-- Status: `blocked_waiting_author_release`
+- Status: `release_evidence_ready_for_gate_refresh`
 - Blocking input: repository URL, GitHub Release, Zenodo DOI
 - Exact action: Complete the external author-owned release actions, then rerun the local gates.
 - Verification: All release readiness rows pass and route gates are regenerated.
 - Stop condition: Do not mark Nature Methods, Genome Biology, or any route as sendable while this row is blocked.
-- Notes: blocked_actions=06_archive_github_release_with_zenodo;07_provide_zenodo_doi_to_codex;08_record_doi_and_rerun_submission_gates; route=pause_for_p0_feedback; gb_transfer=hold; reviewer_defense=not_sendable_before_release.
+- Notes: blocked_actions=none; route=pause_for_p0_feedback; gb_transfer=hold; reviewer_defense=not_sendable_before_release.
 
 ## Full Execution Checklist
 
@@ -158,7 +158,7 @@ Create a GitHub Release from `v0.1.0-rc8` and attach only approved release/Zenod
 
 - Phase: `external`
 - Owner: `Author`
-- Status: `blocked_external`
+- Status: `pass`
 - Evidence: `results/release/public_release_blockers.tsv`
 - Exact action:
 
@@ -174,7 +174,7 @@ Archive the GitHub Release with Zenodo and capture the assigned DOI.
 
 - Phase: `author_input`
 - Owner: `Author`
-- Status: `waiting_external_input`
+- Status: `pass`
 - Evidence: `results/release/release_readiness.tsv`
 - Exact action:
 
@@ -190,7 +190,7 @@ Send Codex the Zenodo DOI after the archive is public.
 
 - Phase: `local_after_doi`
 - Owner: `Codex`
-- Status: `ready_after_doi`
+- Status: `pass`
 - Evidence: `results/submission/post_feedback_journal_route_gate.tsv`
 - Exact action:
 
@@ -211,7 +211,7 @@ python scripts/build_post_feedback_journal_route_gate.py
 
 - Phase: `summary`
 - Owner: `Author + Codex`
-- Status: `blocked_waiting_author_release`
+- Status: `release_evidence_ready_for_gate_refresh`
 - Evidence: `results/release/author_release_execution_checklist.tsv`
 - Exact action:
 
@@ -221,7 +221,7 @@ Complete the external author-owned release actions, then rerun the local gates.
 
 - Verification: All release readiness rows pass and route gates are regenerated.
 - Stop condition: Do not mark Nature Methods, Genome Biology, or any route as sendable while this row is blocked.
-- Notes: blocked_actions=06_archive_github_release_with_zenodo;07_provide_zenodo_doi_to_codex;08_record_doi_and_rerun_submission_gates; route=pause_for_p0_feedback; gb_transfer=hold; reviewer_defense=not_sendable_before_release.
+- Notes: blocked_actions=none; route=pause_for_p0_feedback; gb_transfer=hold; reviewer_defense=not_sendable_before_release.
 
 ## Non-Negotiable Boundary
 

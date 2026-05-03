@@ -1,6 +1,6 @@
 # Code Availability Finalization Draft
 
-Status: `blocked_waiting_author_release`.
+Status: `release_evidence_ready_for_gate_refresh`.
 This draft is not final until the public repository URL and archive DOI are known.
 
 ## Current Safe Wording

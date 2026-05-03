@@ -7,14 +7,13 @@ This report is a release-engineering control surface, not a promise of journal a
 
 ## Summary
 
-- Passing release checks: `6`
-- Blocking checks: `2`
+- Passing release checks: `8`
+- Blocking checks: `0`
 - Strict Nature Methods / 20-50 JIF route remains gated by real evidence, public release completion, and editorial review.
 
 ## Immediate Blockers
 
-- `zenodo_doi` (blocked_external): Archive the GitHub Release with Zenodo and record the DOI.
-- `software_release_gate` (blocked): Rebuild release readiness after GitHub and Zenodo evidence are real.
+- none
 
 ## Execution Rows
 
@@ -84,10 +83,10 @@ git status --short
 - Owner: `codex`
 - Evidence: `.git`
 - Required action: Create an annotated release tag only after source, docs, tests, and metadata are final.
-- Notes: HEAD tag(s): v0.1.0-rc8
+- Notes: HEAD tag(s): v0.1.0
 
 ```bash
-git tag -a v0.1.0-rc8 -m "RMTGuard manuscript analysis release candidate 8"
+git tag -a v0.1.0 -m "RMTGuard v0.1.0"
 ```
 
 ### github_release_page
@@ -99,16 +98,16 @@ git tag -a v0.1.0-rc8 -m "RMTGuard manuscript analysis release candidate 8"
 - Notes: GitHub Release execution plan records an executed release URL.
 
 ```bash
-python scripts/execute_github_release.py --repo-url https://github.com/<owner>/rmtguard --tag v0.1.0-rc8 --execute
+python scripts/execute_github_release.py --repo-url https://github.com/<owner>/rmtguard --tag v0.1.0 --execute --final-release
 ```
 
 ### zenodo_doi
 
-- Status: `blocked_external`
+- Status: `pass`
 - Owner: `author`
 - Evidence: `.zenodo.json`
 - Required action: Archive the GitHub Release with Zenodo and record the DOI.
-- Notes: Zenodo DOI is still absent; software_release must remain pending.
+- Notes: Zenodo DOI is recorded.
 
 ```bash
 python scripts/finalize_submission_release.py --repo-url https://github.com/<owner>/rmtguard --doi 10.5281/zenodo.<id> --execute
@@ -116,11 +115,11 @@ python scripts/finalize_submission_release.py --repo-url https://github.com/<own
 
 ### software_release_gate
 
-- Status: `blocked`
+- Status: `pass`
 - Owner: `codex_author_joint`
 - Evidence: `results/release/release_readiness.tsv`
 - Required action: Rebuild release readiness after GitHub and Zenodo evidence are real.
-- Notes: One or more repository URL, remote, tag, or DOI checks remain pending.
+- Notes: All software-release evidence rows pass.
 
 ```bash
 make release-manifests
