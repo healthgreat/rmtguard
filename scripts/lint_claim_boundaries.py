@@ -218,6 +218,8 @@ def _is_excluded_path(path: Path) -> bool:
 def _is_controlled_context(line: str, path: Path) -> bool:
     lowered = line.lower()
     rel = _rel(path).lower()
+    if re.search(r"https?://doi\.org/10\.\d{4,9}/[-._;()/:A-Za-z0-9]+", line):
+        return True
     if any(term in lowered for term in NEGATION_TERMS):
         return True
     if any(hint in rel for hint in CONTROLLED_PATH_HINTS):
