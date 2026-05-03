@@ -316,6 +316,16 @@ TASKS = [
         "Release readiness, public-release blockers, source audit, claim lint, and traceability checks pass; scientific submission guard remains separate.",
     ),
     Task(
+        "Release",
+        "Cross-project shared information package",
+        date(2026, 5, 4),
+        date(2026, 5, 4),
+        "done",
+        100,
+        "docs/shared_info_export_manifest.md",
+        "Reusable RMTGuard status, manual-action, release-evidence, and external-review templates exported to D:/99、共用信息 for other projects.",
+    ),
+    Task(
         "Journal route",
         "Nature Methods vs Genome Biology go/no-go",
         date(2026, 6, 21),
