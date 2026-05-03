@@ -47,3 +47,5 @@ python scripts/build_manuscript_draft_package.py
 python scripts/build_release_readiness.py
 python scripts/release_audit.py
 ```
+
+Zenodo DOI: https://doi.org/10.5281/zenodo.20012350
