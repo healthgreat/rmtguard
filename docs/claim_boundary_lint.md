@@ -8,7 +8,7 @@ The linter blocks unsupported journal-facing claims while allowing explicit forb
 ## Summary
 
 - Violations: `0`
-- Controlled boundary mentions: `177`
+- Controlled boundary mentions: `196`
 
 ## Violations
 
@@ -16,6 +16,7 @@ The linter blocks unsupported journal-facing claims while allowing explicit forb
 
 ## Controlled Boundary Mentions
 
+- `premature_doi_release` in `docs/author_metadata_status.md:27`
 - `acceptance_guarantee` in `docs/author_release_execution_packet.md:5`
 - `premature_doi_release` in `docs/author_release_execution_packet.md:55`
 - `premature_doi_release` in `docs/author_release_execution_packet.md:56`
@@ -49,7 +50,10 @@ The linter blocks unsupported journal-facing claims while allowing explicit forb
 - `acceptance_guarantee` in `docs/editorial_risk_audit.md:100`
 - `premature_doi_release` in `docs/external_release_plan.md:136`
 - `premature_doi_release` in `docs/external_release_plan.md:147`
+- `acceptance_guarantee` in `docs/external_review_action_plan.md:5`
 - `acceptance_guarantee` in `docs/external_review_feedback_triage.md:5`
+- `premature_doi_release` in `docs/external_review_feedback_triage.md:33`
+- `broad_fixed_pc_superiority` in `docs/external_review_feedback_triage.md:53`
 - `acceptance_guarantee` in `docs/genome_biology_transfer_package.md:5`
 - `premature_doi_release` in `docs/genome_biology_transfer_package.md:31`
 - `premature_doi_release` in `docs/genome_biology_transfer_package.md:33`
@@ -61,6 +65,11 @@ The linter blocks unsupported journal-facing claims while allowing explicit forb
 - `pbmc68k_positive_discovery` in `docs/genome_biology_transfer_package.md:54`
 - `premature_doi_release` in `docs/genome_biology_transfer_package.md:89`
 - `premature_doi_release` in `docs/github_release_checklist.md:13`
+- `acceptance_guarantee` in `docs/github_release_execution.md:8`
+- `acceptance_guarantee` in `docs/jif20_50_gap_assessment.md:8`
+- `premature_doi_release` in `docs/jif20_50_gap_assessment.md:20`
+- `premature_submission_ready` in `docs/manual_author_execution_steps.md:5`
+- `premature_doi_release` in `docs/manual_author_execution_steps.md:61`
 - `premature_doi_release` in `docs/method_risk_log.md:358`
 - `premature_doi_release` in `docs/method_risk_log.md:401`
 - `acceptance_guarantee` in `docs/nature_reporting_summary_draft.md:13`
@@ -73,16 +82,17 @@ The linter blocks unsupported journal-facing claims while allowing explicit forb
 - `premature_doi_release` in `docs/post_feedback_journal_route_gate.md:51`
 - `broad_fixed_pc_superiority` in `docs/post_feedback_journal_route_gate.md:73`
 - `acceptance_guarantee` in `docs/public_release_blocker_report.md:5`
-- `acceptance_guarantee` in `docs/public_release_blocker_report.md:31`
-- `premature_doi_release` in `docs/public_release_blocker_report.md:115`
-- `premature_submission_ready` in `docs/public_release_blocker_report.md:135`
+- `acceptance_guarantee` in `docs/public_release_blocker_report.md:29`
+- `premature_doi_release` in `docs/public_release_blocker_report.md:113`
+- `premature_submission_ready` in `docs/public_release_blocker_report.md:133`
 - `acceptance_guarantee` in `docs/publication_20_50_rescue_plan.md:7`
 - `broad_fixed_pc_superiority` in `docs/publication_20_50_rescue_plan.md:55`
 - `acceptance_guarantee` in `docs/publication_execution_board.md:8`
-- `broad_fixed_pc_superiority` in `docs/publication_execution_board.md:34`
+- `broad_fixed_pc_superiority` in `docs/publication_execution_board.md:31`
+- `premature_doi_release` in `docs/publication_execution_board.md:73`
 - `premature_doi_release` in `docs/publication_execution_board.md:76`
-- `premature_doi_release` in `docs/publication_execution_board.md:79`
 - `premature_doi_release` in `docs/publication_strategy.md:27`
+- `pbmc68k_positive_discovery` in `docs/realdata_ablation_figure_table.md:10`
 - `acceptance_guarantee` in `docs/reviewer_defense_package.md:5`
 - `premature_doi_release` in `docs/reviewer_defense_package.md:28`
 - `premature_doi_release` in `docs/reviewer_defense_package.md:29`
@@ -92,31 +102,21 @@ The linter blocks unsupported journal-facing claims while allowing explicit forb
 - `pbmc68k_positive_discovery` in `docs/reviewer_defense_package.md:91`
 - `pbmc68k_positive_discovery` in `docs/reviewer_defense_package.md:92`
 - `broad_fixed_pc_superiority` in `docs/reviewer_defense_package.md:128`
+- `acceptance_guarantee` in `docs/route_reframe_package.md:5`
+- `premature_submission_ready` in `docs/route_reframe_package.md:13`
+- `pbmc68k_positive_discovery` in `docs/route_reframe_package.md:49`
+- `broad_fixed_pc_superiority` in `docs/route_reframe_package.md:51`
+- `pbmc68k_positive_discovery` in `docs/route_reframe_package.md:51`
+- `premature_doi_release` in `docs/route_reframe_package.md:59`
+- `premature_doi_release` in `docs/route_reframe_package.md:60`
+- `premature_submission_ready` in `docs/route_reframe_package.md:78`
 - `broad_fixed_pc_superiority` in `docs/stability_gate_diagnostics.md:7`
 - `broad_fixed_pc_superiority` in `docs/stability_utility_tradeoff.md:8`
 - `acceptance_guarantee` in `docs/submission_guard.md:5`
 - `premature_submission_ready` in `docs/submission_guard.md:62`
 - `acceptance_guarantee` in `docs/top_paper_route_package.md:5`
 - `premature_doi_release` in `docs/top_paper_route_package.md:69`
-- `pbmc68k_positive_discovery` in `docs/top_paper_route_package.md:106`
-- `broad_fixed_pc_superiority` in `docs/top_paper_route_package.md:107`
-- `pbmc68k_positive_discovery` in `docs/top_paper_route_package.md:107`
-- `pbmc68k_positive_discovery` in `docs/top_paper_route_package.md:113`
-- `premature_doi_release` in `docs/top_paper_route_package.md:130`
-- `premature_doi_release` in `docs/top_paper_route_package.md:131`
-- `premature_submission_ready` in `manuscript/abstract_draft.md:3`
-- `pbmc68k_positive_discovery` in `manuscript/abstract_draft.md:7`
-- `broad_fixed_pc_superiority` in `manuscript/abstract_draft.md:9`
-- `premature_submission_ready` in `manuscript/abstract_draft.md:9`
-- `premature_doi_release` in `manuscript/code_availability_finalization_draft.md:23`
-- `premature_submission_ready` in `manuscript/code_availability_finalization_draft.md:23`
-- `premature_submission_ready` in `manuscript/cover_letter_draft.md:3`
-- `broad_fixed_pc_superiority` in `manuscript/cover_letter_draft.md:13`
-- `premature_doi_release` in `manuscript/cover_letter_draft.md:13`
-- `premature_doi_release` in `manuscript/figure_claim_checklist.md:10`
-- `premature_doi_release` in `manuscript/figure_claim_checklist.md:11`
-- `broad_fixed_pc_superiority` in `manuscript/figure_claim_checklist.md:26`
-- ... 77 additional controlled mentions omitted from Markdown summary.
+- ... 96 additional controlled mentions omitted from Markdown summary.
 
 ## Submission Rule
 

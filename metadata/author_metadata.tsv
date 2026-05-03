@@ -1,0 +1,26 @@
+field	value	status	required_action
+manuscript_author_list	Chongfa Chen, MD; Han Yan, MD, PhD; Yi Miao, MD, PhD	author_provided	Verify final order before submission.
+affiliation_1	Pancreas Center, The Affiliated BenQ Hospital of Nanjing Medical University, Nanjing, China	author_provided	Confirm official English institutional name and department format.
+first_author	Chongfa Chen, MD	author_provided	Do not retain the trailing star unless the target journal requires a separate non-equal-contribution note.
+equal_contribution_footnote	None	author_confirmed_removed	No equal-contribution footnote should be included for the current RMTGuard author list.
+corresponding_author_1	Yi Miao, MD, PhD, FACS, FRCS, FICS(Hon)	author_provided	Confirm title suffixes are allowed by target journal metadata system.
+corresponding_author_order	Yi Miao first; Han Yan second	author_confirmed	Use this order in title page, cover letter, and submission metadata.
+corresponding_author_1_address	No. 71 Hexi Street, Jianye District, Nanjing, Jiangsu, China	author_provided	Postal code conflict remains; see postal_code rows.
+corresponding_author_1_email	miaoyi@njmu.edu.cn	author_provided	Confirm this is the preferred submission-system email.
+corresponding_author_1_orcid	https://orcid.org/0000-0003-2542-8663	author_provided	Confirm ORCID ownership.
+corresponding_author_2	Han Yan, MD, PhD	author_provided	Confirm co-corresponding author order.
+corresponding_author_2_address	No. 71 Hexi Street, Jianye District, Nanjing, Jiangsu, China	author_provided	Postal code conflict remains; see postal_code rows.
+corresponding_author_2_email	carrick8862@163.com	author_provided	Confirm this is the preferred submission-system email.
+corresponding_author_2_orcid	https://orcid.org/0000-0002-2041-3115	author_provided	Confirm ORCID ownership.
+postal_code_author_provided	350000	author_provided_conflicts_public_sources	Do not finalize title page until author confirms whether 350000 or the public-source candidate 210019 should be used.
+postal_code_public_source_candidate	210019	external_source_candidate	Public sources for No. 71 Hexi Street / Hexi Avenue, Jianye District, Nanjing list 210019; author should verify against hospital or journal submission requirements.
+chongfa_chen_orcid	unverified_candidates_found	Two public ORCID records match the name but have no public employment/works; do not insert into CITATION.cff or .zenodo.json until Chongfa Chen confirms ownership.
+chongfa_chen_orcid_candidate_1	https://orcid.org/0000-0001-7367-9972	unverified_name_match	Public ORCID profile has matching given/family names but no public employment or works.
+chongfa_chen_orcid_candidate_2	https://orcid.org/0000-0001-6597-5181	unverified_name_match	Public ORCID profile has matching given/family names but no public employment or works.
+feihu_sun_author_record	Not an author on this manuscript	author_confirmed_not_author	Do not include Feihu Sun in the RMTGuard title page, CRediT roles, CITATION.cff, .zenodo.json, or manuscript author metadata.
+credit_roles_draft	metadata/credit_roles.tsv	drafted_needs_author_confirmation	CRediT roles are drafted based on project responsibilities and must be approved by all authors.
+funding_statement	TO CONFIRM: grant details or no specific funding.	pending_author_content	Provide exact grants/funders or confirm no specific funding before submission.
+competing_interests_statement	The authors declare no competing interests.	drafted_needs_author_confirmation	Use only if all authors confirm there are no financial or non-financial competing interests.
+ethics_public_data_statement	This study uses public, de-identified datasets and does not include newly collected private clinical data. Dataset-specific consent and ethics approvals were reported by the original studies.	drafted_from_project_scope	Confirm the manuscript remains public-data-only before submission.
+repository_url	https://github.com/healthgreat/rmtguard	author_created_public_repo	Public GitHub repository exists and local origin remote is configured.
+zenodo_doi		blocked_external	Replace only after the GitHub Release is archived by Zenodo.

@@ -7,16 +7,185 @@ This report converts external model or collaborator comments into a controlled r
 
 ## Input
 
-- Feedback table: `metadata/external_review_feedback_template.tsv`
-- Rows triaged: `1`
+- Feedback table: `metadata/external_review_feedback_active.tsv`
+- Rows triaged: `15`
 
 ## Category Counts
 
-- `awaiting_external_feedback`: `1`
+- `analysis_request`: `5`
+- `fatal_blocker`: `4`
+- `figure_revision`: `2`
+- `general_feedback`: `1`
+- `journal_route_decision`: `1`
+- `wording_or_claim_revision`: `2`
 
 ## P0/P1 Items
 
-- none
+### SG-P0-001
+
+- Priority: `P0`
+- Category: `fatal_blocker`
+- Route impact: `nature_methods_go_no_go`
+- Section: `code availability`
+- Linked artifact: `results/release/release_readiness.tsv`
+- Required action: Complete public GitHub repository, push the exact release commit and tag, create a GitHub Release, archive with Zenodo, record DOI, and rerun all release/submission gates.
+- Stop condition: Do not submit until this objection is resolved or route is downgraded.
+- Comment: Public GitHub repository, GitHub Release, and Zenodo DOI are absent; repository_url, github_remote, and zenodo_doi are pending.
+
+### SG-P0-002
+
+- Priority: `P0`
+- Category: `fatal_blocker`
+- Route impact: `nature_methods_go_no_go`
+- Section: `real-data stability`
+- Linked artifact: `results/stability_benchmarks/stability_gate_diagnostics.tsv`
+- Required action: Do not claim stability superiority; rerun manuscript-grade stability with stronger baselines, confidence intervals, and no-call decision reporting before any Nature Methods route upgrade.
+- Stop condition: Do not submit until this objection is resolved or route is downgraded.
+- Comment: Stability advantage fails on real data: RMTGuard is below the strongest baseline on PBMC3k, Baron pancreas, and Kang IFN-beta PBMC, while PBMC68k is a diagnostic no-call.
+
+### SG-P0-003
+
+- Priority: `P0`
+- Category: `fatal_blocker`
+- Route impact: `nature_methods_go_no_go`
+- Section: `claim scope`
+- Linked artifact: `results/manuscript/claim_evidence_matrix.tsv`
+- Required action: Reframe the manuscript as a callability-aware diagnostic workflow, identify the strongest direct evidence, and remove any residual broad superiority language.
+- Stop condition: Do not submit until this objection is resolved or route is downgraded.
+- Comment: The package is so caveated that the manuscript currently lacks a clear positive real-data advance beyond diagnostic boundaries.
+
+### SG-P0-004
+
+- Priority: `P0`
+- Category: `fatal_blocker`
+- Route impact: `nature_methods_go_no_go`
+- Section: `method novelty`
+- Linked artifact: `docs/method_risk_log.md`
+- Required action: Hold Nature Methods presubmission unless new evidence or a sharper no-call primitive demonstrates a broader method advance; otherwise route to Genome Biology or Bioinformatics.
+- Stop condition: Do not submit until this objection is resolved or route is downgraded.
+- Comment: Method novelty is insufficient for Nature Methods because MP/TW, permutation PCA, and stability heuristics are existing components; the diagnostic no-call contract is useful but incremental.
+
+### SG-P1-001
+
+- Priority: `P1`
+- Category: `analysis_request`
+- Route impact: `scientific_gate_or_benchmark`
+- Section: `benchmark breadth`
+- Linked artifact: `metadata/datasets.tsv`
+- Required action: Add at least three to six additional public datasets, including Tabula Sapiens subsets, one perturbation or time-course dataset, and one atlas-scale stress dataset.
+- Stop condition: Do not upgrade claims until the requested analysis is run or explicitly rejected with rationale.
+- Comment: Current four-dataset Phase 1 benchmark is too narrow for a reproducibility/stability claim.
+
+### SG-P1-002
+
+- Priority: `P1`
+- Category: `analysis_request`
+- Route impact: `scientific_gate_or_benchmark`
+- Section: `baseline comparisons`
+- Linked artifact: `benchmarks`
+- Required action: Add full Seurat v5, JackStraw-like, permutation/parallel-analysis PCA, and tuned Scanpy/Seurat resolution-grid comparisons under matched preprocessing.
+- Stop condition: Do not upgrade claims until the requested analysis is run or explicitly rejected with rationale.
+- Comment: Current Scanpy-like, fixed-PC, and elbow baselines are insufficient for a methods manuscript.
+
+### SG-P1-003
+
+- Priority: `P1`
+- Category: `general_feedback`
+- Route impact: `editorial_polish`
+- Section: `statistical calibration`
+- Linked artifact: `docs/statistical_analysis_plan.md`
+- Required action: Add realistic count-preserving nulls, dropout/library-size preserving permutations, paired tests across datasets, multiple-testing correction, and rare-state power grids.
+- Stop condition: Do not act on vague feedback without converting it into a concrete revision ticket.
+- Comment: Pure Gaussian null is too optimistic; realistic scRNA-seq null calibration and paired statistical testing are missing.
+
+### SG-P1-004
+
+- Priority: `P1`
+- Category: `analysis_request`
+- Route impact: `scientific_gate_or_benchmark`
+- Section: `stability benchmark`
+- Linked artifact: `results/stability_benchmarks/stability_gate_diagnostics.tsv`
+- Required action: Rerun stability with at least 10 repeats, larger/full cell ranges where feasible, bootstrap confidence intervals, paired tests, and cluster-number variance.
+- Stop condition: Do not upgrade claims until the requested analysis is run or explicitly rejected with rationale.
+- Comment: Current stability benchmark repeats and cell ranges are not manuscript-grade.
+
+### SG-P1-005
+
+- Priority: `P1`
+- Category: `analysis_request`
+- Route impact: `scientific_gate_or_benchmark`
+- Section: `PDAC/TME showcase`
+- Linked artifact: `docs/pdac_tme_showcase_depth.md`
+- Required action: Either deepen PDAC/TME with DE, pathway enrichment, trajectory or published-atlas validation, or demote it to supplement and use a stronger public application.
+- Stop condition: Do not upgrade claims until the requested analysis is run or explicitly rejected with rationale.
+- Comment: PDAC/TME showcase is marker-smoke level and not strong enough as a main biological application.
+
+### SG-P1-006
+
+- Priority: `P1`
+- Category: `analysis_request`
+- Route impact: `scientific_gate_or_benchmark`
+- Section: `ablation`
+- Linked artifact: `results/manuscript/reviewer_objection_matrix.tsv`
+- Required action: Run full ablation across false-signal control, rare-state retention, real-data stability, annotation recovery, runtime, and no-call rate.
+- Stop condition: Do not upgrade claims until the requested analysis is run or explicitly rejected with rationale.
+- Comment: Component ablations do not quantify marginal contributions of MP edge, TW proxy, permutation calibration, HVG plateau, stability guard, and batch residualization.
+
+### SG-P1-007
+
+- Priority: `P1`
+- Category: `figure_revision`
+- Route impact: `figure_evidence`
+- Section: `no-call reporting`
+- Linked artifact: `docs/no_call_benchmark.md`
+- Required action: Implement and expose a quantitative no-call reason table, decision tree, and Figure 3 callability map with thresholds and comparator context.
+- Stop condition: Do not finalize figure captions until panel evidence and caveats match the claim matrix.
+- Comment: The no-call contract is potentially valuable but needs a user-facing decision tree or heatmap.
+
+### SG-P1-008
+
+- Priority: `P1`
+- Category: `figure_revision`
+- Route impact: `figure_evidence`
+- Section: `figures`
+- Linked artifact: `figures/manuscript/rendered_figure_manifest.tsv`
+- Required action: Redraw figures as vector PDF plus 300 dpi TIFF with source-data tables, statistical annotations, colorblind-safe palettes, and explicit no-call glyphs.
+- Stop condition: Do not finalize figure captions until panel evidence and caveats match the claim matrix.
+- Comment: Figure 1-5 are not final journal-grade and Figure 3 currently highlights failures without enough callability context.
+
+### SG-P1-009
+
+- Priority: `P1`
+- Category: `wording_or_claim_revision`
+- Route impact: `claim_boundary`
+- Section: `ethics reporting`
+- Linked artifact: `docs/nature_reporting_summary_draft.md`
+- Required action: Add public-data ethics/privacy wording and complete the official reporting-summary form with author-verified answers before any submission.
+- Stop condition: Do not send editor-facing text until claim lint and traceability remain violation-free.
+- Comment: Human public metadata still needs an ethics/privacy statement and official Nature Portfolio reporting summary needs author verification.
+
+### SG-P1-010
+
+- Priority: `P1`
+- Category: `journal_route_decision`
+- Route impact: `journal_route`
+- Section: `journal route`
+- Linked artifact: `results/submission/post_feedback_journal_route_gate.tsv`
+- Required action: Update route gates to pause Nature Methods, treat Genome Biology as conditional after release, and keep Bioinformatics/NAR Genomics and Bioinformatics as safe fallback.
+- Stop condition: Do not send Nature Methods inquiry until route decision remains justified after feedback.
+- Comment: Nature Methods presubmission is not worth sending in the current state; Genome Biology is the realistic route after public release and reframe.
+
+### SG-CLAIM-001
+
+- Priority: `P1`
+- Category: `wording_or_claim_revision`
+- Route impact: `claim_boundary`
+- Section: `claim audit`
+- Linked artifact: `manuscript/abstract_draft.md`
+- Required action: Downgrade wording to callability-aware noise-control diagnostics and explicitly list remaining parameters such as tw_alpha, n_permutations, and stability_repeats.
+- Stop condition: Do not send editor-facing text until claim lint and traceability remain violation-free.
+- Comment: The phrase reduces subjective parameter choices is weak because RMTGuard replaces one set of heuristics with another configurable framework.
+
 
 ## Review Loop Rule
 

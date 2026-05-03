@@ -19,7 +19,7 @@ The RMTGuard source code, benchmark scripts, environment files, tests, and
 documentation are available at:
 
 ```text
-https://github.com/your-lab/rmtguard
+https://github.com/healthgreat/rmtguard
 ```
 
 The exact manuscript version will be tagged as a GitHub Release and archived in

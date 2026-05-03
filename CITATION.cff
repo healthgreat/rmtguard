@@ -3,10 +3,17 @@ title: "RMTGuard: Random Matrix Theory guarded cell-state discovery"
 message: "If you use RMTGuard, please cite the software release and the associated manuscript."
 type: software
 authors:
-  - family-names: "RMTGuard contributors"
+  - family-names: "Chen"
+    given-names: "Chongfa"
+  - family-names: "Yan"
+    given-names: "Han"
+    orcid: "https://orcid.org/0000-0002-2041-3115"
+  - family-names: "Miao"
+    given-names: "Yi"
+    orcid: "https://orcid.org/0000-0003-2542-8663"
 version: "0.1.0"
 date-released: "2026-04-27"
-repository-code: "https://github.com/your-lab/rmtguard"
+repository-code: "https://github.com/healthgreat/rmtguard"
 license: "MIT"
 keywords:
   - single-cell RNA-seq

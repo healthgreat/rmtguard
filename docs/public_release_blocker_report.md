@@ -7,16 +7,14 @@ This report is a release-engineering control surface, not a promise of journal a
 
 ## Summary
 
-- Passing release checks: `2`
-- Blocking checks: `6`
+- Passing release checks: `4`
+- Blocking checks: `4`
 - Strict Nature Methods / 20-50 JIF route remains gated by real evidence, public release completion, and editorial review.
 
 ## Immediate Blockers
 
 - `github_cli_or_web_access` (blocked_external): Provide either GitHub CLI authentication or use the GitHub web UI for repository/release creation.
-- `github_remote` (blocked_external): Create a real public GitHub repository and connect this checkout to it.
-- `repository_url_metadata` (blocked_external): Replace placeholder repository URLs after the real GitHub repository exists.
-- `github_release_page` (blocked_external): Create a GitHub Release from the approved release tag.
+- `clean_worktree_before_release` (blocked_local): Commit or intentionally exclude local changes before creating a public release tag.
 - `zenodo_doi` (blocked_external): Archive the GitHub Release with Zenodo and record the DOI.
 - `software_release_gate` (blocked): Rebuild release readiness after GitHub and Zenodo evidence are real.
 
@@ -48,11 +46,11 @@ gh auth status
 
 ### github_remote
 
-- Status: `blocked_external`
+- Status: `pass`
 - Owner: `author`
 - Evidence: `.git/config`
 - Required action: Create a real public GitHub repository and connect this checkout to it.
-- Notes: No GitHub origin remote is configured.
+- Notes: origin=https://github.com/healthgreat/rmtguard.git
 
 ```bash
 git remote add origin https://github.com/<owner>/rmtguard.git
@@ -60,11 +58,11 @@ git remote add origin https://github.com/<owner>/rmtguard.git
 
 ### repository_url_metadata
 
-- Status: `blocked_external`
+- Status: `pass`
 - Owner: `author`
 - Evidence: `pyproject.toml`
 - Required action: Replace placeholder repository URLs after the real GitHub repository exists.
-- Notes: Repository metadata still contains placeholder owner/repository values.
+- Notes: Repository metadata points to a real URL.
 
 ```bash
 python scripts/update_repository_metadata.py --repo-url https://github.com/<owner>/rmtguard --execute
@@ -72,11 +70,11 @@ python scripts/update_repository_metadata.py --repo-url https://github.com/<owne
 
 ### clean_worktree_before_release
 
-- Status: `pass`
+- Status: `blocked_local`
 - Owner: `codex`
 - Evidence: `.git`
 - Required action: Commit or intentionally exclude local changes before creating a public release tag.
-- Notes: Git work tree is clean.
+- Notes: Git work tree has local changes; do not tag a moving target.
 
 ```bash
 git status --short
@@ -96,7 +94,7 @@ git tag -a v0.1.0-rc8 -m "RMTGuard manuscript analysis release candidate 8"
 
 ### github_release_page
 
-- Status: `blocked_external`
+- Status: `pass`
 - Owner: `author`
 - Evidence: `GitHub Releases`
 - Required action: Create a GitHub Release from the approved release tag.

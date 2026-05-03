@@ -23,9 +23,16 @@ data/*.mtx
 data/*.gz
 data/*.tar
 data/*.zip
+data/*/
+data/**/*.h5
+data/**/*.h5ad
+data/**/*.mtx
 data/raw/*
 data/processed/*
 data/external/*
+!data/raw/
+!data/processed/
+!data/external/
 !data/raw/.gitkeep
 !data/processed/.gitkeep
 !data/external/.gitkeep
@@ -49,3 +56,4 @@ StateBridge/
 Thumbs.db
 .vscode/
 .idea/
+AGENTS.md

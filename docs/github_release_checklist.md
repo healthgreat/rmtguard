@@ -22,9 +22,9 @@
 - Run `python scripts/stage_github_release_files.py` for a dry-run of the exact
   files that would be staged. Use `--execute` only after reviewing
   `docs/github_staging_plan.md`.
-- Run `python scripts/update_repository_metadata.py` to write the placeholder
-  URL replacement plan. Use `--repo-url https://github.com/<owner>/rmtguard
-  --execute` only after the real repository exists.
+- Run `python scripts/update_repository_metadata.py` to write the repository
+  URL replacement plan. Use `--repo-url https://github.com/healthgreat/rmtguard
+  --execute` for the current public repository.
 - Run `python scripts/build_manuscript_evidence_package.py` to refresh the
   claim-evidence matrix and submission readiness note.
 - Run `python scripts/build_release_readiness.py` to write the local release
@@ -42,7 +42,7 @@ git init
 git add .
 git commit -m "Initial RMTGuard research software release"
 git branch -M main
-git remote add origin https://github.com/your-lab/rmtguard.git
+git remote add origin https://github.com/healthgreat/rmtguard.git
 git push -u origin main
 ```
 

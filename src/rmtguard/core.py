@@ -9,6 +9,7 @@ from typing import Any
 
 import numpy as np
 from sklearn.cluster import KMeans
+from sklearn.metrics import adjusted_rand_score, silhouette_score
 
 from .cluster import (
     ClusterRecord,
@@ -77,12 +78,28 @@ class RMTGuardConfig:
     n_permutations: int = 0
     tw_alpha: float = 0.01
     stability_repeats: int = 5
-    leiden_resolution_grid: tuple[float, ...] = (0.1, 0.2, 0.4, 0.6, 0.8, 1.0, 1.2, 1.5, 2.0)
+    leiden_resolution_grid: tuple[float, ...] = (
+        0.1,
+        0.2,
+        0.4,
+        0.6,
+        0.8,
+        1.0,
+        1.2,
+        1.5,
+        2.0,
+    )
     graph_resolution_grid: tuple[float, ...] = (1.0,)
     low_signal_graph_resolution: float = 1.0
     low_signal_pc_threshold: int = 3
     high_signal_graph_resolution: float = 1.5
     high_signal_pc_threshold: int = 10
+    rare_state_guard: str = "adaptive_binary_split"
+    rare_state_min_fraction: float = 0.015
+    rare_state_max_fraction: float = 0.15
+    rare_state_min_cells: int = 4
+    rare_state_min_separation: float = 3.0
+    rare_state_min_silhouette: float = 0.35
 
 
 @dataclass(frozen=True)
@@ -147,9 +164,13 @@ class RMTGuard:
         started = time.perf_counter()
 
         counts_or_log = to_dense_array(x)
-        x_log = counts_or_log if already_log_normalized else normalize_total_log1p(
-            counts_or_log,
-            target_sum=self.config.target_sum,
+        x_log = (
+            counts_or_log
+            if already_log_normalized
+            else normalize_total_log1p(
+                counts_or_log,
+                target_sum=self.config.target_sum,
+            )
         )
         batch_labels = None if batches is None else np.asarray(batches)
         if batch_labels is not None:
@@ -199,7 +220,12 @@ class RMTGuard:
                 random_state=self.config.random_state,
             )
             cluster_labels = self._cluster_labels(embedding, cluster_n)
-        reported_cluster_n = int(np.unique(cluster_labels).size) if cluster_n is not None else None
+        cluster_labels, rare_state_scan = self._apply_rare_state_guard(
+            embedding,
+            noise_embedding,
+            cluster_labels,
+        )
+        reported_cluster_n = int(np.unique(cluster_labels).size)
         analysis_status, no_call_reason = self._analysis_status(
             n_signal,
             embedding_diagnostics,
@@ -217,7 +243,9 @@ class RMTGuard:
             "n_genes": int(counts_or_log.shape[1]),
             "already_log_normalized": bool(already_log_normalized),
             "batch_aware": batch_labels is not None,
-            "n_batches": int(np.unique(batch_labels).size) if batch_labels is not None else 0,
+            "n_batches": (
+                int(np.unique(batch_labels).size) if batch_labels is not None else 0
+            ),
             "runtime_seconds": float(elapsed),
             "peak_memory_mb": float(peak_bytes / (1024**2)),
             "random_state": int(self.config.random_state),
@@ -227,6 +255,7 @@ class RMTGuard:
             "embedding_rule": self.config.embedding_rule,
             "embedding_source": self.config.embedding_source,
             "resolution_rule": self.config.resolution_rule,
+            "rare_state_guard": self.config.rare_state_guard,
             "stability_repeats": int(self.config.stability_repeats),
             "analysis_status": analysis_status,
             "no_call_reason": no_call_reason,
@@ -248,6 +277,7 @@ class RMTGuard:
                 }
                 for r in cluster_scan
             ]
+        resolution_scan = resolution_scan + rare_state_scan
 
         return RMTGuardResult(
             selected_hvg_n=selected_hvg_n,
@@ -277,18 +307,47 @@ class RMTGuard:
         )
 
     def _validate_config(self) -> None:
-        if self.config.pc_rule not in {"mp", "mp_tw", "permutation", "mp_tw_permutation"}:
-            raise ValueError("pc_rule must be one of: mp, mp_tw, permutation, mp_tw_permutation")
-        if self.config.hvg_rule not in {"spectral_plateau", "spectral_stability", "dispersion"}:
-            raise ValueError("hvg_rule must be one of: spectral_plateau, spectral_stability, dispersion")
+        if self.config.pc_rule not in {
+            "mp",
+            "mp_tw",
+            "permutation",
+            "mp_tw_permutation",
+        }:
+            raise ValueError(
+                "pc_rule must be one of: mp, mp_tw, permutation, mp_tw_permutation"
+            )
+        if self.config.hvg_rule not in {
+            "spectral_plateau",
+            "spectral_stability",
+            "dispersion",
+        }:
+            raise ValueError(
+                "hvg_rule must be one of: spectral_plateau, spectral_stability, dispersion"
+            )
         if self.config.hvg_score not in {"raw_dispersion", "normalized_dispersion"}:
-            raise ValueError("hvg_score must be one of: raw_dispersion, normalized_dispersion")
+            raise ValueError(
+                "hvg_score must be one of: raw_dispersion, normalized_dispersion"
+            )
         if self.config.embedding_rule not in {"adaptive_near_edge", "strict_signal"}:
-            raise ValueError("embedding_rule must be one of: adaptive_near_edge, strict_signal")
+            raise ValueError(
+                "embedding_rule must be one of: adaptive_near_edge, strict_signal"
+            )
         if self.config.embedding_source not in {"rmt_scores", "standard_pca"}:
-            raise ValueError("embedding_source must be one of: rmt_scores, standard_pca")
-        if self.config.low_signal_rescue_rule not in {"off", "stable_embedding", "null_calibrated_stable_embedding"}:
-            raise ValueError("low_signal_rescue_rule must be one of: off, stable_embedding, null_calibrated_stable_embedding")
+            raise ValueError(
+                "embedding_source must be one of: rmt_scores, standard_pca"
+            )
+        if self.config.low_signal_rescue_rule not in {
+            "off",
+            "stable_embedding",
+            "null_calibrated_stable_embedding",
+        }:
+            raise ValueError(
+                "low_signal_rescue_rule must be one of: off, stable_embedding, null_calibrated_stable_embedding"
+            )
+        if self.config.rare_state_guard not in {"off", "adaptive_binary_split"}:
+            raise ValueError(
+                "rare_state_guard must be one of: off, adaptive_binary_split"
+            )
         if self.config.near_edge_window < 1.0:
             raise ValueError("near_edge_window must be at least 1.0")
         if self.config.embedding_stability_repeats < 1:
@@ -297,8 +356,15 @@ class RMTGuard:
             raise ValueError("embedding_stability_threshold must be between 0 and 1")
         if not 0.0 < self.config.embedding_subsample_fraction <= 1.0:
             raise ValueError("embedding_subsample_fraction must be in (0, 1]")
-        if self.config.resolution_rule not in {"kmeans_stability", "leiden_stability", "consensus_stability", "graph_modularity"}:
-            raise ValueError("resolution_rule must be one of: kmeans_stability, leiden_stability, consensus_stability, graph_modularity")
+        if self.config.resolution_rule not in {
+            "kmeans_stability",
+            "leiden_stability",
+            "consensus_stability",
+            "graph_modularity",
+        }:
+            raise ValueError(
+                "resolution_rule must be one of: kmeans_stability, leiden_stability, consensus_stability, graph_modularity"
+            )
         if self.config.low_signal_pc_threshold < 0:
             raise ValueError("low_signal_pc_threshold must be non-negative")
         if self.config.low_signal_rescue_max_pcs < 2:
@@ -306,13 +372,29 @@ class RMTGuard:
         if self.config.low_signal_rescue_min_pcs < 2:
             raise ValueError("low_signal_rescue_min_pcs must be at least 2")
         if not 0.0 <= self.config.low_signal_rescue_stability_threshold <= 1.0:
-            raise ValueError("low_signal_rescue_stability_threshold must be between 0 and 1")
+            raise ValueError(
+                "low_signal_rescue_stability_threshold must be between 0 and 1"
+            )
         if self.config.low_signal_rescue_null_permutations < 0:
             raise ValueError("low_signal_rescue_null_permutations must be non-negative")
         if not 0.0 < self.config.low_signal_rescue_null_quantile < 1.0:
             raise ValueError("low_signal_rescue_null_quantile must be in (0, 1)")
         if not 0.0 < self.config.low_signal_rescue_min_eigen_ratio <= 1.0:
             raise ValueError("low_signal_rescue_min_eigen_ratio must be in (0, 1]")
+        if not 0.0 < self.config.rare_state_min_fraction < 1.0:
+            raise ValueError("rare_state_min_fraction must be in (0, 1)")
+        if not 0.0 < self.config.rare_state_max_fraction < 1.0:
+            raise ValueError("rare_state_max_fraction must be in (0, 1)")
+        if self.config.rare_state_min_fraction > self.config.rare_state_max_fraction:
+            raise ValueError(
+                "rare_state_min_fraction must be <= rare_state_max_fraction"
+            )
+        if self.config.rare_state_min_cells < 2:
+            raise ValueError("rare_state_min_cells must be at least 2")
+        if self.config.rare_state_min_separation < 0.0:
+            raise ValueError("rare_state_min_separation must be non-negative")
+        if not -1.0 <= self.config.rare_state_min_silhouette <= 1.0:
+            raise ValueError("rare_state_min_silhouette must be between -1 and 1")
         if self.config.n_permutations < 0:
             raise ValueError("n_permutations must be non-negative")
         if self.config.stability_repeats < 1:
@@ -327,8 +409,12 @@ class RMTGuard:
     ) -> tuple[str, str]:
         """Return a diagnostic status for downstream biological interpretation."""
 
-        strict_signal = int(embedding_diagnostics.get("strict_signal_pcs", n_signal_pcs))
-        accepted = int(embedding_diagnostics.get("accepted_embedding_pcs", n_embedding_pcs))
+        strict_signal = int(
+            embedding_diagnostics.get("strict_signal_pcs", n_signal_pcs)
+        )
+        accepted = int(
+            embedding_diagnostics.get("accepted_embedding_pcs", n_embedding_pcs)
+        )
         if strict_signal < 2 and accepted == 0:
             return "diagnostic_no_call", "insufficient_signal_pcs_for_embedding"
         if n_embedding_pcs == 0:
@@ -339,7 +425,9 @@ class RMTGuard:
 
     def _scan_hvgs(self, x_log: np.ndarray) -> tuple[list[HVGScanRecord], int]:
         n_genes = x_log.shape[1]
-        grid = sorted({min(int(k), n_genes) for k in self.config.hvg_grid if int(k) > 1})
+        grid = sorted(
+            {min(int(k), n_genes) for k in self.config.hvg_grid if int(k) > 1}
+        )
         if not grid:
             grid = [n_genes]
 
@@ -348,11 +436,16 @@ class RMTGuard:
             indices = self._select_hvg_indices(x_log, n_hvg)
             x_guarded = self._prepare_hvg_matrix(x_log[:, indices])
             spectrum = spectrum_from_matrix(x_guarded)
-            decision = self._classify_spectrum(spectrum, x_guarded, use_permutation=False)
+            decision = self._classify_spectrum(
+                spectrum, x_guarded, use_permutation=False
+            )
             n_signal = int(min(decision["n_signal_pcs"], self.config.max_pcs))
             edge = decision["selected_edge"]
             if n_signal > 0:
-                excess = np.mean((spectrum.eigenvalues[:n_signal] - edge) / max(edge, np.finfo(float).eps))
+                excess = np.mean(
+                    (spectrum.eigenvalues[:n_signal] - edge)
+                    / max(edge, np.finfo(float).eps)
+                )
             else:
                 excess = 0.0
             records.append(
@@ -377,7 +470,9 @@ class RMTGuard:
 
         max_signal = max(r.n_signal_pcs for r in records)
         if max_signal == 0:
-            return min(records, key=lambda r: (np.nan_to_num(r.bulk_ks, nan=np.inf), r.n_hvg))
+            return min(
+                records, key=lambda r: (np.nan_to_num(r.bulk_ks, nan=np.inf), r.n_hvg)
+            )
 
         if self.config.hvg_rule == "spectral_stability":
             target = max(1, int(np.floor(self.config.plateau_fraction * max_signal)))
@@ -393,12 +488,16 @@ class RMTGuard:
 
         target = max(1, int(np.ceil(self.config.plateau_fraction * max_signal)))
         eligible = [r for r in records if r.n_signal_pcs >= target]
-        return min(eligible, key=lambda r: (r.n_hvg, np.nan_to_num(r.bulk_ks, nan=np.inf)))
+        return min(
+            eligible, key=lambda r: (r.n_hvg, np.nan_to_num(r.bulk_ks, nan=np.inf))
+        )
 
     def _select_hvg_indices(self, x_log: np.ndarray, n_hvg: int) -> np.ndarray:
         return select_hvg_by_dispersion(x_log, n_hvg, method=self.config.hvg_score)
 
-    def _mark_hvg_scan(self, records: list[HVGScanRecord], selected_hvg_n: int) -> list[HVGScanRecord]:
+    def _mark_hvg_scan(
+        self, records: list[HVGScanRecord], selected_hvg_n: int
+    ) -> list[HVGScanRecord]:
         max_signal = max((r.n_signal_pcs for r in records), default=0)
         marked = []
         for r in records:
@@ -428,7 +527,9 @@ class RMTGuard:
             "grid": [int(r.n_hvg) for r in records],
             "signal_pcs_by_hvg": [int(r.n_signal_pcs) for r in records],
             "selected_hvg_n": int(selected.n_hvg) if selected else None,
-            "selected_signal_plateau_fraction": float(selected.signal_plateau_fraction) if selected else None,
+            "selected_signal_plateau_fraction": (
+                float(selected.signal_plateau_fraction) if selected else None
+            ),
         }
 
     def _classify_spectrum(
@@ -450,7 +551,11 @@ class RMTGuard:
         )
 
         permutation_edges = np.empty(0, dtype=float)
-        if use_permutation and self.config.n_permutations > 0 and "permutation" in self.config.pc_rule:
+        if (
+            use_permutation
+            and self.config.n_permutations > 0
+            and "permutation" in self.config.pc_rule
+        ):
             permutation_edges = permutation_max_edges(
                 x_guarded,
                 n_permutations=self.config.n_permutations,
@@ -469,11 +574,23 @@ class RMTGuard:
             selected_edge = max(mp_edge, tw_edge)
             calibration_method = "marchenko_pastur_plus_tracy_widom_proxy"
         elif self.config.pc_rule == "permutation":
-            selected_edge = permutation_edge if np.isfinite(permutation_edge) else max(mp_edge, tw_edge)
-            calibration_method = "permutation" if np.isfinite(permutation_edge) else "fallback_mp_tw"
+            selected_edge = (
+                permutation_edge
+                if np.isfinite(permutation_edge)
+                else max(mp_edge, tw_edge)
+            )
+            calibration_method = (
+                "permutation" if np.isfinite(permutation_edge) else "fallback_mp_tw"
+            )
         else:
-            selected_edge = max([x for x in (mp_edge, tw_edge, permutation_edge) if np.isfinite(x)])
-            calibration_method = "mp_tw_permutation" if np.isfinite(permutation_edge) else "fallback_mp_tw"
+            selected_edge = max(
+                [x for x in (mp_edge, tw_edge, permutation_edge) if np.isfinite(x)]
+            )
+            calibration_method = (
+                "mp_tw_permutation"
+                if np.isfinite(permutation_edge)
+                else "fallback_mp_tw"
+            )
 
         signal_mask = eigenvalues > selected_edge
         n_signal = int(min(np.sum(signal_mask), self.config.max_pcs))
@@ -528,7 +645,9 @@ class RMTGuard:
             return standardize_genes(x_hvg)
         return self._prepare_hvg_matrix(x_hvg)
 
-    def _graph_resolution_grid(self, embedding_diagnostics: dict[str, Any]) -> tuple[float, ...]:
+    def _graph_resolution_grid(
+        self, embedding_diagnostics: dict[str, Any]
+    ) -> tuple[float, ...]:
         strict_signal = int(embedding_diagnostics.get("strict_signal_pcs", 0))
         if 0 < strict_signal <= self.config.low_signal_pc_threshold:
             return (float(self.config.low_signal_graph_resolution),)
@@ -543,12 +662,16 @@ class RMTGuard:
         pc_decision: dict[str, Any],
         x_embedding: np.ndarray,
     ) -> tuple[np.ndarray, np.ndarray, dict[str, Any]]:
-        max_cols = min(rmt_spectrum.left_vectors.shape[1], embedding_spectrum.left_vectors.shape[1])
+        max_cols = min(
+            rmt_spectrum.left_vectors.shape[1], embedding_spectrum.left_vectors.shape[1]
+        )
         n_signal = int(pc_decision["n_signal_pcs"])
         strict_count = min(n_signal, self.config.max_pcs, max_cols)
         selected_edge = float(pc_decision["selected_edge"])
         selected_indices = list(range(strict_count))
-        near_edge_threshold = selected_edge / max(float(self.config.near_edge_window), 1.0)
+        near_edge_threshold = selected_edge / max(
+            float(self.config.near_edge_window), 1.0
+        )
         candidate_limit = min(max_cols, self.config.max_pcs)
         near_edge_candidates = [
             idx
@@ -572,10 +695,13 @@ class RMTGuard:
         low_signal_stability: dict[int, float] = {}
         if strict_count < 2 and self.config.min_embedding_pcs == 0:
             if (
-                self.config.low_signal_rescue_rule in {"stable_embedding", "null_calibrated_stable_embedding"}
+                self.config.low_signal_rescue_rule
+                in {"stable_embedding", "null_calibrated_stable_embedding"}
                 and self.config.embedding_rule == "adaptive_near_edge"
             ):
-                rescue_limit = min(candidate_limit, int(self.config.low_signal_rescue_max_pcs))
+                rescue_limit = min(
+                    candidate_limit, int(self.config.low_signal_rescue_max_pcs)
+                )
                 rescue_candidates = [idx for idx in range(strict_count, rescue_limit)]
                 low_signal_stability = self._pc_subsample_stability(
                     x_embedding,
@@ -583,7 +709,10 @@ class RMTGuard:
                     rescue_candidates,
                 )
                 null_thresholds = {}
-                if self.config.low_signal_rescue_rule == "null_calibrated_stable_embedding":
+                if (
+                    self.config.low_signal_rescue_rule
+                    == "null_calibrated_stable_embedding"
+                ):
                     null_thresholds = self._pc_subsample_stability_null_thresholds(
                         x_embedding,
                         rescue_candidates,
@@ -591,10 +720,15 @@ class RMTGuard:
                 for idx in rescue_candidates:
                     score = low_signal_stability.get(idx, float("nan"))
                     null_threshold = null_thresholds.get(idx, float("nan"))
-                    eigen_ratio = float(rmt_spectrum.eigenvalues[idx] / max(selected_edge, np.finfo(float).eps))
+                    eigen_ratio = float(
+                        rmt_spectrum.eigenvalues[idx]
+                        / max(selected_edge, np.finfo(float).eps)
+                    )
                     edge_pass = (
                         self.config.low_signal_rescue_rule == "stable_embedding"
-                        or bool(eigen_ratio >= self.config.low_signal_rescue_min_eigen_ratio)
+                        or bool(
+                            eigen_ratio >= self.config.low_signal_rescue_min_eigen_ratio
+                        )
                     )
                     null_pass = (
                         self.config.low_signal_rescue_rule == "stable_embedding"
@@ -612,13 +746,25 @@ class RMTGuard:
                     )
                     if accepted:
                         selected_indices.append(idx)
-                    reason = "stable_low_signal_embedding" if accepted else "below_low_signal_rescue_threshold"
-                    if self.config.low_signal_rescue_rule == "null_calibrated_stable_embedding":
+                    reason = (
+                        "stable_low_signal_embedding"
+                        if accepted
+                        else "below_low_signal_rescue_threshold"
+                    )
+                    if (
+                        self.config.low_signal_rescue_rule
+                        == "null_calibrated_stable_embedding"
+                    ):
                         if accepted:
                             reason = "stable_above_permutation_null"
                         elif not edge_pass:
                             reason = "below_low_signal_edge_ratio"
-                        elif np.isfinite(score) and score >= self.config.low_signal_rescue_stability_threshold and not null_pass:
+                        elif (
+                            np.isfinite(score)
+                            and score
+                            >= self.config.low_signal_rescue_stability_threshold
+                            and not null_pass
+                        ):
                             reason = "below_low_signal_null_threshold"
                     pc_records.append(
                         {
@@ -628,21 +774,31 @@ class RMTGuard:
                             "role": "low_signal_rescue_candidate",
                             "stability": float(score),
                             "null_stability_threshold": float(null_threshold),
-                            "stability_null_excess": float(score - null_threshold) if np.isfinite(score) and np.isfinite(null_threshold) else float("nan"),
+                            "stability_null_excess": (
+                                float(score - null_threshold)
+                                if np.isfinite(score) and np.isfinite(null_threshold)
+                                else float("nan")
+                            ),
                             "accepted": accepted,
                             "reason": reason,
                         }
                     )
                 selected_indices = sorted(set(selected_indices))
-                accepted_rescue_count = sum(idx >= strict_count for idx in selected_indices)
-                low_signal_rescued = accepted_rescue_count >= int(self.config.low_signal_rescue_min_pcs)
+                accepted_rescue_count = sum(
+                    idx >= strict_count for idx in selected_indices
+                )
+                low_signal_rescued = accepted_rescue_count >= int(
+                    self.config.low_signal_rescue_min_pcs
+                )
 
             if not low_signal_rescued:
                 for record in pc_records:
                     if record["role"] == "strict_signal":
                         record["accepted"] = False
                         record["reason"] = "insufficient_signal_pcs_for_embedding"
-                    if record["role"] == "low_signal_rescue_candidate" and record.get("accepted"):
+                    if record["role"] == "low_signal_rescue_candidate" and record.get(
+                        "accepted"
+                    ):
                         record["accepted"] = False
                         record["reason"] = "insufficient_stable_low_signal_rescue_pcs"
                 diagnostics = self._embedding_diagnostics(
@@ -653,8 +809,12 @@ class RMTGuard:
                     pc_records,
                 )
                 return (
-                    np.empty((embedding_spectrum.left_vectors.shape[0], 0), dtype=float),
-                    np.empty((embedding_spectrum.left_vectors.shape[0], 0), dtype=float),
+                    np.empty(
+                        (embedding_spectrum.left_vectors.shape[0], 0), dtype=float
+                    ),
+                    np.empty(
+                        (embedding_spectrum.left_vectors.shape[0], 0), dtype=float
+                    ),
                     diagnostics,
                 )
 
@@ -669,7 +829,10 @@ class RMTGuard:
                 if idx in selected_indices and low_signal_rescued:
                     continue
                 score = near_edge_stability.get(idx, float("nan"))
-                accepted = bool(np.isfinite(score) and score >= self.config.embedding_stability_threshold)
+                accepted = bool(
+                    np.isfinite(score)
+                    and score >= self.config.embedding_stability_threshold
+                )
                 if accepted:
                     selected_indices.append(idx)
                 pc_records.append(
@@ -679,7 +842,11 @@ class RMTGuard:
                         "role": "near_edge_candidate",
                         "stability": float(score),
                         "accepted": accepted,
-                        "reason": "stable_near_edge" if accepted else "below_stability_threshold",
+                        "reason": (
+                            "stable_near_edge"
+                            if accepted
+                            else "below_stability_threshold"
+                        ),
                     }
                 )
         elif self.config.embedding_rule == "strict_signal":
@@ -696,8 +863,12 @@ class RMTGuard:
                 )
 
         if self.config.min_embedding_pcs > len(selected_indices):
-            forced_needed = min(self.config.min_embedding_pcs, candidate_limit) - len(selected_indices)
-            forced = [idx for idx in range(candidate_limit) if idx not in selected_indices][: max(0, forced_needed)]
+            forced_needed = min(self.config.min_embedding_pcs, candidate_limit) - len(
+                selected_indices
+            )
+            forced = [
+                idx for idx in range(candidate_limit) if idx not in selected_indices
+            ][: max(0, forced_needed)]
             for idx in forced:
                 selected_indices.append(idx)
                 pc_records.append(
@@ -726,12 +897,22 @@ class RMTGuard:
                 diagnostics,
             )
 
-        embedding = embedding_spectrum.left_vectors[:, selected_indices] * embedding_spectrum.singular_values[selected_indices]
-        noise_indices = [idx for idx in range(max_cols) if idx not in selected_indices][: self.config.noise_probe_pcs]
+        embedding = (
+            embedding_spectrum.left_vectors[:, selected_indices]
+            * embedding_spectrum.singular_values[selected_indices]
+        )
+        noise_indices = [idx for idx in range(max_cols) if idx not in selected_indices][
+            : self.config.noise_probe_pcs
+        ]
         if noise_indices:
-            noise_scores = embedding_spectrum.left_vectors[:, noise_indices] * embedding_spectrum.singular_values[noise_indices]
+            noise_scores = (
+                embedding_spectrum.left_vectors[:, noise_indices]
+                * embedding_spectrum.singular_values[noise_indices]
+            )
         else:
-            noise_scores = np.empty((embedding_spectrum.left_vectors.shape[0], 0), dtype=float)
+            noise_scores = np.empty(
+                (embedding_spectrum.left_vectors.shape[0], 0), dtype=float
+            )
         diagnostics = self._embedding_diagnostics(
             strict_count,
             near_edge_candidates,
@@ -758,14 +939,20 @@ class RMTGuard:
             spectrum.left_vectors.shape[1],
             max(candidate_indices) + 1 + self.config.noise_probe_pcs,
         )
-        full_scores = spectrum.left_vectors[:, :max_match_cols] * spectrum.singular_values[:max_match_cols]
+        full_scores = (
+            spectrum.left_vectors[:, :max_match_cols]
+            * spectrum.singular_values[:max_match_cols]
+        )
         scores = {idx: [] for idx in candidate_indices}
 
         for repeat in range(int(self.config.embedding_stability_repeats)):
             selected = np.sort(rng.choice(n_cells, size=sample_size, replace=False))
             sub_spectrum = spectrum_from_matrix(x_guarded[selected])
             sub_cols = min(max_match_cols, sub_spectrum.left_vectors.shape[1])
-            sub_scores = sub_spectrum.left_vectors[:, :sub_cols] * sub_spectrum.singular_values[:sub_cols]
+            sub_scores = (
+                sub_spectrum.left_vectors[:, :sub_cols]
+                * sub_spectrum.singular_values[:sub_cols]
+            )
             for idx in candidate_indices:
                 full_pc = full_scores[selected, idx]
                 match_scores = [
@@ -785,7 +972,10 @@ class RMTGuard:
         x_guarded: np.ndarray,
         candidate_indices: list[int],
     ) -> dict[int, float]:
-        if not candidate_indices or self.config.low_signal_rescue_null_permutations <= 0:
+        if (
+            not candidate_indices
+            or self.config.low_signal_rescue_null_permutations <= 0
+        ):
             return {idx: float("nan") for idx in candidate_indices}
 
         rng = np.random.default_rng(self.config.random_state + 7919)
@@ -836,10 +1026,12 @@ class RMTGuard:
         accepted_stabilities = [
             float(record["stability"])
             for record in pc_records
-            if record.get("accepted") and np.isfinite(record.get("stability", float("nan")))
+            if record.get("accepted")
+            and np.isfinite(record.get("stability", float("nan")))
         ]
         low_signal_records = [
-            record for record in pc_records
+            record
+            for record in pc_records
             if record.get("role") == "low_signal_rescue_candidate"
         ]
         return {
@@ -853,24 +1045,247 @@ class RMTGuard:
             "low_signal_rescue_rule": self.config.low_signal_rescue_rule,
             "low_signal_rescue_min_pcs": int(self.config.low_signal_rescue_min_pcs),
             "low_signal_rescue_max_pcs": int(self.config.low_signal_rescue_max_pcs),
-            "low_signal_rescue_stability_threshold": float(self.config.low_signal_rescue_stability_threshold),
-            "low_signal_rescue_null_permutations": int(self.config.low_signal_rescue_null_permutations),
-            "low_signal_rescue_null_quantile": float(self.config.low_signal_rescue_null_quantile),
-            "low_signal_rescue_min_eigen_ratio": float(self.config.low_signal_rescue_min_eigen_ratio),
+            "low_signal_rescue_stability_threshold": float(
+                self.config.low_signal_rescue_stability_threshold
+            ),
+            "low_signal_rescue_null_permutations": int(
+                self.config.low_signal_rescue_null_permutations
+            ),
+            "low_signal_rescue_null_quantile": float(
+                self.config.low_signal_rescue_null_quantile
+            ),
+            "low_signal_rescue_min_eigen_ratio": float(
+                self.config.low_signal_rescue_min_eigen_ratio
+            ),
             "strict_signal_pcs": int(strict_count),
             "low_signal_pc_threshold": int(self.config.low_signal_pc_threshold),
             "low_signal_candidate_pcs": int(len(low_signal_records)),
-            "accepted_low_signal_rescue_pcs": int(sum(bool(record.get("accepted")) for record in low_signal_records)),
+            "accepted_low_signal_rescue_pcs": int(
+                sum(bool(record.get("accepted")) for record in low_signal_records)
+            ),
             "near_edge_candidate_pcs": int(len(near_edge_candidates)),
             "accepted_embedding_pcs": int(len(selected_indices)),
             "accepted_pc_indices": [int(idx + 1) for idx in selected_indices],
-            "near_edge_candidate_indices": [int(idx + 1) for idx in near_edge_candidates],
-            "embedding_pc_stability_min": float(np.min(accepted_stabilities)) if accepted_stabilities else float("nan"),
-            "embedding_pc_stability_median": float(np.median(accepted_stabilities)) if accepted_stabilities else float("nan"),
+            "near_edge_candidate_indices": [
+                int(idx + 1) for idx in near_edge_candidates
+            ],
+            "embedding_pc_stability_min": (
+                float(np.min(accepted_stabilities))
+                if accepted_stabilities
+                else float("nan")
+            ),
+            "embedding_pc_stability_median": (
+                float(np.median(accepted_stabilities))
+                if accepted_stabilities
+                else float("nan")
+            ),
             "pc_records": pc_records,
         }
 
-    def _cluster_labels(self, embedding: np.ndarray, cluster_n: int | None) -> np.ndarray:
+    def _apply_rare_state_guard(
+        self,
+        embedding: np.ndarray,
+        noise_embedding: np.ndarray,
+        cluster_labels: np.ndarray,
+    ) -> tuple[np.ndarray, list[dict[str, Any]]]:
+        """Split a well-separated rare binary state after RMT-guarded embedding."""
+
+        if self.config.rare_state_guard == "off":
+            return cluster_labels, []
+        if embedding.shape[1] == 0 or embedding.shape[0] < max(
+            6, self.config.rare_state_min_cells * 2
+        ):
+            return cluster_labels, []
+
+        z = standardize_embedding(embedding)
+        min_fraction = max(
+            float(self.config.rare_state_min_fraction),
+            float(self.config.rare_state_min_cells / z.shape[0]),
+        )
+        max_fraction = float(self.config.rare_state_max_fraction)
+        candidate_labels: list[tuple[str, np.ndarray]] = []
+        for seed in [
+            int(self.config.random_state),
+            0,
+            1,
+            13,
+            97,
+            193,
+            int(self.config.random_state) + 7919,
+        ]:
+            labels = KMeans(
+                n_clusters=2,
+                n_init=30,
+                random_state=seed,
+            ).fit_predict(z)
+            candidate_labels.append((f"kmeans_seed_{seed}", labels))
+
+        tail_fracs = sorted({min_fraction, 0.02, 0.04, 0.08, 0.12, max_fraction})
+        for pc_idx in range(z.shape[1]):
+            order = np.argsort(z[:, pc_idx])
+            for fraction in tail_fracs:
+                count = int(round(z.shape[0] * fraction))
+                count = min(
+                    z.shape[0] - int(self.config.rare_state_min_cells),
+                    max(int(self.config.rare_state_min_cells), count),
+                )
+                if count <= 0:
+                    continue
+                for tail_name, selected in [
+                    ("low", order[:count]),
+                    ("high", order[::-1][:count]),
+                ]:
+                    labels = np.zeros(z.shape[0], dtype=int)
+                    labels[selected] = 1
+                    candidate_labels.append(
+                        (f"pc{pc_idx + 1}_{tail_name}_tail_{count}", labels)
+                    )
+
+        augmented_labels = None
+        if noise_embedding.size > 0:
+            z_augmented = np.column_stack([z, standardize_embedding(noise_embedding)])
+            augmented_labels = KMeans(
+                n_clusters=2,
+                n_init=30,
+                random_state=self.config.random_state,
+            ).fit_predict(z_augmented)
+
+        candidate_records = [
+            self._rare_state_candidate_record(
+                z,
+                labels,
+                source,
+                min_fraction,
+                max_fraction,
+                augmented_labels,
+            )
+            for source, labels in candidate_labels
+        ]
+        accepted_records = [
+            record for record in candidate_records if record["accepted"]
+        ]
+        if accepted_records:
+            selected_record = max(
+                accepted_records,
+                key=lambda record: (
+                    record["binary_silhouette"],
+                    record["centroid_separation"],
+                    -record["binary_small_cluster_fraction"],
+                ),
+            )
+        else:
+            selected_record = max(
+                candidate_records,
+                key=lambda record: (
+                    int(
+                        record["binary_small_cluster_cells"]
+                        >= self.config.rare_state_min_cells
+                    ),
+                    int(
+                        min_fraction
+                        <= record["binary_small_cluster_fraction"]
+                        <= max_fraction
+                    ),
+                    np.nan_to_num(record["binary_silhouette"], nan=-np.inf),
+                    np.nan_to_num(record["centroid_separation"], nan=-np.inf),
+                ),
+            )
+        scan = [
+            {
+                "method": "rare_state_guard",
+                "rule": self.config.rare_state_guard,
+                "n_clusters": int(np.unique(cluster_labels).size),
+                "candidate_count": int(len(candidate_records)),
+                **{
+                    key: value
+                    for key, value in selected_record.items()
+                    if key not in {"labels", "small_cluster"}
+                },
+            }
+        ]
+        if not selected_record["accepted"]:
+            return cluster_labels, scan
+
+        guarded = np.asarray(cluster_labels).copy()
+        rare_mask = selected_record["labels"] == int(selected_record["small_cluster"])
+        guarded[rare_mask] = int(np.max(guarded)) + 1
+        _, relabeled = np.unique(guarded, return_inverse=True)
+        scan[0]["n_clusters_after_guard"] = int(np.unique(relabeled).size)
+        return relabeled.astype(int), scan
+
+    def _rare_state_candidate_record(
+        self,
+        z: np.ndarray,
+        binary_labels: np.ndarray,
+        source: str,
+        min_fraction: float,
+        max_fraction: float,
+        augmented_labels: np.ndarray | None,
+    ) -> dict[str, Any]:
+        counts = np.bincount(binary_labels, minlength=2)
+        small_cluster = int(np.argmin(counts))
+        small_count = int(counts[small_cluster])
+        small_fraction = float(small_count / z.shape[0])
+        centroids = [z[binary_labels == idx].mean(axis=0) for idx in range(2)]
+        separation = float(np.linalg.norm(centroids[0] - centroids[1]))
+        try:
+            silhouette = float(silhouette_score(z, binary_labels))
+        except ValueError:
+            silhouette = float("nan")
+
+        noise_stability = float("nan")
+        if augmented_labels is not None:
+            noise_stability = float(
+                adjusted_rand_score(binary_labels, augmented_labels)
+            )
+
+        accepted = bool(
+            small_count >= int(self.config.rare_state_min_cells)
+            and small_fraction >= min_fraction
+            and small_fraction <= max_fraction
+            and np.isfinite(separation)
+            and separation >= float(self.config.rare_state_min_separation)
+            and np.isfinite(silhouette)
+            and silhouette >= float(self.config.rare_state_min_silhouette)
+        )
+        reason = "accepted_rare_binary_split"
+        if not accepted:
+            if small_count < int(self.config.rare_state_min_cells):
+                reason = "below_rare_state_min_cells"
+            elif small_fraction < min_fraction:
+                reason = "below_rare_state_min_fraction"
+            elif small_fraction > max_fraction:
+                reason = "above_rare_state_max_fraction"
+            elif not np.isfinite(separation) or separation < float(
+                self.config.rare_state_min_separation
+            ):
+                reason = "below_rare_state_separation"
+            elif not np.isfinite(silhouette) or silhouette < float(
+                self.config.rare_state_min_silhouette
+            ):
+                reason = "below_rare_state_silhouette"
+
+        return {
+            "candidate_source": source,
+            "labels": np.asarray(binary_labels, dtype=int),
+            "small_cluster": small_cluster,
+            "binary_small_cluster_cells": small_count,
+            "binary_small_cluster_fraction": small_fraction,
+            "min_fraction_threshold": float(min_fraction),
+            "max_fraction_threshold": float(max_fraction),
+            "centroid_separation": separation,
+            "separation_threshold": float(self.config.rare_state_min_separation),
+            "binary_silhouette": silhouette,
+            "silhouette_threshold": float(self.config.rare_state_min_silhouette),
+            "noise_augmented_ari": noise_stability,
+            "selected": accepted,
+            "accepted": accepted,
+            "reason": reason,
+        }
+
+    def _cluster_labels(
+        self, embedding: np.ndarray, cluster_n: int | None
+    ) -> np.ndarray:
         if cluster_n is None or embedding.shape[1] == 0:
             return np.zeros(embedding.shape[0], dtype=int)
         if self.config.resolution_rule == "consensus_stability":

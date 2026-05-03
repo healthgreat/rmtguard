@@ -1,0 +1,6 @@
+query	source	result	status	interpretation
+"Chongfa Chen"	ORCID public API	https://orcid.org/0000-0001-7367-9972	unverified_name_match	Matching given/family names, but no public employment or works were available for identity confirmation.
+"Chongfa Chen"	ORCID public API	https://orcid.org/0000-0001-6597-5181	unverified_name_match	Matching given/family names, but no public employment or works were available for identity confirmation.
+"Chongfa Chen"	Nature Cell Death & Differentiation 2024 article	https://www.nature.com/articles/s41418-024-01358-7	no_orcid_displayed	Article lists Chongfa Chen without an ORCID icon while several coauthors have ORCID links.
+"No. 71 Hexi Street postal code"	Chahaoba public address listing	https://www.chahaoba.com/025-52238800	postal_code_210019_candidate	Public listing gives postal code 210019 for Nanjing BenQ Hospital at Jiangsu, Nanjing, Jianye District, Hexi Street 71.
+"No.71 Hexi Street BenQ postal code"	PubMed indexed affiliation	https://pubmed.ncbi.nlm.nih.gov/38057885/	postal_code_210019_candidate	PubMed affiliation for The Affiliated BenQ Hospital of Nanjing Medical University, No.71 Hexi Street, Jianye District, Nanjing lists 210019.

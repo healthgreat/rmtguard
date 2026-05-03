@@ -45,35 +45,83 @@ def _result_summary(result) -> dict:
 
 
 def main(argv: list[str] | None = None) -> int:
-    parser = argparse.ArgumentParser(description="Run RMTGuard on a dense expression matrix.")
-    parser.add_argument("matrix", type=Path, help="Cell-by-gene matrix in .npy, .csv, .tsv, or .txt format.")
+    parser = argparse.ArgumentParser(
+        description="Run RMTGuard on a dense expression matrix."
+    )
+    parser.add_argument(
+        "matrix",
+        type=Path,
+        help="Cell-by-gene matrix in .npy, .csv, .tsv, or .txt format.",
+    )
     parser.add_argument("--already-log-normalized", action="store_true")
-    parser.add_argument("--out", type=Path, default=Path("results/rmtguard_summary.json"))
+    parser.add_argument(
+        "--out", type=Path, default=Path("results/rmtguard_summary.json")
+    )
     parser.add_argument("--hvg-grid", type=int, nargs="+", default=[500, 1000, 2000])
     parser.add_argument("--max-pcs", type=int, default=80)
     parser.add_argument("--min-embedding-pcs", type=int, default=0)
-    parser.add_argument("--pc-rule", default="mp_tw", choices=["mp", "mp_tw", "permutation", "mp_tw_permutation"])
-    parser.add_argument("--hvg-rule", default="spectral_stability", choices=["spectral_plateau", "spectral_stability", "dispersion"])
-    parser.add_argument("--hvg-score", default="normalized_dispersion", choices=["raw_dispersion", "normalized_dispersion"])
-    parser.add_argument("--embedding-rule", default="adaptive_near_edge", choices=["adaptive_near_edge", "strict_signal"])
-    parser.add_argument("--embedding-source", default="standard_pca", choices=["standard_pca", "rmt_scores"])
+    parser.add_argument(
+        "--pc-rule",
+        default="mp_tw",
+        choices=["mp", "mp_tw", "permutation", "mp_tw_permutation"],
+    )
+    parser.add_argument(
+        "--hvg-rule",
+        default="spectral_stability",
+        choices=["spectral_plateau", "spectral_stability", "dispersion"],
+    )
+    parser.add_argument(
+        "--hvg-score",
+        default="normalized_dispersion",
+        choices=["raw_dispersion", "normalized_dispersion"],
+    )
+    parser.add_argument(
+        "--embedding-rule",
+        default="adaptive_near_edge",
+        choices=["adaptive_near_edge", "strict_signal"],
+    )
+    parser.add_argument(
+        "--embedding-source",
+        default="standard_pca",
+        choices=["standard_pca", "rmt_scores"],
+    )
     parser.add_argument("--near-edge-window", type=float, default=1.25)
     parser.add_argument("--embedding-stability-repeats", type=int, default=5)
     parser.add_argument("--embedding-stability-threshold", type=float, default=0.75)
     parser.add_argument("--embedding-subsample-fraction", type=float, default=0.80)
-    parser.add_argument("--low-signal-rescue-rule", default="off", choices=["off", "stable_embedding", "null_calibrated_stable_embedding"])
+    parser.add_argument(
+        "--low-signal-rescue-rule",
+        default="off",
+        choices=["off", "stable_embedding", "null_calibrated_stable_embedding"],
+    )
     parser.add_argument("--low-signal-rescue-max-pcs", type=int, default=12)
     parser.add_argument("--low-signal-rescue-min-pcs", type=int, default=2)
-    parser.add_argument("--low-signal-rescue-stability-threshold", type=float, default=0.90)
+    parser.add_argument(
+        "--low-signal-rescue-stability-threshold", type=float, default=0.90
+    )
     parser.add_argument("--low-signal-rescue-null-permutations", type=int, default=10)
     parser.add_argument("--low-signal-rescue-null-quantile", type=float, default=0.95)
     parser.add_argument("--low-signal-rescue-min-eigen-ratio", type=float, default=0.95)
-    parser.add_argument("--resolution-rule", default="graph_modularity", choices=["graph_modularity", "kmeans_stability", "consensus_stability"])
+    parser.add_argument(
+        "--resolution-rule",
+        default="graph_modularity",
+        choices=["graph_modularity", "kmeans_stability", "consensus_stability"],
+    )
     parser.add_argument("--graph-resolution-grid", type=float, nargs="+", default=[1.0])
     parser.add_argument("--low-signal-graph-resolution", type=float, default=1.0)
     parser.add_argument("--low-signal-pc-threshold", type=int, default=3)
     parser.add_argument("--high-signal-graph-resolution", type=float, default=1.5)
     parser.add_argument("--high-signal-pc-threshold", type=int, default=10)
+    parser.add_argument(
+        "--rare-state-guard",
+        default="adaptive_binary_split",
+        choices=["off", "adaptive_binary_split"],
+    )
+    parser.add_argument("--rare-state-min-fraction", type=float, default=0.015)
+    parser.add_argument("--rare-state-max-fraction", type=float, default=0.15)
+    parser.add_argument("--rare-state-min-cells", type=int, default=4)
+    parser.add_argument("--rare-state-min-separation", type=float, default=3.0)
+    parser.add_argument("--rare-state-min-silhouette", type=float, default=0.35)
     parser.add_argument("--n-permutations", type=int, default=0)
     parser.add_argument("--tw-alpha", type=float, default=0.01)
     parser.add_argument("--stability-repeats", type=int, default=5)
@@ -107,12 +155,20 @@ def main(argv: list[str] | None = None) -> int:
         low_signal_pc_threshold=args.low_signal_pc_threshold,
         high_signal_graph_resolution=args.high_signal_graph_resolution,
         high_signal_pc_threshold=args.high_signal_pc_threshold,
+        rare_state_guard=args.rare_state_guard,
+        rare_state_min_fraction=args.rare_state_min_fraction,
+        rare_state_max_fraction=args.rare_state_max_fraction,
+        rare_state_min_cells=args.rare_state_min_cells,
+        rare_state_min_separation=args.rare_state_min_separation,
+        rare_state_min_silhouette=args.rare_state_min_silhouette,
         n_permutations=args.n_permutations,
         tw_alpha=args.tw_alpha,
         stability_repeats=args.stability_repeats,
         random_state=args.random_state,
     )
-    result = RMTGuard(config).fit(matrix, already_log_normalized=args.already_log_normalized)
+    result = RMTGuard(config).fit(
+        matrix, already_log_normalized=args.already_log_normalized
+    )
 
     args.out.parent.mkdir(parents=True, exist_ok=True)
     with args.out.open("w", encoding="utf-8") as handle:

@@ -8,14 +8,14 @@ This packet reduces the remaining public-release blocker to author-owned externa
 ## Overall Status
 
 - Status: `blocked_waiting_author_release`
-- Blocking actions: `blocked_actions=02_create_empty_public_github_repository;03_provide_repository_url_to_codex;04_update_metadata_and_push_source;05_create_github_release;06_archive_github_release_with_zenodo;07_provide_zenodo_doi_to_codex;08_record_doi_and_rerun_submission_gates; route=genome_biology_after_release; gb_transfer=prepare_after_release; reviewer_defense=not_sendable_before_release.`
+- Blocking actions: `blocked_actions=05_create_github_release;06_archive_github_release_with_zenodo;07_provide_zenodo_doi_to_codex;08_record_doi_and_rerun_submission_gates; route=pause_for_p0_feedback; gb_transfer=hold; reviewer_defense=not_sendable_before_release.`
 - Stop condition: Do not mark Nature Methods, Genome Biology, or any route as sendable while this row is blocked.
 
 ## Minimal Author Actions
 
 ### 02_create_empty_public_github_repository
 
-- Status: `blocked_external`
+- Status: `pass`
 - Blocking input: public GitHub account
 - Exact action: Create an empty public repository named `rmtguard`; do not upload data through the browser.
 - Verification: Repository URL has the form `https://github.com/<owner>/rmtguard`.
@@ -24,7 +24,7 @@ This packet reduces the remaining public-release blocker to author-owned externa
 
 ### 03_provide_repository_url_to_codex
 
-- Status: `waiting_external_input`
+- Status: `pass`
 - Blocking input: real repository URL
 - Exact action: Send Codex the public repository URL exactly once it exists.
 - Verification: URL should not contain `your-lab/rmtguard`.
@@ -65,7 +65,7 @@ This packet reduces the remaining public-release blocker to author-owned externa
 - Exact action: Complete the external author-owned release actions, then rerun the local gates.
 - Verification: All release readiness rows pass and route gates are regenerated.
 - Stop condition: Do not mark Nature Methods, Genome Biology, or any route as sendable while this row is blocked.
-- Notes: blocked_actions=02_create_empty_public_github_repository;03_provide_repository_url_to_codex;04_update_metadata_and_push_source;05_create_github_release;06_archive_github_release_with_zenodo;07_provide_zenodo_doi_to_codex;08_record_doi_and_rerun_submission_gates; route=genome_biology_after_release; gb_transfer=prepare_after_release; reviewer_defense=not_sendable_before_release.
+- Notes: blocked_actions=05_create_github_release;06_archive_github_release_with_zenodo;07_provide_zenodo_doi_to_codex;08_record_doi_and_rerun_submission_gates; route=pause_for_p0_feedback; gb_transfer=hold; reviewer_defense=not_sendable_before_release.
 
 ## Full Execution Checklist
 
@@ -89,7 +89,7 @@ Verify `results/release/rmtguard_v0.1.0-rc8_source.bundle` and keep `v0.1.0-rc8`
 
 - Phase: `external`
 - Owner: `Author`
-- Status: `blocked_external`
+- Status: `pass`
 - Evidence: `results/release/public_release_blockers.tsv`
 - Exact action:
 
@@ -105,7 +105,7 @@ Create an empty public repository named `rmtguard`; do not upload data through t
 
 - Phase: `author_input`
 - Owner: `Author`
-- Status: `waiting_external_input`
+- Status: `pass`
 - Evidence: `results/release/release_readiness.tsv`
 - Exact action:
 
@@ -121,7 +121,7 @@ Send Codex the public repository URL exactly once it exists.
 
 - Phase: `local_after_repo_url`
 - Owner: `Codex + Author authentication`
-- Status: `ready_after_repo_url`
+- Status: `pass`
 - Evidence: `results/release/release_readiness.tsv`
 - Exact action:
 
@@ -221,7 +221,7 @@ Complete the external author-owned release actions, then rerun the local gates.
 
 - Verification: All release readiness rows pass and route gates are regenerated.
 - Stop condition: Do not mark Nature Methods, Genome Biology, or any route as sendable while this row is blocked.
-- Notes: blocked_actions=02_create_empty_public_github_repository;03_provide_repository_url_to_codex;04_update_metadata_and_push_source;05_create_github_release;06_archive_github_release_with_zenodo;07_provide_zenodo_doi_to_codex;08_record_doi_and_rerun_submission_gates; route=genome_biology_after_release; gb_transfer=prepare_after_release; reviewer_defense=not_sendable_before_release.
+- Notes: blocked_actions=05_create_github_release;06_archive_github_release_with_zenodo;07_provide_zenodo_doi_to_codex;08_record_doi_and_rerun_submission_gates; route=pause_for_p0_feedback; gb_transfer=hold; reviewer_defense=not_sendable_before_release.
 
 ## Non-Negotiable Boundary
 

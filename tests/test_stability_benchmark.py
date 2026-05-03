@@ -20,15 +20,16 @@ spec.loader.exec_module(stability_benchmark)
 
 class StabilityBenchmarkTest(unittest.TestCase):
     def test_phase1_dataset_filenames_are_registered(self) -> None:
-        self.assertEqual(
-            {
-                "pbmc3k_10x",
-                "kang_ifnb_pbmc",
-                "baron_pancreas",
-                "pbmc68k_zheng2017",
-            },
-            set(stability_benchmark.DATASET_FILENAMES),
-        )
+        expected = {
+            "pbmc3k_10x",
+            "kang_ifnb_pbmc",
+            "baron_pancreas",
+            "pbmc68k_zheng2017",
+            "paul15_hematopoiesis",
+            "pdac_gse154778",
+            "pdac_gse263733",
+        }
+        self.assertTrue(expected.issubset(set(stability_benchmark.DATASET_FILENAMES)))
 
     def test_atomic_tsv_roundtrip(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:

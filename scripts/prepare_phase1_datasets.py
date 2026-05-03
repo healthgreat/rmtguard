@@ -84,6 +84,29 @@ def prepare_pbmc3k(outdir: Path, max_cells: int | None, random_state: int, force
     return out
 
 
+def prepare_paul15(outdir: Path, max_cells: int | None, random_state: int, force: bool) -> Path:
+    import scanpy as sc
+
+    out = outdir / "paul15_hematopoiesis.h5ad"
+    if out.exists() and not force:
+        print(f"exists {out}")
+        return out
+
+    adata = sc.datasets.paul15()
+    adata.var_names_make_unique()
+    adata.layers["counts"] = adata.X.copy()
+    adata.obs["cell"] = adata.obs["paul15_clusters"].astype(str)
+    adata.obs["dataset_id"] = "paul15_hematopoiesis"
+    adata.obs["condition"] = "hematopoiesis"
+    adata.obs["batch"] = "paul15"
+    adata = _sample_adata_stratified(
+        adata, max_cells, random_state, key="cell", min_per_group=10
+    )
+    adata.write_h5ad(out)
+    print(out)
+    return out
+
+
 def _remote_size(url: str) -> int:
     request = urllib.request.Request(url, method="HEAD", headers={"User-Agent": "RMTGuard/0.1"})
     try:
@@ -328,7 +351,14 @@ def main() -> int:
     parser = argparse.ArgumentParser(description="Prepare Phase 1 public benchmark datasets.")
     parser.add_argument(
         "--dataset",
-        choices=["all", "pbmc3k_10x", "kang_ifnb_pbmc", "baron_pancreas", "pbmc68k_zheng2017"],
+        choices=[
+            "all",
+            "pbmc3k_10x",
+            "paul15_hematopoiesis",
+            "kang_ifnb_pbmc",
+            "baron_pancreas",
+            "pbmc68k_zheng2017",
+        ],
         default="all",
     )
     parser.add_argument("--raw-dir", type=Path, default=RAW_DIR)
@@ -341,6 +371,8 @@ def main() -> int:
     args.outdir.mkdir(parents=True, exist_ok=True)
     if args.dataset in {"all", "pbmc3k_10x"}:
         prepare_pbmc3k(args.outdir, args.max_cells, args.random_state, args.force)
+    if args.dataset in {"all", "paul15_hematopoiesis"}:
+        prepare_paul15(args.outdir, args.max_cells, args.random_state, args.force)
     if args.dataset in {"all", "kang_ifnb_pbmc"}:
         prepare_kang_ifnb(args.outdir, args.raw_dir, args.max_cells, args.random_state, args.force)
     if args.dataset in {"all", "baron_pancreas"}:

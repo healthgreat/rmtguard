@@ -19,7 +19,9 @@ import re
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-DEFAULT_INPUT = ROOT / "metadata" / "external_review_feedback_template.tsv"
+ACTIVE_INPUT = ROOT / "metadata" / "external_review_feedback_active.tsv"
+TEMPLATE_INPUT = ROOT / "metadata" / "external_review_feedback_template.tsv"
+DEFAULT_INPUT = ACTIVE_INPUT if ACTIVE_INPUT.exists() else TEMPLATE_INPUT
 OUT_TSV = ROOT / "results" / "submission" / "external_review_feedback_triage.tsv"
 OUT_MD = ROOT / "docs" / "external_review_feedback_triage.md"
 
@@ -131,6 +133,23 @@ def _combined_text(row: dict[str, str]) -> str:
     ).strip()
 
 
+def _classification_text(row: dict[str, str]) -> str:
+    """Use reviewer content for category detection, not route hints.
+
+    `journal_route_hint` often names Nature Methods or Genome Biology for every
+    row. Including it in category detection makes benchmark and ablation items
+    look like journal-routing items, which hides the real action type.
+    """
+    return " ".join(
+        [
+            row.get("section", ""),
+            row.get("comment", ""),
+            row.get("suggested_action", ""),
+            row.get("severity_hint", ""),
+        ]
+    ).strip()
+
+
 def _is_template_row(row: dict[str, str]) -> bool:
     feedback_id = row.get("feedback_id", "").strip().lower()
     comment = row.get("comment", "").strip().lower()
@@ -138,23 +157,30 @@ def _is_template_row(row: dict[str, str]) -> bool:
 
 
 def _category(text: str) -> str:
+    lowered = text.lower()
     if FATAL_RE.search(text):
         return "fatal_blocker"
+    if "journal route" in lowered or "fallback" in lowered or "transfer" in lowered:
+        return "journal_route_decision"
     if RELEASE_RE.search(text):
         return "release_or_reproducibility"
-    if JOURNAL_RE.search(text):
-        return "journal_route_decision"
     if ANALYSIS_RE.search(text):
         return "analysis_request"
     if FIGURE_RE.search(text):
         return "figure_revision"
     if WORDING_RE.search(text):
         return "wording_or_claim_revision"
+    if JOURNAL_RE.search(text):
+        return "journal_route_decision"
     return "general_feedback"
 
 
 def _priority(category: str, text: str) -> str:
     lowered = text.lower()
+    if "p0" in lowered or "fatal" in lowered:
+        return "P0"
+    if "p1" in lowered or "major" in lowered:
+        return "P1"
     if category == "fatal_blocker":
         return "P0"
     if category == "release_or_reproducibility":
@@ -226,7 +252,7 @@ def triage_rows(feedback_rows: list[dict[str, str]]) -> list[dict[str, str]]:
                 "triage_category": "awaiting_external_feedback",
                 "priority": "P2",
                 "route_impact": "review_loop",
-                "linked_artifact": _rel(DEFAULT_INPUT),
+                "linked_artifact": _rel(TEMPLATE_INPUT),
                 "required_action": "Collect external model or collaborator comments in the feedback template, then rerun this script.",
                 "stop_condition": "Do not treat the external-review loop as complete until at least one real feedback row is triaged.",
                 "status": "awaiting_feedback",
@@ -238,7 +264,8 @@ def triage_rows(feedback_rows: list[dict[str, str]]) -> list[dict[str, str]]:
     rows: list[dict[str, str]] = []
     for row in real_rows:
         text = _combined_text(row)
-        category = _category(text)
+        classification_text = _classification_text(row)
+        category = _category(classification_text)
         rows.append(
             {
                 "feedback_id": row.get("feedback_id", "").strip()

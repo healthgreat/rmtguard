@@ -4,7 +4,25 @@
   "description": "Software and reproducible benchmark code for Random Matrix Theory guarded parameter selection in single-cell RNA-seq cell-state discovery.",
   "creators": [
     {
-      "name": "RMTGuard contributors"
+      "name": "Chen, Chongfa",
+      "affiliation": "Pancreas Center, The Affiliated BenQ Hospital of Nanjing Medical University, Nanjing, China"
+    },
+    {
+      "name": "Yan, Han",
+      "affiliation": "Pancreas Center, The Affiliated BenQ Hospital of Nanjing Medical University, Nanjing, China",
+      "orcid": "0000-0002-2041-3115"
+    },
+    {
+      "name": "Miao, Yi",
+      "affiliation": "Pancreas Center, The Affiliated BenQ Hospital of Nanjing Medical University, Nanjing, China",
+      "orcid": "0000-0003-2542-8663"
+    }
+  ],
+  "related_identifiers": [
+    {
+      "identifier": "https://github.com/healthgreat/rmtguard",
+      "relation": "isSupplementTo",
+      "resource_type": "software"
     }
   ],
   "license": "MIT",

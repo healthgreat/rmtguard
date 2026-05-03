@@ -49,6 +49,8 @@ claim_traceability = _load_script("validate_claim_traceability")
 submission_guard = _load_script("build_submission_guard")
 external_review_packet = _load_script("export_current_article_review_packet")
 external_review_triage = _load_script("triage_external_review_feedback")
+external_review_action = _load_script("build_external_review_action_plan")
+route_reframe = _load_script("build_route_reframe_package")
 post_feedback_route = _load_script("build_post_feedback_journal_route_gate")
 gb_transfer = _load_script("build_genome_biology_transfer_package")
 reviewer_defense = _load_script("build_reviewer_defense_package")
@@ -311,6 +313,93 @@ class ReleasePlanTest(unittest.TestCase):
         text = "\n".join(post_feedback_route.build_markdown(rows)).lower()
         self.assertIn("acceptance guarantee: `impossible`", text)
         self.assertNotIn("guaranteed acceptance", text)
+
+    def test_route_reframe_freezes_nature_methods_and_downgrades_claim(self) -> None:
+        rows = route_reframe.build_rows(
+            triage_rows=[
+                {"feedback_id": "SG-P0-001", "priority": "P0", "status": "open"}
+            ],
+            route_rows=[
+                {
+                    "decision_id": "overall_post_feedback_route",
+                    "decision": "pause_for_p0_feedback",
+                }
+            ],
+            claim_rows=[
+                {
+                    "claim_id": "pbmc3k_stability",
+                    "allowed_wording": "Stability gate failed.",
+                    "prohibited_wording": "Do not claim broad superiority.",
+                },
+                {
+                    "claim_id": "software_release",
+                    "allowed_wording": "Local release checks pass.",
+                    "prohibited_wording": "Do not claim DOI release.",
+                },
+            ],
+            gate_rows=[{"gate_id": "stability_advantage", "status": "fail"}],
+            release_rows=[
+                {"check_id": "repository_url", "status": "pending"},
+                {"check_id": "github_remote", "status": "pending"},
+                {"check_id": "zenodo_doi", "status": "pending"},
+            ],
+        )
+        by_id = {row["item_id"]: row for row in rows}
+        self.assertEqual(
+            by_id["nature_methods_presubmission"]["status"], "frozen_no_go"
+        )
+        self.assertEqual(by_id["central_claim"]["status"], "downgraded")
+        self.assertEqual(
+            by_id["overall_route_reframe"]["status"], "local_reframe_complete"
+        )
+        self.assertIn(
+            "callability-aware", by_id["overall_route_reframe"]["required_wording"]
+        )
+
+    def test_route_reframe_outputs_never_promise_acceptance(self) -> None:
+        rows = [
+            {
+                "item_id": "overall_route_reframe",
+                "status": "local_reframe_complete",
+                "evidence_path": "results/submission/route_reframe_decision.tsv",
+                "current_problem": "SG-P0-001",
+                "required_wording": "Nature Methods held.",
+                "forbidden_wording": "Do not claim submission-ready status.",
+                "next_action": "Clear blockers.",
+            }
+        ]
+        markdown = "\n".join(route_reframe.build_markdown(rows)).lower()
+        abstract = "\n".join(route_reframe.build_genome_biology_abstract(rows)).lower()
+        hold = "\n".join(route_reframe.build_nature_methods_hold(rows)).lower()
+        self.assertIn("acceptance guarantee: `impossible`", markdown)
+        self.assertIn("do not submit", abstract)
+        self.assertIn("hold / no-go", hold)
+        self.assertNotIn("guaranteed acceptance", markdown)
+
+    def test_external_review_action_marks_route_reframe_implemented(self) -> None:
+        rows = external_review_action.build_rows(
+            triage_rows=[
+                {"feedback_id": "SG-P0-002", "priority": "P0", "status": "open"},
+                {"feedback_id": "SG-P0-003", "priority": "P0", "status": "open"},
+                {"feedback_id": "SG-P0-004", "priority": "P0", "status": "open"},
+                {"feedback_id": "SG-P1-010", "priority": "P1", "status": "open"},
+            ],
+            route_reframe_rows=[
+                {
+                    "item_id": "overall_route_reframe",
+                    "status": "local_reframe_complete",
+                }
+            ],
+        )
+        by_id = {row["action_id"]: row for row in rows}
+        self.assertEqual(
+            by_id["02_route_reframe_no_nature_methods"]["status"],
+            "implemented_pending_feedback_close",
+        )
+        self.assertEqual(
+            by_id["overall_external_review_action_plan"]["status"],
+            "blocked_before_submission",
+        )
 
     def test_gb_transfer_package_prepares_after_release(self) -> None:
         rows = gb_transfer.build_transfer_rows(

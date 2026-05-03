@@ -1,10 +1,16 @@
 from __future__ import annotations
 
+from dataclasses import replace
 import unittest
 
 import numpy as np
 
-from rmtguard import RMTGuard, RMTGuardConfig, simulate_low_rank_counts, simulate_null_counts
+from rmtguard import (
+    RMTGuard,
+    RMTGuardConfig,
+    simulate_low_rank_counts,
+    simulate_null_counts,
+)
 from rmtguard.core import HVGScanRecord
 from rmtguard.scanpy_api import fit_anndata
 
@@ -16,14 +22,21 @@ class RMTGuardSyntheticTest(unittest.TestCase):
             HVGScanRecord(1000, 17, 3.0, 1.0, 0.08, 1.0),
             HVGScanRecord(2000, 16, 4.0, 1.0, 0.09, 1.0),
         ]
-        guard = RMTGuard(RMTGuardConfig(hvg_rule="spectral_stability", plateau_fraction=0.90))
+        guard = RMTGuard(
+            RMTGuardConfig(hvg_rule="spectral_stability", plateau_fraction=0.90)
+        )
         selected = guard._select_hvg_record(records)
         self.assertEqual(selected.n_hvg, 2000)
 
     def test_pure_null_has_few_signal_pcs(self) -> None:
         counts, _ = simulate_null_counts(n_cells=90, n_genes=160, random_state=1)
         result = RMTGuard(
-            RMTGuardConfig(hvg_grid=(80, 140), max_pcs=20, pc_rule="mp_tw", embedding_stability_repeats=2)
+            RMTGuardConfig(
+                hvg_grid=(80, 140),
+                max_pcs=20,
+                pc_rule="mp_tw",
+                embedding_stability_repeats=2,
+            )
         ).fit(counts)
         self.assertLessEqual(result.n_signal_pcs, 1)
         self.assertEqual(result.analysis_status, "diagnostic_no_call")
@@ -46,7 +59,9 @@ class RMTGuardSyntheticTest(unittest.TestCase):
         ).fit(counts)
         self.assertLessEqual(result.n_signal_pcs, 1)
         self.assertEqual(result.analysis_status, "diagnostic_no_call")
-        self.assertEqual(result.embedding_diagnostics["low_signal_rescue_rule"], "stable_embedding")
+        self.assertEqual(
+            result.embedding_diagnostics["low_signal_rescue_rule"], "stable_embedding"
+        )
 
     def test_null_calibrated_low_signal_rescue_keeps_pure_null_no_call(self) -> None:
         counts, _ = simulate_null_counts(n_cells=80, n_genes=140, random_state=12)
@@ -67,10 +82,19 @@ class RMTGuardSyntheticTest(unittest.TestCase):
             )
         ).fit(counts)
         self.assertEqual(result.analysis_status, "diagnostic_no_call")
-        self.assertEqual(result.embedding_diagnostics["low_signal_rescue_rule"], "null_calibrated_stable_embedding")
-        self.assertEqual(result.embedding_diagnostics["low_signal_rescue_null_permutations"], 2)
-        self.assertEqual(result.embedding_diagnostics["low_signal_rescue_min_eigen_ratio"], 0.95)
-        self.assertLessEqual(result.embedding_diagnostics["accepted_low_signal_rescue_pcs"], 1)
+        self.assertEqual(
+            result.embedding_diagnostics["low_signal_rescue_rule"],
+            "null_calibrated_stable_embedding",
+        )
+        self.assertEqual(
+            result.embedding_diagnostics["low_signal_rescue_null_permutations"], 2
+        )
+        self.assertEqual(
+            result.embedding_diagnostics["low_signal_rescue_min_eigen_ratio"], 0.95
+        )
+        self.assertLessEqual(
+            result.embedding_diagnostics["accepted_low_signal_rescue_pcs"], 1
+        )
         records = [
             record
             for record in result.embedding_diagnostics["pc_records"]
@@ -96,8 +120,12 @@ class RMTGuardSyntheticTest(unittest.TestCase):
             )
         ).fit(counts)
         self.assertGreaterEqual(result.n_signal_pcs, 2)
-        self.assertEqual(result.embedding_diagnostics["strict_signal_pcs"], result.n_signal_pcs)
-        self.assertGreaterEqual(result.embedding_diagnostics["accepted_embedding_pcs"], result.n_signal_pcs)
+        self.assertEqual(
+            result.embedding_diagnostics["strict_signal_pcs"], result.n_signal_pcs
+        )
+        self.assertGreaterEqual(
+            result.embedding_diagnostics["accepted_embedding_pcs"], result.n_signal_pcs
+        )
         self.assertIn(result.selected_hvg_n, {80, 160})
         self.assertEqual(result.embedding.shape[0], counts.shape[0])
         self.assertEqual(result.cluster_labels.shape[0], counts.shape[0])
@@ -125,6 +153,45 @@ class RMTGuardSyntheticTest(unittest.TestCase):
         self.assertGreaterEqual(result.n_signal_pcs, 2)
         self.assertGreater(np.unique(result.cluster_labels[rare_cells]).size, 0)
 
+    def test_rare_state_guard_splits_realistic_rare_binary_state(self) -> None:
+        from scripts.run_realistic_null_power_calibration import (
+            _best_rare_cluster_f1,
+            _rare_state_counts,
+        )
+
+        rng = np.random.default_rng(123)
+        counts, labels = _rare_state_counts(
+            n_cells=160,
+            n_genes=300,
+            prevalence=0.05,
+            effect_size=5.0,
+            rng=rng,
+        )
+        base_config = RMTGuardConfig(
+            hvg_grid=(120, 240),
+            max_pcs=20,
+            embedding_stability_repeats=2,
+            random_state=123,
+        )
+        unguarded = RMTGuard(replace(base_config, rare_state_guard="off")).fit(counts)
+        guarded = RMTGuard(base_config).fit(counts)
+        self.assertLess(
+            _best_rare_cluster_f1(labels, unguarded.cluster_labels)["rare_f1"],
+            0.7,
+        )
+        self.assertGreaterEqual(
+            _best_rare_cluster_f1(labels, guarded.cluster_labels)["rare_f1"],
+            0.9,
+        )
+        rare_records = [
+            row
+            for row in guarded.resolution_scan
+            if row.get("method") == "rare_state_guard"
+        ]
+        self.assertTrue(rare_records)
+        self.assertTrue(rare_records[0]["selected"])
+        self.assertEqual(rare_records[0]["reason"], "accepted_rare_binary_split")
+
     def test_consensus_resolution_rule_runs(self) -> None:
         counts, _labels, _batch = simulate_low_rank_counts(
             n_cells=100,
@@ -145,7 +212,9 @@ class RMTGuardSyntheticTest(unittest.TestCase):
             )
         ).fit(counts)
         self.assertEqual(result.cluster_labels.shape[0], counts.shape[0])
-        self.assertEqual(result.benchmark_metadata["resolution_rule"], "consensus_stability")
+        self.assertEqual(
+            result.benchmark_metadata["resolution_rule"], "consensus_stability"
+        )
         self.assertGreaterEqual(np.unique(result.cluster_labels).size, 2)
 
     def test_strict_signal_embedding_rule_matches_signal_pc_count(self) -> None:
@@ -165,7 +234,9 @@ class RMTGuardSyntheticTest(unittest.TestCase):
             )
         ).fit(counts)
         self.assertEqual(result.embedding_diagnostics["rule"], "strict_signal")
-        self.assertEqual(result.embedding_diagnostics["accepted_embedding_pcs"], result.n_signal_pcs)
+        self.assertEqual(
+            result.embedding_diagnostics["accepted_embedding_pcs"], result.n_signal_pcs
+        )
         self.assertEqual(result.embedding.shape[1], result.n_signal_pcs)
 
     def test_batch_aware_reduces_batch_driven_signal(self) -> None:
@@ -177,7 +248,12 @@ class RMTGuardSyntheticTest(unittest.TestCase):
             batch_effect=True,
             random_state=4,
         )
-        cfg = RMTGuardConfig(hvg_grid=(100, 200), max_pcs=30, pc_rule="mp_tw", embedding_stability_repeats=2)
+        cfg = RMTGuardConfig(
+            hvg_grid=(100, 200),
+            max_pcs=30,
+            pc_rule="mp_tw",
+            embedding_stability_repeats=2,
+        )
         no_batch = RMTGuard(cfg).fit(counts)
         batch_aware = RMTGuard(cfg).fit(counts, batches=batch)
         self.assertLessEqual(batch_aware.n_signal_pcs, no_batch.n_signal_pcs)
@@ -211,7 +287,9 @@ class RMTGuardSyntheticTest(unittest.TestCase):
         )
         adata = ad.AnnData(counts)
         adata.layers["counts"] = counts.copy()
-        adata.obs["batch"] = batch if batch is not None else np.repeat(["a"], counts.shape[0])
+        adata.obs["batch"] = (
+            batch if batch is not None else np.repeat(["a"], counts.shape[0])
+        )
         result = fit_anndata(
             adata,
             config=RMTGuardConfig(hvg_grid=(60, 120), max_pcs=15, batch_key="batch"),

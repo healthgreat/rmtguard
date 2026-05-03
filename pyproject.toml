@@ -10,7 +10,9 @@ readme = "README.md"
 requires-python = ">=3.10"
 license = {text = "MIT"}
 authors = [
-    {name = "RMTGuard contributors"},
+    {name = "Chongfa Chen"},
+    {name = "Han Yan"},
+    {name = "Yi Miao"},
 ]
 dependencies = [
     "numpy>=1.24",
@@ -32,9 +34,9 @@ dev = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/your-lab/rmtguard"
-Repository = "https://github.com/your-lab/rmtguard"
-Issues = "https://github.com/your-lab/rmtguard/issues"
+Homepage = "https://github.com/healthgreat/rmtguard"
+Repository = "https://github.com/healthgreat/rmtguard"
+Issues = "https://github.com/healthgreat/rmtguard/issues"
 
 [tool.setuptools.packages.find]
 where = ["src"]

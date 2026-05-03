@@ -7,21 +7,21 @@ This is a controlled fallback package for a reproducible genomics workflow, not 
 
 ## Overall Decision
 
-- Status: `prepare_after_release`
-- Blocking items: `public_release_completion;cover_letter_draft`
+- Status: `hold`
+- Blocking items: `route_activation;public_release_completion;cover_letter_draft`
 - Required action: Proceed only when this row is transfer_candidate or prepare_after_release with a concrete external release action in progress.
 
 ## Transfer Checklist
 
 ### route_activation
 
-- Status: `ready_after_release`
+- Status: `hold`
 - Owner: `Codex + corresponding author`
 - Evidence: `results/submission/post_feedback_journal_route_gate.tsv`
 - Required action: Use this fallback only when Nature Methods remains held or receives negative editorial feedback.
 - Allowed wording: Genome Biology fallback is a reproducible genomics-workflow route after public release completion.
 - Forbidden wording: Do not present fallback activation as journal acceptance or as a strict 20-50 JIF guarantee.
-- Notes: overall_route=genome_biology_after_release; genome_biology_gate=activate_after_release.
+- Notes: overall_route=pause_for_p0_feedback; genome_biology_gate=activate_after_release.
 
 ### public_release_completion
 
@@ -75,13 +75,13 @@ This is a controlled fallback package for a reproducible genomics workflow, not 
 
 ### overall_genome_biology_transfer
 
-- Status: `prepare_after_release`
+- Status: `hold`
 - Owner: `Codex + corresponding author`
 - Evidence: `results/submission/genome_biology_transfer_checklist.tsv`
 - Required action: Proceed only when this row is transfer_candidate or prepare_after_release with a concrete external release action in progress.
 - Allowed wording: Use evidence-bounded reproducible-workflow language.
 - Forbidden wording: Do not claim acceptance, strict IF20-50 eligibility, or broad clustering superiority.
-- Notes: public_release_completion;cover_letter_draft
+- Notes: route_activation;public_release_completion;cover_letter_draft
 
 ## Hard Language Boundary
 

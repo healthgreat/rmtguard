@@ -19,9 +19,12 @@ ROOT = Path(__file__).resolve().parents[1]
 
 DATASET_FILENAMES = {
     "pbmc3k_10x": "pbmc3k_10x.h5ad",
+    "paul15_hematopoiesis": "paul15_hematopoiesis.h5ad",
     "kang_ifnb_pbmc": "kang_ifnb_pbmc.h5ad",
     "baron_pancreas": "baron_pancreas.h5ad",
     "pbmc68k_zheng2017": "pbmc68k_zheng2017.h5ad",
+    "pdac_gse154778": "pdac_gse154778.h5ad",
+    "pdac_gse263733": "pdac_gse263733.h5ad",
 }
 
 
@@ -412,46 +415,83 @@ def _pairwise_stability(run_rows: list[dict]) -> float:
     return float(np.mean(scores)) if scores else float("nan")
 
 
-def _run_dataset(path: Path, dataset_id: str, args) -> tuple[list[dict], list[dict]]:
+def _pairwise_records(dataset_id: str, method: str, run_rows: list[dict]) -> list[dict]:
+    records = []
+    for left, right in combinations(run_rows, 2):
+        left_map = {cell: label for cell, label in zip(left["cell_indices"], left["labels"])}
+        right_map = {cell: label for cell, label in zip(right["cell_indices"], right["labels"])}
+        common = sorted(set(left_map) & set(right_map))
+        if len(common) < 5:
+            continue
+        records.append(
+            {
+                "dataset_id": dataset_id,
+                "method": method,
+                "left_run_id": int(left["run_id"]),
+                "right_run_id": int(right["run_id"]),
+                "pair_key": f"{left['run_id']}__{right['run_id']}",
+                "overlap_n": int(len(common)),
+                "pairwise_ari": float(
+                    adjusted_rand_score(
+                        [left_map[i] for i in common],
+                        [right_map[i] for i in common],
+                    )
+                ),
+            }
+        )
+    return records
+
+
+def _run_dataset(path: Path, dataset_id: str, args) -> tuple[list[dict], list[dict], list[dict]]:
     import anndata as ad
 
     adata = ad.read_h5ad(path)
     method_rows = []
     summary_rows = []
+    pairwise_rows = []
     for method in args.methods:
         runs = _run_one_method(adata, method, args)
         for row in runs:
             method_row = {key: value for key, value in row.items() if key not in {"cell_indices", "labels"}}
             method_rows.append({"dataset_id": dataset_id, **method_row})
+        pairwise = _pairwise_records(dataset_id, method, runs)
+        pairwise_rows.extend(pairwise)
         summary_rows.append(
             {
                 "dataset_id": dataset_id,
                 "method": method,
                 "n_repeats": args.n_repeats,
                 "sample_fraction": args.sample_fraction,
-                "mean_pairwise_ari": _pairwise_stability(runs),
+                "mean_pairwise_ari": float(np.mean([row["pairwise_ari"] for row in pairwise])) if pairwise else float("nan"),
                 "mean_cluster_n": float(np.mean([r["cluster_n"] for r in runs])),
                 "mean_n_cells": float(np.mean([r["n_cells"] for r in runs])),
             }
         )
-    return summary_rows, method_rows
+    return summary_rows, method_rows, pairwise_rows
 
 
-def _dataset_checkpoint_paths(outdir: Path, dataset_id: str) -> tuple[Path, Path]:
+def _dataset_checkpoint_paths(outdir: Path, dataset_id: str) -> tuple[Path, Path, Path]:
     return (
         outdir / f"{dataset_id}_stability_summary.tsv",
         outdir / f"{dataset_id}_stability_runs.tsv",
+        outdir / f"{dataset_id}_stability_pairwise.tsv",
     )
 
 
-def _load_or_run_dataset(path: Path, dataset_id: str, args) -> tuple[list[dict], list[dict]]:
-    summary_path, runs_path = _dataset_checkpoint_paths(args.outdir, dataset_id)
-    if not args.force and summary_path.exists() and runs_path.exists():
-        return _read_tsv(summary_path), _read_tsv(runs_path)
-    dataset_summary, dataset_runs = _run_dataset(path, dataset_id, args)
+def _load_or_run_dataset(path: Path, dataset_id: str, args) -> tuple[list[dict], list[dict], list[dict]]:
+    summary_path, runs_path, pairwise_path = _dataset_checkpoint_paths(args.outdir, dataset_id)
+    if (
+        not args.force
+        and summary_path.exists()
+        and runs_path.exists()
+        and pairwise_path.exists()
+    ):
+        return _read_tsv(summary_path), _read_tsv(runs_path), _read_tsv(pairwise_path)
+    dataset_summary, dataset_runs, dataset_pairwise = _run_dataset(path, dataset_id, args)
     _write_tsv_atomic(summary_path, dataset_summary)
     _write_tsv_atomic(runs_path, dataset_runs)
-    return dataset_summary, dataset_runs
+    _write_tsv_atomic(pairwise_path, dataset_pairwise)
+    return dataset_summary, dataset_runs, dataset_pairwise
 
 
 def main() -> int:
@@ -510,15 +550,17 @@ def main() -> int:
     args.outdir.mkdir(parents=True, exist_ok=True)
     summary_rows = []
     run_rows = []
+    pairwise_rows = []
     for dataset_id in args.datasets:
         if dataset_id not in dataset_paths:
             raise KeyError(f"Unknown dataset '{dataset_id}'. Available: {sorted(dataset_paths)}")
         path = dataset_paths[dataset_id]
         if not path.exists():
             raise FileNotFoundError(f"Prepared dataset not found: {path}")
-        dataset_summary, dataset_runs = _load_or_run_dataset(path, dataset_id, args)
+        dataset_summary, dataset_runs, dataset_pairwise = _load_or_run_dataset(path, dataset_id, args)
         summary_rows.extend(dataset_summary)
         run_rows.extend(dataset_runs)
+        pairwise_rows.extend(dataset_pairwise)
 
     summary_path = args.outdir / "stability_summary.tsv"
     _write_tsv_atomic(summary_path, summary_rows)
@@ -526,12 +568,16 @@ def main() -> int:
     runs_path = args.outdir / "stability_runs.tsv"
     _write_tsv_atomic(runs_path, run_rows)
 
+    pairwise_path = args.outdir / "stability_pairwise.tsv"
+    _write_tsv_atomic(pairwise_path, pairwise_rows)
+
     metadata_path = args.outdir / "stability_metadata.json"
     metadata = vars(args) | {"completed_datasets": list(args.datasets), "dataset_filenames": DATASET_FILENAMES}
     _write_json_atomic(metadata_path, metadata)
 
     print(summary_path)
     print(runs_path)
+    print(pairwise_path)
     print(metadata_path)
     return 0
 

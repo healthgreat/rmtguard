@@ -1,6 +1,6 @@
 # Genome Biology Cover Letter Draft
 
-Status: `prepare_after_release`; public release status: `blocked_external`.
+Status: `hold`; public release status: `blocked_external`.
 Do not send this draft until all placeholders are replaced and the current journal instructions are verified.
 
 Dear Editors,

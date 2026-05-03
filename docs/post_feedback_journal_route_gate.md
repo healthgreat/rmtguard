@@ -7,28 +7,28 @@ This gate decides whether the current package should keep Nature Methods on hold
 
 ## Overall Decision
 
-- Decision: `genome_biology_after_release`
-- Status: `fallback_after_release`
-- Blocking items: `repository_url;github_remote;zenodo_doi;stability_advantage;software_release`
-- Required action: Finish public software release first; keep Nature Methods on hold unless stability and route gates change.
-- Notes: Current controlled route is Genome Biology-style reproducible workflow after release; Nature Methods remains first target only if blockers are resolved.
+- Decision: `pause_for_p0_feedback`
+- Status: `blocked`
+- Blocking items: `SG-P0-001;SG-P0-002;SG-P0-003;SG-P0-004;SG-P1-001;SG-P1-002;SG-P1-003;SG-P1-004;SG-P1-005;SG-P1-006;SG-P1-007;SG-P1-008;SG-P1-009;SG-P1-010;SG-CLAIM-001`
+- Required action: Stop route escalation, resolve P0/P1 feedback, and regenerate all manuscript-control artifacts.
+- Notes: P0/P1 feedback overrides journal-route optimism.
 
 ## Gate Rows
 
 ### external_feedback_gate
 
-- Decision: `awaiting_external_feedback`
-- Status: `pending_review`
-- Blocking items: `none`
+- Decision: `blocked_by_external_feedback`
+- Status: `blocked`
+- Blocking items: `SG-P0-001;SG-P0-002;SG-P0-003;SG-P0-004;SG-P1-001;SG-P1-002;SG-P1-003;SG-P1-004;SG-P1-005;SG-P1-006;SG-P1-007;SG-P1-008;SG-P1-009;SG-P1-010;SG-CLAIM-001`
 - Evidence: `results/submission/external_review_feedback_triage.tsv`
-- Required action: Collect external model or collaborator feedback in the template and rerun triage.
-- Notes: External feedback loop has not produced real review rows yet.
+- Required action: Resolve P0/P1 external review feedback and rerun triage before any route upgrade.
+- Notes: P0/P1 external feedback is active.
 
 ### nature_methods_gate
 
 - Decision: `hold_nature_methods`
 - Status: `hold`
-- Blocking items: `overall_submission_guard;nature_methods_first;external_release;scientific_gates`
+- Blocking items: `overall_submission_guard;nature_methods_first;SG-P0-001;SG-P0-002;SG-P0-003;SG-P0-004;SG-P1-001;SG-P1-002;SG-P1-003;SG-P1-004;SG-P1-005;SG-P1-006;SG-P1-007;SG-P1-008;SG-P1-009;SG-P1-010;SG-CLAIM-001;external_release;scientific_gates`
 - Evidence: `results/submission/top_paper_route_decision.tsv`
 - Required action: Do not submit or strengthen Nature Methods claims until all listed blockers are regenerated as pass/candidate.
 - Notes: overall_submission_guard=do_not_submit; nature_route=hold_pre_submission; scientific_blockers=stability_advantage;software_release.
@@ -53,17 +53,17 @@ This gate decides whether the current package should keep Nature Methods on hold
 
 ### overall_post_feedback_route
 
-- Decision: `genome_biology_after_release`
-- Status: `fallback_after_release`
-- Blocking items: `repository_url;github_remote;zenodo_doi;stability_advantage;software_release`
+- Decision: `pause_for_p0_feedback`
+- Status: `blocked`
+- Blocking items: `SG-P0-001;SG-P0-002;SG-P0-003;SG-P0-004;SG-P1-001;SG-P1-002;SG-P1-003;SG-P1-004;SG-P1-005;SG-P1-006;SG-P1-007;SG-P1-008;SG-P1-009;SG-P1-010;SG-CLAIM-001`
 - Evidence: `results/submission/post_feedback_journal_route_gate.tsv`
-- Required action: Finish public software release first; keep Nature Methods on hold unless stability and route gates change.
-- Notes: Current controlled route is Genome Biology-style reproducible workflow after release; Nature Methods remains first target only if blockers are resolved.
+- Required action: Stop route escalation, resolve P0/P1 feedback, and regenerate all manuscript-control artifacts.
+- Notes: P0/P1 feedback overrides journal-route optimism.
 
 ## Blocking Rows
 
-- `external_feedback_gate`: `awaiting_external_feedback`; blockers=`none`
-- `nature_methods_gate`: `hold_nature_methods`; blockers=`overall_submission_guard;nature_methods_first;external_release;scientific_gates`
+- `external_feedback_gate`: `blocked_by_external_feedback`; blockers=`SG-P0-001;SG-P0-002;SG-P0-003;SG-P0-004;SG-P1-001;SG-P1-002;SG-P1-003;SG-P1-004;SG-P1-005;SG-P1-006;SG-P1-007;SG-P1-008;SG-P1-009;SG-P1-010;SG-CLAIM-001`
+- `nature_methods_gate`: `hold_nature_methods`; blockers=`overall_submission_guard;nature_methods_first;SG-P0-001;SG-P0-002;SG-P0-003;SG-P0-004;SG-P1-001;SG-P1-002;SG-P1-003;SG-P1-004;SG-P1-005;SG-P1-006;SG-P1-007;SG-P1-008;SG-P1-009;SG-P1-010;SG-CLAIM-001;external_release;scientific_gates`
 - `genome_biology_gate`: `activate_after_release`; blockers=`repository_url;github_remote;zenodo_doi`
 - `software_release_gate`: `complete_external_release`; blockers=`repository_url;github_remote;zenodo_doi`
 

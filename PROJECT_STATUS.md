@@ -20,6 +20,11 @@ wrapper.
 - Default clustering now uses `resolution_rule="graph_modularity"` with
   conservative graph resolution 1.0 and high-signal graph resolution 1.5 when
   strict signal PCs indicate richer structure.
+- RMTGuard v3.3 adds `rare_state_guard="adaptive_binary_split"`. It evaluates
+  multiple RMT-embedding binary split candidates and PC-tail rare-state
+  candidates, then accepts a split only when the candidate satisfies minimum
+  cell count, rare-state fraction window, centroid separation, and silhouette
+  thresholds.
 - Result diagnostics: `pc_diagnostics`, `hvg_diagnostics`, `resolution_scan`,
   `null_calibration`, `benchmark_metadata`.
 - Batch-aware residualization before spectral diagnostics.
@@ -139,8 +144,17 @@ wrapper.
 - Figure source data have been generated under
   `results/figures/source_data/`, with the reproducibility manifest at
   `results/figures/figure_reproducibility.tsv`.
-- Draft PNG/PDF main figures have been rendered under `figures/manuscript/`,
-  with the render manifest at `figures/manuscript/rendered_figure_manifest.tsv`.
+- Publication-style PNG/PDF/TIFF main figures have been rendered under
+  `figures/manuscript/`, with the render manifest at
+  `figures/manuscript/rendered_figure_manifest.tsv`. The current visual pass
+  removes large in-canvas titles, uses panel labels, cleans public-facing
+  scenario/dataset/marker labels, and keeps all plotted values tied to
+  `results/figures/source_data/`.
+- `scripts/build_publication_tables.py` writes manuscript-ready Table 1-3 TSVs
+  and a landscape Word table pack at
+  `results/tables/manuscript/rmtguard_publication_tables.docx`. The tables
+  summarize submission gates, public benchmark values, and the active external
+  review action plan without changing any scientific calls.
 - Local release readiness is summarized under `results/release/`. This records
   local audit status, metadata availability, figure/source-data readiness, and
   the local release-candidate tag. Public GitHub remote, GitHub Release, and
@@ -249,10 +263,72 @@ wrapper.
 - `scripts/triage_external_review_feedback.py` writes
   `results/submission/external_review_feedback_triage.tsv` and
   `docs/external_review_feedback_triage.md`. External model or collaborator
-  feedback should be pasted into
+  feedback should be pasted into either
+  `metadata/external_review_feedback_active.tsv` or the template
   `metadata/external_review_feedback_template.tsv`; the triage script then
   converts comments into P0/P1/P2 revision tickets without upgrading claims
-  or submission readiness automatically.
+  or submission readiness automatically. The current active feedback table
+  stores the SuperGrok pre-review comments.
+- `scripts/build_external_review_action_plan.py` writes
+  `results/submission/external_review_action_plan.tsv` and
+  `docs/external_review_action_plan.md`. It condenses active external-review
+  comments into ordered work packages: public release/DOI, route reframe,
+  manuscript-grade stability baselines, realistic null calibration, ablation
+  and no-call decision maps, biological showcase depth, and final
+  figure/reporting/claim-language cleanup.
+- `scripts/build_callability_decision_map.py` writes
+  `results/callability/no_call_decision_map.tsv`,
+  `results/figures/source_data/figure3_callability_decision_map.tsv`, and
+  `docs/no_call_decision_map.md`. Figure 3D now uses this table directly, so
+  real datasets are shown as `callable_with_caveat` or `diagnostic_no_call`
+  according to explicit signal, stability, annotation, and cluster-count
+  flags.
+- `scripts/audit_publication_visual_assets.py` writes
+  `results/submission/publication_visual_asset_audit.tsv` and
+  `docs/publication_visual_asset_audit.md`. It checks rendered PNG/PDF/TIFF
+  figures, source manifests, TSV tables, and the Word table pack for readable,
+  nonblank publication-facing artifacts.
+- `scripts/build_project_gantt.py` writes
+  `results/project_management/rmtguard_project_gantt.tsv`,
+  `results/project_management/rmtguard_project_gantt.md`, and
+  `figures/project_management/rmtguard_project_gantt.png/.pdf`. It separates
+  completed local work, blocked external release tasks, partial ablation work,
+  and planned benchmark/statistical/manuscript phases through July 2026.
+- `scripts/run_realistic_null_power_calibration.py` and
+  `scripts/render_calibration_figures.py` now create a draft calibration
+  layer under `results/calibration/` and `figures/calibration/`. This adds
+  count-preserving null models and a rare-state prevalence/effect-size power
+  grid to the local review package.
+- `scripts/build_jif20_50_gap_assessment.py` writes
+  `results/submission/jif20_50_gap_assessment.tsv`,
+  `results/submission/jif20_50_journal_route.tsv`, and
+  `docs/jif20_50_gap_assessment.md`. It records the current distance to a
+  strict 20-50 JIF submission route, separates Nature Methods from realistic
+  below-20 fallback journals, and lists the missing evidence blocks that must
+  be filled before route escalation.
+- `benchmarks/run_stability_benchmark.py` now writes per-method pairwise
+  subsampling ARI tables, and
+  `scripts/build_manuscript_stability_statistical_report.py` writes
+  `results/manuscript_stability_benchmarks/manuscript_stability_statistics.tsv`,
+  `results/manuscript_stability_benchmarks/manuscript_stability_paired_deltas.tsv`,
+  and `docs/manuscript_grade_stability_statistics.md`. The current 10-repeat
+  pilot covers all four Phase 1 datasets. PBMC3k gives RMTGuard mean pairwise
+  ARI 0.867 with bootstrap CI 0.836-0.898; Kang gives 0.789 with CI
+  0.752-0.827; Baron gives 0.878 with CI 0.868-0.888; PBMC68k/Zheng 2017 gives
+  0.624 with CI 0.489-0.758 and mean cluster count 1.6. RMTGuard is above
+  Scanpy-like/fixed50/parallel-analysis/JackStraw-like on all four datasets
+  and above fixed `n_pcs=30` on Kang and Baron, but the strongest stability
+  comparator remains higher on every dataset: elbow-rule on PBMC3k/Kang/Baron
+  and fixed `n_pcs=30` on PBMC68k.
+- `scripts/build_route_reframe_package.py` writes
+  `results/submission/route_reframe_decision.tsv`,
+  `docs/route_reframe_package.md`,
+  `manuscript/genome_biology_reframed_abstract.md`, and
+  `manuscript/nature_methods_hold_statement.md`. It implements the local part
+  of the SuperGrok P0 route correction: freeze Nature Methods as a current
+  no-go route, downgrade the central claim to callability-aware diagnostics,
+  and prepare a Genome Biology working abstract that does not claim broad
+  stability superiority.
 - `scripts/build_post_feedback_journal_route_gate.py` writes
   `results/submission/post_feedback_journal_route_gate.tsv` and
   `docs/post_feedback_journal_route_gate.md`. This is the post-feedback
@@ -302,3 +378,214 @@ stability claim rescue or a narrower manuscript route, and a real public
 GitHub repository, remote push, GitHub Release, Zenodo DOI, and final
 reporting-summary form are required before Nature Methods submission can be
 marked ready.
+
+SuperGrok external pre-review has been accepted into the control plane as
+active P0/P1 feedback. The current post-feedback route decision is
+`pause_for_p0_feedback`; Nature Methods presubmission is no-go in the current
+state, Genome Biology is conditional after public release and reframe, and
+the default narrative is now `callability-aware diagnostic workflow` rather
+than `stability-superior clustering method`.
+
+The local route reframe package has been added, so the route-reframe work
+package can be treated as implemented locally but still pending feedback
+closure. This does not clear the public-release DOI blocker or the
+manuscript-grade benchmark/statistical P1 blockers.
+
+The first realistic null/power calibration draft has also been added to the
+control plane. After the v3.3 rare-state guard, the current 220-cell,
+500-gene, 4-repeat draft run keeps count-preserving null false signal rate at
+0.000 and false call rate at 0.000. Rare-state power improves from the prior
+all-fail grid to power 1.000 for prevalence/effect settings 0.02/6.0,
+0.04/4.0, 0.04/6.0, 0.08/2.5, 0.08/4.0, and 0.08/6.0, with partial power at
+0.02/4.0 and 0.04/2.5. This is an algorithmic improvement, but not a final
+manuscript-grade pass because weak-effect/lowest-prevalence settings still
+fail and the calibration has only draft repeats.
+
+The first manuscript-grade stability statistics pilot now covers all four
+Phase 1 datasets with 10 repeats and explicit pairwise ARI records. PBMC3k
+reaches RMTGuard mean pairwise ARI 0.867, but `rmtguard_minus_elbow_rule` has
+mean delta -0.117 with bootstrap CI -0.148 to -0.086 and p-value 0.0002. Kang
+reaches 0.789 and beats fixed `n_pcs=30`, Scanpy-like, parallel-analysis, and
+JackStraw-like baselines, but still trails elbow-rule with mean delta -0.052,
+bootstrap CI -0.094 to -0.012, and p-value 0.022. Baron reaches 0.878 and
+beats fixed `n_pcs=30`, Scanpy-like, parallel-analysis, and JackStraw-like
+baselines, but still trails elbow-rule with mean delta -0.046, bootstrap CI
+-0.076 to -0.012, and p-value 0.009. PBMC68k/Zheng 2017 reaches only 0.624
+with mean cluster count 1.6 and trails fixed `n_pcs=30` with mean delta -0.159,
+bootstrap CI -0.307 to -0.017, and p-value 0.039. This completes the
+four-dataset CI layer but does not rescue the Nature Methods
+stability-superiority gate.
+
+The component-ablation evidence control matrix is now part of the local
+submission package. `scripts/build_component_ablation_evidence.py` writes
+`results/ablation/component_ablation_evidence.tsv`,
+`results/ablation/component_ablation_gap_matrix.tsv`, and
+`docs/component_ablation_evidence.md`. This improves traceability for the
+20-50 JIF route by separating direct component evidence from missing P0
+experiments, but it is not a substitute for the final MP/TW/permutation,
+HVG plateau, adaptive embedding, rare-state guard, no-call, and
+batch-residualization ablation runs.
+
+The first resumable draft component-ablation benchmark has also been run.
+`scripts/run_component_ablation_benchmark.py` now writes
+`results/ablation/component_ablation_detail.tsv`,
+`results/ablation/component_ablation_summary.tsv`, and
+`docs/component_ablation_benchmark.md`. The draft screen contains 135 detail
+rows across PC calibration, HVG rule, adaptive embedding, rare-state guard,
+forced no-call bypass, and whitening variants. It supports two useful
+negative/positive controls: forcing 10 embedding PCs drives null false-call
+rate to 1.000, and turning the rare-state guard off drops rare-state power to
+0.000 in the current draft grid. This is still not manuscript-grade because
+repeat count is 3 and real-data/annotation ablation checks remain pending.
+
+The same draft component-ablation runner now includes a synthetic batch-effect
+scenario without rerunning completed null/rare rows. The current detail table
+has 165 rows. In the batch-effect screen, default RMTGuard has label ARI 0.934
+and batch ARI -0.003, while forced `min_embedding_pcs=10` drops label ARI to
+0.563 and raises batch ARI to 0.321. Batch-residualized fitting keeps batch
+ARI near zero (-0.002) with label ARI 0.820. These values are useful draft
+evidence for no-call/PC guarding and batch-aware preprocessing, but they still
+need 20-50 repeats, confidence intervals, and Kang IFN-beta or other real-data
+batch checks before manuscript use.
+
+The first public real-data annotation ablation screen has now been added.
+`scripts/run_realdata_ablation_annotation.py` writes
+`results/ablation/realdata_ablation_annotation_detail.tsv`,
+`results/ablation/realdata_ablation_annotation_summary.tsv`, and
+`docs/realdata_ablation_annotation.md`. The draft screen covers Kang IFN-beta
+PBMC, Baron pancreas, and PBMC68k/Zheng 2017 across seven component variants.
+Default RMTGuard v3.3 has mean label ARI 0.473 across the three datasets
+versus 0.451 for the forced-minimum-10-PC variant. Kang remains strong
+(default label ARI 0.783, batch ARI 0.020), Baron shows that
+batch-residualized fitting can improve label ARI while lowering batch ARI
+(0.687 label ARI, 0.031 batch ARI), and PBMC68k remains biologically weak
+(default label ARI 0.084). This adds real-data annotation checks to the
+component-ablation control plane, but it remains draft evidence until expanded
+to 10-50 repeats with confidence intervals and matched Seurat/JackStraw
+baselines.
+
+The real-data annotation ablation runner now supports `run_label`,
+`subsample_fraction`, filtered `ablation_ids`, and summary-level 95% CI fields.
+A `subsample80_pilot10` run has been completed on Kang IFN-beta PBMC and
+Baron pancreas using 80% cell subsampling, ten repeats, and five key variants:
+default v3.3, strict-signal embedding, forced minimum 10 embedding PCs,
+rare-state guard off, and batch-residualized fitting. In this pilot, Baron
+default label ARI is 0.561 with 95% CI 0.539-0.583, while batch-residualized
+fitting reaches 0.620 with 95% CI 0.557-0.683 and lower batch ARI
+(0.045 versus 0.064). Kang default label ARI is 0.626 with 95% CI 0.558-0.694,
+while batch-residualized fitting is 0.612 with 95% CI 0.523-0.702 and lower
+batch ARI (0.011 versus 0.016). This gives a more stable real-data CI layer:
+batch residualization is clearly useful for Baron and lowers batch alignment
+in Kang, but it is not a universal annotation-recovery improvement. Final
+manuscript use still requires 20-50 repeats plus matched Seurat/JackStraw
+baselines on the same splits.
+
+The same `subsample80_pilot10` run has now been extended to PBMC68k/Zheng 2017
+and the PDAC/TME external validation dataset GSE263733. PBMC68k remains a
+diagnostic stress case: default RMTGuard has label ARI 0.003 with 90% no-call
+rate, while forcing 10 embedding PCs increases label ARI only to 0.089 and
+removes the no-call guard, so this remains negative-control evidence rather
+than a rescue. In GSE263733, default RMTGuard has label ARI 0.519 with 95% CI
+0.472-0.567 and batch ARI 0.055, while batch-residualized fitting has label
+ARI 0.528 with 95% CI 0.499-0.558 and lower batch ARI 0.035. This supports a
+bounded batch-aware interpretation on the external PDAC/TME dataset, but the
+claim still requires matched Seurat/JackStraw baselines and 20-50 repeat
+confirmation before manuscript use.
+
+The `subsample80_pilot10` real-data ablation layer now has publication-facing
+pilot assets. `scripts/build_realdata_ablation_assets.py` writes
+`results/figures/source_data/figure5_realdata_ablation_delta_summary.tsv`,
+`figures/manuscript/figure5_realdata_ablation_forest.png/.pdf/.tiff`,
+`results/tables/manuscript/supplemental_realdata_ablation_table.tsv`,
+`results/tables/manuscript/supplemental_realdata_ablation_table.docx`, and
+`docs/realdata_ablation_figure_table.md`. These files make the current
+four-dataset 10-repeat ablation results easier to review, but they do not
+upgrade the evidence to final manuscript grade.
+
+The matched-baseline experiment has also been specified as an execution design.
+`scripts/build_matched_baseline_design.py` writes
+`results/submission/matched_baseline_design.tsv` and
+`docs/matched_baseline_design.md`, covering RMTGuard default,
+batch-residualized RMTGuard, forced-min-PC negative control, Scanpy default,
+elbow-rule Scanpy, Seurat v5 default, Seurat v5 JackStraw, and
+permutation/parallel-analysis PCA across Kang, Baron, PBMC68k, and PDAC
+GSE263733. This began as a design artifact; official Seurat fixed-PC, elbow,
+and JackStraw matched results are now present for the first four prepared
+datasets, while additional datasets remain pending.
+
+The local Python portion of the matched-baseline design has now been executed
+as a pilot. `scripts/run_matched_baseline_pilot.py` writes
+`results/submission/matched_baseline_pilot_detail.tsv`,
+`results/submission/matched_baseline_pilot_summary.tsv`,
+`results/submission/matched_baseline_external_blockers.tsv`, and
+`docs/matched_baseline_pilot.md`. It imports the already-computed RMTGuard
+pilot rows and adds local Python baselines on the same 80% subsampling repeat
+framework: Scanpy-like fixed 50 PCs, fixed 30 PCs, elbow-rule PCA,
+parallel-analysis PCA, and a JackStraw-like permutation proxy. In the current
+10-repeat pilot, batch-residualized RMTGuard is the top label-ARI row for
+Baron pancreas and PDAC GSE263733, while Kang IFN-beta PBMC has a higher
+forced-min-PC row that must remain a negative control rather than a default
+recommendation. PBMC68k/Zheng 2017 is still a diagnostic no-call stress case:
+local PCA baselines recover weak label ARI around 0.16, whereas default
+RMTGuard intentionally no-calls most repeats. The later official Seurat layer
+now closes the fixed-PC, elbow, and JackStraw execution blockers on these four
+prepared datasets.
+
+The official Seurat matched-baseline path is now a 20-repeat fixed-PC, elbow,
+and JackStraw comparator layer across the four prepared real-data datasets.
+Direct h5ad import works for some datasets, but PBMC68k/Zheng 2017 exposes a
+zellkonverter sparse-matrix type failure on this Windows setup, so
+`scripts/export_seurat_mtx_inputs.py` writes a reproducible MatrixMarket bridge
+under `data/processed/seurat_mtx/`. `benchmarks/run_seurat_matched_baseline.R`
+reads that bridge and runs official Seurat v5
+`NormalizeData -> FindVariableFeatures -> ScaleData -> RunPCA -> FindNeighbors
+-> FindClusters` on the same 80% subsampling seed framework.
+`scripts/build_seurat_matched_baseline_report.py` writes
+`results/submission/seurat_matched_baseline_summary.tsv`,
+`results/submission/seurat_matched_baseline_status.tsv`, and
+`docs/seurat_matched_baseline.md`. In the current
+`seurat_jackstraw_subsample80_20x20_mtx` layer, fixed 30 PCs, fixed 50 PCs,
+elbow-rule PCs, and JackStraw PCs all run for 20 repeats on Kang IFN-beta PBMC,
+Baron pancreas, PBMC68k/Zheng 2017, and PDAC GSE263733. JackStraw uses 20
+JackStraw replicates per repeat, with maximum mean runtime 30.016 seconds on
+the prepared subsets. This closes the official Seurat repeat-depth blocker;
+additional public datasets and final benchmark freeze remain open.
+
+The paired RMTGuard-versus-official-Seurat annotation layer is now generated
+from a same-seed 20-repeat RMTGuard default v3.3 run
+(`run_label=subsample80_seurat_matched20`) and the official Seurat
+fixed30/fixed50/elbow/JackStraw 20-repeat rows. `scripts/build_rmtguard_seurat_paired_statistics.py`
+writes `results/submission/rmtguard_seurat_paired_detail.tsv`,
+`results/submission/rmtguard_seurat_paired_stats.tsv`,
+`results/submission/rmtguard_seurat_paired_status.tsv`,
+`results/figures/source_data/figure3_official_seurat_paired_label_delta.tsv`,
+and `docs/rmtguard_seurat_paired_statistics.md`, plus PNG/PDF/TIFF forest-plot
+assets under `figures/manuscript/`. The current status is
+`paired20_manuscript_candidate`: Kang and PDAC fixed-PC/JackStraw comparisons
+favor RMTGuard on annotation ARI, Baron is statistically uncertain, and
+PBMC68k favors Seurat but remains a weak-absolute-recovery diagnostic no-call
+stress context. This closes the paired Seurat comparator blocker; additional
+public datasets remain open.
+
+The benchmark breadth layer has been expanded from four to seven public
+datasets for repeated-subsampling stability. `scripts/prepare_phase1_datasets.py`
+now prepares `paul15_hematopoiesis` through `scanpy.datasets.paul15()`, and
+`benchmarks/run_stability_benchmark.py` now includes `paul15_hematopoiesis`,
+`pdac_gse154778`, and `pdac_gse263733` in addition to PBMC3k, Kang, Baron, and
+PBMC68k. The regenerated `docs/manuscript_grade_stability_statistics.md`
+records 10-repeat 80% subsampling stability for all seven datasets. Paul15 was
+also added to the same-seed RMTGuard-versus-official-Seurat paired annotation
+layer, so `docs/rmtguard_seurat_paired_statistics.md` now covers five labeled
+comparator datasets and four official Seurat methods. This closes the pure
+data-breadth part of the `additional_datasets` blocker, but it also strengthens
+the negative evidence against a broad stability-superiority claim: RMTGuard
+trails the strongest elbow/Scanpy-like comparator on PBMC3k, Kang, Baron,
+Paul15, PDAC GSE154778, and PDAC GSE263733. The remaining benchmark work is to
+extend matched Seurat/JackStraw comparators to the remaining added datasets
+where feasible, or explicitly label those added datasets as stability-only
+breadth evidence. The official Seurat matched-baseline layer has now also been
+extended to PBMC3k and PDAC GSE154778, so fixed30, fixed50, elbow, and
+JackStraw rows exist for all seven prepared public datasets. Because PBMC3k and
+PDAC GSE154778 lack reliable cell-state labels in the prepared h5ad files, they
+must be treated as label-free stability/runtime evidence unless annotations are
+added by a documented, reproducible procedure.
