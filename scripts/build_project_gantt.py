@@ -146,6 +146,16 @@ TASKS = [
         "Current strict 20-50 route is scored and remaining blockers are mapped to next supplements.",
     ),
     Task(
+        "Journal route",
+        "Nature Methods next-round science gate board",
+        date(2026, 5, 4),
+        date(2026, 5, 4),
+        "done",
+        100,
+        "docs/nature_methods_next_round_gate_board.md",
+        "Remaining 20-50 JIF blockers converted into P0/P1 gates with owners, pass criteria, stop conditions, and manual author inputs.",
+    ),
+    Task(
         "Release",
         "Public GitHub repository, release, and Zenodo DOI",
         date(2026, 5, 2),

@@ -58,6 +58,18 @@ COPY_ITEMS = [
         "submission execution board",
     ),
     CopyItem(
+        ROOT / "docs" / "nature_methods_next_round_gate_board.md",
+        "01_project_status",
+        "RMTGuard_NATURE_METHODS_NEXT_ROUND_GATE_BOARD.md",
+        "Nature Methods next-round science gate board",
+    ),
+    CopyItem(
+        ROOT / "results" / "submission" / "nature_methods_next_round_gate_board.tsv",
+        "01_project_status",
+        "RMTGuard_NATURE_METHODS_NEXT_ROUND_GATE_BOARD.tsv",
+        "machine-readable Nature Methods next-round gate board",
+    ),
+    CopyItem(
         ROOT / "results" / "project_management" / "rmtguard_project_gantt.md",
         "01_project_status",
         "RMTGuard_PROJECT_GANTT.md",
@@ -162,6 +174,7 @@ clinical materials.
 
 - `01_project_status/RMTGuard_JIF20_50_GAP_ASSESSMENT.md`
 - `01_project_status/RMTGuard_PUBLICATION_EXECUTION_BOARD.md`
+- `01_project_status/RMTGuard_NATURE_METHODS_NEXT_ROUND_GATE_BOARD.md`
 - `01_project_status/RMTGuard_PROJECT_GANTT.md`
 - `02_manual_actions/RMTGuard_MANUAL_NEXT_ACTIONS_20_50.md`
 - `03_release_evidence/RMTGuard_PUBLIC_RELEASE_BLOCKER_REPORT.md`
@@ -211,6 +224,7 @@ demotion.
 ## Fast Open
 
 - Gap report: `{package_dir / "01_project_status" / "RMTGuard_JIF20_50_GAP_ASSESSMENT.md"}`
+- Next-round gate board: `{package_dir / "01_project_status" / "RMTGuard_NATURE_METHODS_NEXT_ROUND_GATE_BOARD.md"}`
 - Gantt PNG: `{package_dir / "04_gantt_and_figures" / "RMTGuard_PROJECT_GANTT.png"}`
 - Manual checklist: `{package_dir / "02_manual_actions" / "RMTGuard_MANUAL_NEXT_ACTIONS_20_50.md"}`
 - Release blocker report: `{package_dir / "03_release_evidence" / "RMTGuard_PUBLIC_RELEASE_BLOCKER_REPORT.md"}`
