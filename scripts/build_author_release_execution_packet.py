@@ -92,7 +92,7 @@ def _current_tag(handoff_rows: list[dict[str, str]]) -> str:
     source = _by(handoff_rows, "artifact").get("source_git_bundle", {})
     text = " ".join([source.get("path", ""), source.get("notes", "")])
     match = re.search(r"v\d+\.\d+\.\d+(?:-[A-Za-z0-9.]+)?", text)
-    return match.group(0) if match else "v0.1.0-rc8"
+    return match.group(0) if match else "v0.1.0"
 
 
 def _source_bundle(handoff_rows: list[dict[str, str]]) -> str:

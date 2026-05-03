@@ -170,7 +170,7 @@ def build_board_rows(
             "yes_after_git_auth",
             "GitHub authentication and remote",
             RELEASE_READINESS,
-            "Push the current commit and tag `v0.1.0-rc8`; verify the GitHub file list excludes raw and processed data.",
+            "Push the current commit and tag `v0.1.0`; verify the GitHub file list excludes raw and processed data.",
             "Stop if GitHub auth is absent or raw data would be pushed.",
             "The local tag exists, but the remote release object does not.",
         ),
