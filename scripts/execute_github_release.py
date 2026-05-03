@@ -333,6 +333,8 @@ def execute(
     for row in rows:
         if row["status"] == "would_run":
             row["status"] = "executed"
+        if row["step_id"] == "05_create_github_release":
+            row["evidence_path"] = str(release.get("html_url", ""))
     if uploaded:
         rows.append(
             {
