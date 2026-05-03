@@ -7,15 +7,12 @@ This report is a release-engineering control surface, not a promise of journal a
 
 ## Summary
 
-- Passing release checks: `3`
-- Blocking checks: `5`
+- Passing release checks: `6`
+- Blocking checks: `2`
 - Strict Nature Methods / 20-50 JIF route remains gated by real evidence, public release completion, and editorial review.
 
 ## Immediate Blockers
 
-- `github_cli_or_web_access` (blocked_external): Provide either GitHub CLI authentication or use the GitHub web UI for repository/release creation.
-- `release_tag_at_head` (blocked_local): Create an annotated release tag only after source, docs, tests, and metadata are final.
-- `github_release_page` (blocked_external): Create a GitHub Release from the approved release tag.
 - `zenodo_doi` (blocked_external): Archive the GitHub Release with Zenodo and record the DOI.
 - `software_release_gate` (blocked): Rebuild release readiness after GitHub and Zenodo evidence are real.
 
@@ -35,11 +32,11 @@ none
 
 ### github_cli_or_web_access
 
-- Status: `blocked_external`
+- Status: `pass`
 - Owner: `author`
-- Evidence: `PATH`
+- Evidence: `results/release/github_release_execution_plan.tsv`
 - Required action: Provide either GitHub CLI authentication or use the GitHub web UI for repository/release creation.
-- Notes: gh is not available in this checkout; web UI is acceptable but remains external.
+- Notes: GitHub Release was created by an authenticated token/API workflow.
 
 ```bash
 gh auth status
@@ -83,11 +80,11 @@ git status --short
 
 ### release_tag_at_head
 
-- Status: `blocked_local`
+- Status: `pass`
 - Owner: `codex`
 - Evidence: `.git`
 - Required action: Create an annotated release tag only after source, docs, tests, and metadata are final.
-- Notes: Current HEAD has no release tag.
+- Notes: HEAD tag(s): v0.1.0-rc8
 
 ```bash
 git tag -a v0.1.0-rc8 -m "RMTGuard manuscript analysis release candidate 8"
@@ -95,11 +92,11 @@ git tag -a v0.1.0-rc8 -m "RMTGuard manuscript analysis release candidate 8"
 
 ### github_release_page
 
-- Status: `blocked_external`
+- Status: `pass`
 - Owner: `author`
-- Evidence: `GitHub Releases`
+- Evidence: `results/release/github_release_execution_plan.tsv`
 - Required action: Create a GitHub Release from the approved release tag.
-- Notes: Requires a GitHub remote and release tag; this script cannot create an account-owned repository without author authentication.
+- Notes: GitHub Release execution plan records an executed release URL.
 
 ```bash
 python scripts/execute_github_release.py --repo-url https://github.com/<owner>/rmtguard --tag v0.1.0-rc8 --execute
