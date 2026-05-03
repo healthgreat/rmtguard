@@ -22,6 +22,7 @@ OUT_DIR = ROOT / "results" / "release"
 REPORT_TSV = OUT_DIR / "public_release_blockers.tsv"
 REPORT_MD = ROOT / "docs" / "public_release_blocker_report.md"
 READINESS_TSV = OUT_DIR / "release_readiness.tsv"
+GITHUB_EXECUTION_TSV = OUT_DIR / "github_release_execution_plan.tsv"
 
 
 def _rel(path: Path) -> str:
@@ -91,6 +92,16 @@ def _detect_zenodo_doi_present() -> bool:
     return '"doi"' in text and "10." in text
 
 
+def _detect_github_release_executed() -> bool:
+    rows = _read_tsv(GITHUB_EXECUTION_TSV)
+    for row in rows:
+        if row.get("step_id") != "05_create_github_release":
+            continue
+        evidence = row.get("evidence_path", "")
+        return row.get("status") == "executed" and evidence.startswith("https://")
+    return False
+
+
 def _release_status(rows: list[dict[str, str]], check_id: str) -> str:
     for row in rows:
         if row.get("check_id") == check_id:
@@ -144,6 +155,8 @@ def build_rows(
         zenodo_doi_present = _detect_zenodo_doi_present()
 
     github_remote_ok = bool(remote_url) and "github.com" in remote_url.lower()
+    github_release_executed = _detect_github_release_executed()
+    github_access_ok = bool(gh_path) or github_release_executed
     metadata_ok = not placeholder_repo_present
     tag_ok = bool(head_tags)
     release_gate_ok = all(
@@ -168,15 +181,19 @@ def build_rows(
         ),
         _row(
             "github_cli_or_web_access",
-            "pass" if gh_path else "blocked_external",
+            "pass" if github_access_ok else "blocked_external",
             "author",
-            gh_path or "PATH",
+            gh_path or GITHUB_EXECUTION_TSV,
             "Provide either GitHub CLI authentication or use the GitHub web UI for repository/release creation.",
             "gh auth status",
             (
                 "GitHub CLI is available."
                 if gh_path
-                else "gh is not available in this checkout; web UI is acceptable but remains external."
+                else (
+                    "GitHub Release was created by an authenticated token/API workflow."
+                    if github_release_executed
+                    else "gh is not available in this checkout; web UI is acceptable but remains external."
+                )
             ),
         ),
         _row(
@@ -233,12 +250,16 @@ def build_rows(
         ),
         _row(
             "github_release_page",
-            "pass" if github_remote_ok and tag_ok else "blocked_external",
+            "pass" if github_release_executed and github_remote_ok and tag_ok else "blocked_external",
             "author",
-            "GitHub Releases",
+            GITHUB_EXECUTION_TSV,
             "Create a GitHub Release from the approved release tag.",
             "python scripts/execute_github_release.py --repo-url https://github.com/<owner>/rmtguard --tag v0.1.0-rc8 --execute",
-            "Requires a GitHub remote and release tag; this script cannot create an account-owned repository without author authentication.",
+            (
+                "GitHub Release execution plan records an executed release URL."
+                if github_release_executed
+                else "Requires a GitHub remote, release tag, and authenticated release creation."
+            ),
         ),
         _row(
             "zenodo_doi",

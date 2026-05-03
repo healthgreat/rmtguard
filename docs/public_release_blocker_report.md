@@ -7,14 +7,15 @@ This report is a release-engineering control surface, not a promise of journal a
 
 ## Summary
 
-- Passing release checks: `4`
-- Blocking checks: `4`
+- Passing release checks: `3`
+- Blocking checks: `5`
 - Strict Nature Methods / 20-50 JIF route remains gated by real evidence, public release completion, and editorial review.
 
 ## Immediate Blockers
 
 - `github_cli_or_web_access` (blocked_external): Provide either GitHub CLI authentication or use the GitHub web UI for repository/release creation.
-- `clean_worktree_before_release` (blocked_local): Commit or intentionally exclude local changes before creating a public release tag.
+- `release_tag_at_head` (blocked_local): Create an annotated release tag only after source, docs, tests, and metadata are final.
+- `github_release_page` (blocked_external): Create a GitHub Release from the approved release tag.
 - `zenodo_doi` (blocked_external): Archive the GitHub Release with Zenodo and record the DOI.
 - `software_release_gate` (blocked): Rebuild release readiness after GitHub and Zenodo evidence are real.
 
@@ -70,11 +71,11 @@ python scripts/update_repository_metadata.py --repo-url https://github.com/<owne
 
 ### clean_worktree_before_release
 
-- Status: `blocked_local`
+- Status: `pass`
 - Owner: `codex`
 - Evidence: `.git`
 - Required action: Commit or intentionally exclude local changes before creating a public release tag.
-- Notes: Git work tree has local changes; do not tag a moving target.
+- Notes: Git work tree is clean.
 
 ```bash
 git status --short
@@ -82,11 +83,11 @@ git status --short
 
 ### release_tag_at_head
 
-- Status: `pass`
+- Status: `blocked_local`
 - Owner: `codex`
 - Evidence: `.git`
 - Required action: Create an annotated release tag only after source, docs, tests, and metadata are final.
-- Notes: HEAD tag(s): v0.1.0-rc8
+- Notes: Current HEAD has no release tag.
 
 ```bash
 git tag -a v0.1.0-rc8 -m "RMTGuard manuscript analysis release candidate 8"
@@ -94,7 +95,7 @@ git tag -a v0.1.0-rc8 -m "RMTGuard manuscript analysis release candidate 8"
 
 ### github_release_page
 
-- Status: `pass`
+- Status: `blocked_external`
 - Owner: `author`
 - Evidence: `GitHub Releases`
 - Required action: Create a GitHub Release from the approved release tag.
