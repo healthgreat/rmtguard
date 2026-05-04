@@ -217,19 +217,69 @@ def _component_ablation_summary() -> dict[str, object]:
     rows = _read_tsv(COMPONENT_ABLATION)
     benchmark_rows = _read_tsv(COMPONENT_ABLATION_SUMMARY)
     realdata_rows = _read_tsv(REALDATA_ABLATION_SUMMARY)
+    synthetic_repeat_depths = [
+        int(float(row.get("n_repeats", "0")))
+        for row in benchmark_rows
+        if row.get("n_repeats", "")
+    ]
+    synthetic_min_repeats = (
+        min(synthetic_repeat_depths) if synthetic_repeat_depths else 0
+    )
+    ci_present = bool(
+        benchmark_rows
+        and all(
+            col in benchmark_rows[0]
+            for col in [
+                "false_call_rate_ci95_low",
+                "false_call_rate_ci95_high",
+                "power_ci95_low",
+                "power_ci95_high",
+                "mean_rare_f1_ci95_low",
+                "mean_rare_f1_ci95_high",
+            ]
+        )
+    )
     realdata_repeat_depths = [
         int(float(row.get("n_repeats", "0")))
         for row in realdata_rows
         if row.get("n_repeats", "")
     ]
     realdata_max_repeats = max(realdata_repeat_depths) if realdata_repeat_depths else 0
+    realdata_component_rows = []
+    for row in realdata_rows:
+        run_label = row.get("run_label", "")
+        ablation_id = row.get("ablation_id", "")
+        try:
+            subsample_fraction = float(row.get("subsample_fraction", "1"))
+        except ValueError:
+            subsample_fraction = 1.0
+        if "seurat_matched" in run_label:
+            continue
+        if ablation_id == "default_v3_3":
+            continue
+        if not (0.79 <= subsample_fraction <= 0.81):
+            continue
+        realdata_component_rows.append(row)
+    realdata_component_repeat_depths = [
+        int(float(row.get("n_repeats", "0")))
+        for row in realdata_component_rows
+        if row.get("n_repeats", "")
+    ]
+    realdata_component_min_repeats = (
+        min(realdata_component_repeat_depths)
+        if realdata_component_repeat_depths
+        else 0
+    )
     if not rows:
         return {
             "status": "missing",
             "component_count": 0,
             "benchmark_rows": len(benchmark_rows),
+            "synthetic_min_repeats": synthetic_min_repeats,
+            "component_ci_present": ci_present,
             "realdata_rows": len(realdata_rows),
             "realdata_max_repeats": realdata_max_repeats,
+            "realdata_component_min_repeats": realdata_component_min_repeats,
             "missing_components": "all",
         }
     missing = [
@@ -255,8 +305,11 @@ def _component_ablation_summary() -> dict[str, object]:
         "status": status,
         "component_count": len(rows),
         "benchmark_rows": len(benchmark_rows),
+        "synthetic_min_repeats": synthetic_min_repeats,
+        "component_ci_present": ci_present,
         "realdata_rows": len(realdata_rows),
         "realdata_max_repeats": realdata_max_repeats,
+        "realdata_component_min_repeats": realdata_component_min_repeats,
         "missing_components": ",".join(missing) if missing else "none",
         "partial_components": ",".join(partial) if partial else "none",
     }
@@ -639,9 +692,12 @@ def build_gap_rows() -> list[dict[str, object]]:
         {
             "domain": "calibration_statistics",
             "weight": 15,
-            "current_score": 14 if component_ablation.get("realdata_max_repeats", 0) >= 10 else (13 if component_ablation["realdata_rows"] else (12 if component_ablation["benchmark_rows"] else (10 if component_matrix_exists else 9))),
+            "current_score": 14 if component_ablation.get("realdata_component_min_repeats", 0) >= 10 else (13 if component_ablation["realdata_rows"] else (12 if component_ablation["benchmark_rows"] else (10 if component_matrix_exists else 9))),
             "status": (
-                "partial_improved_component_controlled"
+                "synthetic_component_ablation_20_repeat_done_realdata_and_power_pending"
+                if component_ablation.get("synthetic_min_repeats", 0) >= 20
+                and component_ablation.get("component_ci_present", False)
+                else "partial_improved_component_controlled"
                 if component_matrix_exists
                 else "partial_improved"
             ),
@@ -650,10 +706,15 @@ def build_gap_rows() -> list[dict[str, object]]:
                 if component_matrix_exists
                 else _rel(CALIBRATION_POWER)
             ),
-            "blocking_items": "weak_effect_low_prevalence_power;draft_repeat_count",
-            "what_is_done": f"Count-preserving null false-call max is {calibration['max_false_call']:.3f}; rare-state power improved, with {calibration['settings_power_ge_080']:.0%} of grid settings at power >=0.80. Component ablation status is {component_ablation['status']} across {component_ablation['component_count']} components, {component_ablation['benchmark_rows']} draft synthetic benchmark summary rows, and {component_ablation['realdata_rows']} real-data annotation rows with maximum repeat depth {component_ablation['realdata_max_repeats']}. Real-data ablation figure/table assets present: {realdata_ablation_assets_present}.",
-            "what_is_missing": f"Minimum rare-state power remains {calibration['min_power']:.2f}; current repeats are draft scale, not manuscript grade. Missing or nonfinal component experiments: {component_ablation['missing_components']}.",
-            "next_supplement": "Scale the draft P0 component ablations and real-data annotation checks from the current 10-repeat pilot to 20-50 repeats, add final confidence intervals, and freeze the matched Seurat/JackStraw comparator table.",
+            "blocking_items": (
+                "weak_effect_low_prevalence_power;realdata_annotation_repeat_depth"
+                if component_ablation.get("synthetic_min_repeats", 0) >= 20
+                and component_ablation.get("component_ci_present", False)
+                else "weak_effect_low_prevalence_power;draft_repeat_count"
+            ),
+            "what_is_done": f"Count-preserving null false-call max is {calibration['max_false_call']:.3f}; rare-state power improved, with {calibration['settings_power_ge_080']:.0%} of grid settings at power >=0.80. Synthetic component ablation now has minimum repeat depth {component_ablation['synthetic_min_repeats']} with CI columns present={component_ablation['component_ci_present']}. Component ablation status is {component_ablation['status']} across {component_ablation['component_count']} components, {component_ablation['benchmark_rows']} synthetic benchmark summary rows, and {component_ablation['realdata_rows']} real-data annotation rows; component-specific real-data ablation minimum repeat depth is {component_ablation['realdata_component_min_repeats']}. Real-data ablation figure/table assets present: {realdata_ablation_assets_present}.",
+            "what_is_missing": f"Minimum rare-state power remains {calibration['min_power']:.2f}; realistic null/power grid is still draft repeat depth and real-data annotation ablations remain below 20 repeats. Missing or nonfinal component experiments: {component_ablation['missing_components']}.",
+            "next_supplement": "Scale the real-data annotation ablation checks from the current 10-repeat pilot to 20 repeats, then run realistic null/power calibration at 50 repeats with confidence intervals.",
         },
         {
             "domain": "release_reproducibility",
@@ -886,7 +947,7 @@ def build_markdown(
             ]
         ):
             missing_real_data = (
-                "2. Benchmark breadth, official Seurat/JackStraw baselines, "
+            "2. Benchmark breadth, official Seurat/JackStraw baselines, "
                 "paired statistics on the labeled subset, and label-free "
                 "dataset boundaries are now controlled. Do not reopen this "
                 "layer unless adding optional atlas-scale evidence."
@@ -1035,7 +1096,7 @@ def build_markdown(
             "1. Release engineering is complete for v0.1.0; the remaining gap is scientific evidence, not public code availability.",
             missing_real_data,
             missing_statistics,
-            "4. Manuscript-grade component ablation experiments for MP edge, TW proxy, permutation calibration, HVG plateau, adaptive embedding, rare-state guard, no-call contract, and batch residualization. A resumable draft benchmark now includes null, rare-state, synthetic batch-effect, real-data annotation screens, and a pilot forest/table asset layer, but P0 runs still need 20-50 repeats, confidence intervals, and executed matched baselines.",
+            "4. Manuscript-grade component ablation experiments for MP edge, TW proxy, permutation calibration, HVG plateau, adaptive embedding, rare-state guard, no-call contract, and batch residualization. The synthetic component-ablation layer now has 20-repeat CI evidence, but the labeled real-data ablation checks still need 20-repeat depth before Figure 5 finalization.",
             "5. A stronger biological application, or a deliberate demotion of PDAC/TME to supplementary use case.",
             "6. Optional broader atlas-scale dataset if the Nature Methods route remains active after the current blockers are cleared.",
             "7. Final source-data/caption/reporting-summary regeneration after benchmark freeze.",
@@ -1057,6 +1118,7 @@ def build_markdown(
             f"- Manuscript stability statistics: `{_rel(MANUSCRIPT_STABILITY_STATS)}`",
             f"- Component ablation evidence: `{_rel(COMPONENT_ABLATION)}`",
             f"- Component ablation summary: `{_rel(COMPONENT_ABLATION_SUMMARY)}`",
+            "- P0 science sprint status: `results/submission/p0_science_sprint_status.tsv`",
             f"- Real-data ablation annotation summary: `{_rel(REALDATA_ABLATION_SUMMARY)}`",
             f"- Real-data ablation figure source data: `{_rel(REALDATA_ABLATION_ASSET_SUMMARY)}`",
             f"- Matched baseline design: `{_rel(MATCHED_BASELINE_DESIGN)}`",

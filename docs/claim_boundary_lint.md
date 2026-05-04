@@ -8,7 +8,7 @@ The linter blocks unsupported journal-facing claims while allowing explicit forb
 ## Summary
 
 - Violations: `0`
-- Controlled boundary mentions: `204`
+- Controlled boundary mentions: `205`
 
 ## Violations
 
@@ -81,6 +81,7 @@ The linter blocks unsupported journal-facing claims while allowing explicit forb
 - `pbmc68k_positive_discovery` in `docs/nature_reporting_summary_draft.md:82`
 - `premature_doi_release` in `docs/nature_reporting_summary_draft.md:103`
 - `premature_doi_release` in `docs/nature_reporting_summary_draft.md:106`
+- `acceptance_guarantee` in `docs/p0_science_sprint_status.md:10`
 - `acceptance_guarantee` in `docs/post_feedback_journal_route_gate.md:5`
 - `premature_doi_release` in `docs/post_feedback_journal_route_gate.md:42`
 - `premature_doi_release` in `docs/post_feedback_journal_route_gate.md:51`
@@ -115,8 +116,7 @@ The linter blocks unsupported journal-facing claims while allowing explicit forb
 - `pbmc68k_positive_discovery` in `docs/route_reframe_package.md:49`
 - `broad_fixed_pc_superiority` in `docs/route_reframe_package.md:51`
 - `pbmc68k_positive_discovery` in `docs/route_reframe_package.md:51`
-- `premature_doi_release` in `docs/route_reframe_package.md:59`
-- ... 104 additional controlled mentions omitted from Markdown summary.
+- ... 105 additional controlled mentions omitted from Markdown summary.
 
 ## Submission Rule
 

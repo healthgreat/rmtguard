@@ -154,6 +154,30 @@ COPY_ITEMS = [
         "P0 component ablation run sheet",
     ),
     CopyItem(
+        ROOT / "docs" / "p0_science_sprint_status.md",
+        "06_next_sprint_inputs",
+        "RMTGuard_P0_SCIENCE_SPRINT_STATUS.md",
+        "P0 science sprint execution status",
+    ),
+    CopyItem(
+        ROOT / "results" / "submission" / "p0_science_sprint_status.tsv",
+        "06_next_sprint_inputs",
+        "RMTGuard_P0_SCIENCE_SPRINT_STATUS.tsv",
+        "machine-readable P0 science sprint execution status",
+    ),
+    CopyItem(
+        ROOT / "docs" / "component_ablation_benchmark.md",
+        "06_next_sprint_inputs",
+        "RMTGuard_COMPONENT_ABLATION_BENCHMARK.md",
+        "20-repeat synthetic component ablation report",
+    ),
+    CopyItem(
+        ROOT / "results" / "ablation" / "component_ablation_summary.tsv",
+        "06_next_sprint_inputs",
+        "RMTGuard_COMPONENT_ABLATION_SUMMARY.tsv",
+        "machine-readable 20-repeat synthetic component ablation summary",
+    ),
+    CopyItem(
         ROOT / "results" / "ablation" / "p0_component_ablation_run_sheet.tsv",
         "06_next_sprint_inputs",
         "RMTGuard_P0_COMPONENT_ABLATION_RUN_SHEET.tsv",
@@ -241,6 +265,8 @@ matrices, tokens, passwords, or private clinical materials.
 - `04_gantt_and_figures/RMTGuard_PROJECT_GANTT.png`
 - `05_author_metadata/RMTGuard_TITLE_PAGE_AUTHOR_METADATA.md`
 - `06_next_sprint_inputs/RMTGuard_NATURE_METHODS_48H_EXECUTION_PACKET.md`
+- `06_next_sprint_inputs/RMTGuard_P0_SCIENCE_SPRINT_STATUS.md`
+- `06_next_sprint_inputs/RMTGuard_COMPONENT_ABLATION_BENCHMARK.md`
 - `06_next_sprint_inputs/RMTGuard_P0_COMPONENT_ABLATION_RUN_SHEET.md`
 - `06_next_sprint_inputs/RMTGuard_NULL_POWER_GRID_DESIGN.md`
 - `06_next_sprint_inputs/RMTGuard_ADDED_DATASET_ANNOTATION_BOUNDARY.md`
@@ -281,15 +307,18 @@ Package path:
 
 RMTGuard has passed the public release engineering gate, but is not ready for a
 strict 20-50 JIF submission because the remaining blockers are scientific:
-stability-superiority is not supported, manuscript-grade component ablations
-need final repeats/CI, realistic null and power grids need execution, and the
-PDAC/TME biological showcase needs deepening or demotion.
+stability-superiority is not supported, synthetic component ablation now has a
+20-repeat CI layer but real-data ablation still needs final repeat depth,
+realistic null and power grids need execution, and the PDAC/TME biological
+showcase needs deepening or demotion.
 
 ## Fast Open
 
 - Gap report: `{package_dir / "01_project_status" / "RMTGuard_JIF20_50_GAP_ASSESSMENT.md"}`
 - Next-round gate board: `{package_dir / "01_project_status" / "RMTGuard_NATURE_METHODS_NEXT_ROUND_GATE_BOARD.md"}`
 - 48-hour execution packet: `{package_dir / "06_next_sprint_inputs" / "RMTGuard_NATURE_METHODS_48H_EXECUTION_PACKET.md"}`
+- P0 science sprint status: `{package_dir / "06_next_sprint_inputs" / "RMTGuard_P0_SCIENCE_SPRINT_STATUS.md"}`
+- Component ablation benchmark: `{package_dir / "06_next_sprint_inputs" / "RMTGuard_COMPONENT_ABLATION_BENCHMARK.md"}`
 - P0 ablation run sheet: `{package_dir / "06_next_sprint_inputs" / "RMTGuard_P0_COMPONENT_ABLATION_RUN_SHEET.md"}`
 - Null/power grid design: `{package_dir / "06_next_sprint_inputs" / "RMTGuard_NULL_POWER_GRID_DESIGN.md"}`
 - Gantt PNG: `{package_dir / "04_gantt_and_figures" / "RMTGuard_PROJECT_GANTT.png"}`

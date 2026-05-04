@@ -1,0 +1,34 @@
+role	status	source_path	shared_path	notes
+20-50 JIF gap assessment	copied	docs/jif20_50_gap_assessment.md	D:\99、共用信息\RMTGuard_20_50投稿资料包\01_project_status\RMTGuard_JIF20_50_GAP_ASSESSMENT.md	source copied
+machine-readable gap assessment	copied	results/submission/jif20_50_gap_assessment.tsv	D:\99、共用信息\RMTGuard_20_50投稿资料包\01_project_status\RMTGuard_JIF20_50_GAP_ASSESSMENT.tsv	source copied
+submission execution board	copied	docs/publication_execution_board.md	D:\99、共用信息\RMTGuard_20_50投稿资料包\01_project_status\RMTGuard_PUBLICATION_EXECUTION_BOARD.md	source copied
+Nature Methods next-round science gate board	copied	docs/nature_methods_next_round_gate_board.md	D:\99、共用信息\RMTGuard_20_50投稿资料包\01_project_status\RMTGuard_NATURE_METHODS_NEXT_ROUND_GATE_BOARD.md	source copied
+machine-readable Nature Methods next-round gate board	copied	results/submission/nature_methods_next_round_gate_board.tsv	D:\99、共用信息\RMTGuard_20_50投稿资料包\01_project_status\RMTGuard_NATURE_METHODS_NEXT_ROUND_GATE_BOARD.tsv	source copied
+Gantt chart markdown	copied	results/project_management/rmtguard_project_gantt.md	D:\99、共用信息\RMTGuard_20_50投稿资料包\01_project_status\RMTGuard_PROJECT_GANTT.md	source copied
+Gantt chart PNG	copied	figures/project_management/rmtguard_project_gantt.png	D:\99、共用信息\RMTGuard_20_50投稿资料包\04_gantt_and_figures\RMTGuard_PROJECT_GANTT.png	source copied
+Gantt chart PDF	copied	figures/project_management/rmtguard_project_gantt.pdf	D:\99、共用信息\RMTGuard_20_50投稿资料包\04_gantt_and_figures\RMTGuard_PROJECT_GANTT.pdf	source copied
+manual author action checklist	copied	docs/manual_next_actions_20_50.md	D:\99、共用信息\RMTGuard_20_50投稿资料包\02_manual_actions\RMTGuard_MANUAL_NEXT_ACTIONS_20_50.md	source copied
+author execution checklist	copied	docs/manual_author_execution_steps.md	D:\99、共用信息\RMTGuard_20_50投稿资料包\02_manual_actions\RMTGuard_MANUAL_AUTHOR_EXECUTION_STEPS.md	source copied
+release blocker report	copied	docs/public_release_blocker_report.md	D:\99、共用信息\RMTGuard_20_50投稿资料包\03_release_evidence\RMTGuard_PUBLIC_RELEASE_BLOCKER_REPORT.md	source copied
+code availability draft	copied	manuscript/code_availability_finalization_draft.md	D:\99、共用信息\RMTGuard_20_50投稿资料包\03_release_evidence\RMTGuard_CODE_AVAILABILITY_FINALIZATION_DRAFT.md	source copied
+title-page author metadata	copied	manuscript/title_page_author_metadata.md	D:\99、共用信息\RMTGuard_20_50投稿资料包\05_author_metadata\RMTGuard_TITLE_PAGE_AUTHOR_METADATA.md	source copied
+author declarations and CRediT roles	copied	docs/author_declarations_and_credit_roles.md	D:\99、共用信息\RMTGuard_20_50投稿资料包\05_author_metadata\RMTGuard_AUTHOR_DECLARATIONS_AND_CREDIT_ROLES.md	source copied
+48-hour Nature Methods science execution packet	copied	docs/nature_methods_48h_execution_packet.md	D:\99、共用信息\RMTGuard_20_50投稿资料包\06_next_sprint_inputs\RMTGuard_NATURE_METHODS_48H_EXECUTION_PACKET.md	source copied
+machine-readable 48-hour execution packet	copied	results/submission/nature_methods_48h_execution_packet.tsv	D:\99、共用信息\RMTGuard_20_50投稿资料包\06_next_sprint_inputs\RMTGuard_NATURE_METHODS_48H_EXECUTION_PACKET.tsv	source copied
+locked final claim boundary for current evidence	copied	manuscript/claim_scope_final.md	D:\99、共用信息\RMTGuard_20_50投稿资料包\06_next_sprint_inputs\RMTGuard_CLAIM_SCOPE_FINAL.md	source copied
+machine-readable claim scope audit	copied	results/submission/claim_scope_final_audit.tsv	D:\99、共用信息\RMTGuard_20_50投稿资料包\06_next_sprint_inputs\RMTGuard_CLAIM_SCOPE_FINAL_AUDIT.tsv	source copied
+P0 component ablation run sheet	copied	docs/p0_component_ablation_run_sheet.md	D:\99、共用信息\RMTGuard_20_50投稿资料包\06_next_sprint_inputs\RMTGuard_P0_COMPONENT_ABLATION_RUN_SHEET.md	source copied
+P0 science sprint execution status	copied	docs/p0_science_sprint_status.md	D:\99、共用信息\RMTGuard_20_50投稿资料包\06_next_sprint_inputs\RMTGuard_P0_SCIENCE_SPRINT_STATUS.md	source copied
+machine-readable P0 science sprint execution status	copied	results/submission/p0_science_sprint_status.tsv	D:\99、共用信息\RMTGuard_20_50投稿资料包\06_next_sprint_inputs\RMTGuard_P0_SCIENCE_SPRINT_STATUS.tsv	source copied
+20-repeat synthetic component ablation report	copied	docs/component_ablation_benchmark.md	D:\99、共用信息\RMTGuard_20_50投稿资料包\06_next_sprint_inputs\RMTGuard_COMPONENT_ABLATION_BENCHMARK.md	source copied
+machine-readable 20-repeat synthetic component ablation summary	copied	results/ablation/component_ablation_summary.tsv	D:\99、共用信息\RMTGuard_20_50投稿资料包\06_next_sprint_inputs\RMTGuard_COMPONENT_ABLATION_SUMMARY.tsv	source copied
+machine-readable P0 component ablation run sheet	copied	results/ablation/p0_component_ablation_run_sheet.tsv	D:\99、共用信息\RMTGuard_20_50投稿资料包\06_next_sprint_inputs\RMTGuard_P0_COMPONENT_ABLATION_RUN_SHEET.tsv	source copied
+manuscript-grade null and power grid design	copied	docs/manuscript_grade_null_power_grid_design.md	D:\99、共用信息\RMTGuard_20_50投稿资料包\06_next_sprint_inputs\RMTGuard_NULL_POWER_GRID_DESIGN.md	source copied
+machine-readable null and power grid design	copied	results/calibration/manuscript_grade_null_power_grid_design.tsv	D:\99、共用信息\RMTGuard_20_50投稿资料包\06_next_sprint_inputs\RMTGuard_NULL_POWER_GRID_DESIGN.tsv	source copied
+annotation boundary table for added datasets	copied	docs/added_dataset_annotation_boundary.md	D:\99、共用信息\RMTGuard_20_50投稿资料包\06_next_sprint_inputs\RMTGuard_ADDED_DATASET_ANNOTATION_BOUNDARY.md	source copied
+machine-readable annotation boundary table	copied	results/submission/added_dataset_annotation_boundary.tsv	D:\99、共用信息\RMTGuard_20_50投稿资料包\06_next_sprint_inputs\RMTGuard_ADDED_DATASET_ANNOTATION_BOUNDARY.tsv	source copied
+shared package README	written	generated	D:\99、共用信息\RMTGuard_20_50投稿资料包\README.md	generated shared helper
+shared root registry	written	generated	D:\99、共用信息\PROJECT_SHARED_INFO_REGISTRY.md	generated shared helper
+project status index	written	generated	D:\99、共用信息\项目信息索引\RMTGuard_20_50_STATUS_INDEX.md	generated shared helper
+journal verification template	written	generated	D:\99、共用信息\投稿前手动操作模板\JOURNAL_METRICS_CAS_WARNING_VERIFICATION_TEMPLATE.md	generated shared helper
+methods paper external AI review prompt	written	generated	D:\99、共用信息\AI外审通用模板\METHODS_PAPER_EXTERNAL_AI_REVIEW_PROMPT.md	generated shared helper

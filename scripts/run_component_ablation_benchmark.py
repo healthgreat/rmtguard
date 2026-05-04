@@ -416,6 +416,22 @@ def summarize(detail: pd.DataFrame) -> pd.DataFrame:
     if detail.empty:
         return pd.DataFrame()
     rows: list[dict[str, Any]] = []
+
+    def mean_ci95(series: pd.Series, *, bounded_01: bool = False) -> tuple[float, float]:
+        values = pd.to_numeric(series, errors="coerce").dropna()
+        if values.empty:
+            return math.nan, math.nan
+        mean = float(values.mean())
+        if len(values) == 1:
+            low, high = mean, mean
+        else:
+            half_width = 1.96 * float(values.std(ddof=1)) / math.sqrt(len(values))
+            low, high = mean - half_width, mean + half_width
+        if bounded_01:
+            low = max(0.0, low)
+            high = min(1.0, high)
+        return low, high
+
     for keys, group in detail.groupby(
         ["component_family", "ablation_id", "variant_label", "scenario"],
         dropna=False,
@@ -443,6 +459,26 @@ def summarize(detail: pd.DataFrame) -> pd.DataFrame:
                 else math.nan
             ),
         }
+        ci_columns = {
+            "false_signal": "false_signal_rate",
+            "false_call": "false_call_rate",
+            "ari": "mean_ari",
+            "rare_f1": "mean_rare_f1",
+            "power_pass": "power",
+            "batch_ari": "mean_batch_ari",
+            "runtime_seconds": "mean_runtime_seconds",
+        }
+        for source_col, prefix in ci_columns.items():
+            if source_col in group:
+                low, high = mean_ci95(
+                    group[source_col],
+                    bounded_01=source_col
+                    in {"false_signal", "false_call", "rare_f1", "power_pass"},
+                )
+            else:
+                low, high = math.nan, math.nan
+            summary[f"{prefix}_ci95_low"] = low
+            summary[f"{prefix}_ci95_high"] = high
         if scenario == "realistic_null":
             summary.update(
                 {
@@ -523,7 +559,9 @@ def build_doc(summary: pd.DataFrame, args: argparse.Namespace) -> str:
         f"- Rare-state settings: {', '.join(f'{p:.3f}/{e:.2f}' for p, e in args.rare_settings)}",
         f"- Batch-effect scenario: {args.batch_states} states, {args.batch_markers_per_state} marker genes per state, dropout {args.batch_dropout_rate}",
         f"- Permutations for permutation-calibrated variant: {args.n_permutations}",
-        "- Status: draft local screen; not final manuscript-grade ablation.",
+        "- Status: manuscript-grade synthetic repeat depth reached; final journal use still requires real-data annotation checks and claim-boundary review."
+        if args.n_repeats >= 20
+        else "- Status: draft local screen; not final manuscript-grade ablation.",
         "",
         "## Bottom Line",
         "",
@@ -532,15 +570,30 @@ def build_doc(summary: pd.DataFrame, args: argparse.Namespace) -> str:
         "",
         "## Summary Table",
         "",
-        "| Component | Variant | Scenario | Rows | False call | Power | Rare F1 | Label ARI | Batch ARI | Mean signal PCs | Runtime seconds |",
-        "| --- | --- | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |",
+        "| Component | Variant | Scenario | Rows | False call | False call 95% CI | Power | Power 95% CI | Rare F1 | Rare F1 95% CI | Label ARI | Batch ARI | Mean signal PCs | Runtime seconds |",
+        "| --- | --- | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |",
     ]
     for row in summary.itertuples(index=False):
         false_call = (
             "NA" if math.isnan(float(row.false_call_rate)) else f"{row.false_call_rate:.3f}"
         )
+        false_call_ci = (
+            "NA"
+            if math.isnan(float(row.false_call_rate_ci95_low))
+            else f"{row.false_call_rate_ci95_low:.3f}-{row.false_call_rate_ci95_high:.3f}"
+        )
         power = "NA" if math.isnan(float(row.power)) else f"{row.power:.3f}"
+        power_ci = (
+            "NA"
+            if math.isnan(float(row.power_ci95_low))
+            else f"{row.power_ci95_low:.3f}-{row.power_ci95_high:.3f}"
+        )
         rare_f1 = "NA" if math.isnan(float(row.mean_rare_f1)) else f"{row.mean_rare_f1:.3f}"
+        rare_f1_ci = (
+            "NA"
+            if math.isnan(float(row.mean_rare_f1_ci95_low))
+            else f"{row.mean_rare_f1_ci95_low:.3f}-{row.mean_rare_f1_ci95_high:.3f}"
+        )
         label_ari = "NA" if math.isnan(float(row.mean_ari)) else f"{row.mean_ari:.3f}"
         batch_ari = (
             "NA"
@@ -548,7 +601,7 @@ def build_doc(summary: pd.DataFrame, args: argparse.Namespace) -> str:
             else f"{row.mean_batch_ari:.3f}"
         )
         lines.append(
-            f"| {row.component_family} | {row.variant_label} | {row.scenario} | {int(row.n_rows)} | {false_call} | {power} | {rare_f1} | {label_ari} | {batch_ari} | {row.mean_signal_pcs:.2f} | {row.mean_runtime_seconds:.3f} |"
+            f"| {row.component_family} | {row.variant_label} | {row.scenario} | {int(row.n_rows)} | {false_call} | {false_call_ci} | {power} | {power_ci} | {rare_f1} | {rare_f1_ci} | {label_ari} | {batch_ari} | {row.mean_signal_pcs:.2f} | {row.mean_runtime_seconds:.3f} |"
         )
     lines.extend(
         [
@@ -556,7 +609,9 @@ def build_doc(summary: pd.DataFrame, args: argparse.Namespace) -> str:
             "## Evidence Boundary",
             "",
             "- Direct evidence: synthetic count nulls, planted rare-state matrices, and planted-state batch-effect matrices generated during this run.",
-            "- Current limitation: low repeat count and small matrices; final manuscript claims require 20-50 repeats, confidence intervals, and real-data/annotation checks.",
+            "- Current limitation: matrices are still local synthetic stress tests; final manuscript claims require matched real-data annotation checks and final claim-boundary review."
+            if args.n_repeats >= 20
+            else "- Current limitation: low repeat count and small matrices; final manuscript claims require 20-50 repeats, confidence intervals, and real-data/annotation checks.",
             "- Reviewer-facing use: this is now a reproducible ablation runner and draft screen, not the final Figure 5 ablation table.",
             "",
             "## Output Files",
