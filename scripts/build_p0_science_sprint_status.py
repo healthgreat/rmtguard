@@ -236,6 +236,7 @@ def build_markdown(rows: list[dict[str, object]]) -> str:
         )
         else "- Realistic null/power grids still need manuscript-grade 50-repeat depth.",
         "- PDAC/TME route decision packet is available at `docs/pdac_tme_route_decision_packet.md`; final author decision is still required.",
+        "- PDAC/TME dual-route preflight and runbook are available at `docs/pdac_tme_dual_route_preflight.md` and `docs/pdac_tme_dual_route_runbook.md`.",
         "- Acceptance guarantee remains `impossible`; this report only tracks scientific gate progress.",
         "",
         "## Status Table",

@@ -28,6 +28,12 @@ RARE_STATE_CLAIM_BOUNDARY = (
 PDAC_TME_ROUTE_PACKET = (
     ROOT / "results" / "submission" / "pdac_tme_route_decision_packet.tsv"
 )
+PDAC_TME_DUAL_ROUTE_PREFLIGHT = (
+    ROOT / "results" / "submission" / "pdac_tme_dual_route_preflight.tsv"
+)
+PDAC_TME_DUAL_ROUTE_RUNBOOK = (
+    ROOT / "results" / "submission" / "pdac_tme_dual_route_runbook.tsv"
+)
 MANUSCRIPT_STABILITY_STATS = (
     ROOT
     / "results"
@@ -846,14 +852,18 @@ def build_gap_rows() -> list[dict[str, object]]:
             "current_score": 4,
             "status": _action_status(actions, "06_biological_showcase_decision"),
             "evidence": (
-                "docs/pdac_tme_showcase_depth.md;docs/pdac_tme_route_decision_packet.md"
+                "docs/pdac_tme_showcase_depth.md;docs/pdac_tme_route_decision_packet.md;docs/pdac_tme_dual_route_preflight.md;docs/pdac_tme_dual_route_runbook.md"
+                if PDAC_TME_ROUTE_PACKET.exists() and PDAC_TME_DUAL_ROUTE_PREFLIGHT.exists()
+                else "docs/pdac_tme_showcase_depth.md;docs/pdac_tme_route_decision_packet.md"
                 if PDAC_TME_ROUTE_PACKET.exists()
                 else "docs/pdac_tme_showcase_depth.md"
             ),
             "blocking_items": "PDAC_TME_depth_or_demotion",
             "what_is_done": (
                 "PDAC/TME public use case has marker-level immune/ductal validation, bounded wording, "
-                "and a main-figure-versus-supplement route decision packet."
+                "a main-figure-versus-supplement route decision packet, and a dual-route preflight/runbook."
+                if PDAC_TME_ROUTE_PACKET.exists() and PDAC_TME_DUAL_ROUTE_PREFLIGHT.exists()
+                else "PDAC/TME public use case has marker-level immune/ductal validation, bounded wording, and a main-figure-versus-supplement route decision packet."
                 if PDAC_TME_ROUTE_PACKET.exists()
                 else "PDAC/TME public use case has marker-level immune/ductal validation and bounded wording."
             ),
@@ -1209,7 +1219,7 @@ def build_markdown(
             missing_real_data,
             missing_statistics,
             "4. Component ablation has reached the current 20-repeat synthetic and labeled real-data layer; realistic null and rare-state power have reached 50-repeat depth, and the low-prevalence/weak-effect limitation is now captured in a claim-boundary artifact.",
-            "5. PDAC/TME decision packet is complete, but authors still need to choose: deepen PDAC/TME as main figure or demote it to supplementary use case.",
+            "5. PDAC/TME decision packet, dual-route preflight, and runbook are complete, but authors still need to choose: deepen PDAC/TME as main figure or demote it to supplementary use case.",
             "6. Optional broader atlas-scale dataset if the Nature Methods route remains active after the current blockers are cleared.",
             "7. Final source-data/caption/reporting-summary regeneration after benchmark freeze.",
             "",
@@ -1221,7 +1231,7 @@ def build_markdown(
             "- Add a realistic null family that preserves library size, gene marginals, dropout, and batch structure.",
             "- Add a full `callability map` figure where no-call is treated as a validated decision, not a failure.",
             "- Keep PBMC3k and PDAC GSE154778 as label-free stability/runtime evidence unless reliable cell-state annotations are added.",
-            "- Use `docs/pdac_tme_route_decision_packet.md` to choose PDAC/TME deepening versus supplement demotion; add a stronger application with known external ground truth if PDAC/TME remains shallow.",
+            "- Use `docs/pdac_tme_route_decision_packet.md`, `docs/pdac_tme_dual_route_preflight.md`, and `docs/pdac_tme_dual_route_runbook.md` to choose and execute PDAC/TME deepening versus supplement demotion; add a stronger application with known external ground truth if PDAC/TME remains shallow.",
             "",
             "## Source Artifacts",
             "",
@@ -1235,6 +1245,8 @@ def build_markdown(
             "- P0 science sprint status: `results/submission/p0_science_sprint_status.tsv`",
             f"- Rare-state claim boundary: `{_rel(RARE_STATE_CLAIM_BOUNDARY)}`",
             f"- PDAC/TME route decision packet: `{_rel(PDAC_TME_ROUTE_PACKET)}`",
+            f"- PDAC/TME dual-route preflight: `{_rel(PDAC_TME_DUAL_ROUTE_PREFLIGHT)}`",
+            f"- PDAC/TME dual-route runbook: `{_rel(PDAC_TME_DUAL_ROUTE_RUNBOOK)}`",
             f"- Real-data ablation annotation summary: `{_rel(REALDATA_ABLATION_SUMMARY)}`",
             f"- Real-data ablation figure source data: `{_rel(REALDATA_ABLATION_ASSET_SUMMARY)}`",
             f"- Matched baseline design: `{_rel(MATCHED_BASELINE_DESIGN)}`",

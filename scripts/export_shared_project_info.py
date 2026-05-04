@@ -184,6 +184,30 @@ COPY_ITEMS = [
         "author-controlled PDAC/TME route decision template",
     ),
     CopyItem(
+        ROOT / "docs" / "pdac_tme_dual_route_preflight.md",
+        "06_next_sprint_inputs",
+        "RMTGuard_PDAC_TME_DUAL_ROUTE_PREFLIGHT.md",
+        "PDAC/TME dual-route data preflight",
+    ),
+    CopyItem(
+        ROOT / "results" / "submission" / "pdac_tme_dual_route_preflight.tsv",
+        "06_next_sprint_inputs",
+        "RMTGuard_PDAC_TME_DUAL_ROUTE_PREFLIGHT.tsv",
+        "machine-readable PDAC/TME dual-route preflight",
+    ),
+    CopyItem(
+        ROOT / "docs" / "pdac_tme_dual_route_runbook.md",
+        "06_next_sprint_inputs",
+        "RMTGuard_PDAC_TME_DUAL_ROUTE_RUNBOOK.md",
+        "PDAC/TME dual-route execution runbook",
+    ),
+    CopyItem(
+        ROOT / "results" / "submission" / "pdac_tme_dual_route_runbook.tsv",
+        "06_next_sprint_inputs",
+        "RMTGuard_PDAC_TME_DUAL_ROUTE_RUNBOOK.tsv",
+        "machine-readable PDAC/TME dual-route runbook",
+    ),
+    CopyItem(
         ROOT / "docs" / "component_ablation_benchmark.md",
         "06_next_sprint_inputs",
         "RMTGuard_COMPONENT_ABLATION_BENCHMARK.md",
@@ -326,6 +350,9 @@ matrices, tokens, passwords, or private clinical materials.
 - `05_author_metadata/RMTGuard_TITLE_PAGE_AUTHOR_METADATA.md`
 - `06_next_sprint_inputs/RMTGuard_NATURE_METHODS_48H_EXECUTION_PACKET.md`
 - `06_next_sprint_inputs/RMTGuard_P0_SCIENCE_SPRINT_STATUS.md`
+- `06_next_sprint_inputs/RMTGuard_PDAC_TME_ROUTE_DECISION_PACKET.md`
+- `06_next_sprint_inputs/RMTGuard_PDAC_TME_DUAL_ROUTE_PREFLIGHT.md`
+- `06_next_sprint_inputs/RMTGuard_PDAC_TME_DUAL_ROUTE_RUNBOOK.md`
 - `06_next_sprint_inputs/RMTGuard_COMPONENT_ABLATION_BENCHMARK.md`
 - `06_next_sprint_inputs/RMTGuard_REALDATA_ABLATION_ANNOTATION.md`
 - `06_next_sprint_inputs/RMTGuard_P0_COMPONENT_ABLATION_RUN_SHEET.md`
