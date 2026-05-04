@@ -22,6 +22,9 @@ RELEASE_READINESS = ROOT / "results" / "release" / "release_readiness.tsv"
 GITHUB_EXECUTION_TSV = ROOT / "results" / "release" / "github_release_execution_plan.tsv"
 CALIBRATION_POWER = ROOT / "results" / "calibration" / "rare_state_power_summary.tsv"
 CALIBRATION_NULL = ROOT / "results" / "calibration" / "realistic_null_summary.tsv"
+RARE_STATE_CLAIM_BOUNDARY = (
+    ROOT / "results" / "submission" / "rare_state_claim_boundary.tsv"
+)
 MANUSCRIPT_STABILITY_STATS = (
     ROOT
     / "results"
@@ -165,8 +168,38 @@ def _calibration_summary() -> dict[str, float]:
             "min_power": float("nan"),
             "median_power": float("nan"),
             "settings_power_ge_080": 0.0,
+            "null_min_repeats": 0,
+            "power_min_repeats": 0,
+            "ci_present": False,
         }
     powers = [_float(row.get("power", "")) for row in power_rows]
+    null_repeats = [
+        int(float(row.get("n_repeats", "0")))
+        for row in null_rows
+        if row.get("n_repeats", "")
+    ]
+    power_repeats = [
+        int(float(row.get("n_repeats", "0")))
+        for row in power_rows
+        if row.get("n_repeats", "")
+    ]
+    ci_present = all(
+        col in null_rows[0]
+        for col in [
+            "false_signal_rate_ci95_low",
+            "false_signal_rate_ci95_high",
+            "false_call_rate_ci95_low",
+            "false_call_rate_ci95_high",
+        ]
+    ) and all(
+        col in power_rows[0]
+        for col in [
+            "power_ci95_low",
+            "power_ci95_high",
+            "mean_rare_f1_ci95_low",
+            "mean_rare_f1_ci95_high",
+        ]
+    )
     return {
         "max_false_call": max(
             _float(row.get("false_call_rate", "")) for row in null_rows
@@ -174,6 +207,9 @@ def _calibration_summary() -> dict[str, float]:
         "min_power": min(powers),
         "median_power": sorted(powers)[len(powers) // 2],
         "settings_power_ge_080": sum(power >= 0.80 for power in powers) / len(powers),
+        "null_min_repeats": min(null_repeats) if null_repeats else 0,
+        "power_min_repeats": min(power_repeats) if power_repeats else 0,
+        "ci_present": ci_present,
     }
 
 
@@ -326,6 +362,7 @@ def build_gap_rows() -> list[dict[str, object]]:
     manuscript_stability = _manuscript_stability_summary()
     component_ablation = _component_ablation_summary()
     component_matrix_exists = component_ablation["component_count"] > 0
+    rare_state_claim_boundary_present = RARE_STATE_CLAIM_BOUNDARY.exists()
     realdata_ablation_assets_present = REALDATA_ABLATION_ASSET_SUMMARY.exists()
     matched_baseline_design_present = MATCHED_BASELINE_DESIGN.exists()
     matched_baseline_pilot_present = MATCHED_BASELINE_PILOT_SUMMARY.exists()
@@ -714,7 +751,11 @@ def build_gap_rows() -> list[dict[str, object]]:
                 )
             ),
             "status": (
-                "component_ablation_20_repeat_done_power_pending"
+                "manuscript_grade_calibration_done_limit_detected"
+                if calibration.get("null_min_repeats", 0) >= 50
+                and calibration.get("power_min_repeats", 0) >= 50
+                and calibration.get("ci_present", False)
+                else "component_ablation_20_repeat_done_power_pending"
                 if component_ablation.get("realdata_component_min_repeats", 0) >= 20
                 and component_ablation.get("synthetic_min_repeats", 0) >= 20
                 and component_ablation.get("component_ci_present", False)
@@ -731,7 +772,18 @@ def build_gap_rows() -> list[dict[str, object]]:
                 else _rel(CALIBRATION_POWER)
             ),
             "blocking_items": (
-                "weak_effect_low_prevalence_power"
+                "none"
+                if rare_state_claim_boundary_present
+                else "weak_effect_low_prevalence_power_claim_boundary"
+                if calibration.get("null_min_repeats", 0) >= 50
+                and calibration.get("power_min_repeats", 0) >= 50
+                and calibration.get("ci_present", False)
+                and calibration["min_power"] < 0.80
+                else "none"
+                if calibration.get("null_min_repeats", 0) >= 50
+                and calibration.get("power_min_repeats", 0) >= 50
+                and calibration.get("ci_present", False)
+                else "weak_effect_low_prevalence_power"
                 if component_ablation.get("realdata_component_min_repeats", 0) >= 20
                 and component_ablation.get("synthetic_min_repeats", 0) >= 20
                 and component_ablation.get("component_ci_present", False)
@@ -740,9 +792,13 @@ def build_gap_rows() -> list[dict[str, object]]:
                 and component_ablation.get("component_ci_present", False)
                 else "weak_effect_low_prevalence_power;draft_repeat_count"
             ),
-            "what_is_done": f"Count-preserving null false-call max is {calibration['max_false_call']:.3f}; rare-state power improved, with {calibration['settings_power_ge_080']:.0%} of grid settings at power >=0.80. Synthetic component ablation now has minimum repeat depth {component_ablation['synthetic_min_repeats']} with CI columns present={component_ablation['component_ci_present']}. Component ablation status is {component_ablation['status']} across {component_ablation['component_count']} components, {component_ablation['benchmark_rows']} synthetic benchmark summary rows, and {component_ablation['realdata_rows']} real-data annotation rows; component-specific real-data ablation minimum repeat depth is {component_ablation['realdata_component_min_repeats']}. Real-data ablation figure/table assets present: {realdata_ablation_assets_present}.",
-            "what_is_missing": f"Minimum rare-state power remains {calibration['min_power']:.2f}; realistic null/power grid is still draft repeat depth. Missing or nonfinal component experiments: {component_ablation['missing_components']}.",
-            "next_supplement": "Run realistic null/power calibration at 50 repeats with confidence intervals.",
+            "what_is_done": f"Count-preserving null false-call max is {calibration['max_false_call']:.3f}; rare-state power has 50-repeat curves with {calibration['settings_power_ge_080']:.0%} of grid settings at power >=0.80. Null repeat depth is {calibration.get('null_min_repeats', 0)} and power-grid repeat depth is {calibration.get('power_min_repeats', 0)} with CI columns present={calibration.get('ci_present', False)}. Synthetic component ablation now has minimum repeat depth {component_ablation['synthetic_min_repeats']} with CI columns present={component_ablation['component_ci_present']}. Component ablation status is {component_ablation['status']} across {component_ablation['component_count']} components, {component_ablation['benchmark_rows']} synthetic benchmark summary rows, and {component_ablation['realdata_rows']} real-data annotation rows; component-specific real-data ablation minimum repeat depth is {component_ablation['realdata_component_min_repeats']}. Real-data ablation figure/table assets present: {realdata_ablation_assets_present}.",
+            "what_is_missing": f"Minimum rare-state power remains {calibration['min_power']:.2f}; this is now an evidence-based limitation rather than a repeat-depth gap. Rare-state claim boundary present: {rare_state_claim_boundary_present}. Missing or nonfinal component experiments: {component_ablation['missing_components']}.",
+            "next_supplement": (
+                "Calibration source data and rare-state claim boundary are controlled; only add extra dropout/batch power grids if the Nature Methods rare-state claim remains central."
+                if rare_state_claim_boundary_present
+                else "Freeze the calibration source data and write the rare-state claim boundary; only add extra dropout/batch power grids if the Nature Methods rare-state claim remains central."
+            ),
         },
         {
             "domain": "release_reproducibility",
@@ -883,6 +939,7 @@ def build_markdown(
         if str(row["blocking_items"]) != "none"
     ]
     blocker_text = ";".join(blockers)
+    rare_state_claim_boundary_present = RARE_STATE_CLAIM_BOUNDARY.exists()
     seurat_status_rows = _read_tsv(SEURAT_MATCHED_STATUS)
     seurat_status_by_id = {
         row.get("check_id", ""): row.get("status", "") for row in seurat_status_rows
@@ -1078,6 +1135,21 @@ def build_markdown(
             "3. Rare-state power confidence intervals, cluster-number variance, "
             "and annotation-recovery statistics after benchmark freeze."
         )
+        calibration_done = any(
+            row["domain"] == "calibration_statistics"
+            and str(row["status"]).startswith("manuscript_grade_calibration_done")
+            for row in gap_rows
+        )
+        if calibration_done:
+            missing_statistics = (
+                "3. Realistic-null and rare-state power repeat depth is complete "
+                "at 50 repeats with CIs, and the low-prevalence/weak-effect "
+                "claim boundary is documented."
+                if rare_state_claim_boundary_present
+                else "3. Realistic-null and rare-state power repeat depth is complete "
+                "at 50 repeats with CIs; the remaining statistics issue is a "
+                "claim boundary for low-prevalence/weak-effect rare states."
+            )
     lines = [
         "# RMTGuard 20-50 JIF Gap Assessment",
         "",
@@ -1124,14 +1196,16 @@ def build_markdown(
             "1. Release engineering is complete for v0.1.0; the remaining gap is scientific evidence, not public code availability.",
             missing_real_data,
             missing_statistics,
-            "4. Component ablation has reached the current 20-repeat synthetic and labeled real-data layer; the remaining calibration gap is realistic null and rare-state power depth, plus final source-data freeze after the next benchmark decision.",
+            "4. Component ablation has reached the current 20-repeat synthetic and labeled real-data layer; realistic null and rare-state power have reached 50-repeat depth, and the low-prevalence/weak-effect limitation is now captured in a claim-boundary artifact.",
             "5. A stronger biological application, or a deliberate demotion of PDAC/TME to supplementary use case.",
             "6. Optional broader atlas-scale dataset if the Nature Methods route remains active after the current blockers are cleared.",
             "7. Final source-data/caption/reporting-summary regeneration after benchmark freeze.",
             "",
             "## What Can Be Added To Improve The Route",
             "",
-            "- Run realistic null and rare-state power grids to 50 repeats with confidence intervals and power curves.",
+            "- Rare-state claim boundary is controlled; add optional dropout/batch power grids only if the Nature Methods rare-state claim remains central."
+            if rare_state_claim_boundary_present
+            else "- Freeze the 50-repeat realistic-null and rare-state power source data, then write a rare-state claim boundary that explicitly covers low-prevalence/weak-effect failure modes.",
             "- Add a realistic null family that preserves library size, gene marginals, dropout, and batch structure.",
             "- Add a full `callability map` figure where no-call is treated as a validated decision, not a failure.",
             "- Keep PBMC3k and PDAC GSE154778 as label-free stability/runtime evidence unless reliable cell-state annotations are added.",
@@ -1147,6 +1221,7 @@ def build_markdown(
             f"- Component ablation evidence: `{_rel(COMPONENT_ABLATION)}`",
             f"- Component ablation summary: `{_rel(COMPONENT_ABLATION_SUMMARY)}`",
             "- P0 science sprint status: `results/submission/p0_science_sprint_status.tsv`",
+            f"- Rare-state claim boundary: `{_rel(RARE_STATE_CLAIM_BOUNDARY)}`",
             f"- Real-data ablation annotation summary: `{_rel(REALDATA_ABLATION_SUMMARY)}`",
             f"- Real-data ablation figure source data: `{_rel(REALDATA_ABLATION_ASSET_SUMMARY)}`",
             f"- Matched baseline design: `{_rel(MATCHED_BASELINE_DESIGN)}`",

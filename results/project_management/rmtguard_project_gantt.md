@@ -20,41 +20,42 @@ gantt
     Synthetic no-call and rare-state benchmark :done, T02, 2026-04-28, 3d
     Callability decision map for Figure 3 :done, T03, 2026-05-01, 2d
     Rare-state guard v3.3 calibration patch :done, T04, 2026-05-02, 1d
-    Full component ablation :active, T15, 2026-05-02, 16d
-    P0 synthetic component ablation 20-repeat CI layer :done, T16, 2026-05-04, 1d
-    Real-data annotation repeated-split pilot :done, T17, 2026-05-02, 3d
-    P0 real-data component ablation 20-repeat layer :done, T18, 2026-05-04, 1d
+    Full component ablation :active, T16, 2026-05-02, 16d
+    P0 synthetic component ablation 20-repeat CI layer :done, T17, 2026-05-04, 1d
+    Real-data annotation repeated-split pilot :done, T18, 2026-05-02, 3d
+    P0 real-data component ablation 20-repeat layer :done, T19, 2026-05-04, 1d
     section Public benchmark
     Phase 1 public data preparation and benchmark :done, T05, 2026-04-29, 2d
     Four-dataset stability gate diagnostics :done, T06, 2026-04-30, 2d
-    Manuscript-grade stability rerun and stronger baselines :active, T14, 2026-05-02, 18d
-    Matched Seurat/JackStraw baseline design :done, T20, 2026-05-03, 1d
-    Local matched Python baseline pilot :done, T21, 2026-05-03, 1d
-    Official Seurat MTX bridge and smoke :done, T22, 2026-05-03, 1d
-    Official Seurat fixed-PC/elbow 20-repeat comparator :done, T23, 2026-05-03, 1d
-    Official Seurat JackStraw 20-repeat comparator :done, T24, 2026-05-03, 1d
-    Paired RMTGuard vs official Seurat statistics :done, T25, 2026-05-03, 1d
-    Added-dataset official Seurat rows :done, T26, 2026-05-03, 1d
-    Additional public datasets :done, T28, 2026-05-03, 1d
+    Manuscript-grade stability rerun and stronger baselines :active, T15, 2026-05-02, 18d
+    Matched Seurat/JackStraw baseline design :done, T21, 2026-05-03, 1d
+    Local matched Python baseline pilot :done, T22, 2026-05-03, 1d
+    Official Seurat MTX bridge and smoke :done, T23, 2026-05-03, 1d
+    Official Seurat fixed-PC/elbow 20-repeat comparator :done, T24, 2026-05-03, 1d
+    Official Seurat JackStraw 20-repeat comparator :done, T25, 2026-05-03, 1d
+    Paired RMTGuard vs official Seurat statistics :done, T26, 2026-05-03, 1d
+    Added-dataset official Seurat rows :done, T27, 2026-05-03, 1d
+    Additional public datasets :done, T29, 2026-05-03, 1d
     section Manuscript package
     External pre-review triage and route reframe :done, T07, 2026-05-01, 2d
     Publication-style figures; tables; and visual audit :done, T08, 2026-05-01, 2d
-    Real-data ablation forest plot and supplemental table :done, T19, 2026-05-03, 2d
-    Final figure source data; captions; and reporting summary :T29, 2026-06-02, 15d
+    Real-data ablation forest plot and supplemental table :done, T20, 2026-05-03, 2d
+    Final figure source data; captions; and reporting summary :T30, 2026-06-02, 15d
     section Journal route
     20-50 JIF distance and gap assessment :done, T09, 2026-05-02, 1d
     Nature Methods next-round science gate board :done, T10, 2026-05-04, 1d
     Nature Methods 48-hour execution packet :done, T11, 2026-05-04, 1d
-    Nature Methods vs Genome Biology go/no-go :T32, 2026-06-21, 15d
-    Submission package freeze :T33, 2026-07-06, 14d
+    Nature Methods vs Genome Biology go/no-go :T33, 2026-06-21, 15d
+    Submission package freeze :T34, 2026-07-06, 14d
     section Release
     Public GitHub repository; release; and Zenodo DOI :done, T12, 2026-05-02, 3d
-    Post-release gates and reproducibility audit :done, T30, 2026-05-04, 1d
-    Cross-project shared information package :done, T31, 2026-05-04, 1d
+    Post-release gates and reproducibility audit :done, T31, 2026-05-04, 1d
+    Cross-project shared information package :done, T32, 2026-05-04, 1d
     section Statistics
-    Realistic null and rare-state power calibration :active, T13, 2026-05-02, 11d
+    Realistic null and rare-state power calibration :done, T13, 2026-05-02, 3d
+    Rare-state weak-regime claim boundary :done, T14, 2026-05-04, 1d
     section Biological application
-    PDAC/TME showcase deepening or demotion :T27, 2026-05-12, 15d
+    PDAC/TME showcase deepening or demotion :T28, 2026-05-12, 15d
 ```
 
 ## Source Table
@@ -73,27 +74,28 @@ gantt
 | T10 | Journal route | Nature Methods next-round science gate board | 2026-05-04 | 2026-05-04 | done | 100% | `docs/nature_methods_next_round_gate_board.md` |
 | T11 | Journal route | Nature Methods 48-hour execution packet | 2026-05-04 | 2026-05-04 | done | 100% | `docs/nature_methods_48h_execution_packet.md` |
 | T12 | Release | Public GitHub repository, release, and Zenodo DOI | 2026-05-02 | 2026-05-04 | done | 100% | `results/release/release_readiness.tsv` |
-| T13 | Statistics | Realistic null and rare-state power calibration | 2026-05-02 | 2026-05-12 | partial | 55% | `docs/realistic_null_power_calibration.md` |
-| T14 | Public benchmark | Manuscript-grade stability rerun and stronger baselines | 2026-05-02 | 2026-05-19 | partial | 99% | `docs/manuscript_grade_stability_statistics.md` |
-| T15 | Algorithm and diagnostics | Full component ablation | 2026-05-02 | 2026-05-17 | partial | 95% | `docs/p0_science_sprint_status.md` |
-| T16 | Algorithm and diagnostics | P0 synthetic component ablation 20-repeat CI layer | 2026-05-04 | 2026-05-04 | done | 100% | `docs/component_ablation_benchmark.md` |
-| T17 | Algorithm and diagnostics | Real-data annotation repeated-split pilot | 2026-05-02 | 2026-05-04 | done | 100% | `docs/realdata_ablation_annotation.md` |
-| T18 | Algorithm and diagnostics | P0 real-data component ablation 20-repeat layer | 2026-05-04 | 2026-05-04 | done | 100% | `docs/realdata_ablation_annotation.md` |
-| T19 | Manuscript package | Real-data ablation forest plot and supplemental table | 2026-05-03 | 2026-05-04 | done | 100% | `docs/realdata_ablation_figure_table.md` |
-| T20 | Public benchmark | Matched Seurat/JackStraw baseline design | 2026-05-03 | 2026-05-03 | done | 100% | `docs/matched_baseline_design.md` |
-| T21 | Public benchmark | Local matched Python baseline pilot | 2026-05-03 | 2026-05-03 | done | 100% | `docs/matched_baseline_pilot.md` |
-| T22 | Public benchmark | Official Seurat MTX bridge and smoke | 2026-05-03 | 2026-05-03 | done | 100% | `docs/seurat_matched_baseline.md` |
-| T23 | Public benchmark | Official Seurat fixed-PC/elbow 20-repeat comparator | 2026-05-03 | 2026-05-03 | done | 100% | `docs/seurat_matched_baseline.md` |
-| T24 | Public benchmark | Official Seurat JackStraw 20-repeat comparator | 2026-05-03 | 2026-05-03 | done | 100% | `docs/seurat_jackstraw_feasibility.md` |
-| T25 | Public benchmark | Paired RMTGuard vs official Seurat statistics | 2026-05-03 | 2026-05-03 | done | 100% | `docs/rmtguard_seurat_paired_statistics.md` |
-| T26 | Public benchmark | Added-dataset official Seurat rows | 2026-05-03 | 2026-05-03 | done | 100% | `docs/seurat_matched_baseline.md` |
-| T27 | Biological application | PDAC/TME showcase deepening or demotion | 2026-05-12 | 2026-05-26 | planned | 0% | `docs/pdac_tme_showcase_depth.md` |
-| T28 | Public benchmark | Additional public datasets | 2026-05-03 | 2026-05-03 | done | 100% | `docs/manuscript_grade_stability_statistics.md` |
-| T29 | Manuscript package | Final figure source data, captions, and reporting summary | 2026-06-02 | 2026-06-16 | planned | 0% | `docs/nature_reporting_summary_draft.md` |
-| T30 | Release | Post-release gates and reproducibility audit | 2026-05-04 | 2026-05-04 | done | 100% | `results/submission/submission_guard.tsv` |
-| T31 | Release | Cross-project shared information package | 2026-05-04 | 2026-05-04 | done | 100% | `docs/shared_info_export_manifest.md` |
-| T32 | Journal route | Nature Methods vs Genome Biology go/no-go | 2026-06-21 | 2026-07-05 | planned | 0% | `results/submission/post_feedback_journal_route_gate.tsv` |
-| T33 | Journal route | Submission package freeze | 2026-07-06 | 2026-07-19 | planned | 0% | `results/submission/presubmission_gatekeeper.tsv` |
+| T13 | Statistics | Realistic null and rare-state power calibration | 2026-05-02 | 2026-05-04 | done | 100% | `docs/realistic_null_power_calibration.md` |
+| T14 | Statistics | Rare-state weak-regime claim boundary | 2026-05-04 | 2026-05-04 | done | 100% | `docs/rare_state_claim_boundary.md` |
+| T15 | Public benchmark | Manuscript-grade stability rerun and stronger baselines | 2026-05-02 | 2026-05-19 | partial | 99% | `docs/manuscript_grade_stability_statistics.md` |
+| T16 | Algorithm and diagnostics | Full component ablation | 2026-05-02 | 2026-05-17 | partial | 95% | `docs/p0_science_sprint_status.md` |
+| T17 | Algorithm and diagnostics | P0 synthetic component ablation 20-repeat CI layer | 2026-05-04 | 2026-05-04 | done | 100% | `docs/component_ablation_benchmark.md` |
+| T18 | Algorithm and diagnostics | Real-data annotation repeated-split pilot | 2026-05-02 | 2026-05-04 | done | 100% | `docs/realdata_ablation_annotation.md` |
+| T19 | Algorithm and diagnostics | P0 real-data component ablation 20-repeat layer | 2026-05-04 | 2026-05-04 | done | 100% | `docs/realdata_ablation_annotation.md` |
+| T20 | Manuscript package | Real-data ablation forest plot and supplemental table | 2026-05-03 | 2026-05-04 | done | 100% | `docs/realdata_ablation_figure_table.md` |
+| T21 | Public benchmark | Matched Seurat/JackStraw baseline design | 2026-05-03 | 2026-05-03 | done | 100% | `docs/matched_baseline_design.md` |
+| T22 | Public benchmark | Local matched Python baseline pilot | 2026-05-03 | 2026-05-03 | done | 100% | `docs/matched_baseline_pilot.md` |
+| T23 | Public benchmark | Official Seurat MTX bridge and smoke | 2026-05-03 | 2026-05-03 | done | 100% | `docs/seurat_matched_baseline.md` |
+| T24 | Public benchmark | Official Seurat fixed-PC/elbow 20-repeat comparator | 2026-05-03 | 2026-05-03 | done | 100% | `docs/seurat_matched_baseline.md` |
+| T25 | Public benchmark | Official Seurat JackStraw 20-repeat comparator | 2026-05-03 | 2026-05-03 | done | 100% | `docs/seurat_jackstraw_feasibility.md` |
+| T26 | Public benchmark | Paired RMTGuard vs official Seurat statistics | 2026-05-03 | 2026-05-03 | done | 100% | `docs/rmtguard_seurat_paired_statistics.md` |
+| T27 | Public benchmark | Added-dataset official Seurat rows | 2026-05-03 | 2026-05-03 | done | 100% | `docs/seurat_matched_baseline.md` |
+| T28 | Biological application | PDAC/TME showcase deepening or demotion | 2026-05-12 | 2026-05-26 | planned | 0% | `docs/pdac_tme_showcase_depth.md` |
+| T29 | Public benchmark | Additional public datasets | 2026-05-03 | 2026-05-03 | done | 100% | `docs/manuscript_grade_stability_statistics.md` |
+| T30 | Manuscript package | Final figure source data, captions, and reporting summary | 2026-06-02 | 2026-06-16 | planned | 0% | `docs/nature_reporting_summary_draft.md` |
+| T31 | Release | Post-release gates and reproducibility audit | 2026-05-04 | 2026-05-04 | done | 100% | `results/submission/submission_guard.tsv` |
+| T32 | Release | Cross-project shared information package | 2026-05-04 | 2026-05-04 | done | 100% | `docs/shared_info_export_manifest.md` |
+| T33 | Journal route | Nature Methods vs Genome Biology go/no-go | 2026-06-21 | 2026-07-05 | planned | 0% | `results/submission/post_feedback_journal_route_gate.tsv` |
+| T34 | Journal route | Submission package freeze | 2026-07-06 | 2026-07-19 | planned | 0% | `results/submission/presubmission_gatekeeper.tsv` |
 
 ## Current blockers
 

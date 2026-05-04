@@ -110,6 +110,10 @@ def _component_ci_present(df: pd.DataFrame) -> bool:
     return not df.empty and all(col in df.columns for col in required)
 
 
+def _calibration_ci_present(df: pd.DataFrame, required: list[str]) -> bool:
+    return not df.empty and all(col in df.columns for col in required)
+
+
 def build_rows() -> list[dict[str, object]]:
     component = _read_tsv(COMPONENT_SUMMARY)
     null_summary = _read_tsv(NULL_SUMMARY)
@@ -120,6 +124,24 @@ def build_rows() -> list[dict[str, object]]:
     component_ci = _component_ci_present(component)
     null_min_repeats = _min_repeat(null_summary)
     power_min_repeats = _min_repeat(power)
+    null_ci = _calibration_ci_present(
+        null_summary,
+        [
+            "false_signal_rate_ci95_low",
+            "false_signal_rate_ci95_high",
+            "false_call_rate_ci95_low",
+            "false_call_rate_ci95_high",
+        ],
+    )
+    power_ci = _calibration_ci_present(
+        power,
+        [
+            "power_ci95_low",
+            "power_ci95_high",
+            "mean_rare_f1_ci95_low",
+            "mean_rare_f1_ci95_high",
+        ],
+    )
     realdata_component_repeats = _realdata_component_depth(realdata)
 
     rows = [
@@ -156,18 +178,26 @@ def build_rows() -> list[dict[str, object]]:
             "gate_name": "realistic_null_calibration",
             "status": "pending_50_repeat" if null_min_repeats < 50 else "done",
             "repeat_depth": null_min_repeats,
-            "ci_present": "false",
+            "ci_present": str(null_ci).lower(),
             "evidence": _rel(NULL_SUMMARY),
-            "next_action": "Run manuscript-grade count-preserving null calibration with 50 repeats and source-data CIs.",
+            "next_action": (
+                "Use as 50-repeat realistic-null evidence; keep false-positive control claims bounded to the simulated null families."
+                if null_min_repeats >= 50
+                else "Run manuscript-grade count-preserving null calibration with 50 repeats and source-data CIs."
+            ),
         },
         {
             "gate_id": "NM-G03B",
             "gate_name": "rare_state_power_grid",
             "status": "pending_50_repeat" if power_min_repeats < 50 else "done",
             "repeat_depth": power_min_repeats,
-            "ci_present": "false",
+            "ci_present": str(power_ci).lower(),
             "evidence": _rel(POWER_SUMMARY),
-            "next_action": "Run prevalence/effect/dropout power curves with 50 repeats and avoid single-setting rare-state claims.",
+            "next_action": (
+                "Use as 50-repeat power-curve evidence; explicitly state limited power at the lowest prevalence/effect settings."
+                if power_min_repeats >= 50
+                else "Run prevalence/effect/dropout power curves with 50 repeats and avoid single-setting rare-state claims."
+            ),
         },
         {
             "gate_id": "NM-G04",
@@ -199,7 +229,12 @@ def build_markdown(rows: list[dict[str, object]]) -> str:
         "- Real-data annotation ablations have reached 20-repeat depth for the current component set."
         if realdata_done
         else "- Real-data annotation ablations still need manuscript-grade repeat depth.",
-        "- Realistic null/power grids still need manuscript-grade 50-repeat depth.",
+        "- Realistic null/power grids have reached 50-repeat manuscript-grade depth; low-prevalence weak-effect limits still constrain claims."
+        if all(
+            row["gate_id"] not in {"NM-G03A", "NM-G03B"} or row["status"] == "done"
+            for row in rows
+        )
+        else "- Realistic null/power grids still need manuscript-grade 50-repeat depth.",
         "- Acceptance guarantee remains `impossible`; this report only tracks scientific gate progress.",
         "",
         "## Status Table",

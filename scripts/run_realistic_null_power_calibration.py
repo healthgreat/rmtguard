@@ -56,6 +56,84 @@ def _atomic_write_text(text: str, path: Path) -> None:
     tmp.replace(path)
 
 
+def _read_existing(path: Path, force: bool) -> pd.DataFrame:
+    if force or not path.exists():
+        return pd.DataFrame()
+    return pd.read_csv(path, sep="\t")
+
+
+def _existing_keys(df: pd.DataFrame, keys: list[str]) -> set[tuple[object, ...]]:
+    if df.empty or not all(key in df.columns for key in keys):
+        return set()
+    return set(map(tuple, df[keys].itertuples(index=False, name=None)))
+
+
+def _combine_rows(existing: pd.DataFrame, rows: list[dict[str, object]]) -> pd.DataFrame:
+    new = pd.DataFrame(rows)
+    if existing.empty:
+        return new
+    if new.empty:
+        return existing.copy()
+    combined = pd.concat([existing, new], ignore_index=True, sort=False)
+    return combined
+
+
+def _checkpoint(
+    existing: pd.DataFrame,
+    rows: list[dict[str, object]],
+    path: Path | None,
+    checkpoint_every: int,
+) -> None:
+    if path is None or checkpoint_every <= 0 or len(rows) % checkpoint_every:
+        return
+    _atomic_write_tsv(_combine_rows(existing, rows), path)
+
+
+def _ci95(values: pd.Series, clip01: bool = False) -> tuple[float, float]:
+    arr = pd.to_numeric(values, errors="coerce").dropna().to_numpy(dtype=float)
+    if arr.size == 0:
+        return (math.nan, math.nan)
+    mean = float(arr.mean())
+    if arr.size == 1:
+        low = high = mean
+    else:
+        se = float(arr.std(ddof=1) / math.sqrt(arr.size))
+        low = mean - 1.96 * se
+        high = mean + 1.96 * se
+    if clip01:
+        low = max(0.0, low)
+        high = min(1.0, high)
+    return (float(low), float(high))
+
+
+def _add_ci_columns(
+    summary: pd.DataFrame,
+    detail: pd.DataFrame,
+    group_cols: list[str],
+    ci_specs: dict[str, tuple[str, bool]],
+) -> pd.DataFrame:
+    if summary.empty or detail.empty:
+        return summary
+    out = summary.copy()
+    grouped = detail.groupby(group_cols, dropna=False)
+    for source_col, (prefix, clip01) in ci_specs.items():
+        lows: list[float] = []
+        highs: list[float] = []
+        for row in out[group_cols].itertuples(index=False, name=None):
+            try:
+                group = grouped.get_group(row)
+            except KeyError:
+                lows.append(math.nan)
+                highs.append(math.nan)
+                continue
+            low, high = _ci95(group[source_col], clip01=clip01)
+            lows.append(low)
+            highs.append(high)
+        out[f"{prefix}_ci95_low"] = lows
+        out[f"{prefix}_ci95_high"] = highs
+    return out
+
+
 def _empirical_like_counts(
     n_cells: int,
     n_genes: int,
@@ -286,12 +364,22 @@ def _null_generators(
     yield "library_stratified_gene_null", _library_stratified_gene_null(counts, rng)
 
 
-def run_null_calibration(args: argparse.Namespace) -> pd.DataFrame:
+def run_null_calibration(
+    args: argparse.Namespace,
+    existing: pd.DataFrame | None = None,
+    checkpoint_path: Path | None = None,
+) -> pd.DataFrame:
     rows: list[dict[str, object]] = []
+    existing = existing if existing is not None else pd.DataFrame()
+    key_cols = ["null_model", "repeat", "n_cells", "n_genes"]
+    done = _existing_keys(existing, key_cols)
     for repeat in range(args.n_repeats):
         rng = np.random.default_rng(args.random_state + repeat)
         base = _empirical_like_counts(args.n_cells, args.n_genes, rng)
         for null_model, counts in _null_generators(base, rng):
+            key = (null_model, repeat, args.n_cells, args.n_genes)
+            if key in done:
+                continue
             seed = args.random_state + 1000 + repeat
             result = _run_rmtguard(
                 counts,
@@ -320,14 +408,25 @@ def run_null_calibration(args: argparse.Namespace) -> pd.DataFrame:
                     },
                 }
             )
-    return pd.DataFrame(rows)
+            _checkpoint(existing, rows, checkpoint_path, args.checkpoint_every)
+    return _combine_rows(existing, rows)
 
 
-def run_power_grid(args: argparse.Namespace) -> pd.DataFrame:
+def run_power_grid(
+    args: argparse.Namespace,
+    existing: pd.DataFrame | None = None,
+    checkpoint_path: Path | None = None,
+) -> pd.DataFrame:
     rows: list[dict[str, object]] = []
+    existing = existing if existing is not None else pd.DataFrame()
+    key_cols = ["prevalence", "effect_size", "repeat", "n_cells", "n_genes"]
+    done = _existing_keys(existing, key_cols)
     for prevalence in args.prevalence_grid:
         for effect_size in args.effect_size_grid:
             for repeat in range(args.n_repeats):
+                key = (prevalence, effect_size, repeat, args.n_cells, args.n_genes)
+                if key in done:
+                    continue
                 rng = np.random.default_rng(
                     args.random_state
                     + 10000
@@ -383,7 +482,8 @@ def run_power_grid(args: argparse.Namespace) -> pd.DataFrame:
                         },
                     }
                 )
-    return pd.DataFrame(rows)
+                _checkpoint(existing, rows, checkpoint_path, args.checkpoint_every)
+    return _combine_rows(existing, rows)
 
 
 def summarize(
@@ -427,6 +527,26 @@ def summarize(
         )
         .sort_values(["prevalence", "effect_size"])
     )
+    null_summary = _add_ci_columns(
+        null_summary,
+        null_df,
+        ["null_model"],
+        {
+            "false_signal": ("false_signal_rate", True),
+            "false_call": ("false_call_rate", True),
+        },
+    )
+    power_summary = _add_ci_columns(
+        power_summary,
+        power_df,
+        ["prevalence", "effect_size"],
+        {
+            "power_pass": ("power", True),
+            "ari": ("mean_ari", False),
+            "rare_f1": ("mean_rare_f1", True),
+            "fixed_rare_f1": ("mean_fixed30_rare_f1", True),
+        },
+    )
     return null_summary, power_summary
 
 
@@ -452,10 +572,11 @@ def build_doc(
     min_power = (
         float(rare_floor_rows["power"].min()) if not rare_floor_rows.empty else math.nan
     )
+    run_grade = "manuscript-grade" if args.n_repeats >= 50 else "draft"
     lines = [
         "# Realistic null and rare-state power calibration",
         "",
-        "This draft calibration upgrades the synthetic evidence from pure Gaussian-like nulls to count-based scRNA-seq-like nulls.",
+        f"This {run_grade} calibration upgrades the synthetic evidence from pure Gaussian-like nulls to count-based scRNA-seq-like nulls.",
         "",
         "## Scope",
         "",
@@ -485,7 +606,7 @@ def build_doc(
     )
     for row in null_summary.itertuples(index=False):
         lines.append(
-            f"| {row.null_model} | {int(row.n_repeats)} | {row.false_signal_rate:.3f} | {row.false_call_rate:.3f} | {row.mean_signal_pcs:.2f} | {row.no_call_rate:.3f} |"
+            f"| {row.null_model} | {int(row.n_repeats)} | {row.false_signal_rate:.3f} ({row.false_signal_rate_ci95_low:.3f}-{row.false_signal_rate_ci95_high:.3f}) | {row.false_call_rate:.3f} ({row.false_call_rate_ci95_low:.3f}-{row.false_call_rate_ci95_high:.3f}) | {row.mean_signal_pcs:.2f} | {row.no_call_rate:.3f} |"
         )
     lines.extend(
         [
@@ -498,17 +619,17 @@ def build_doc(
     )
     for row in power_summary.itertuples(index=False):
         lines.append(
-            f"| {row.prevalence:.3f} | {row.effect_size:.2f} | {int(row.n_repeats)} | {row.power:.3f} | {row.mean_ari:.3f} | {row.mean_rare_f1:.3f} | {row.mean_fixed30_rare_f1:.3f} | {row.rare_state_guard_selection_rate:.3f} | {row.no_call_rate:.3f} |"
+            f"| {row.prevalence:.3f} | {row.effect_size:.2f} | {int(row.n_repeats)} | {row.power:.3f} ({row.power_ci95_low:.3f}-{row.power_ci95_high:.3f}) | {row.mean_ari:.3f} ({row.mean_ari_ci95_low:.3f}-{row.mean_ari_ci95_high:.3f}) | {row.mean_rare_f1:.3f} ({row.mean_rare_f1_ci95_low:.3f}-{row.mean_rare_f1_ci95_high:.3f}) | {row.mean_fixed30_rare_f1:.3f} ({row.mean_fixed30_rare_f1_ci95_low:.3f}-{row.mean_fixed30_rare_f1_ci95_high:.3f}) | {row.rare_state_guard_selection_rate:.3f} | {row.no_call_rate:.3f} |"
         )
     lines.extend(
         [
             "",
             "## Interpretation Boundary",
             "",
-            f"- Maximum observed false signal rate in this draft run: {max_false_signal:.3f}.",
-            f"- Maximum observed false call rate in this draft run: {max_false_call:.3f}.",
-            f"- Minimum power at the lowest prevalence grid in this draft run: {min_power:.3f}.",
-            "- These are draft local calibration values. They are useful for detecting failure modes and planning manuscript-grade runs, but final claims require more repeats and confidence intervals.",
+            f"- Maximum observed false signal rate in this {run_grade} run: {max_false_signal:.3f}.",
+            f"- Maximum observed false call rate in this {run_grade} run: {max_false_call:.3f}.",
+            f"- Minimum power at the lowest prevalence grid in this {run_grade} run: {min_power:.3f}.",
+            "- These values are evidence for calibration only. They support bounded noise-control and power-curve claims, not a guarantee of broad superiority or universal rare-state recovery.",
         ]
     )
     return "\n".join(lines)
@@ -553,22 +674,39 @@ def parse_args() -> argparse.Namespace:
         "--effect-size-grid", type=float, nargs="+", default=[2.50, 4.00, 6.00]
     )
     parser.add_argument("--random-state", type=int, default=20260502)
+    parser.add_argument(
+        "--checkpoint-every",
+        type=int,
+        default=10,
+        help="Write partial detail tables after this many newly completed rows.",
+    )
+    parser.add_argument(
+        "--force",
+        action="store_true",
+        help="Ignore existing detail files and rerun all requested settings.",
+    )
     return parser.parse_args()
 
 
 def main() -> int:
     args = parse_args()
     args.outdir.mkdir(parents=True, exist_ok=True)
-    null_df = run_null_calibration(args)
-    power_df = run_power_grid(args)
-    null_summary, power_summary = summarize(null_df, power_df)
-
     paths = {
         "null detail": args.outdir / "realistic_null_detail.tsv",
         "null summary": args.outdir / "realistic_null_summary.tsv",
         "power detail": args.outdir / "rare_state_power_detail.tsv",
         "power summary": args.outdir / "rare_state_power_summary.tsv",
     }
+
+    existing_null = _read_existing(paths["null detail"], force=args.force)
+    existing_power = _read_existing(paths["power detail"], force=args.force)
+    null_df = run_null_calibration(
+        args, existing=existing_null, checkpoint_path=paths["null detail"]
+    )
+    power_df = run_power_grid(
+        args, existing=existing_power, checkpoint_path=paths["power detail"]
+    )
+    null_summary, power_summary = summarize(null_df, power_df)
     _atomic_write_tsv(null_df, paths["null detail"])
     _atomic_write_tsv(null_summary, paths["null summary"])
     _atomic_write_tsv(power_df, paths["power detail"])

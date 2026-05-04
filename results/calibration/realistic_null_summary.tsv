@@ -1,0 +1,4 @@
+null_model	n_repeats	false_signal_rate	false_call_rate	mean_signal_pcs	mean_embedding_pcs	no_call_rate	mean_runtime_seconds	false_signal_rate_ci95_low	false_signal_rate_ci95_high	false_call_rate_ci95_low	false_call_rate_ci95_high
+gene_permutation_null	50	0.0	0.0	0.0	0.0	1.0	0.13999179800157432	0.0	0.0	0.0	0.0
+library_multinomial_null	50	0.0	0.0	1.0	0.0	1.0	0.16987142200116065	0.0	0.0	0.0	0.0
+library_stratified_gene_null	50	0.0	0.0	1.0	0.0	1.0	0.14143252000154458	0.0	0.0	0.0	0.0

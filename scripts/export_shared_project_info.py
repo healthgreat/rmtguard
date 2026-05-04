@@ -202,6 +202,36 @@ COPY_ITEMS = [
         "manuscript-grade null and power grid design",
     ),
     CopyItem(
+        ROOT / "docs" / "realistic_null_power_calibration.md",
+        "06_next_sprint_inputs",
+        "RMTGuard_REALISTIC_NULL_POWER_CALIBRATION.md",
+        "50-repeat realistic null and rare-state power calibration report",
+    ),
+    CopyItem(
+        ROOT / "results" / "calibration" / "realistic_null_summary.tsv",
+        "06_next_sprint_inputs",
+        "RMTGuard_REALISTIC_NULL_SUMMARY.tsv",
+        "machine-readable 50-repeat realistic null summary",
+    ),
+    CopyItem(
+        ROOT / "results" / "calibration" / "rare_state_power_summary.tsv",
+        "06_next_sprint_inputs",
+        "RMTGuard_RARE_STATE_POWER_SUMMARY.tsv",
+        "machine-readable 50-repeat rare-state power summary",
+    ),
+    CopyItem(
+        ROOT / "docs" / "rare_state_claim_boundary.md",
+        "06_next_sprint_inputs",
+        "RMTGuard_RARE_STATE_CLAIM_BOUNDARY.md",
+        "rare-state power claim boundary report",
+    ),
+    CopyItem(
+        ROOT / "results" / "submission" / "rare_state_claim_boundary.tsv",
+        "06_next_sprint_inputs",
+        "RMTGuard_RARE_STATE_CLAIM_BOUNDARY.tsv",
+        "machine-readable rare-state power claim boundary",
+    ),
+    CopyItem(
         ROOT / "results" / "calibration" / "manuscript_grade_null_power_grid_design.tsv",
         "06_next_sprint_inputs",
         "RMTGuard_NULL_POWER_GRID_DESIGN.tsv",
@@ -282,6 +312,8 @@ matrices, tokens, passwords, or private clinical materials.
 - `06_next_sprint_inputs/RMTGuard_REALDATA_ABLATION_ANNOTATION.md`
 - `06_next_sprint_inputs/RMTGuard_P0_COMPONENT_ABLATION_RUN_SHEET.md`
 - `06_next_sprint_inputs/RMTGuard_NULL_POWER_GRID_DESIGN.md`
+- `06_next_sprint_inputs/RMTGuard_REALISTIC_NULL_POWER_CALIBRATION.md`
+- `06_next_sprint_inputs/RMTGuard_RARE_STATE_CLAIM_BOUNDARY.md`
 - `06_next_sprint_inputs/RMTGuard_ADDED_DATASET_ANNOTATION_BOUNDARY.md`
 
 ## Manual Inputs Still Needed
@@ -322,7 +354,8 @@ RMTGuard has passed the public release engineering gate, but is not ready for a
 strict 20-50 JIF submission because the remaining blockers are scientific:
 stability-superiority is not supported, synthetic and real-data component
 ablation now have 20-repeat CI/annotation layers, realistic null and power
-grids still need manuscript-grade execution, and the PDAC/TME biological
+grids now have 50-repeat calibration output with a low-prevalence/effect
+claim-boundary limitation, and the PDAC/TME biological
 showcase needs deepening or demotion.
 
 ## Fast Open
@@ -335,6 +368,8 @@ showcase needs deepening or demotion.
 - Real-data ablation annotation: `{package_dir / "06_next_sprint_inputs" / "RMTGuard_REALDATA_ABLATION_ANNOTATION.md"}`
 - P0 ablation run sheet: `{package_dir / "06_next_sprint_inputs" / "RMTGuard_P0_COMPONENT_ABLATION_RUN_SHEET.md"}`
 - Null/power grid design: `{package_dir / "06_next_sprint_inputs" / "RMTGuard_NULL_POWER_GRID_DESIGN.md"}`
+- 50-repeat calibration: `{package_dir / "06_next_sprint_inputs" / "RMTGuard_REALISTIC_NULL_POWER_CALIBRATION.md"}`
+- Rare-state claim boundary: `{package_dir / "06_next_sprint_inputs" / "RMTGuard_RARE_STATE_CLAIM_BOUNDARY.md"}`
 - Gantt PNG: `{package_dir / "04_gantt_and_figures" / "RMTGuard_PROJECT_GANTT.png"}`
 - Manual checklist: `{package_dir / "02_manual_actions" / "RMTGuard_MANUAL_NEXT_ACTIONS_20_50.md"}`
 - Release blocker report: `{package_dir / "03_release_evidence" / "RMTGuard_PUBLIC_RELEASE_BLOCKER_REPORT.md"}`

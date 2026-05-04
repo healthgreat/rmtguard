@@ -1,0 +1,10 @@
+prevalence	effect_size	n_repeats	power	power_ci95_low	power_ci95_high	mean_rare_f1	mean_rare_f1_ci95_low	mean_rare_f1_ci95_high	no_call_rate	max_null_false_call_rate	claim_status	claim_text
+0.02	2.5	50	0.12	0.0290107698680772	0.2109892301319227	0.1514285714285714	0.063688956658503	0.2391681861986397	0.88	0.0	unsupported_limit	Rare-state recovery is weak; this setting must be reported as a limitation and cannot support a universal rare-state claim.
+0.02	4.0	50	0.52	0.3801120448358759	0.6598879551641241	0.5371428571428571	0.4022509003774516	0.6720348139082625	0.48	0.0	borderline_limit	Rare-state recovery is partial; report as a transition zone and do not use it as a main positive claim.
+0.02	6.0	50	0.88	0.7890107698680773	0.9709892301319228	0.8842857142857143	0.7965460995156457	0.9720253290557824	0.12	0.0	supported	Rare-state recovery is supported for this simulated setting under the stated prevalence/effect-size assumptions.
+0.04	2.5	50	0.84	0.7373503044329892	0.9426496955670108	0.9384615384615383	0.8989808863203803	0.9779421906026964	0.0	0.0	supported	Rare-state recovery is supported for this simulated setting under the stated prevalence/effect-size assumptions.
+0.04	4.0	50	1.0	1.0	1.0	1.0	1.0	1.0	0.0	0.0	supported	Rare-state recovery is supported for this simulated setting under the stated prevalence/effect-size assumptions.
+0.04	6.0	50	1.0	1.0	1.0	1.0	1.0	1.0	0.0	0.0	supported	Rare-state recovery is supported for this simulated setting under the stated prevalence/effect-size assumptions.
+0.08	2.5	50	0.98	0.9408	1.0	0.98576	0.9578496	1.0	0.0	0.0	supported	Rare-state recovery is supported for this simulated setting under the stated prevalence/effect-size assumptions.
+0.08	4.0	50	0.98	0.9408	1.0	0.9847619047619048	0.954895238095238	1.0	0.0	0.0	supported	Rare-state recovery is supported for this simulated setting under the stated prevalence/effect-size assumptions.
+0.08	6.0	50	0.98	0.9408	1.0	0.9915555555555556	0.9750044444444445	1.0	0.0	0.0	supported	Rare-state recovery is supported for this simulated setting under the stated prevalence/effect-size assumptions.

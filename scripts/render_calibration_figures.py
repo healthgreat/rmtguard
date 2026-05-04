@@ -213,7 +213,7 @@ def render() -> None:
                 "input_paths": f"{_rel(null_path)};{_rel(power_path)}",
                 "regeneration_command": "python scripts/render_calibration_figures.py",
                 "status": "rendered",
-                "notes": "Diagnostic calibration figure; values are draft local calibration outputs.",
+                "notes": "Diagnostic calibration figure; values are 50-repeat manuscript-candidate calibration outputs with claim-boundary limits.",
             }
         ]
     )

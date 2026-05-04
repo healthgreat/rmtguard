@@ -1,0 +1,2 @@
+figure_id	png_path	pdf_path	tiff_path	input_paths	regeneration_command	status	notes
+Calibration Figure 1	figures/calibration/realistic_null_power_calibration.png	figures/calibration/realistic_null_power_calibration.pdf	figures/calibration/realistic_null_power_calibration.tiff	results/calibration/realistic_null_summary.tsv;results/calibration/rare_state_power_summary.tsv	python scripts/render_calibration_figures.py	rendered	Diagnostic calibration figure; values are 50-repeat manuscript-candidate calibration outputs with claim-boundary limits.

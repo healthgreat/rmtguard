@@ -68,14 +68,14 @@ GATES = [
     Gate(
         "NM-G03",
         "P0",
-        "grid_design_ready",
+        "done_with_limit",
         "Codex",
-        "weak_effect_low_prevalence_power",
-        "docs/manuscript_grade_null_power_grid_design.md",
-        "Execute the prepared realistic null and rare-state power grids across prevalence, effect size, dropout, library-size, and batch structures.",
-        "results/calibration/manuscript_grade_null_power_grid.tsv",
+        "claim_boundary_controlled",
+        "docs/rare_state_claim_boundary.md",
+        "Use the 50-repeat realistic-null and rare-state power curves as limit-aware evidence; do not claim recovery in the lowest prevalence/effect regimes.",
+        "results/calibration/rare_state_power_summary.tsv",
         "False signal rate remains near preset alpha under realistic nulls, and rare-state power is reported as a power curve rather than one positive setting.",
-        "Stop Nature Methods if weak-effect/low-prevalence regimes fail and cannot be reframed honestly as method limits.",
+        "Stop Nature Methods rare-state superiority claims if weak-effect/low-prevalence regimes are central to the argument.",
         "Reusable null/power-calibration template for public-data method papers.",
     ),
     Gate(
@@ -207,7 +207,9 @@ def build_markdown(rows: list[dict[str, str]]) -> str:
     p0_open = [
         row
         for row in rows
-        if row["priority"] == "P0" and row["status"] not in {"pass", "done"}
+        if row["priority"] == "P0"
+        and row["status"] not in {"pass", "done"}
+        and not row["status"].startswith("done_")
     ]
     waiting = [row for row in rows if row["status"].startswith("waiting")]
     lines = [
@@ -225,15 +227,14 @@ def build_markdown(rows: list[dict[str, str]]) -> str:
         "",
         "## Immediate 48-Hour Actions",
         "",
-        "1. Execute the realistic null and rare-state power grid; report power curves, not one favorable setting.",
-        "2. Obtain the author decision on PDAC/TME: deepen as main figure or demote to supplement.",
+        "1. Obtain the author decision on PDAC/TME: deepen as main figure or demote to supplement.",
+        "2. Keep the rare-state claim boundary locked: power is strong for moderate prevalence/effect settings, but weak at the lowest prevalence/effect setting.",
         "3. Keep PBMC3k and PDAC GSE154778 label-free unless reliable labels are documented.",
         "4. Use `docs/p0_science_sprint_status.md` as the sprint control file.",
-        "5. Run the formal Nature Methods go/no-go only after NM-G03 and NM-G04 are resolved.",
+        "5. Run the formal Nature Methods go/no-go only after NM-G04 is resolved.",
         "",
         "## Two-Week Science Sprint",
         "",
-        "- Complete NM-G03 if compute time permits.",
         "- Execute NM-G05 only if authors choose to keep PDAC/TME as a main figure.",
         "- Otherwise execute NM-G06 and screen replacement applications with stronger ground truth.",
         "- Rebuild Figure 3/5 source data only after the benchmark freeze.",
@@ -293,7 +294,9 @@ def main() -> int:
     p0_open = sum(
         1
         for row in rows
-        if row["priority"] == "P0" and row["status"] not in {"pass", "done"}
+        if row["priority"] == "P0"
+        and row["status"] not in {"pass", "done"}
+        and not row["status"].startswith("done_")
     )
     print(f"open_p0_gates\t{p0_open}")
     return 0
