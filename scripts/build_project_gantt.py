@@ -203,7 +203,7 @@ TASKS = [
         "partial",
         99,
         "docs/manuscript_grade_stability_statistics.md",
-        "Seven-dataset pairwise ARI output, CI/paired-delta report, local matched Python baseline pilot, official Seurat fixed30/fixed50/elbow/JackStraw 20-repeat rows, and paired20 RMTGuard-versus-official-Seurat statistics added; added-dataset matched Seurat rows remain.",
+        "Seven-dataset pairwise ARI output, CI/paired-delta report, local matched Python baseline pilot, official Seurat fixed30/fixed50/elbow/JackStraw 20-repeat rows, paired20 RMTGuard-versus-official-Seurat statistics, and added-dataset matched Seurat rows are present.",
     ),
     Task(
         "Algorithm and diagnostics",
@@ -213,7 +213,7 @@ TASKS = [
         "partial",
         95,
         "docs/p0_science_sprint_status.md",
-        "Synthetic and labeled real-data component-ablation layers now reach 20 repeats with CI columns; realistic null/power calibration still needs 50-repeat manuscript depth.",
+        "Synthetic and labeled real-data component-ablation layers now reach 20 repeats with CI columns; 50-repeat realistic null/power calibration is complete and claim-bounded.",
     ),
     Task(
         "Algorithm and diagnostics",
@@ -587,10 +587,10 @@ def build_markdown(df: pd.DataFrame) -> str:
             "- Public GitHub repository, GitHub Release, and Zenodo DOI are complete for v0.1.0.",
             "- Nature Methods claim scope is now locked to callability-aware random-matrix noise control; broad stability-superiority language remains disallowed.",
             "- A 48-hour execution packet now exists for P0 component ablations, realistic null/power grids, and added-dataset annotation boundaries.",
-            "- Synthetic component ablation has reached 20-repeat depth with CI columns; real-data ablation and null/power grids still need final repeat depth.",
+            "- Synthetic and labeled real-data component ablations have reached 20-repeat depth with CI columns.",
             "- Stability advantage remains failed against the strongest current comparator set.",
-            "- Realistic count-preserving null calibration is drafted and rare-state power improved, but the full power grid and manuscript-grade repeats remain incomplete.",
-            "- Component ablation now has an evidence/gap matrix plus a four-dataset 10-repeat annotation pilot, but the final 20-50 repeat experimental ablation suite is not complete.",
+            "- Realistic count-preserving null calibration and rare-state power grids have reached 50-repeat manuscript-grade depth; low-prevalence weak-effect settings remain an explicit claim-boundary limitation.",
+            "- Component ablation now has synthetic 20-repeat CI evidence and four-dataset labeled real-data 20-repeat annotation checks; remaining ablation risk is interpretation, not missing repeat depth.",
             "- Local matched Python baselines, official Seurat fixed30/fixed50/elbow/JackStraw 20-repeat rows across seven datasets, paired20 RMTGuard-versus-official-Seurat statistics across five labeled datasets, and seven-dataset stability breadth are now present; PBMC3k and PDAC GSE154778 remain label-free evidence unless annotations are added.",
             "- PDAC/TME remains a bounded showcase until deeper biology validation is added or it is demoted.",
         ]
