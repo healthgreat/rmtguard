@@ -166,6 +166,24 @@ COPY_ITEMS = [
         "machine-readable P0 science sprint execution status",
     ),
     CopyItem(
+        ROOT / "docs" / "pdac_tme_route_decision_packet.md",
+        "06_next_sprint_inputs",
+        "RMTGuard_PDAC_TME_ROUTE_DECISION_PACKET.md",
+        "PDAC/TME main-figure versus supplement decision packet",
+    ),
+    CopyItem(
+        ROOT / "results" / "submission" / "pdac_tme_route_decision_packet.tsv",
+        "06_next_sprint_inputs",
+        "RMTGuard_PDAC_TME_ROUTE_DECISION_PACKET.tsv",
+        "machine-readable PDAC/TME route decision packet",
+    ),
+    CopyItem(
+        ROOT / "metadata" / "pdac_tme_route_decision_template.tsv",
+        "06_next_sprint_inputs",
+        "RMTGuard_PDAC_TME_ROUTE_DECISION_TEMPLATE.tsv",
+        "author-controlled PDAC/TME route decision template",
+    ),
+    CopyItem(
         ROOT / "docs" / "component_ablation_benchmark.md",
         "06_next_sprint_inputs",
         "RMTGuard_COMPONENT_ABLATION_BENCHMARK.md",

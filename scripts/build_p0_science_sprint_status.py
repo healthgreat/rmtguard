@@ -235,6 +235,7 @@ def build_markdown(rows: list[dict[str, object]]) -> str:
             for row in rows
         )
         else "- Realistic null/power grids still need manuscript-grade 50-repeat depth.",
+        "- PDAC/TME route decision packet is available at `docs/pdac_tme_route_decision_packet.md`; final author decision is still required.",
         "- Acceptance guarantee remains `impossible`; this report only tracks scientific gate progress.",
         "",
         "## Status Table",
@@ -250,6 +251,8 @@ def build_markdown(rows: list[dict[str, object]]) -> str:
         [
             "",
             "## Manual Author Step",
+            "",
+            "Open `docs/pdac_tme_route_decision_packet.md` if you need the route criteria.",
             "",
             "Please provide one exact line:",
             "",

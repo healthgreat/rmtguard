@@ -25,6 +25,9 @@ CALIBRATION_NULL = ROOT / "results" / "calibration" / "realistic_null_summary.ts
 RARE_STATE_CLAIM_BOUNDARY = (
     ROOT / "results" / "submission" / "rare_state_claim_boundary.tsv"
 )
+PDAC_TME_ROUTE_PACKET = (
+    ROOT / "results" / "submission" / "pdac_tme_route_decision_packet.tsv"
+)
 MANUSCRIPT_STABILITY_STATS = (
     ROOT
     / "results"
@@ -842,10 +845,19 @@ def build_gap_rows() -> list[dict[str, object]]:
             "weight": 10,
             "current_score": 4,
             "status": _action_status(actions, "06_biological_showcase_decision"),
-            "evidence": "docs/pdac_tme_showcase_depth.md",
+            "evidence": (
+                "docs/pdac_tme_showcase_depth.md;docs/pdac_tme_route_decision_packet.md"
+                if PDAC_TME_ROUTE_PACKET.exists()
+                else "docs/pdac_tme_showcase_depth.md"
+            ),
             "blocking_items": "PDAC_TME_depth_or_demotion",
-            "what_is_done": "PDAC/TME public use case has marker-level immune/ductal validation and bounded wording.",
-            "what_is_missing": "It is not yet a strong biological application figure for a high-tier method paper.",
+            "what_is_done": (
+                "PDAC/TME public use case has marker-level immune/ductal validation, bounded wording, "
+                "and a main-figure-versus-supplement route decision packet."
+                if PDAC_TME_ROUTE_PACKET.exists()
+                else "PDAC/TME public use case has marker-level immune/ductal validation and bounded wording."
+            ),
+            "what_is_missing": "An explicit author route decision and, if kept as main figure, deeper DE/GSEA/external-validation evidence.",
             "next_supplement": "Either add DE/GSEA/trajectory/published-atlas validation for PDAC/TME, or demote PDAC/TME and use a stronger ground-truth application.",
         },
         {
@@ -1197,7 +1209,7 @@ def build_markdown(
             missing_real_data,
             missing_statistics,
             "4. Component ablation has reached the current 20-repeat synthetic and labeled real-data layer; realistic null and rare-state power have reached 50-repeat depth, and the low-prevalence/weak-effect limitation is now captured in a claim-boundary artifact.",
-            "5. A stronger biological application, or a deliberate demotion of PDAC/TME to supplementary use case.",
+            "5. PDAC/TME decision packet is complete, but authors still need to choose: deepen PDAC/TME as main figure or demote it to supplementary use case.",
             "6. Optional broader atlas-scale dataset if the Nature Methods route remains active after the current blockers are cleared.",
             "7. Final source-data/caption/reporting-summary regeneration after benchmark freeze.",
             "",
@@ -1209,7 +1221,7 @@ def build_markdown(
             "- Add a realistic null family that preserves library size, gene marginals, dropout, and batch structure.",
             "- Add a full `callability map` figure where no-call is treated as a validated decision, not a failure.",
             "- Keep PBMC3k and PDAC GSE154778 as label-free stability/runtime evidence unless reliable cell-state annotations are added.",
-            "- Add a stronger application with known external ground truth if PDAC/TME remains shallow.",
+            "- Use `docs/pdac_tme_route_decision_packet.md` to choose PDAC/TME deepening versus supplement demotion; add a stronger application with known external ground truth if PDAC/TME remains shallow.",
             "",
             "## Source Artifacts",
             "",
@@ -1222,6 +1234,7 @@ def build_markdown(
             f"- Component ablation summary: `{_rel(COMPONENT_ABLATION_SUMMARY)}`",
             "- P0 science sprint status: `results/submission/p0_science_sprint_status.tsv`",
             f"- Rare-state claim boundary: `{_rel(RARE_STATE_CLAIM_BOUNDARY)}`",
+            f"- PDAC/TME route decision packet: `{_rel(PDAC_TME_ROUTE_PACKET)}`",
             f"- Real-data ablation annotation summary: `{_rel(REALDATA_ABLATION_SUMMARY)}`",
             f"- Real-data ablation figure source data: `{_rel(REALDATA_ABLATION_ASSET_SUMMARY)}`",
             f"- Matched baseline design: `{_rel(MATCHED_BASELINE_DESIGN)}`",

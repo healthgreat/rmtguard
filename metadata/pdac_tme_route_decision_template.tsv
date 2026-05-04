@@ -1,0 +1,5 @@
+field	value	notes
+selected_route	TO_CONFIRM: deepen_as_main_figure or demote_to_supplement	Author-controlled. Do not auto-fill from Codex recommendation.
+confirmed_by	TO_CONFIRM: Chongfa Chen / Yi Miao / Han Yan	Name of author confirming the route.
+confirmation_date	TO_CONFIRM: YYYY-MM-DD	Date of explicit author decision.
+allowed_claim_boundary	TO_CONFIRM: public-data, non-clinical, no disease-mechanism claim unless validated	Keep this conservative unless authors approve deeper validation.

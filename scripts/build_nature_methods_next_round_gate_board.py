@@ -227,7 +227,7 @@ def build_markdown(rows: list[dict[str, str]]) -> str:
         "",
         "## Immediate 48-Hour Actions",
         "",
-        "1. Obtain the author decision on PDAC/TME: deepen as main figure or demote to supplement.",
+        "1. Obtain the author decision on PDAC/TME using `docs/pdac_tme_route_decision_packet.md`: deepen as main figure or demote to supplement.",
         "2. Keep the rare-state claim boundary locked: power is strong for moderate prevalence/effect settings, but weak at the lowest prevalence/effect setting.",
         "3. Keep PBMC3k and PDAC GSE154778 label-free unless reliable labels are documented.",
         "4. Use `docs/p0_science_sprint_status.md` as the sprint control file.",
@@ -254,6 +254,8 @@ def build_markdown(rows: list[dict[str, str]]) -> str:
         [
             "",
             "## Manual Author Inputs",
+            "",
+            "Decision criteria are summarized in `docs/pdac_tme_route_decision_packet.md`.",
             "",
             "Please send these exact replies when available:",
             "",

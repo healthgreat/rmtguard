@@ -166,6 +166,16 @@ TASKS = [
         "Claim lock, P0 ablation run sheet, null/power grid design, and annotation-boundary table generated for the next sprint.",
     ),
     Task(
+        "Biological application",
+        "PDAC/TME route decision packet",
+        date(2026, 5, 4),
+        date(2026, 5, 4),
+        "done",
+        100,
+        "docs/pdac_tme_route_decision_packet.md",
+        "Main-figure versus supplement decision criteria, pass/stop gates, and exact author reply templates are generated without falsely completing the author decision.",
+    ),
+    Task(
         "Release",
         "Public GitHub repository, release, and Zenodo DOI",
         date(2026, 5, 2),
@@ -592,7 +602,7 @@ def build_markdown(df: pd.DataFrame) -> str:
             "- Realistic count-preserving null calibration and rare-state power grids have reached 50-repeat manuscript-grade depth; low-prevalence weak-effect settings remain an explicit claim-boundary limitation.",
             "- Component ablation now has synthetic 20-repeat CI evidence and four-dataset labeled real-data 20-repeat annotation checks; remaining ablation risk is interpretation, not missing repeat depth.",
             "- Local matched Python baselines, official Seurat fixed30/fixed50/elbow/JackStraw 20-repeat rows across seven datasets, paired20 RMTGuard-versus-official-Seurat statistics across five labeled datasets, and seven-dataset stability breadth are now present; PBMC3k and PDAC GSE154778 remain label-free evidence unless annotations are added.",
-            "- PDAC/TME remains a bounded showcase until deeper biology validation is added or it is demoted.",
+            "- PDAC/TME route decision packet is complete; PDAC/TME remains a bounded showcase until authors choose deeper biology validation or supplement demotion.",
         ]
     )
     return "\n".join(lines)
