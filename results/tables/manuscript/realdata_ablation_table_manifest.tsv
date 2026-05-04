@@ -1,0 +1,3 @@
+artifact	path	role
+supplemental_realdata_ablation_table_tsv	results/tables/manuscript/supplemental_realdata_ablation_table.tsv	supplemental_table_source
+supplemental_realdata_ablation_table_docx	results/tables/manuscript/supplemental_realdata_ablation_table.docx	supplemental_table_word

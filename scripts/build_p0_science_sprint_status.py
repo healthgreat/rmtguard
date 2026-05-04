@@ -145,7 +145,11 @@ def build_rows() -> list[dict[str, object]]:
             "repeat_depth": realdata_component_repeats,
             "ci_present": "true" if realdata_component_repeats > 1 else "false",
             "evidence": _rel(REALDATA_SUMMARY),
-            "next_action": "Scale labeled real-data ablation annotation checks from current repeat depth to 20 repeats before Figure 5 finalization.",
+            "next_action": (
+                "Use as 20-repeat real-data component-ablation evidence; do not overclaim broad stability superiority."
+                if realdata_component_repeats >= 20
+                else "Scale labeled real-data ablation annotation checks from current repeat depth to 20 repeats before Figure 5 finalization."
+            ),
         },
         {
             "gate_id": "NM-G03A",
@@ -180,6 +184,9 @@ def build_rows() -> list[dict[str, object]]:
 
 def build_markdown(rows: list[dict[str, object]]) -> str:
     open_rows = [row for row in rows if row["status"] != "done"]
+    realdata_done = any(
+        row["gate_id"] == "NM-G02B" and row["status"] == "done" for row in rows
+    )
     lines = [
         "# RMTGuard P0 Science Sprint Status",
         "",
@@ -189,7 +196,10 @@ def build_markdown(rows: list[dict[str, object]]) -> str:
         "",
         f"- Open P0 science items: `{len(open_rows)}`.",
         "- Synthetic component ablation has reached 20-repeat depth with CI columns.",
-        "- Real-data annotation ablations and realistic null/power grids still need manuscript-grade repeat depth.",
+        "- Real-data annotation ablations have reached 20-repeat depth for the current component set."
+        if realdata_done
+        else "- Real-data annotation ablations still need manuscript-grade repeat depth.",
+        "- Realistic null/power grids still need manuscript-grade 50-repeat depth.",
         "- Acceptance guarantee remains `impossible`; this report only tracks scientific gate progress.",
         "",
         "## Status Table",

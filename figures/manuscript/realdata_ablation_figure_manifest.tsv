@@ -1,0 +1,2 @@
+figure_id	png_path	pdf_path	tiff_path	source_data	status
+Figure 5 supplement: real-data ablation forest	figures/manuscript/figure5_realdata_ablation_forest.png	figures/manuscript/figure5_realdata_ablation_forest.pdf	figures/manuscript/figure5_realdata_ablation_forest.tiff	results/figures/source_data/figure5_realdata_ablation_delta_summary.tsv	pilot_asset_generated

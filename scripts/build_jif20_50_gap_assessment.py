@@ -301,6 +301,8 @@ def _component_ablation_summary() -> dict[str, object]:
         status = "draft_benchmark_and_realdata_annotation_present_final_experiments_pending"
     if realdata_max_repeats >= 3:
         status = "draft_benchmark_and_repeated_realdata_annotation_pilot_present_final_experiments_pending"
+    if synthetic_min_repeats >= 20 and ci_present and realdata_component_min_repeats >= 20:
+        status = "current_20_repeat_synthetic_and_realdata_component_layer_complete_power_pending"
     return {
         "status": status,
         "component_count": len(rows),
@@ -692,9 +694,31 @@ def build_gap_rows() -> list[dict[str, object]]:
         {
             "domain": "calibration_statistics",
             "weight": 15,
-            "current_score": 14 if component_ablation.get("realdata_component_min_repeats", 0) >= 10 else (13 if component_ablation["realdata_rows"] else (12 if component_ablation["benchmark_rows"] else (10 if component_matrix_exists else 9))),
+            "current_score": (
+                15
+                if component_ablation.get("realdata_component_min_repeats", 0)
+                >= 20
+                and component_ablation.get("synthetic_min_repeats", 0) >= 20
+                and component_ablation.get("component_ci_present", False)
+                else 14
+                if component_ablation.get("realdata_component_min_repeats", 0)
+                >= 10
+                else (
+                    13
+                    if component_ablation["realdata_rows"]
+                    else (
+                        12
+                        if component_ablation["benchmark_rows"]
+                        else (10 if component_matrix_exists else 9)
+                    )
+                )
+            ),
             "status": (
-                "synthetic_component_ablation_20_repeat_done_realdata_and_power_pending"
+                "component_ablation_20_repeat_done_power_pending"
+                if component_ablation.get("realdata_component_min_repeats", 0) >= 20
+                and component_ablation.get("synthetic_min_repeats", 0) >= 20
+                and component_ablation.get("component_ci_present", False)
+                else "synthetic_component_ablation_20_repeat_done_realdata_and_power_pending"
                 if component_ablation.get("synthetic_min_repeats", 0) >= 20
                 and component_ablation.get("component_ci_present", False)
                 else "partial_improved_component_controlled"
@@ -707,14 +731,18 @@ def build_gap_rows() -> list[dict[str, object]]:
                 else _rel(CALIBRATION_POWER)
             ),
             "blocking_items": (
-                "weak_effect_low_prevalence_power;realdata_annotation_repeat_depth"
+                "weak_effect_low_prevalence_power"
+                if component_ablation.get("realdata_component_min_repeats", 0) >= 20
+                and component_ablation.get("synthetic_min_repeats", 0) >= 20
+                and component_ablation.get("component_ci_present", False)
+                else "weak_effect_low_prevalence_power;realdata_annotation_repeat_depth"
                 if component_ablation.get("synthetic_min_repeats", 0) >= 20
                 and component_ablation.get("component_ci_present", False)
                 else "weak_effect_low_prevalence_power;draft_repeat_count"
             ),
             "what_is_done": f"Count-preserving null false-call max is {calibration['max_false_call']:.3f}; rare-state power improved, with {calibration['settings_power_ge_080']:.0%} of grid settings at power >=0.80. Synthetic component ablation now has minimum repeat depth {component_ablation['synthetic_min_repeats']} with CI columns present={component_ablation['component_ci_present']}. Component ablation status is {component_ablation['status']} across {component_ablation['component_count']} components, {component_ablation['benchmark_rows']} synthetic benchmark summary rows, and {component_ablation['realdata_rows']} real-data annotation rows; component-specific real-data ablation minimum repeat depth is {component_ablation['realdata_component_min_repeats']}. Real-data ablation figure/table assets present: {realdata_ablation_assets_present}.",
-            "what_is_missing": f"Minimum rare-state power remains {calibration['min_power']:.2f}; realistic null/power grid is still draft repeat depth and real-data annotation ablations remain below 20 repeats. Missing or nonfinal component experiments: {component_ablation['missing_components']}.",
-            "next_supplement": "Scale the real-data annotation ablation checks from the current 10-repeat pilot to 20 repeats, then run realistic null/power calibration at 50 repeats with confidence intervals.",
+            "what_is_missing": f"Minimum rare-state power remains {calibration['min_power']:.2f}; realistic null/power grid is still draft repeat depth. Missing or nonfinal component experiments: {component_ablation['missing_components']}.",
+            "next_supplement": "Run realistic null/power calibration at 50 repeats with confidence intervals.",
         },
         {
             "domain": "release_reproducibility",
@@ -1096,14 +1124,14 @@ def build_markdown(
             "1. Release engineering is complete for v0.1.0; the remaining gap is scientific evidence, not public code availability.",
             missing_real_data,
             missing_statistics,
-            "4. Manuscript-grade component ablation experiments for MP edge, TW proxy, permutation calibration, HVG plateau, adaptive embedding, rare-state guard, no-call contract, and batch residualization. The synthetic component-ablation layer now has 20-repeat CI evidence, but the labeled real-data ablation checks still need 20-repeat depth before Figure 5 finalization.",
+            "4. Component ablation has reached the current 20-repeat synthetic and labeled real-data layer; the remaining calibration gap is realistic null and rare-state power depth, plus final source-data freeze after the next benchmark decision.",
             "5. A stronger biological application, or a deliberate demotion of PDAC/TME to supplementary use case.",
             "6. Optional broader atlas-scale dataset if the Nature Methods route remains active after the current blockers are cleared.",
             "7. Final source-data/caption/reporting-summary regeneration after benchmark freeze.",
             "",
             "## What Can Be Added To Improve The Route",
             "",
-            "- Scale the `rare_state_guard` on/off ablation from draft screen to manuscript-grade repeats with confidence intervals.",
+            "- Run realistic null and rare-state power grids to 50 repeats with confidence intervals and power curves.",
             "- Add a realistic null family that preserves library size, gene marginals, dropout, and batch structure.",
             "- Add a full `callability map` figure where no-call is treated as a validated decision, not a failure.",
             "- Keep PBMC3k and PDAC GSE154778 as label-free stability/runtime evidence unless reliable cell-state annotations are added.",
