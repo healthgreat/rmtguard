@@ -10,9 +10,9 @@ This packet controls editor-facing language and does not replace the scientific 
 - Target: `Nature Methods`
 - Status: `do_not_send`
 - Evidence: `results/submission/top_paper_route_decision.tsv`
-- Editor-facing text: The presubmission inquiry remains a controlled draft until software release and scientific gate wording are resolved.
-- Boundary: Do not send while Nature Methods route is hold_pre_submission.
-- Next action: Resolve software release and keep the benchmark claim callability-aware before any Nature Methods submission.
+- Editor-facing text: The presubmission inquiry remains a controlled draft until the callability-aware scientific gate, Figure 4 author acknowledgement, and final go/no-go wording are resolved.
+- Boundary: Do not send while Nature Methods route remains gate-controlled.
+- Next action: Freeze final Nature Methods go/no-go wording and obtain corresponding-author acknowledgement for bounded Figure 4.
 
 ## one_sentence_pitch
 
@@ -21,7 +21,7 @@ This packet controls editor-facing language and does not replace the scientific 
 - Evidence: `results/manuscript/claim_evidence_matrix.tsv`
 - Editor-facing text: RMTGuard is a random-matrix noise-control framework that turns scRNA-seq embedding construction into an auditable call/no-call decision rather than a manually tuned PCA-and-clustering workflow.
 - Boundary: Pitch the random-matrix diagnostic contract, not automatic parameter tuning.
-- Next action: Use only after release blockers are cleared and the callability-aware benchmark wording is preserved.
+- Next action: Use only if the callability-aware benchmark wording is preserved.
 
 ## primary_positive_evidence
 
@@ -44,17 +44,17 @@ This packet controls editor-facing language and does not replace the scientific 
 ## software_release_disclosure
 
 - Target: `All journals`
-- Status: `blocked`
+- Status: `pass`
 - Evidence: `results/release/public_release_blockers.tsv`
-- Editor-facing text: Local release checks pass, but the public GitHub Release and Zenodo DOI are not complete.
-- Boundary: Do not state that the software is DOI-archived before the real DOI exists.
-- Next action: Clear release blockers: github_cli_or_web_access;github_remote;repository_url_metadata;release_tag_at_head;github_release_page;zenodo_doi;software_release_gate
+- Editor-facing text: Public repository, GitHub Release, and Zenodo DOI evidence are recorded for the archived v0.1.0 release.
+- Boundary: Do not imply that post-release working-branch changes are part of the immutable DOI snapshot.
+- Next action: Keep v0.1.0 immutable; create a future version only after benchmark and metadata freeze.
 
 ## genome_biology_fallback_pitch
 
 - Target: `Genome Biology`
-- Status: `activate_after_software_release`
+- Status: `fallback_ready_after_scientific_reframe`
 - Evidence: `results/submission/top_paper_route_decision.tsv`
 - Editor-facing text: RMTGuard can be reframed as an open, reproducible genomics workflow for callability-aware scRNA-seq noise control if Nature Methods editors judge the method advance too narrow.
 - Boundary: Do not describe Genome Biology as a strict 20-50 JIF route under current verified metrics.
-- Next action: Complete public GitHub/Zenodo release, then submit as reproducible genomics workflow if Nature Methods remains blocked.
+- Next action: If Nature Methods presubmission is not encouraging, reframe immediately as a Genome Biology-style reproducible genomics workflow.

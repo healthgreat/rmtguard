@@ -1,6 +1,6 @@
 # Nature Methods Presubmission Inquiry Draft
 
-Status: do not send until public GitHub/Zenodo release and gate wording are complete.
+Status: do not send; internal author-review draft until Figure 4 author acknowledgement and final go/no-go wording are complete.
 Acceptance guarantee: `impossible`.
 
 Dear Editors,
@@ -14,10 +14,10 @@ The current evidence supports false-signal control in pure-null simulations, 3/3
 We would present the real-data benchmark as callability-aware rather than as universal superiority over fixed-PC workflows.
 The current real-data benchmark does not show broad superiority over the strongest stability comparator on every dataset, and PBMC68k/Zheng 2017 is retained as a diagnostic no-call rather than a positive discovery.
 
-The biological application is a public PDAC/TME use case focused on immune and ductal-context marker structure, not a standalone disease-mechanism claim.
+The biological application is a bounded public PDAC/TME use case supported by differential-marker, rank-based Hallmark/Reactome pathway, external-signature, and published-atlas-marker evidence; it is not presented as a standalone disease-mechanism or clinical-validation claim.
 
-This inquiry draft is currently not ready to send because the public software release is incomplete.
-Local release checks pass, but the public GitHub Release and Zenodo DOI are not complete.
+The software-release evidence is recorded, but this inquiry remains an internal draft until the corresponding authors acknowledge the bounded Figure 4 route and the final Nature Methods go/no-go is completed.
+Public repository, GitHub Release, and Zenodo DOI evidence are recorded for the archived v0.1.0 release.
 
 Sincerely,
 

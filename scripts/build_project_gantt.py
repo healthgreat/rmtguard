@@ -353,7 +353,7 @@ TASKS = [
         "done_with_limit",
         75,
         "docs/pdac_tme_deep_validation.md",
-        "FDR-controlled marker DE, marker-set enrichment, external signature transfer, and Figure 4 source data are complete; full MSigDB/Reactome/Hallmark GSEA, published-atlas citations, and final author route confirmation remain.",
+        "FDR-controlled marker DE, marker-set enrichment, external signature transfer, and Figure 4 source data are complete; pathway/atlas upgrade and bounded wording now control the final claim.",
     ),
     Task(
         "Biological application",
@@ -363,17 +363,17 @@ TASKS = [
         "done_with_limit",
         85,
         "docs/pdac_tme_pathway_atlas_validation.md",
-        "Rank-based MSigDB Hallmark/Reactome enrichment, manuscript-interpretable pathway labeling, atlas marker citation mapping, and Figure 4 pathway/atlas source data are complete; final author route confirmation and wording freeze remain.",
+        "Rank-based MSigDB Hallmark/Reactome enrichment, manuscript-interpretable pathway labeling, atlas marker citation mapping, and Figure 4 pathway/atlas source data are complete.",
     ),
     Task(
         "Biological application",
         "PDAC/TME final Figure 4 wording freeze",
-        date(2026, 5, 12),
-        date(2026, 5, 19),
-        "planned",
-        0,
-        "docs/nature_reporting_summary_draft.md",
-        "Freeze bounded Figure 4 captions and source-data wording after author route confirmation.",
+        date(2026, 5, 10),
+        date(2026, 5, 10),
+        "done_with_limit",
+        90,
+        "docs/figure4_pdac_tme_wording_freeze.md",
+        "Bounded Figure 4 title, caption, allowed wording, forbidden wording, and source-data wording are frozen; formal corresponding-author acknowledgement remains before external submission.",
     ),
     Task(
         "Public benchmark",
@@ -632,7 +632,7 @@ def build_markdown(df: pd.DataFrame) -> str:
             "- Realistic count-preserving null calibration and rare-state power grids have reached 50-repeat manuscript-grade depth; low-prevalence weak-effect settings remain an explicit claim-boundary limitation.",
             "- Component ablation now has synthetic 20-repeat CI evidence and four-dataset labeled real-data 20-repeat annotation checks; remaining ablation risk is interpretation, not missing repeat depth.",
             "- Local matched Python baselines, official Seurat fixed30/fixed50/elbow/JackStraw 20-repeat rows across seven datasets, paired20 RMTGuard-versus-official-Seurat statistics across five labeled datasets, and seven-dataset stability breadth are now present; PBMC3k and PDAC GSE154778 remain label-free evidence unless annotations are added.",
-            "- PDAC/TME deep validation plus pathway/atlas upgrade are complete with limits; explicit author route confirmation and final Figure 4 wording/source-data freeze remain before high-impact wording.",
+            "- PDAC/TME deep validation, pathway/atlas upgrade, and bounded Figure 4 wording freeze are complete with limits; formal corresponding-author acknowledgement remains before external submission.",
         ]
     )
     return "\n".join(lines)

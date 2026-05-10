@@ -163,6 +163,10 @@ Genome Biology-style genomics workflow/software framing.
 The current mentor decision memo is stored at
 `docs/mentor_journal_decision_2026-05-10.md`.
 
+The current bounded PDAC/TME Figure 4 wording freeze is stored at
+`docs/figure4_pdac_tme_wording_freeze.md`, with the manuscript caption draft in
+`manuscript/figure4_caption_bounded_draft.md`.
+
 The Nature Methods package must include algorithm details, open-source code,
 installation instructions, demo runtime, test data, public benchmarks, ablation
 studies, release-readiness checks, and source-data tables. PDAC/TME public

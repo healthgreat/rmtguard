@@ -7,8 +7,8 @@ Every manuscript-facing positive claim must trace to `results/manuscript/claim_e
 
 ## Summary
 
-- Passing rows: `2`
-- Controlled rows: `19`
+- Passing rows: `4`
+- Controlled rows: `17`
 - Violations: `0`
 
 ## Violations
@@ -24,8 +24,6 @@ Every manuscript-facing positive claim must trace to `results/manuscript/claim_e
 - `editorial_presubmission_packet` / `one_sentence_pitch`: editorial_boundary_traceable
 - `editorial_presubmission_packet` / `primary_positive_evidence`: editorial_boundary_traceable
 - `editorial_presubmission_packet` / `core_limitation_disclosure`: editorial_boundary_traceable
-- `editorial_presubmission_packet` / `software_release_disclosure`: editorial_boundary_traceable
-- `editorial_presubmission_packet` / `genome_biology_fallback_pitch`: editorial_boundary_traceable
 - `top_paper_route_decision` / `nature_methods_first`: route_boundary_traceable
 - `top_paper_route_decision` / `genome_biology_fallback`: route_boundary_traceable
 - `top_paper_route_decision` / `cell_genomics_or_nature_communications_transfer`: route_boundary_traceable

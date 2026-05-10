@@ -52,7 +52,7 @@ gantt
     PDAC/TME dual-route preflight and runbook :done, T13, 2026-05-04, 1d
     PDAC/TME deep validation first pass :T30, 2026-05-10, 1d
     PDAC/TME pathway and atlas upgrade :T31, 2026-05-10, 1d
-    PDAC/TME final Figure 4 wording freeze :T32, 2026-05-12, 8d
+    PDAC/TME final Figure 4 wording freeze :T32, 2026-05-10, 1d
     section Release
     Public GitHub repository; release; and Zenodo DOI :done, T14, 2026-05-02, 3d
     Post-release gates and reproducibility audit :done, T35, 2026-05-04, 1d
@@ -97,7 +97,7 @@ gantt
 | T29 | Public benchmark | Added-dataset official Seurat rows | 2026-05-03 | 2026-05-03 | done | 100% | `docs/seurat_matched_baseline.md` |
 | T30 | Biological application | PDAC/TME deep validation first pass | 2026-05-10 | 2026-05-10 | done_with_limit | 75% | `docs/pdac_tme_deep_validation.md` |
 | T31 | Biological application | PDAC/TME pathway and atlas upgrade | 2026-05-10 | 2026-05-10 | done_with_limit | 85% | `docs/pdac_tme_pathway_atlas_validation.md` |
-| T32 | Biological application | PDAC/TME final Figure 4 wording freeze | 2026-05-12 | 2026-05-19 | planned | 0% | `docs/nature_reporting_summary_draft.md` |
+| T32 | Biological application | PDAC/TME final Figure 4 wording freeze | 2026-05-10 | 2026-05-10 | done_with_limit | 90% | `docs/figure4_pdac_tme_wording_freeze.md` |
 | T33 | Public benchmark | Additional public datasets | 2026-05-03 | 2026-05-03 | done | 100% | `docs/manuscript_grade_stability_statistics.md` |
 | T34 | Manuscript package | Final figure source data, captions, and reporting summary | 2026-06-02 | 2026-06-16 | planned | 0% | `docs/nature_reporting_summary_draft.md` |
 | T35 | Release | Post-release gates and reproducibility audit | 2026-05-04 | 2026-05-04 | done | 100% | `results/submission/submission_guard.tsv` |
@@ -115,4 +115,4 @@ gantt
 - Realistic count-preserving null calibration and rare-state power grids have reached 50-repeat manuscript-grade depth; low-prevalence weak-effect settings remain an explicit claim-boundary limitation.
 - Component ablation now has synthetic 20-repeat CI evidence and four-dataset labeled real-data 20-repeat annotation checks; remaining ablation risk is interpretation, not missing repeat depth.
 - Local matched Python baselines, official Seurat fixed30/fixed50/elbow/JackStraw 20-repeat rows across seven datasets, paired20 RMTGuard-versus-official-Seurat statistics across five labeled datasets, and seven-dataset stability breadth are now present; PBMC3k and PDAC GSE154778 remain label-free evidence unless annotations are added.
-- PDAC/TME deep validation plus pathway/atlas upgrade are complete with limits; explicit author route confirmation and final Figure 4 wording/source-data freeze remain before high-impact wording.
+- PDAC/TME deep validation, pathway/atlas upgrade, and bounded Figure 4 wording freeze are complete with limits; formal corresponding-author acknowledgement remains before external submission.

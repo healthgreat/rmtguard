@@ -274,6 +274,30 @@ COPY_ITEMS = [
         "Figure 4 PDAC/TME pathway and atlas source data",
     ),
     CopyItem(
+        ROOT / "docs" / "mentor_journal_decision_2026-05-10.md",
+        "01_project_status",
+        "RMTGuard_MENTOR_JOURNAL_DECISION_2026-05-10.md",
+        "mentor journal route decision memo",
+    ),
+    CopyItem(
+        ROOT / "docs" / "figure4_pdac_tme_wording_freeze.md",
+        "06_next_sprint_inputs",
+        "RMTGuard_FIGURE4_PDAC_TME_WORDING_FREEZE.md",
+        "Figure 4 PDAC/TME bounded wording freeze",
+    ),
+    CopyItem(
+        ROOT / "manuscript" / "figure4_caption_bounded_draft.md",
+        "04_gantt_and_figures",
+        "RMTGuard_FIGURE4_CAPTION_BOUNDED_DRAFT.md",
+        "Figure 4 bounded caption draft",
+    ),
+    CopyItem(
+        ROOT / "manuscript" / "nature_methods_presubmission_inquiry.md",
+        "07_presubmission",
+        "RMTGuard_NATURE_METHODS_PRESUBMISSION_INQUIRY_DRAFT.md",
+        "Nature Methods presubmission inquiry draft",
+    ),
+    CopyItem(
         ROOT / "docs" / "component_ablation_benchmark.md",
         "06_next_sprint_inputs",
         "RMTGuard_COMPONENT_ABLATION_BENCHMARK.md",
@@ -401,7 +425,7 @@ matrices, tokens, passwords, or private clinical materials.
 - GitHub Release: https://github.com/healthgreat/rmtguard/releases/tag/v0.1.0
 - Zenodo DOI: https://doi.org/10.5281/zenodo.20012350
 - Strict 20-50 JIF target: Nature Methods only after gate recovery.
-- Current readiness score: 89/100.
+- Current readiness score: 90/100.
 - Acceptance guarantee: impossible.
 
 ## Main Files
@@ -410,9 +434,11 @@ matrices, tokens, passwords, or private clinical materials.
 - `01_project_status/RMTGuard_PUBLICATION_EXECUTION_BOARD.md`
 - `01_project_status/RMTGuard_NATURE_METHODS_NEXT_ROUND_GATE_BOARD.md`
 - `01_project_status/RMTGuard_PROJECT_GANTT.md`
+- `01_project_status/RMTGuard_MENTOR_JOURNAL_DECISION_2026-05-10.md`
 - `02_manual_actions/RMTGuard_MANUAL_NEXT_ACTIONS_20_50.md`
 - `03_release_evidence/RMTGuard_PUBLIC_RELEASE_BLOCKER_REPORT.md`
 - `04_gantt_and_figures/RMTGuard_PROJECT_GANTT.png`
+- `04_gantt_and_figures/RMTGuard_FIGURE4_CAPTION_BOUNDED_DRAFT.md`
 - `05_author_metadata/RMTGuard_TITLE_PAGE_AUTHOR_METADATA.md`
 - `06_next_sprint_inputs/RMTGuard_NATURE_METHODS_48H_EXECUTION_PACKET.md`
 - `06_next_sprint_inputs/RMTGuard_P0_SCIENCE_SPRINT_STATUS.md`
@@ -421,6 +447,7 @@ matrices, tokens, passwords, or private clinical materials.
 - `06_next_sprint_inputs/RMTGuard_PDAC_TME_DUAL_ROUTE_RUNBOOK.md`
 - `06_next_sprint_inputs/RMTGuard_PDAC_TME_DEEP_VALIDATION.md`
 - `06_next_sprint_inputs/RMTGuard_PDAC_TME_PATHWAY_ATLAS_VALIDATION.md`
+- `06_next_sprint_inputs/RMTGuard_FIGURE4_PDAC_TME_WORDING_FREEZE.md`
 - `06_next_sprint_inputs/RMTGuard_COMPONENT_ABLATION_BENCHMARK.md`
 - `06_next_sprint_inputs/RMTGuard_REALDATA_ABLATION_ANNOTATION.md`
 - `06_next_sprint_inputs/RMTGuard_P0_COMPONENT_ABLATION_RUN_SHEET.md`
@@ -436,8 +463,8 @@ matrices, tokens, passwords, or private clinical materials.
 3. Confirm competing interests statement.
 4. Confirm ethics/public-data-use statement.
 5. Confirm CRediT author roles.
-6. Confirm whether PDAC/TME remains a main figure and approve bounded Figure 4
-   wording using only supported pathway/atlas evidence.
+6. Acknowledge that PDAC/TME remains a bounded public-data Figure 4 showcase
+   using only supported pathway/atlas evidence.
 7. Re-check JCR, CAS partition, and warning-list status immediately before
    journal submission.
 
@@ -471,8 +498,8 @@ ablation now have 20-repeat CI/annotation layers, realistic null and power
 grids now have 50-repeat calibration output with a low-prevalence/effect
 claim-boundary limitation, and the PDAC/TME biological
 showcase now has DE/signature-transfer plus rank-based Hallmark/Reactome
-pathway and atlas-marker support with limits; final author route confirmation
-and Figure 4 wording/source-data freeze remain.
+pathway and atlas-marker support with limits; bounded Figure 4 wording is
+frozen, and formal corresponding-author acknowledgement remains.
 
 ## Fast Open
 
@@ -488,6 +515,8 @@ and Figure 4 wording/source-data freeze remain.
 - Rare-state claim boundary: `{package_dir / "06_next_sprint_inputs" / "RMTGuard_RARE_STATE_CLAIM_BOUNDARY.md"}`
 - PDAC/TME deep validation: `{package_dir / "06_next_sprint_inputs" / "RMTGuard_PDAC_TME_DEEP_VALIDATION.md"}`
 - PDAC/TME pathway/atlas validation: `{package_dir / "06_next_sprint_inputs" / "RMTGuard_PDAC_TME_PATHWAY_ATLAS_VALIDATION.md"}`
+- Figure 4 PDAC/TME wording freeze: `{package_dir / "06_next_sprint_inputs" / "RMTGuard_FIGURE4_PDAC_TME_WORDING_FREEZE.md"}`
+- Nature Methods presubmission inquiry draft: `{package_dir / "07_presubmission" / "RMTGuard_NATURE_METHODS_PRESUBMISSION_INQUIRY_DRAFT.md"}`
 - Gantt PNG: `{package_dir / "04_gantt_and_figures" / "RMTGuard_PROJECT_GANTT.png"}`
 - Manual checklist: `{package_dir / "02_manual_actions" / "RMTGuard_MANUAL_NEXT_ACTIONS_20_50.md"}`
 - Release blocker report: `{package_dir / "03_release_evidence" / "RMTGuard_PUBLIC_RELEASE_BLOCKER_REPORT.md"}`

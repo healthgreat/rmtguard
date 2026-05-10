@@ -50,6 +50,9 @@ PDAC_TME_PATHWAY_ATLAS_SUMMARY = (
 PDAC_TME_PATHWAY_ATLAS_FIGURE_SOURCE = (
     ROOT / "results" / "figures" / "source_data" / "figure4_pdac_tme_pathway_atlas_source.tsv"
 )
+FIGURE4_WORDING_FREEZE = (
+    ROOT / "results" / "submission" / "figure4_pdac_tme_wording_freeze.tsv"
+)
 MANUSCRIPT_STABILITY_STATS = (
     ROOT
     / "results"
@@ -906,6 +909,10 @@ def build_gap_rows() -> list[dict[str, object]]:
             "domain": "biological_showcase",
             "weight": 10,
             "current_score": (
+                9
+                if pdac_pathway["status"] == "pathway_atlas_supported_with_limits"
+                and FIGURE4_WORDING_FREEZE.exists()
+                else
                 8
                 if pdac_pathway["status"] == "pathway_atlas_supported_with_limits"
                 else
@@ -922,6 +929,9 @@ def build_gap_rows() -> list[dict[str, object]]:
                 else _action_status(actions, "06_biological_showcase_decision")
             ),
             "evidence": (
+                "docs/pdac_tme_showcase_depth.md;docs/pdac_tme_route_decision_packet.md;docs/pdac_tme_dual_route_preflight.md;docs/pdac_tme_dual_route_runbook.md;docs/pdac_tme_deep_validation.md;docs/pdac_tme_pathway_atlas_validation.md;docs/figure4_pdac_tme_wording_freeze.md"
+                if FIGURE4_WORDING_FREEZE.exists()
+                else
                 "docs/pdac_tme_showcase_depth.md;docs/pdac_tme_route_decision_packet.md;docs/pdac_tme_dual_route_preflight.md;docs/pdac_tme_dual_route_runbook.md;docs/pdac_tme_deep_validation.md;docs/pdac_tme_pathway_atlas_validation.md"
                 if PDAC_TME_PATHWAY_ATLAS_SUMMARY.exists()
                 else
@@ -934,6 +944,10 @@ def build_gap_rows() -> list[dict[str, object]]:
                 else "docs/pdac_tme_showcase_depth.md"
             ),
             "blocking_items": (
+                "PDAC_TME_corresponding_author_acknowledgement"
+                if pdac_pathway["status"] == "pathway_atlas_supported_with_limits"
+                and FIGURE4_WORDING_FREEZE.exists()
+                else
                 "PDAC_TME_author_route_confirmation_and_final_figure_wording"
                 if pdac_pathway["status"] == "pathway_atlas_supported_with_limits"
                 else
@@ -942,6 +956,10 @@ def build_gap_rows() -> list[dict[str, object]]:
                 else "PDAC_TME_depth_or_demotion"
             ),
             "what_is_done": (
+                f"PDAC/TME public use case now has FDR-controlled DE markers, external signature transfer, rank-based MSigDB Hallmark/Reactome pathway enrichment, atlas marker citation mapping, Figure 4 pathway/atlas source data, and a bounded Figure 4 wording freeze. Significant Hallmark pathways={pdac_pathway['significant_hallmark']}; significant Reactome pathways={pdac_pathway['significant_reactome']}; manuscript-interpretable pathways={pdac_pathway['interpretable_pathways']}; atlas-supported cluster/signature rows={pdac_pathway['atlas_support']}."
+                if pdac_pathway["status"] == "pathway_atlas_supported_with_limits"
+                and FIGURE4_WORDING_FREEZE.exists()
+                else
                 f"PDAC/TME public use case now has FDR-controlled DE markers, external signature transfer, rank-based MSigDB Hallmark/Reactome pathway enrichment, atlas marker citation mapping, and Figure 4 pathway/atlas source data. Significant Hallmark pathways={pdac_pathway['significant_hallmark']}; significant Reactome pathways={pdac_pathway['significant_reactome']}; manuscript-interpretable pathways={pdac_pathway['interpretable_pathways']}; atlas-supported cluster/signature rows={pdac_pathway['atlas_support']}."
                 if pdac_pathway["status"] == "pathway_atlas_supported_with_limits"
                 else
@@ -956,6 +974,10 @@ def build_gap_rows() -> list[dict[str, object]]:
                 else "PDAC/TME public use case has marker-level immune/ductal validation and bounded wording."
             ),
             "what_is_missing": (
+                "Formal corresponding-author acknowledgement that Figure 4 is a bounded public-data showcase, plus optional sensitivity check using a Broad GSEA/clusterProfiler implementation if reviewers require permutation-style GSEA."
+                if pdac_pathway["status"] == "pathway_atlas_supported_with_limits"
+                and FIGURE4_WORDING_FREEZE.exists()
+                else
                 "Explicit author route confirmation, final Figure 4 wording/caption/source-data freeze, and optional sensitivity check using a Broad GSEA/clusterProfiler implementation if reviewers require permutation-style GSEA."
                 if pdac_pathway["status"] == "pathway_atlas_supported_with_limits"
                 else
@@ -964,6 +986,10 @@ def build_gap_rows() -> list[dict[str, object]]:
                 else "An explicit author route decision and, if kept as main figure, deeper DE/GSEA/external-validation evidence."
             ),
             "next_supplement": (
+                "Obtain corresponding-author acknowledgement and keep Figure 4 wording exactly within the bounded public-data showcase freeze."
+                if pdac_pathway["status"] == "pathway_atlas_supported_with_limits"
+                and FIGURE4_WORDING_FREEZE.exists()
+                else
                 "Freeze the pathway/atlas evidence for bounded Figure 4 wording, then obtain author route confirmation and regenerate final captions/source data."
                 if pdac_pathway["status"] == "pathway_atlas_supported_with_limits"
                 else
@@ -1321,7 +1347,7 @@ def build_markdown(
             missing_real_data,
             missing_statistics,
             "4. Component ablation has reached the current 20-repeat synthetic and labeled real-data layer; realistic null and rare-state power have reached 50-repeat depth, and the low-prevalence/weak-effect limitation is now captured in a claim-boundary artifact.",
-            "5. PDAC/TME decision packet, dual-route preflight, runbook, first-pass deep validation, rank-based MSigDB Hallmark/Reactome enrichment, and atlas marker citation mapping are complete; authors still need to confirm the route and final Figure 4 wording.",
+            "5. PDAC/TME decision packet, dual-route preflight, runbook, first-pass deep validation, rank-based MSigDB Hallmark/Reactome enrichment, atlas marker citation mapping, and bounded Figure 4 wording freeze are complete; corresponding authors still need to acknowledge the bounded public-data showcase route.",
             "6. Optional broader atlas-scale dataset if the Nature Methods route remains active after the current blockers are cleared.",
             "7. Final source-data/caption/reporting-summary regeneration after benchmark freeze.",
             "",
@@ -1350,6 +1376,7 @@ def build_markdown(
             f"- PDAC/TME dual-route preflight: `{_rel(PDAC_TME_DUAL_ROUTE_PREFLIGHT)}`",
             f"- PDAC/TME dual-route runbook: `{_rel(PDAC_TME_DUAL_ROUTE_RUNBOOK)}`",
             f"- PDAC/TME pathway/atlas summary: `{_rel(PDAC_TME_PATHWAY_ATLAS_SUMMARY)}`",
+            f"- Figure 4 PDAC/TME wording freeze: `{_rel(FIGURE4_WORDING_FREEZE)}`",
             f"- Real-data ablation annotation summary: `{_rel(REALDATA_ABLATION_SUMMARY)}`",
             f"- Real-data ablation figure source data: `{_rel(REALDATA_ABLATION_ASSET_SUMMARY)}`",
             f"- Matched baseline design: `{_rel(MATCHED_BASELINE_DESIGN)}`",

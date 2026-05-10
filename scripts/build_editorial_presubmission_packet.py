@@ -95,15 +95,16 @@ def build_packet_rows(
     nm_route = _route(route_rows, "nature_methods_first")
     gb_route = _route(route_rows, "genome_biology_fallback")
     blockers = _release_blockers(public_release_blockers)
+    release_passed = not blockers
     return [
         {
             "item_id": "send_status",
             "target": "Nature Methods",
             "status": "do_not_send",
-            "editor_facing_text": "The presubmission inquiry remains a controlled draft until software release and scientific gate wording are resolved.",
+            "editor_facing_text": "The presubmission inquiry remains a controlled draft until the callability-aware scientific gate, Figure 4 author acknowledgement, and final go/no-go wording are resolved.",
             "evidence_path": _rel(TOP_ROUTE),
-            "boundary": "Do not send while Nature Methods route is hold_pre_submission.",
-            "next_action": nm_route.get("next_action", "Resolve route blockers."),
+            "boundary": "Do not send while Nature Methods route remains gate-controlled.",
+            "next_action": "Freeze final Nature Methods go/no-go wording and obtain corresponding-author acknowledgement for bounded Figure 4.",
         },
         {
             "item_id": "one_sentence_pitch",
@@ -112,7 +113,7 @@ def build_packet_rows(
             "editor_facing_text": "RMTGuard is a random-matrix noise-control framework that turns scRNA-seq embedding construction into an auditable call/no-call decision rather than a manually tuned PCA-and-clustering workflow.",
             "evidence_path": _rel(CLAIM_MATRIX),
             "boundary": "Pitch the random-matrix diagnostic contract, not automatic parameter tuning.",
-            "next_action": "Use only after release blockers are cleared and the callability-aware benchmark wording is preserved.",
+            "next_action": "Use only if the callability-aware benchmark wording is preserved.",
         },
         {
             "item_id": "primary_positive_evidence",
@@ -141,20 +142,36 @@ def build_packet_rows(
         {
             "item_id": "software_release_disclosure",
             "target": "All journals",
-            "status": "blocked",
-            "editor_facing_text": "Local release checks pass, but the public GitHub Release and Zenodo DOI are not complete.",
+            "status": "pass" if release_passed else "blocked",
+            "editor_facing_text": (
+                "Public repository, GitHub Release, and Zenodo DOI evidence are recorded for the archived v0.1.0 release."
+                if release_passed
+                else "Local release checks pass, but the public GitHub Release and Zenodo DOI are not complete."
+            ),
             "evidence_path": _rel(PUBLIC_RELEASE_BLOCKERS),
-            "boundary": "Do not state that the software is DOI-archived before the real DOI exists.",
-            "next_action": "Clear release blockers: " + ";".join(blockers),
+            "boundary": "Do not imply that post-release working-branch changes are part of the immutable DOI snapshot.",
+            "next_action": (
+                "Keep v0.1.0 immutable; create a future version only after benchmark and metadata freeze."
+                if release_passed
+                else "Clear release blockers: " + ";".join(blockers)
+            ),
         },
         {
             "item_id": "genome_biology_fallback_pitch",
             "target": "Genome Biology",
-            "status": gb_route.get("decision", "pending"),
+            "status": (
+                "fallback_ready_after_scientific_reframe"
+                if release_passed
+                else gb_route.get("decision", "pending")
+            ),
             "editor_facing_text": "RMTGuard can be reframed as an open, reproducible genomics workflow for callability-aware scRNA-seq noise control if Nature Methods editors judge the method advance too narrow.",
             "evidence_path": _rel(TOP_ROUTE),
             "boundary": "Do not describe Genome Biology as a strict 20-50 JIF route under current verified metrics.",
-            "next_action": gb_route.get("next_action", ""),
+            "next_action": (
+                "If Nature Methods presubmission is not encouraging, reframe immediately as a Genome Biology-style reproducible genomics workflow."
+                if release_passed
+                else gb_route.get("next_action", "")
+            ),
         },
     ]
 
@@ -197,7 +214,7 @@ def build_inquiry_markdown(packet_rows: list[dict[str, str]]) -> list[str]:
     return [
         "# Nature Methods Presubmission Inquiry Draft",
         "",
-        "Status: do not send until public GitHub/Zenodo release and gate wording are complete.",
+        "Status: do not send; internal author-review draft until Figure 4 author acknowledgement and final go/no-go wording are complete.",
         "Acceptance guarantee: `impossible`.",
         "",
         "Dear Editors,",
@@ -211,9 +228,9 @@ def build_inquiry_markdown(packet_rows: list[dict[str, str]]) -> list[str]:
         "We would present the real-data benchmark as callability-aware rather than as universal superiority over fixed-PC workflows.",
         "The current real-data benchmark does not show broad superiority over the strongest stability comparator on every dataset, and PBMC68k/Zheng 2017 is retained as a diagnostic no-call rather than a positive discovery.",
         "",
-        "The biological application is a public PDAC/TME use case focused on immune and ductal-context marker structure, not a standalone disease-mechanism claim.",
+        "The biological application is a bounded public PDAC/TME use case supported by differential-marker, rank-based Hallmark/Reactome pathway, external-signature, and published-atlas-marker evidence; it is not presented as a standalone disease-mechanism or clinical-validation claim.",
         "",
-        "This inquiry draft is currently not ready to send because the public software release is incomplete.",
+        "The software-release evidence is recorded, but this inquiry remains an internal draft until the corresponding authors acknowledge the bounded Figure 4 route and the final Nature Methods go/no-go is completed.",
         by_item["software_release_disclosure"]["editor_facing_text"],
         "",
         "Sincerely,",
