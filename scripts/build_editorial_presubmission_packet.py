@@ -9,7 +9,7 @@ reviewer-response playbook for the Nature Methods-first route.
 Data source: Generated claim-evidence matrix, reviewer objection matrix,
 storyline-panel map, top-paper route table, and public release blocker table.
 Method notes: These outputs are controlled drafts. They do not assert journal
-acceptance and must not be sent while release or scientific gates are blocked.
+acceptance and must not be sent while scientific gates remain blocked.
 """
 
 import csv
@@ -176,8 +176,25 @@ def build_packet_rows(
     ]
 
 
+def _release_aware_text(text: str, release_passed: bool) -> str:
+    if not release_passed:
+        return text
+    replacements = {
+        "Local release checks pass, but GitHub release tag and Zenodo DOI are still pending.": "Public repository, GitHub Release, and Zenodo DOI evidence are recorded for the archived v0.1.0 release.",
+        "Do not imply DOI-backed release until software_release is pass.": "Do not imply that post-release working-branch changes are part of the immutable DOI snapshot.",
+        "Do not state that code is DOI-archived or fully released before the external release exists.": "Do not imply that post-release working-branch changes are part of the immutable DOI snapshot.",
+        "Software release is pending until GitHub Release and Zenodo DOI are real.": "Archived v0.1.0 release evidence exists; keep post-release changes out of the DOI snapshot unless a new version is issued.",
+    }
+    updated = text
+    for old, new in replacements.items():
+        updated = updated.replace(old, new)
+    return updated
+
+
 def build_figure_rows(
-    storyline_rows: list[dict[str, str]], claims: list[dict[str, str]]
+    storyline_rows: list[dict[str, str]],
+    claims: list[dict[str, str]],
+    release_passed: bool = False,
 ) -> list[dict[str, str]]:
     claim_by_id = _by_id(claims, "claim_id")
     rows: list[dict[str, str]] = []
@@ -193,15 +210,35 @@ def build_figure_rows(
             claim_by_id.get(claim_id, {}).get("prohibited_wording", "")
             for claim_id in linked_claims
         ]
+        allowed_text = " ".join(item for item in allowed if item)
+        prohibited_text = " ".join(item for item in prohibited if item)
+        caveat_text = row.get("caveat", "")
+        if row.get("figure", "") == "Figure 4":
+            allowed_text = (
+                "Use the bounded PDAC/TME public-data showcase wording frozen in "
+                "docs/figure4_pdac_tme_wording_freeze.md; report pathway/atlas "
+                "support without claiming new PDAC mechanism or clinical validation."
+            )
+            prohibited_text = (
+                "Do not claim new PDAC mechanism, CAF discovery, prognosis, "
+                "therapy response, clinical validation, patient-level "
+                "reproducibility, or treatment stratification from Figure 4."
+            )
+            caveat_text = (
+                "All PDAC/TME interpretations are public-data, non-clinical, and "
+                "hypothesis-generating."
+            )
         rows.append(
             {
                 "figure": row.get("figure", ""),
                 "status": row.get("status", ""),
-                "allowed_caption_claim": " ".join(item for item in allowed if item),
-                "prohibited_caption_claim": " ".join(
-                    item for item in prohibited if item
+                "allowed_caption_claim": _release_aware_text(
+                    allowed_text, release_passed
                 ),
-                "must_show_caveat": row.get("caveat", ""),
+                "prohibited_caption_claim": _release_aware_text(
+                    prohibited_text, release_passed
+                ),
+                "must_show_caveat": _release_aware_text(caveat_text, release_passed),
                 "source_artifact": row.get("source_artifact", ""),
                 "editorial_use": row.get("manuscript_use", ""),
             }
@@ -335,7 +372,8 @@ def main() -> int:
     packet_rows = build_packet_rows(
         claims, objections, route_rows, public_release_blockers
     )
-    figure_rows = build_figure_rows(storyline_rows, claims)
+    release_passed = not _release_blockers(public_release_blockers)
+    figure_rows = build_figure_rows(storyline_rows, claims, release_passed)
     _write_tsv(
         PACKET_TSV,
         packet_rows,

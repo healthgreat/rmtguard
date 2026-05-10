@@ -167,6 +167,11 @@ The current bounded PDAC/TME Figure 4 wording freeze is stored at
 `docs/figure4_pdac_tme_wording_freeze.md`, with the manuscript caption draft in
 `manuscript/figure4_caption_bounded_draft.md`.
 
+The current Nature Methods route-control decision is stored at
+`docs/nature_methods_go_no_go_final.md`. Full submission is no-go; a
+presubmission inquiry is conditionally allowed only after corresponding-author
+acknowledgement of the bounded Figure 4 route.
+
 The Nature Methods package must include algorithm details, open-source code,
 installation instructions, demo runtime, test data, public benchmarks, ablation
 studies, release-readiness checks, and source-data tables. PDAC/TME public
@@ -231,9 +236,9 @@ FDR-controlled marker DE, marker-set enrichment, external signature transfer,
 rank-based MSigDB Hallmark/Reactome pathway enrichment, atlas marker citation
 mapping, and Figure 4 source data in `docs/pdac_tme_deep_validation.md` and
 `docs/pdac_tme_pathway_atlas_validation.md`. This remains a public-data,
-non-clinical, hypothesis-generating use case. Final author route confirmation
-and bounded Figure 4 wording/source-data freeze are still required before final
-Nature Methods-style wording.
+non-clinical, hypothesis-generating use case. Bounded Figure 4 wording is
+frozen in `docs/figure4_pdac_tme_wording_freeze.md`; formal corresponding-
+author acknowledgement is still required before external presubmission use.
 
 The current figure source-data gate is `pass`: `scripts/build_figure_source_data.py`
 creates `results/figures/figure_reproducibility.tsv` and source-data tables for
@@ -248,8 +253,9 @@ review; they are not final Nature Methods production artwork.
 Local release readiness can be summarized with
 `scripts/build_release_readiness.py`, which writes
 `results/release/release_readiness.tsv` and
-`results/release/release_audit_summary.txt`. The software-release gate remains
-`pending` until a real GitHub Release and Zenodo DOI exist.
+`results/release/release_audit_summary.txt`. The archived v0.1.0 public
+release evidence is recorded; post-release working-branch changes should not
+be treated as part of the immutable DOI snapshot unless a new release is made.
 
 Release file destinations can be audited with
 `scripts/build_release_artifact_manifest.py`. It writes

@@ -417,6 +417,16 @@ TASKS = [
     ),
     Task(
         "Journal route",
+        "Nature Methods presubmission go/no-go packet",
+        date(2026, 5, 10),
+        date(2026, 5, 10),
+        "done_with_limit",
+        90,
+        "docs/nature_methods_go_no_go_final.md",
+        "Full Nature Methods submission remains no-go; presubmission inquiry is conditionally go after corresponding-author Figure 4 acknowledgement.",
+    ),
+    Task(
+        "Journal route",
         "Nature Methods vs Genome Biology go/no-go",
         date(2026, 6, 21),
         date(2026, 7, 5),
@@ -632,7 +642,7 @@ def build_markdown(df: pd.DataFrame) -> str:
             "- Realistic count-preserving null calibration and rare-state power grids have reached 50-repeat manuscript-grade depth; low-prevalence weak-effect settings remain an explicit claim-boundary limitation.",
             "- Component ablation now has synthetic 20-repeat CI evidence and four-dataset labeled real-data 20-repeat annotation checks; remaining ablation risk is interpretation, not missing repeat depth.",
             "- Local matched Python baselines, official Seurat fixed30/fixed50/elbow/JackStraw 20-repeat rows across seven datasets, paired20 RMTGuard-versus-official-Seurat statistics across five labeled datasets, and seven-dataset stability breadth are now present; PBMC3k and PDAC GSE154778 remain label-free evidence unless annotations are added.",
-            "- PDAC/TME deep validation, pathway/atlas upgrade, and bounded Figure 4 wording freeze are complete with limits; formal corresponding-author acknowledgement remains before external submission.",
+            "- PDAC/TME deep validation, pathway/atlas upgrade, bounded Figure 4 wording freeze, and Nature Methods presubmission go/no-go packet are complete with limits; formal corresponding-author acknowledgement remains before external submission.",
         ]
     )
     return "\n".join(lines)

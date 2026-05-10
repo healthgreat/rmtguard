@@ -286,10 +286,22 @@ COPY_ITEMS = [
         "Figure 4 PDAC/TME bounded wording freeze",
     ),
     CopyItem(
+        ROOT / "docs" / "nature_methods_go_no_go_final.md",
+        "01_project_status",
+        "RMTGuard_NATURE_METHODS_GO_NO_GO_FINAL.md",
+        "Nature Methods final go/no-go control packet",
+    ),
+    CopyItem(
         ROOT / "manuscript" / "figure4_caption_bounded_draft.md",
         "04_gantt_and_figures",
         "RMTGuard_FIGURE4_CAPTION_BOUNDED_DRAFT.md",
         "Figure 4 bounded caption draft",
+    ),
+    CopyItem(
+        ROOT / "manuscript" / "corresponding_author_figure4_acknowledgement_template.md",
+        "02_manual_actions",
+        "RMTGuard_CORRESPONDING_AUTHOR_FIGURE4_ACKNOWLEDGEMENT_TEMPLATE.md",
+        "corresponding-author Figure 4 acknowledgement template",
     ),
     CopyItem(
         ROOT / "manuscript" / "nature_methods_presubmission_inquiry.md",
@@ -435,7 +447,9 @@ matrices, tokens, passwords, or private clinical materials.
 - `01_project_status/RMTGuard_NATURE_METHODS_NEXT_ROUND_GATE_BOARD.md`
 - `01_project_status/RMTGuard_PROJECT_GANTT.md`
 - `01_project_status/RMTGuard_MENTOR_JOURNAL_DECISION_2026-05-10.md`
+- `01_project_status/RMTGuard_NATURE_METHODS_GO_NO_GO_FINAL.md`
 - `02_manual_actions/RMTGuard_MANUAL_NEXT_ACTIONS_20_50.md`
+- `02_manual_actions/RMTGuard_CORRESPONDING_AUTHOR_FIGURE4_ACKNOWLEDGEMENT_TEMPLATE.md`
 - `03_release_evidence/RMTGuard_PUBLIC_RELEASE_BLOCKER_REPORT.md`
 - `04_gantt_and_figures/RMTGuard_PROJECT_GANTT.png`
 - `04_gantt_and_figures/RMTGuard_FIGURE4_CAPTION_BOUNDED_DRAFT.md`
@@ -516,6 +530,8 @@ frozen, and formal corresponding-author acknowledgement remains.
 - PDAC/TME deep validation: `{package_dir / "06_next_sprint_inputs" / "RMTGuard_PDAC_TME_DEEP_VALIDATION.md"}`
 - PDAC/TME pathway/atlas validation: `{package_dir / "06_next_sprint_inputs" / "RMTGuard_PDAC_TME_PATHWAY_ATLAS_VALIDATION.md"}`
 - Figure 4 PDAC/TME wording freeze: `{package_dir / "06_next_sprint_inputs" / "RMTGuard_FIGURE4_PDAC_TME_WORDING_FREEZE.md"}`
+- Nature Methods go/no-go packet: `{package_dir / "01_project_status" / "RMTGuard_NATURE_METHODS_GO_NO_GO_FINAL.md"}`
+- Figure 4 author acknowledgement template: `{package_dir / "02_manual_actions" / "RMTGuard_CORRESPONDING_AUTHOR_FIGURE4_ACKNOWLEDGEMENT_TEMPLATE.md"}`
 - Nature Methods presubmission inquiry draft: `{package_dir / "07_presubmission" / "RMTGuard_NATURE_METHODS_PRESUBMISSION_INQUIRY_DRAFT.md"}`
 - Gantt PNG: `{package_dir / "04_gantt_and_figures" / "RMTGuard_PROJECT_GANTT.png"}`
 - Manual checklist: `{package_dir / "02_manual_actions" / "RMTGuard_MANUAL_NEXT_ACTIONS_20_50.md"}`

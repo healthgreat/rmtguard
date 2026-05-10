@@ -45,8 +45,9 @@ gantt
     20-50 JIF distance and gap assessment :done, T09, 2026-05-02, 1d
     Nature Methods next-round science gate board :done, T10, 2026-05-04, 1d
     Nature Methods 48-hour execution packet :done, T11, 2026-05-04, 1d
-    Nature Methods vs Genome Biology go/no-go :T37, 2026-06-21, 15d
-    Submission package freeze :T38, 2026-07-06, 14d
+    Nature Methods presubmission go/no-go packet :T37, 2026-05-10, 1d
+    Nature Methods vs Genome Biology go/no-go :T38, 2026-06-21, 15d
+    Submission package freeze :T39, 2026-07-06, 14d
     section Biological application
     PDAC/TME route decision packet :done, T12, 2026-05-04, 1d
     PDAC/TME dual-route preflight and runbook :done, T13, 2026-05-04, 1d
@@ -102,8 +103,9 @@ gantt
 | T34 | Manuscript package | Final figure source data, captions, and reporting summary | 2026-06-02 | 2026-06-16 | planned | 0% | `docs/nature_reporting_summary_draft.md` |
 | T35 | Release | Post-release gates and reproducibility audit | 2026-05-04 | 2026-05-04 | done | 100% | `results/submission/submission_guard.tsv` |
 | T36 | Release | Cross-project shared information package | 2026-05-04 | 2026-05-04 | done | 100% | `docs/shared_info_export_manifest.md` |
-| T37 | Journal route | Nature Methods vs Genome Biology go/no-go | 2026-06-21 | 2026-07-05 | planned | 0% | `results/submission/post_feedback_journal_route_gate.tsv` |
-| T38 | Journal route | Submission package freeze | 2026-07-06 | 2026-07-19 | planned | 0% | `results/submission/presubmission_gatekeeper.tsv` |
+| T37 | Journal route | Nature Methods presubmission go/no-go packet | 2026-05-10 | 2026-05-10 | done_with_limit | 90% | `docs/nature_methods_go_no_go_final.md` |
+| T38 | Journal route | Nature Methods vs Genome Biology go/no-go | 2026-06-21 | 2026-07-05 | planned | 0% | `results/submission/post_feedback_journal_route_gate.tsv` |
+| T39 | Journal route | Submission package freeze | 2026-07-06 | 2026-07-19 | planned | 0% | `results/submission/presubmission_gatekeeper.tsv` |
 
 ## Current blockers
 
@@ -115,4 +117,4 @@ gantt
 - Realistic count-preserving null calibration and rare-state power grids have reached 50-repeat manuscript-grade depth; low-prevalence weak-effect settings remain an explicit claim-boundary limitation.
 - Component ablation now has synthetic 20-repeat CI evidence and four-dataset labeled real-data 20-repeat annotation checks; remaining ablation risk is interpretation, not missing repeat depth.
 - Local matched Python baselines, official Seurat fixed30/fixed50/elbow/JackStraw 20-repeat rows across seven datasets, paired20 RMTGuard-versus-official-Seurat statistics across five labeled datasets, and seven-dataset stability breadth are now present; PBMC3k and PDAC GSE154778 remain label-free evidence unless annotations are added.
-- PDAC/TME deep validation, pathway/atlas upgrade, and bounded Figure 4 wording freeze are complete with limits; formal corresponding-author acknowledgement remains before external submission.
+- PDAC/TME deep validation, pathway/atlas upgrade, bounded Figure 4 wording freeze, and Nature Methods presubmission go/no-go packet are complete with limits; formal corresponding-author acknowledgement remains before external submission.
