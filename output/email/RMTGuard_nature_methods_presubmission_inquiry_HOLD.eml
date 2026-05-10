@@ -1,0 +1,63 @@
+Subject: HOLD - DO NOT SEND - RMTGuard Nature Methods presubmission inquiry
+Date: Sun, 10 May 2026 23:18:51 +0800
+X-RMTGuard-Send-Status: hold_author_acknowledgement
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+
+Nature Methods presubmission inquiry draft for RMTGuard
+
+Current send status: hold_author_acknowledgement
+Current action: DO NOT SEND
+
+This local draft deliberately has no recipient. Verify the official Nature
+Methods presubmission/submission route immediately before use.
+
+Stop rule:
+Do not send if corresponding-author Figure 4 acknowledgement is incomplete, i=
+f Figure 4 is rewritten as a PDAC mechanism or clinical-validation claim, or =
+if the final presubmission route has not been manually verified.
+
+Editor-facing draft follows.
+
+---
+
+# Nature Methods Presubmission Inquiry Draft
+
+Status: do not send; internal author-review draft until Figure 4 author ackno=
+wledgement and final go/no-go wording are complete.
+Acceptance guarantee: `impossible`.
+
+Dear Editors,
+
+We are preparing a Methods Article entitled "RMTGuard: random-matrix noise co=
+ntrol for reproducible single-cell cell-state discovery".
+RMTGuard is a random-matrix noise-control framework that turns scRNA-seq embe=
+dding construction into an auditable call/no-call decision rather than a manu=
+ally tuned PCA-and-clustering workflow.
+
+The manuscript's current evidence package supports three bounded claims.
+The current evidence supports false-signal control in pure-null simulations, =
+3/3 diagnostic no-call validation scenarios, rare-state synthetic recovery (A=
+RI 0.923), and four public real-data benchmarks.
+
+We would present the real-data benchmark as callability-aware rather than as =
+universal superiority over fixed-PC workflows.
+The current real-data benchmark does not show broad superiority over the stro=
+ngest stability comparator on every dataset, and PBMC68k/Zheng 2017 is retain=
+ed as a diagnostic no-call rather than a positive discovery.
+
+The biological application is a bounded public PDAC/TME use case supported by=
+ differential-marker, rank-based Hallmark/Reactome pathway, external-signatur=
+e, and published-atlas-marker evidence; it is not presented as a standalone d=
+isease-mechanism or clinical-validation claim.
+
+The software-release evidence is recorded, but this inquiry remains an intern=
+al draft until the corresponding authors acknowledge the bounded Figure 4 rou=
+te and the final Nature Methods go/no-go is completed.
+Public repository, GitHub Release, and Zenodo DOI evidence are recorded for t=
+he archived v0.1.0 release.
+
+Sincerely,
+
+[Corresponding author]

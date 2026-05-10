@@ -172,6 +172,16 @@ The current Nature Methods route-control decision is stored at
 presubmission inquiry is conditionally allowed only after corresponding-author
 acknowledgement of the bounded Figure 4 route.
 
+The gated Nature Methods presubmission send packet is stored at
+`manuscript/nature_methods_presubmission_send_packet.md`, with a machine-readable
+gate table at `results/submission/nature_methods_presubmission_send_packet.tsv`,
+a runbook at `docs/nature_methods_presubmission_send_runbook.md`, and a local
+HOLD `.eml` draft at
+`output/email/RMTGuard_nature_methods_presubmission_inquiry_HOLD.eml`. This
+draft must not be sent while the packet reports a `hold_*` status, and the
+official Nature Methods presubmission/submission route must be verified
+immediately before any editor-facing send.
+
 The corresponding-author sign-off packet is stored at
 `manuscript/corresponding_author_signoff_packet.md`, with a Word handoff copy
 at `output/doc/RMTGuard_corresponding_author_signoff_packet.docx`.

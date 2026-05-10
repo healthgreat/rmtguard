@@ -358,6 +358,30 @@ COPY_ITEMS = [
         "Nature Methods presubmission inquiry draft",
     ),
     CopyItem(
+        ROOT / "manuscript" / "nature_methods_presubmission_send_packet.md",
+        "07_presubmission",
+        "RMTGuard_NATURE_METHODS_PRESUBMISSION_SEND_PACKET.md",
+        "gated Nature Methods presubmission send packet",
+    ),
+    CopyItem(
+        ROOT / "results" / "submission" / "nature_methods_presubmission_send_packet.tsv",
+        "07_presubmission",
+        "RMTGuard_NATURE_METHODS_PRESUBMISSION_SEND_PACKET.tsv",
+        "machine-readable Nature Methods presubmission send packet",
+    ),
+    CopyItem(
+        ROOT / "docs" / "nature_methods_presubmission_send_runbook.md",
+        "07_presubmission",
+        "RMTGuard_NATURE_METHODS_PRESUBMISSION_SEND_RUNBOOK.md",
+        "Nature Methods presubmission send runbook",
+    ),
+    CopyItem(
+        ROOT / "output" / "email" / "RMTGuard_nature_methods_presubmission_inquiry_HOLD.eml",
+        "07_presubmission",
+        "RMTGuard_NATURE_METHODS_PRESUBMISSION_INQUIRY_HOLD.eml",
+        "HOLD Nature Methods presubmission email draft",
+    ),
+    CopyItem(
         ROOT / "docs" / "component_ablation_benchmark.md",
         "06_next_sprint_inputs",
         "RMTGuard_COMPONENT_ABLATION_BENCHMARK.md",
@@ -502,6 +526,9 @@ matrices, tokens, passwords, or private clinical materials.
 - `02_manual_actions/RMTGuard_CORRESPONDING_AUTHOR_SIGNOFF_EMAIL.eml`
 - `02_manual_actions/RMTGuard_CORRESPONDING_AUTHOR_SIGNOFF_TRACKER.tsv`
 - `02_manual_actions/RMTGuard_CORRESPONDING_AUTHOR_REPLY_INTAKE_RUNBOOK.md`
+- `07_presubmission/RMTGuard_NATURE_METHODS_PRESUBMISSION_SEND_PACKET.md`
+- `07_presubmission/RMTGuard_NATURE_METHODS_PRESUBMISSION_SEND_RUNBOOK.md`
+- `07_presubmission/RMTGuard_NATURE_METHODS_PRESUBMISSION_INQUIRY_HOLD.eml`
 - `03_release_evidence/RMTGuard_PUBLIC_RELEASE_BLOCKER_REPORT.md`
 - `04_gantt_and_figures/RMTGuard_PROJECT_GANTT.png`
 - `04_gantt_and_figures/RMTGuard_FIGURE4_CAPTION_BOUNDED_DRAFT.md`
@@ -531,7 +558,9 @@ matrices, tokens, passwords, or private clinical materials.
 5. Confirm CRediT author roles.
 6. Acknowledge that PDAC/TME remains a bounded public-data Figure 4 showcase
    using only supported pathway/atlas evidence.
-7. Re-check JCR, CAS partition, and warning-list status immediately before
+7. Verify the official Nature Methods presubmission/submission route before
+   sending any editor-facing inquiry.
+8. Re-check JCR, CAS partition, and warning-list status immediately before
    journal submission.
 
 ## Reuse Rule
@@ -589,6 +618,9 @@ frozen, and formal corresponding-author acknowledgement remains.
 - Figure 4 author sign-off tracker: `{package_dir / "02_manual_actions" / "RMTGuard_CORRESPONDING_AUTHOR_SIGNOFF_TRACKER.tsv"}`
 - Figure 4 reply intake runbook: `{package_dir / "02_manual_actions" / "RMTGuard_CORRESPONDING_AUTHOR_REPLY_INTAKE_RUNBOOK.md"}`
 - Nature Methods presubmission inquiry draft: `{package_dir / "07_presubmission" / "RMTGuard_NATURE_METHODS_PRESUBMISSION_INQUIRY_DRAFT.md"}`
+- Nature Methods presubmission send packet: `{package_dir / "07_presubmission" / "RMTGuard_NATURE_METHODS_PRESUBMISSION_SEND_PACKET.md"}`
+- Nature Methods presubmission send runbook: `{package_dir / "07_presubmission" / "RMTGuard_NATURE_METHODS_PRESUBMISSION_SEND_RUNBOOK.md"}`
+- Nature Methods presubmission HOLD email: `{package_dir / "07_presubmission" / "RMTGuard_NATURE_METHODS_PRESUBMISSION_INQUIRY_HOLD.eml"}`
 - Gantt PNG: `{package_dir / "04_gantt_and_figures" / "RMTGuard_PROJECT_GANTT.png"}`
 - Manual checklist: `{package_dir / "02_manual_actions" / "RMTGuard_MANUAL_NEXT_ACTIONS_20_50.md"}`
 - Release blocker report: `{package_dir / "03_release_evidence" / "RMTGuard_PUBLIC_RELEASE_BLOCKER_REPORT.md"}`
