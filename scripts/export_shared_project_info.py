@@ -346,6 +346,12 @@ COPY_ITEMS = [
         "corresponding-author sign-off email EML draft",
     ),
     CopyItem(
+        ROOT / "docs" / "corresponding_author_reply_intake_runbook.md",
+        "02_manual_actions",
+        "RMTGuard_CORRESPONDING_AUTHOR_REPLY_INTAKE_RUNBOOK.md",
+        "corresponding-author reply intake runbook",
+    ),
+    CopyItem(
         ROOT / "manuscript" / "nature_methods_presubmission_inquiry.md",
         "07_presubmission",
         "RMTGuard_NATURE_METHODS_PRESUBMISSION_INQUIRY_DRAFT.md",
@@ -495,6 +501,7 @@ matrices, tokens, passwords, or private clinical materials.
 - `02_manual_actions/RMTGuard_CORRESPONDING_AUTHOR_SIGNOFF_PACKET.docx`
 - `02_manual_actions/RMTGuard_CORRESPONDING_AUTHOR_SIGNOFF_EMAIL.eml`
 - `02_manual_actions/RMTGuard_CORRESPONDING_AUTHOR_SIGNOFF_TRACKER.tsv`
+- `02_manual_actions/RMTGuard_CORRESPONDING_AUTHOR_REPLY_INTAKE_RUNBOOK.md`
 - `03_release_evidence/RMTGuard_PUBLIC_RELEASE_BLOCKER_REPORT.md`
 - `04_gantt_and_figures/RMTGuard_PROJECT_GANTT.png`
 - `04_gantt_and_figures/RMTGuard_FIGURE4_CAPTION_BOUNDED_DRAFT.md`
@@ -580,6 +587,7 @@ frozen, and formal corresponding-author acknowledgement remains.
 - Figure 4 author sign-off DOCX: `{package_dir / "02_manual_actions" / "RMTGuard_CORRESPONDING_AUTHOR_SIGNOFF_PACKET.docx"}`
 - Figure 4 author sign-off email EML: `{package_dir / "02_manual_actions" / "RMTGuard_CORRESPONDING_AUTHOR_SIGNOFF_EMAIL.eml"}`
 - Figure 4 author sign-off tracker: `{package_dir / "02_manual_actions" / "RMTGuard_CORRESPONDING_AUTHOR_SIGNOFF_TRACKER.tsv"}`
+- Figure 4 reply intake runbook: `{package_dir / "02_manual_actions" / "RMTGuard_CORRESPONDING_AUTHOR_REPLY_INTAKE_RUNBOOK.md"}`
 - Nature Methods presubmission inquiry draft: `{package_dir / "07_presubmission" / "RMTGuard_NATURE_METHODS_PRESUBMISSION_INQUIRY_DRAFT.md"}`
 - Gantt PNG: `{package_dir / "04_gantt_and_figures" / "RMTGuard_PROJECT_GANTT.png"}`
 - Manual checklist: `{package_dir / "02_manual_actions" / "RMTGuard_MANUAL_NEXT_ACTIONS_20_50.md"}`

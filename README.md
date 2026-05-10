@@ -180,6 +180,9 @@ The email-ready sign-off draft is stored at
 `manuscript/corresponding_author_signoff_email_draft.md`, with a local `.eml`
 draft at `output/email/RMTGuard_corresponding_author_signoff_email.eml` and a
 confirmation tracker at `metadata/corresponding_author_signoff_tracker.tsv`.
+After receiving replies, use
+`scripts/record_corresponding_author_signoff.py`; the exact intake workflow is
+documented in `docs/corresponding_author_reply_intake_runbook.md`.
 
 The Nature Methods package must include algorithm details, open-source code,
 installation instructions, demo runtime, test data, public benchmarks, ablation
