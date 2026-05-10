@@ -22,6 +22,7 @@ ROOT = Path(__file__).resolve().parents[1]
 GAP_TSV = ROOT / "results" / "submission" / "jif20_50_gap_assessment.tsv"
 EDITORIAL_TSV = ROOT / "results" / "submission" / "editorial_presubmission_packet.tsv"
 FIGURE4_TSV = ROOT / "results" / "submission" / "figure4_pdac_tme_wording_freeze.tsv"
+AUTHOR_SIGNOFF_TRACKER = ROOT / "metadata" / "corresponding_author_signoff_tracker.tsv"
 CLAIM_LINT_MD = ROOT / "docs" / "claim_boundary_lint.md"
 TRACEABILITY_MD = ROOT / "docs" / "claim_traceability.md"
 PRESUBMISSION_MD = ROOT / "manuscript" / "nature_methods_presubmission_inquiry.md"
@@ -102,6 +103,17 @@ def _editorial_status(item_id: str) -> str:
     return "missing"
 
 
+def _author_acknowledgement_status() -> tuple[str, int, int]:
+    rows = _read_tsv(AUTHOR_SIGNOFF_TRACKER)
+    if not rows:
+        return "missing_tracker", 0, 0
+    confirmed = sum(1 for row in rows if row.get("status") == "confirmed")
+    required = len(rows)
+    if required and confirmed == required:
+        return "all_confirmed", confirmed, required
+    return "pending_author_reply", confirmed, required
+
+
 def build_rows() -> list[dict[str, str]]:
     gap_rows = _gap_rows()
     score, weight = _score(gap_rows)
@@ -123,6 +135,9 @@ def build_rows() -> list[dict[str, str]]:
     send_status = _editorial_status("send_status")
     software_status = _editorial_status("software_release_disclosure")
     presubmission_exists = PRESUBMISSION_MD.exists()
+    author_ack_status, author_confirmed, author_required = (
+        _author_acknowledgement_status()
+    )
 
     presubmission_condition = (
         score >= 90
@@ -132,6 +147,9 @@ def build_rows() -> list[dict[str, str]]:
         and claim_lint_violations == 0
         and trace_violations == 0
         and presubmission_exists
+    )
+    presubmission_unlocked = (
+        presubmission_condition and author_ack_status == "all_confirmed"
     )
 
     return [
@@ -155,12 +173,16 @@ def build_rows() -> list[dict[str, str]]:
         {
             "decision_id": "nature_methods_presubmission_inquiry",
             "decision": (
-                "conditional_go_after_author_ack"
+                "go_after_final_wording_review"
+                if presubmission_unlocked
+                else "conditional_go_after_author_ack"
                 if presubmission_condition
                 else "hold"
             ),
             "status": (
-                "author_acknowledgement_needed"
+                "author_acknowledgement_complete"
+                if presubmission_unlocked
+                else "author_acknowledgement_needed"
                 if presubmission_condition
                 else "gate_incomplete"
             ),
@@ -169,9 +191,14 @@ def build_rows() -> list[dict[str, str]]:
                 f"Readiness score is {score}/{weight}; release status is "
                 f"{release_status}; claim lint violations={claim_lint_violations}; "
                 f"traceability violations={trace_violations}; Figure 4 wording "
-                f"freeze present={figure4_freeze_present}; send_status={send_status}."
+                f"freeze present={figure4_freeze_present}; send_status={send_status}; "
+                f"author_acknowledgement={author_ack_status} "
+                f"({author_confirmed}/{author_required})."
             ),
             "required_next_action": (
+                "Run one final wording review, then the presubmission inquiry can be sent."
+                if presubmission_unlocked
+                else
                 "Corresponding authors must acknowledge the bounded Figure 4 "
                 "route, then the presubmission inquiry can be reviewed one final "
                 "time before sending."
@@ -229,6 +256,14 @@ def build_markdown(rows: list[dict[str, str]]) -> str:
     gap_rows = _gap_rows()
     score, weight = _score(gap_rows)
     blockers = _blocking_items(gap_rows)
+    author_ack_status, author_confirmed, author_required = (
+        _author_acknowledgement_status()
+    )
+    presubmission_line = (
+        "go after final wording review"
+        if author_ack_status == "all_confirmed"
+        else "conditional go after corresponding-author Figure 4 acknowledgement"
+    )
     lines = [
         "# Nature Methods Final Go/No-Go Control Packet",
         "",
@@ -237,10 +272,11 @@ def build_markdown(rows: list[dict[str, str]]) -> str:
         "## Bottom Line",
         "",
         "- Full Nature Methods submission: `NO-GO`.",
-        "- Nature Methods presubmission inquiry: `conditional go after corresponding-author Figure 4 acknowledgement`.",
+        f"- Nature Methods presubmission inquiry: `{presubmission_line}`.",
         "- Genome Biology fallback: `ready if Nature Methods presubmission is not encouraging`.",
         "- Acceptance guarantee: `impossible`.",
         f"- Current readiness score: `{score}/{weight}`.",
+        f"- Corresponding-author acknowledgement: `{author_ack_status}` ({author_confirmed}/{author_required}).",
         "- Active blockers: `" + (";".join(blockers) if blockers else "none") + "`.",
         "",
         "## Decision Table",
@@ -281,6 +317,7 @@ def build_markdown(rows: list[dict[str, str]]) -> str:
             f"- Gap assessment: `{_rel(GAP_TSV)}`",
             f"- Editorial presubmission packet: `{_rel(EDITORIAL_TSV)}`",
             f"- Figure 4 wording freeze: `{_rel(FIGURE4_TSV)}`",
+            f"- Author sign-off tracker: `{_rel(AUTHOR_SIGNOFF_TRACKER)}`",
             f"- Claim lint: `{_rel(CLAIM_LINT_MD)}`",
             f"- Traceability: `{_rel(TRACEABILITY_MD)}`",
             f"- Presubmission inquiry draft: `{_rel(PRESUBMISSION_MD)}`",

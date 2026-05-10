@@ -176,6 +176,11 @@ The corresponding-author sign-off packet is stored at
 `manuscript/corresponding_author_signoff_packet.md`, with a Word handoff copy
 at `output/doc/RMTGuard_corresponding_author_signoff_packet.docx`.
 
+The email-ready sign-off draft is stored at
+`manuscript/corresponding_author_signoff_email_draft.md`, with a local `.eml`
+draft at `output/email/RMTGuard_corresponding_author_signoff_email.eml` and a
+confirmation tracker at `metadata/corresponding_author_signoff_tracker.tsv`.
+
 The Nature Methods package must include algorithm details, open-source code,
 installation instructions, demo runtime, test data, public benchmarks, ablation
 studies, release-readiness checks, and source-data tables. PDAC/TME public
