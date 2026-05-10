@@ -147,17 +147,27 @@ tracks source code, workflows, metadata, checksums, small fixtures, and download
 scripts. Large raw/processed data should be referenced through GEO, CELLxGENE,
 Zenodo, Figshare, GitHub Releases, or Git LFS when size and license permit.
 
-## Nature Methods Target
+## Current Journal Strategy
 
-The manuscript claim is:
+As of 2026-05-10, the high-impact route is claim-bounded:
 
-> Random-matrix noise control reduces subjective parameter choices and improves
-> reproducibility in single-cell cell-state discovery.
+> Random-matrix noise control makes single-cell cell-state discovery more
+> transparent by separating supported structure from high-dimensional noise and
+> reporting no-call boundaries.
+
+Primary target remains `Nature Methods`, but the project should not claim broad
+superiority over Seurat, Scanpy, fixed-PC, or elbow-rule baselines. If editors
+view the contribution as incremental methods/software, the planned fallback is
+Genome Biology-style genomics workflow/software framing.
+
+The current mentor decision memo is stored at
+`docs/mentor_journal_decision_2026-05-10.md`.
 
 The Nature Methods package must include algorithm details, open-source code,
 installation instructions, demo runtime, test data, public benchmarks, ablation
-studies, and a DOI-tagged release. PDAC/TME public datasets GSE154778 and
-GSE263733 are reserved as the biological showcase and external validation.
+studies, release-readiness checks, and source-data tables. PDAC/TME public
+datasets GSE154778 and GSE263733 are reserved as a bounded biological showcase
+and external validation, not as a clinical mechanism claim.
 
 ## Submission Route
 
