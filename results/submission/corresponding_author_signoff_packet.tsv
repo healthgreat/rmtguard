@@ -1,0 +1,5 @@
+item_id	status	text	evidence_path	risk_if_unconfirmed
+required_decision	author_action_needed	I confirm that Figure 4 will be presented only as a bounded public-data PDAC/TME showcase of RMTGuard callability, not as a new PDAC mechanism, CAF discovery, prognosis, therapy-response, clinical-validation, or patient-level claim.	docs/figure4_pdac_tme_wording_freeze.md	Nature Methods presubmission inquiry remains blocked.
+full_submission_status	no_go	Full Nature Methods submission remains no-go.	docs/nature_methods_go_no_go_final.md	Submitting a full manuscript now would overrun current evidence.
+presubmission_status	conditional_go_after_author_ack	Nature Methods presubmission inquiry can proceed only after corresponding-author acknowledgement and final wording review.	manuscript/nature_methods_presubmission_inquiry.md	Do not send the inquiry.
+forbidden_claims	hard_stop	Do not describe Figure 4 as a new PDAC mechanism, CAF discovery, prognosis, therapy-response, clinical-validation, or patient-level finding.	docs/figure4_pdac_tme_wording_freeze.md	High desk-reject or reviewer-attack risk.

@@ -172,6 +172,10 @@ The current Nature Methods route-control decision is stored at
 presubmission inquiry is conditionally allowed only after corresponding-author
 acknowledgement of the bounded Figure 4 route.
 
+The corresponding-author sign-off packet is stored at
+`manuscript/corresponding_author_signoff_packet.md`, with a Word handoff copy
+at `output/doc/RMTGuard_corresponding_author_signoff_packet.docx`.
+
 The Nature Methods package must include algorithm details, open-source code,
 installation instructions, demo runtime, test data, public benchmarks, ablation
 studies, release-readiness checks, and source-data tables. PDAC/TME public

@@ -8,7 +8,7 @@ The linter blocks unsupported journal-facing claims while allowing explicit forb
 ## Summary
 
 - Violations: `0`
-- Controlled boundary mentions: `203`
+- Controlled boundary mentions: `204`
 
 ## Violations
 
@@ -116,7 +116,7 @@ The linter blocks unsupported journal-facing claims while allowing explicit forb
 - `acceptance_guarantee` in `docs/route_reframe_package.md:5`
 - `premature_submission_ready` in `docs/route_reframe_package.md:13`
 - `pbmc68k_positive_discovery` in `docs/route_reframe_package.md:49`
-- ... 103 additional controlled mentions omitted from Markdown summary.
+- ... 104 additional controlled mentions omitted from Markdown summary.
 
 ## Submission Rule
 

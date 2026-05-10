@@ -304,6 +304,24 @@ COPY_ITEMS = [
         "corresponding-author Figure 4 acknowledgement template",
     ),
     CopyItem(
+        ROOT / "manuscript" / "corresponding_author_signoff_packet.md",
+        "02_manual_actions",
+        "RMTGuard_CORRESPONDING_AUTHOR_SIGNOFF_PACKET.md",
+        "corresponding-author sign-off packet",
+    ),
+    CopyItem(
+        ROOT / "results" / "submission" / "corresponding_author_signoff_packet.tsv",
+        "02_manual_actions",
+        "RMTGuard_CORRESPONDING_AUTHOR_SIGNOFF_PACKET.tsv",
+        "machine-readable corresponding-author sign-off packet",
+    ),
+    CopyItem(
+        ROOT / "output" / "doc" / "RMTGuard_corresponding_author_signoff_packet.docx",
+        "02_manual_actions",
+        "RMTGuard_CORRESPONDING_AUTHOR_SIGNOFF_PACKET.docx",
+        "Word corresponding-author sign-off packet",
+    ),
+    CopyItem(
         ROOT / "manuscript" / "nature_methods_presubmission_inquiry.md",
         "07_presubmission",
         "RMTGuard_NATURE_METHODS_PRESUBMISSION_INQUIRY_DRAFT.md",
@@ -450,6 +468,7 @@ matrices, tokens, passwords, or private clinical materials.
 - `01_project_status/RMTGuard_NATURE_METHODS_GO_NO_GO_FINAL.md`
 - `02_manual_actions/RMTGuard_MANUAL_NEXT_ACTIONS_20_50.md`
 - `02_manual_actions/RMTGuard_CORRESPONDING_AUTHOR_FIGURE4_ACKNOWLEDGEMENT_TEMPLATE.md`
+- `02_manual_actions/RMTGuard_CORRESPONDING_AUTHOR_SIGNOFF_PACKET.docx`
 - `03_release_evidence/RMTGuard_PUBLIC_RELEASE_BLOCKER_REPORT.md`
 - `04_gantt_and_figures/RMTGuard_PROJECT_GANTT.png`
 - `04_gantt_and_figures/RMTGuard_FIGURE4_CAPTION_BOUNDED_DRAFT.md`
@@ -532,6 +551,7 @@ frozen, and formal corresponding-author acknowledgement remains.
 - Figure 4 PDAC/TME wording freeze: `{package_dir / "06_next_sprint_inputs" / "RMTGuard_FIGURE4_PDAC_TME_WORDING_FREEZE.md"}`
 - Nature Methods go/no-go packet: `{package_dir / "01_project_status" / "RMTGuard_NATURE_METHODS_GO_NO_GO_FINAL.md"}`
 - Figure 4 author acknowledgement template: `{package_dir / "02_manual_actions" / "RMTGuard_CORRESPONDING_AUTHOR_FIGURE4_ACKNOWLEDGEMENT_TEMPLATE.md"}`
+- Figure 4 author sign-off DOCX: `{package_dir / "02_manual_actions" / "RMTGuard_CORRESPONDING_AUTHOR_SIGNOFF_PACKET.docx"}`
 - Nature Methods presubmission inquiry draft: `{package_dir / "07_presubmission" / "RMTGuard_NATURE_METHODS_PRESUBMISSION_INQUIRY_DRAFT.md"}`
 - Gantt PNG: `{package_dir / "04_gantt_and_figures" / "RMTGuard_PROJECT_GANTT.png"}`
 - Manual checklist: `{package_dir / "02_manual_actions" / "RMTGuard_MANUAL_NEXT_ACTIONS_20_50.md"}`
