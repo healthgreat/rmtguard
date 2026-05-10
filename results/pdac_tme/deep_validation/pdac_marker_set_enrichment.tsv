@@ -1,0 +1,78 @@
+dataset_id	cluster	cluster_top_signature	marker_set	universe_n	selected_gene_n	marker_gene_n	overlap_n	overlap_genes	p_value	p_adj_bh	enrichment_status
+pdac_gse154778	0	ductal_malignant_context	ductal_malignant_context	20811	50	10	5	EPCAM,KRT18,KRT19,MUC1,TACSTD2	1.627384860475926e-11	2.506172685132926e-10	significant
+pdac_gse154778	0	ductal_malignant_context	immune_myeloid	20811	50	10	0		1.0	1.0	not_significant
+pdac_gse154778	0	ductal_malignant_context	t_nk	20811	50	10	0		1.0	1.0	not_significant
+pdac_gse154778	0	ductal_malignant_context	b_plasma	20811	50	10	0		1.0	1.0	not_significant
+pdac_gse154778	0	ductal_malignant_context	caf_fibroblast	20811	50	10	0		1.0	1.0	not_significant
+pdac_gse154778	0	ductal_malignant_context	endothelial	20811	50	10	0		1.0	1.0	not_significant
+pdac_gse154778	0	ductal_malignant_context	acinar	20811	50	10	0		1.0	1.0	not_significant
+pdac_gse154778	1	ductal_malignant_context	ductal_malignant_context	20811	50	10	0		1.0	1.0	not_significant
+pdac_gse154778	1	ductal_malignant_context	immune_myeloid	20811	50	10	0		1.0	1.0	not_significant
+pdac_gse154778	1	ductal_malignant_context	t_nk	20811	50	10	0		1.0	1.0	not_significant
+pdac_gse154778	1	ductal_malignant_context	b_plasma	20811	50	10	0		1.0	1.0	not_significant
+pdac_gse154778	1	ductal_malignant_context	caf_fibroblast	20811	50	10	0		1.0	1.0	not_significant
+pdac_gse154778	1	ductal_malignant_context	endothelial	20811	50	10	0		1.0	1.0	not_significant
+pdac_gse154778	1	ductal_malignant_context	acinar	20811	50	10	0		1.0	1.0	not_significant
+pdac_gse154778	2	ductal_malignant_context	ductal_malignant_context	20811	50	10	0		1.0	1.0	not_significant
+pdac_gse154778	2	ductal_malignant_context	immune_myeloid	20811	50	10	0		1.0	1.0	not_significant
+pdac_gse154778	2	ductal_malignant_context	t_nk	20811	50	10	0		1.0	1.0	not_significant
+pdac_gse154778	2	ductal_malignant_context	b_plasma	20811	50	10	0		1.0	1.0	not_significant
+pdac_gse154778	2	ductal_malignant_context	caf_fibroblast	20811	50	10	2	COL3A1,DCN	0.00025146036397698365	0.001936244802622774	significant
+pdac_gse154778	2	ductal_malignant_context	endothelial	20811	50	10	0		1.0	1.0	not_significant
+pdac_gse154778	2	ductal_malignant_context	acinar	20811	50	10	0		1.0	1.0	not_significant
+pdac_gse154778	3	immune_myeloid	ductal_malignant_context	20811	50	10	0		1.0	1.0	not_significant
+pdac_gse154778	3	immune_myeloid	immune_myeloid	20811	50	10	5	FCER1G,FCGR3A,LST1,MS4A7,TYROBP	1.627384860475926e-11	2.506172685132926e-10	significant
+pdac_gse154778	3	immune_myeloid	t_nk	20811	50	10	0		1.0	1.0	not_significant
+pdac_gse154778	3	immune_myeloid	b_plasma	20811	50	10	2	CD74,HLA-DRA	0.00025146036397698365	0.001936244802622774	significant
+pdac_gse154778	3	immune_myeloid	caf_fibroblast	20811	50	10	0		1.0	1.0	not_significant
+pdac_gse154778	3	immune_myeloid	endothelial	20811	50	10	0		1.0	1.0	not_significant
+pdac_gse154778	3	immune_myeloid	acinar	20811	50	10	0		1.0	1.0	not_significant
+pdac_gse154778	4	ductal_malignant_context	ductal_malignant_context	20811	13	10	2	KRT18,MUC1	1.6163949987313347e-05	0.0002074373581705213	significant
+pdac_gse154778	4	ductal_malignant_context	immune_myeloid	20811	13	10	0		1.0	1.0	not_significant
+pdac_gse154778	4	ductal_malignant_context	t_nk	20811	13	10	0		1.0	1.0	not_significant
+pdac_gse154778	4	ductal_malignant_context	b_plasma	20811	13	10	0		1.0	1.0	not_significant
+pdac_gse154778	4	ductal_malignant_context	caf_fibroblast	20811	13	10	0		1.0	1.0	not_significant
+pdac_gse154778	4	ductal_malignant_context	endothelial	20811	13	10	0		1.0	1.0	not_significant
+pdac_gse154778	4	ductal_malignant_context	acinar	20811	13	10	0		1.0	1.0	not_significant
+pdac_gse154778	7	ductal_malignant_context	ductal_malignant_context	20811	50	10	0		1.0	1.0	not_significant
+pdac_gse154778	7	ductal_malignant_context	immune_myeloid	20811	50	10	0		1.0	1.0	not_significant
+pdac_gse154778	7	ductal_malignant_context	t_nk	20811	50	10	0		1.0	1.0	not_significant
+pdac_gse154778	7	ductal_malignant_context	b_plasma	20811	50	10	0		1.0	1.0	not_significant
+pdac_gse154778	7	ductal_malignant_context	caf_fibroblast	20811	50	10	0		1.0	1.0	not_significant
+pdac_gse154778	7	ductal_malignant_context	endothelial	20811	50	10	0		1.0	1.0	not_significant
+pdac_gse154778	7	ductal_malignant_context	acinar	20811	50	10	0		1.0	1.0	not_significant
+pdac_gse263733	0	t_nk	ductal_malignant_context	20811	50	10	0		1.0	1.0	not_significant
+pdac_gse263733	0	t_nk	immune_myeloid	20811	50	10	0		1.0	1.0	not_significant
+pdac_gse263733	0	t_nk	t_nk	20811	50	10	7	CCL5,CD2,CD247,GNLY,GZMB,NKG7,PRF1	3.5574482890321817e-17	9.130783941849268e-16	significant
+pdac_gse263733	0	t_nk	b_plasma	20811	50	10	0		1.0	1.0	not_significant
+pdac_gse263733	0	t_nk	caf_fibroblast	20811	50	10	0		1.0	1.0	not_significant
+pdac_gse263733	0	t_nk	endothelial	20811	50	10	0		1.0	1.0	not_significant
+pdac_gse263733	0	t_nk	acinar	20811	50	10	0		1.0	1.0	not_significant
+pdac_gse263733	1	ductal_malignant_context	ductal_malignant_context	20811	50	10	7	EPCAM,KRT18,KRT19,KRT7,KRT8,MUC1,TACSTD2	3.5574482890321817e-17	9.130783941849268e-16	significant
+pdac_gse263733	1	ductal_malignant_context	immune_myeloid	20811	50	10	0		1.0	1.0	not_significant
+pdac_gse263733	1	ductal_malignant_context	t_nk	20811	50	10	0		1.0	1.0	not_significant
+pdac_gse263733	1	ductal_malignant_context	b_plasma	20811	50	10	0		1.0	1.0	not_significant
+pdac_gse263733	1	ductal_malignant_context	caf_fibroblast	20811	50	10	0		1.0	1.0	not_significant
+pdac_gse263733	1	ductal_malignant_context	endothelial	20811	50	10	0		1.0	1.0	not_significant
+pdac_gse263733	1	ductal_malignant_context	acinar	20811	50	10	0		1.0	1.0	not_significant
+pdac_gse263733	2	immune_myeloid	ductal_malignant_context	20811	50	10	0		1.0	1.0	not_significant
+pdac_gse263733	2	immune_myeloid	immune_myeloid	20811	50	10	8	CD14,CTSS,FCER1G,LST1,LYZ,MS4A7,S100A9,TYROBP	2.7624203710001106e-20	2.1270636856700853e-18	significant
+pdac_gse263733	2	immune_myeloid	t_nk	20811	50	10	0		1.0	1.0	not_significant
+pdac_gse263733	2	immune_myeloid	b_plasma	20811	50	10	2	CD74,HLA-DRA	0.00025146036397698365	0.001936244802622774	significant
+pdac_gse263733	2	immune_myeloid	caf_fibroblast	20811	50	10	0		1.0	1.0	not_significant
+pdac_gse263733	2	immune_myeloid	endothelial	20811	50	10	0		1.0	1.0	not_significant
+pdac_gse263733	2	immune_myeloid	acinar	20811	50	10	0		1.0	1.0	not_significant
+pdac_gse263733	3	t_nk	ductal_malignant_context	20811	50	10	0		1.0	1.0	not_significant
+pdac_gse263733	3	t_nk	immune_myeloid	20811	50	10	0		1.0	1.0	not_significant
+pdac_gse263733	3	t_nk	t_nk	20811	50	10	1	TRAC	0.02377274164658621	0.16640919152610348	not_significant
+pdac_gse263733	3	t_nk	b_plasma	20811	50	10	0		1.0	1.0	not_significant
+pdac_gse263733	3	t_nk	caf_fibroblast	20811	50	10	0		1.0	1.0	not_significant
+pdac_gse263733	3	t_nk	endothelial	20811	50	10	0		1.0	1.0	not_significant
+pdac_gse263733	3	t_nk	acinar	20811	50	10	0		1.0	1.0	not_significant
+pdac_gse263733	5	caf_fibroblast	ductal_malignant_context	20811	50	10	0		1.0	1.0	not_significant
+pdac_gse263733	5	caf_fibroblast	immune_myeloid	20811	50	10	0		1.0	1.0	not_significant
+pdac_gse263733	5	caf_fibroblast	t_nk	20811	50	10	0		1.0	1.0	not_significant
+pdac_gse263733	5	caf_fibroblast	b_plasma	20811	50	10	0		1.0	1.0	not_significant
+pdac_gse263733	5	caf_fibroblast	caf_fibroblast	20811	50	10	2	COL1A2,TAGLN	0.00025146036397698365	0.001936244802622774	significant
+pdac_gse263733	5	caf_fibroblast	endothelial	20811	50	10	0		1.0	1.0	not_significant
+pdac_gse263733	5	caf_fibroblast	acinar	20811	50	10	0		1.0	1.0	not_significant

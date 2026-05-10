@@ -347,13 +347,23 @@ TASKS = [
     ),
     Task(
         "Biological application",
-        "PDAC/TME showcase deepening or demotion",
+        "PDAC/TME deep validation first pass",
+        date(2026, 5, 10),
+        date(2026, 5, 10),
+        "done_with_limit",
+        75,
+        "docs/pdac_tme_deep_validation.md",
+        "FDR-controlled marker DE, marker-set enrichment, external signature transfer, and Figure 4 source data are complete; full MSigDB/Reactome/Hallmark GSEA, published-atlas citations, and final author route confirmation remain.",
+    ),
+    Task(
+        "Biological application",
+        "PDAC/TME pathway and atlas upgrade",
         date(2026, 5, 12),
         date(2026, 5, 26),
         "planned",
         0,
         "docs/pdac_tme_showcase_depth.md",
-        "Differential expression, pathway enrichment, trajectory/published-atlas validation, or supplement downgrade.",
+        "Upgrade marker-set enrichment to formal pathway GSEA and add literature-backed PDAC atlas marker mapping, or demote the showcase to supplement.",
     ),
     Task(
         "Public benchmark",
@@ -612,7 +622,7 @@ def build_markdown(df: pd.DataFrame) -> str:
             "- Realistic count-preserving null calibration and rare-state power grids have reached 50-repeat manuscript-grade depth; low-prevalence weak-effect settings remain an explicit claim-boundary limitation.",
             "- Component ablation now has synthetic 20-repeat CI evidence and four-dataset labeled real-data 20-repeat annotation checks; remaining ablation risk is interpretation, not missing repeat depth.",
             "- Local matched Python baselines, official Seurat fixed30/fixed50/elbow/JackStraw 20-repeat rows across seven datasets, paired20 RMTGuard-versus-official-Seurat statistics across five labeled datasets, and seven-dataset stability breadth are now present; PBMC3k and PDAC GSE154778 remain label-free evidence unless annotations are added.",
-            "- PDAC/TME route decision packet plus dual-route preflight/runbook are complete; PDAC/TME remains a bounded showcase until authors choose deeper biology validation or supplement demotion.",
+            "- PDAC/TME deep validation first pass is complete and supports a bounded main-figure candidate with limits; full pathway GSEA, published-atlas citation mapping, and explicit author route confirmation remain before final high-impact wording.",
         ]
     )
     return "\n".join(lines)

@@ -81,7 +81,7 @@ The linter blocks unsupported journal-facing claims while allowing explicit forb
 - `pbmc68k_positive_discovery` in `docs/nature_reporting_summary_draft.md:82`
 - `premature_doi_release` in `docs/nature_reporting_summary_draft.md:103`
 - `premature_doi_release` in `docs/nature_reporting_summary_draft.md:106`
-- `acceptance_guarantee` in `docs/p0_science_sprint_status.md:13`
+- `acceptance_guarantee` in `docs/p0_science_sprint_status.md:14`
 - `acceptance_guarantee` in `docs/post_feedback_journal_route_gate.md:5`
 - `premature_doi_release` in `docs/post_feedback_journal_route_gate.md:42`
 - `premature_doi_release` in `docs/post_feedback_journal_route_gate.md:51`

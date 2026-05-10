@@ -1,0 +1,110 @@
+cluster	cluster_top_signature	dataset_id	de_test_status	enrichment_status	expected_public_label	gene	logfoldchange	marker_gene_n	marker_set	notes	overlap_genes	overlap_n	p_adj_bh	p_value	panel	primary_cluster	primary_dataset_id	primary_top_signature	public_label_support	rank	score	selected_gene_n	signature_gene_n	signature_genes	signature_match_support	significant_fdr_0_05	status	summary_id	top_validation_cluster	top_validation_cluster_score	top_validation_cluster_signature	top_validation_public_label	top_validation_public_label_score	universe_n	validation_dataset_id	value
+										Supports a bounded public biological use case; not a clinical or disease-mechanism proof.					A_summary												main_figure_candidate_supported_with_limits	pdac_deep_validation_status								main_figure_candidate_supported_with_limits
+										Both public PDAC/TME datasets were analyzed from prepared h5ad files.					A_summary												pass	datasets_validated								pdac_gse154778,pdac_gse263733
+										Rows with BH-FDR <=0.05 and positive log fold change.					A_summary												pass	significant_de_marker_rows								653
+										Clusters below the pre-specified minimum cell count are not tested for DE.					A_summary												controlled_boundary	de_skipped_tiny_clusters								3
+										Hypergeometric marker-set enrichments with BH-FDR <=0.05; not full pathway GSEA.					A_summary												pass	significant_marker_set_enrichments								10
+										Primary cluster DE signatures whose top validation public label matched the expected marker family.					A_summary												pass	external_label_supported_primary_signatures								5
+										Primary cluster DE signatures whose top validation RMTGuard cluster had the same marker family.					A_summary												pass	external_cluster_signature_supported_primary_signatures								4
+										Shared cluster-level marker families between primary and validation datasets.					A_summary												pass	shared_top_signatures								ductal_malignant_context,immune_myeloid
+										Do not claim PDAC mechanism, prognosis, therapy, CAF discovery, or clinical validation.					A_summary												controlled_boundary	claim_boundary								public_data_nonclinical_hypothesis_generating
+5	ductal_malignant_context	pdac_gse154778	skipped_min_cells_lt_10				nan						nan	nan	B_de_markers					0	nan					False										
+6	ductal_malignant_context	pdac_gse154778	skipped_min_cells_lt_10				nan						nan	nan	B_de_markers					0	nan					False										
+0	ductal_malignant_context	pdac_gse154778	tested			NEAT1	1.2696009874343872						8.148541263481287e-23	4.5274704208697005e-27	B_de_markers					1	10.77480411529541					True										
+0	ductal_malignant_context	pdac_gse154778	tested			MALAT1	1.8582009077072144						2.7986130339659375e-19	3.1099155839159215e-23	B_de_markers					2	9.929119110107422					True										
+0	ductal_malignant_context	pdac_gse154778	tested			CLDN4	1.3032073974609375						2.972001197873827e-19	4.9538857615409946e-23	B_de_markers					3	9.882583618164062					True										
+0	ductal_malignant_context	pdac_gse154778	tested			ELF3	1.2753928899765015						3.098655656578895e-17	6.886666644246905e-21	B_de_markers					4	9.375472068786621					True										
+0	ductal_malignant_context	pdac_gse154778	tested			KRT19	1.0487884283065796						7.240225644564167e-16	2.0113972787432398e-19	B_de_markers					5	9.012648582458496					True										
+0	ductal_malignant_context	pdac_gse154778	tested			MUC1	1.2399119138717651						1.8502967790499408e-15	6.168341301422183e-19	B_de_markers					6	8.888959884643555					True										
+0	ductal_malignant_context	pdac_gse154778	tested			S100A6	1.2486813068389893						3.0904110292543875e-15	1.2019600624947613e-18	B_de_markers					7	8.814522743225098					True										
+0	ductal_malignant_context	pdac_gse154778	tested			LCN2	1.2564891576766968						6.179064300231658e-15	2.746555972988847e-18	B_de_markers					8	8.721452713012695					True										
+0	ductal_malignant_context	pdac_gse154778	tested			SPINK1	1.2141757011413574						3.942722525736598e-13	1.9715803273491158e-16	B_de_markers					9	8.223797798156738					True										
+0	ductal_malignant_context	pdac_gse154778	tested			ATP1B1	1.1658474206924438						8.583003958894881e-13	4.768865406653451e-16	B_de_markers					10	8.117244720458984					True										
+0	ductal_malignant_context	pdac_gse154778	tested			LMO7	1.1434178352355957						9.868036316664076e-13	6.031136764268519e-16	B_de_markers					11	8.0886869430542					True										
+0	ductal_malignant_context	pdac_gse154778	tested			RPL41	0.9280222058296204						1.2223502957577686e-11	8.829066476747968e-15	B_de_markers					12	7.755075931549072					True										
+0	ductal_malignant_context	pdac_gse154778	tested			RPL13A	0.8242890238761902						1.8708502013882922e-11	1.4552674085696238e-14	B_de_markers					13	7.69140625					True										
+0	ductal_malignant_context	pdac_gse154778	tested			RPL10	0.8534712195396423						1.996116201909703e-11	1.6636150143707935e-14	B_de_markers					14	7.674271583557129					True										
+0	ductal_malignant_context	pdac_gse154778	tested			TACSTD2	1.0235105752944946						2.2935567129048584e-11	2.0389436274295885e-14	B_de_markers					15	7.648148059844971					True										
+0	ductal_malignant_context	pdac_gse154778	tested			TPT1	0.650536060333252						3.0540291540445716e-11	2.884681387862969e-14	B_de_markers					16	7.603392124176025					True										
+0	ductal_malignant_context	pdac_gse154778	tested			ITGA6	1.1210988759994507						5.893353260454775e-11	5.894008150249247e-14	B_de_markers					17	7.510415077209473					True										
+0	ductal_malignant_context	pdac_gse154778	tested			FTH1	0.7612931728363037						6.039891420760561e-11	6.376149405181168e-14	B_de_markers					18	7.500115871429443					True										
+0	ductal_malignant_context	pdac_gse154778	tested			FXYD3	0.9157029986381531						9.602319555732216e-11	1.0670429554097361e-13	B_de_markers					19	7.432326316833496					True										
+0	ductal_malignant_context	pdac_gse154778	tested			TM4SF1	0.823562741279602						1.5734910990434242e-10	1.8359436092850267e-13	B_de_markers					20	7.3602294921875					True										
+0	ductal_malignant_context	pdac_gse154778	tested			RPS27	0.7591230869293213						1.857393624618487e-10	2.373600031460451e-13	B_de_markers					21	7.32586669921875					True										
+0	ductal_malignant_context	pdac_gse154778	tested			EIF1	0.6284036636352539						2.2574298693835924e-10	3.010240963729649e-13	B_de_markers					22	7.293938159942627					True										
+0	ductal_malignant_context	pdac_gse154778	tested			RPS19	0.8565396070480347						2.552990435462833e-10	3.5462140730398275e-13	B_de_markers					23	7.271840572357178					True										
+0	ductal_malignant_context	pdac_gse154778	tested			RPL8	0.7789443731307983						2.77684895277081e-10	4.0114497595311183e-13	B_de_markers					24	7.255174160003662					True										
+0	ductal_malignant_context	pdac_gse154778	tested			PERP	0.8161840438842773						4.3783745400814804e-10	6.568291620302254e-13	B_de_markers					25	7.188133716583252					True										
+0	ductal_malignant_context	pdac_gse154778	tested			IFI27	0.8086912035942078						4.586031795822406e-10	7.389427829694954e-13	B_de_markers					26	7.1720290184021					True										
+0	ductal_malignant_context	pdac_gse154778	tested			CYP3A5	1.2418336868286133						7.39098341553854e-10	1.2789898736006302e-12	B_de_markers					27	7.096561431884766					True										
+0	ductal_malignant_context	pdac_gse154778	tested			FTL	0.5978305339813232						7.39098341553854e-10	1.3140986181644254e-12	B_de_markers					28	7.092816352844238					True										
+0	ductal_malignant_context	pdac_gse154778	tested			RPS27A	0.6541606783866882						1.4069734379742433e-09	2.5797379405017242e-12	B_de_markers					29	6.998903274536133					True										
+0	ductal_malignant_context	pdac_gse154778	tested			GPRC5A	1.0668452978134155						1.4608704748405317e-09	2.759728644548176e-12	B_de_markers					30	6.989446640014648					True										
+0	ductal_malignant_context	pdac_gse154778	tested			EPCAM	0.9224230647087097						2.039134019085831e-09	4.015410114355627e-12	B_de_markers					31	6.936637878417969					True										
+0	ductal_malignant_context	pdac_gse154778	tested			RPS18	0.722521185874939						2.039134019085831e-09	4.175402713971254e-12	B_de_markers					32	6.9311137199401855					True										
+0	ductal_malignant_context	pdac_gse154778	tested			RPS12	0.7425485253334045						2.292655824083943e-09	4.9679729491762295e-12	B_de_markers					33	6.906488418579102					True										
+0	ductal_malignant_context	pdac_gse154778	tested			EEF1A1	0.5998280644416809						2.4385406515148923e-09	5.4195814012999045e-12	B_de_markers					34	6.894128799438477					True										
+0	ductal_malignant_context	pdac_gse154778	tested			RPL27A	0.6535463929176331						4.1891310008595985e-09	9.775725193693918e-12	B_de_markers					35	6.80976676940918					True										
+0	ductal_malignant_context	pdac_gse154778	tested			TMC5	1.2071009874343872						4.832153192077758e-09	1.1544759821054762e-11	B_de_markers					36	6.785796642303467					True										
+0	ductal_malignant_context	pdac_gse154778	tested			RPL34	0.5865586400032043						5.727108055059301e-09	1.4001153151606246e-11	B_de_markers					37	6.757894515991211					True										
+0	ductal_malignant_context	pdac_gse154778	tested			DST	1.0809630155563354						5.821081467852048e-09	1.4554320816387495e-11	B_de_markers					38	6.752276420593262					True										
+0	ductal_malignant_context	pdac_gse154778	tested			RPL12	0.6153422594070435						6.4764970311027115e-09	1.6653480560227726e-11	B_de_markers					39	6.732707500457764					True										
+0	ductal_malignant_context	pdac_gse154778	tested			KRT18	0.7101492881774902						6.4764970311027115e-09	1.6912732551496136e-11	B_de_markers					40	6.730460166931152					True										
+0	ductal_malignant_context	pdac_gse154778	tested			MDK	0.7536688446998596						1.0746407429040184e-08	3.1048626864656606e-11	B_de_markers					41	6.641509532928467					True										
+0	ductal_malignant_context	pdac_gse154778	tested			IGF2BP2	1.3574894666671753						1.0757178958262366e-08	3.2275122999564825e-11	B_de_markers					42	6.63579797744751					True										
+0	ductal_malignant_context	pdac_gse154778	tested			RPL13	0.7410600781440735						1.3358653479891381e-08	4.0822643704524166e-11	B_de_markers					43	6.60106086730957					True										
+0	ductal_malignant_context	pdac_gse154778	tested			RPLP1	0.7555497288703918						1.7082611548933234e-08	5.3151808353164855e-11	B_de_markers					44	6.56182861328125					True										
+0	ductal_malignant_context	pdac_gse154778	tested			RPL30	0.5731854438781738						1.871786126550229e-08	6.135980745997528e-11	B_de_markers					45	6.540387153625488					True										
+0	ductal_malignant_context	pdac_gse154778	tested			RPS14	0.6694668531417847						2.3466546264210522e-08	7.823051315994173e-11	B_de_markers					46	6.503964424133301					True										
+0	ductal_malignant_context	pdac_gse154778	tested			RPLP0	0.6150795221328735						2.6525338101124692e-08	9.287139473579223e-11	B_de_markers					47	6.478121757507324					True										
+0	ductal_malignant_context	pdac_gse154778	tested			TMSB4X	0.6213942170143127						4.094353665658157e-08	1.524178773192002e-10	B_de_markers					48	6.402935028076172					True										
+0	ductal_malignant_context	pdac_gse154778	tested			RPS2	0.7407480478286743						4.1343374540743804e-08	1.5620343753586947e-10	B_de_markers					49	6.3991899490356445					True										
+0	ductal_malignant_context	pdac_gse154778	tested			RPL31	0.5522671341896057						4.2037977409700465e-08	1.6116348712464342e-10	B_de_markers					50	6.394414901733398					True										
+0	ductal_malignant_context	pdac_gse154778	tested			ASPH	0.9187720417976379						5.891466949080691e-08	2.324114642653234e-10	B_de_markers					51	6.338235378265381					True										
+0	ductal_malignant_context	pdac_gse154778	tested			KRT8	0.7227667570114136						7.01082660005275e-08	2.8046422669396486e-10	B_de_markers					52	6.30920934677124					True										
+0	ductal_malignant_context	pdac_gse154778	tested			RPS15	0.6202051639556885						7.319095603717319e-08	2.9686297314777434e-10	B_de_markers					53	6.300407886505127					True										
+0	ductal_malignant_context	pdac_gse154778	tested			RPL11	0.557981014251709						8.566979441888677e-08	3.569971430945943e-10	B_de_markers					54	6.271756649017334					True										
+0	ductal_malignant_context	pdac_gse154778	tested			SAT1	0.667789101600647						9.877683313680282e-08	4.2259229645148445e-10	B_de_markers					55	6.24544620513916					True										
+0	ductal_malignant_context	pdac_gse154778	tested			HSPB1	0.6577366590499878						1.440441080775408e-07	6.402671766975921e-10	B_de_markers					56	6.180184364318848					True										
+0	ductal_malignant_context	pdac_gse154778	tested			SMIM22	0.8593317866325378						1.879358666984011e-07	8.458053785181958e-10	B_de_markers					57	6.136083602905273					True										
+0	ductal_malignant_context	pdac_gse154778	tested			RPL28	0.5998282432556152						2.2105417270477882e-07	1.0071364685960587e-09	B_de_markers					58	6.108274936676025					True										
+0	ductal_malignant_context	pdac_gse154778	tested			RPL7	0.6000998020172119						2.3595327603312782e-07	1.0881276758945221e-09	B_de_markers					59	6.095915794372559					True										
+0	ductal_malignant_context	pdac_gse154778	tested			RPS9	0.517950713634491						2.589750863765064e-07	1.2230738049785e-09	B_de_markers					60	6.0771894454956055					True										
+0	ductal_malignant_context	pdac_gse154778	tested			RPS4X	0.5383431315422058						2.9817128349219854e-07	1.4247544382892031e-09	B_de_markers					61	6.052657604217529					True										
+0	ductal_malignant_context	pdac_gse154778	tested			RPS3	0.5639685392379761						4.066966248039551e-07	1.9659187886400766e-09	B_de_markers					62	6.000598430633545					True										
+0	ductal_malignant_context	pdac_gse154778	tested			RPS16	0.5317509174346924						6.884127428369886e-07	3.4806956105215004e-09	B_de_markers					63	5.907153606414795					True										
+0	ductal_malignant_context	pdac_gse154778	tested			RPL19	0.581180989742279						7.219338662784691e-07	3.690294238116411e-09	B_de_markers					64	5.8975090980529785					True										
+0	ductal_malignant_context	pdac_gse154778	tested			AHNAK2	1.2606652975082397						8.445771501200172e-07	4.450443623413593e-09	B_de_markers					65	5.866517066955566					True										
+0	ductal_malignant_context	pdac_gse154778	tested			B2M	0.6818378567695618						1.0008922163568437e-06	5.45936206873985e-09	B_de_markers					66	5.832528591156006					True										
+0	ductal_malignant_context	pdac_gse154778	tested			C19orf33	0.7899431586265564						1.0008922163568437e-06	5.50551891428645e-09	B_de_markers					67	5.831124305725098					True										
+0	ductal_malignant_context	pdac_gse154778	tested			RPS20	0.5527995824813843						1.0976583675397077e-06	6.1069549842320965e-09	B_de_markers					68	5.813802242279053					True										
+0	ductal_malignant_context	pdac_gse154778	tested			RPL39	0.6057342290878296						1.0976583675397077e-06	6.189515882137593e-09	B_de_markers					69	5.811554908752441					True										
+0	ductal_malignant_context	pdac_gse154778	tested			RPL21	0.555809736251831						1.0976583675397077e-06	6.220755277755872e-09	B_de_markers					70	5.8107123374938965					True										
+0	ductal_malignant_context	pdac_gse154778	tested			RPL23A	0.5399857759475708						1.1636940881539714e-06	6.659656132895825e-09	B_de_markers					71	5.799289226531982					True										
+0	ductal_malignant_context	pdac_gse154778	tested			RPLP2	0.5751034021377563						1.2336619611308428e-06	7.128616732837408e-09	B_de_markers					72	5.787866115570068					True										
+0	ductal_malignant_context	pdac_gse154778	tested			RPL18A	0.5212640166282654						1.4817817477569962e-06	8.809348094788233e-09	B_de_markers					73	5.752192497253418					True										
+0	ductal_malignant_context	pdac_gse154778	tested			RPL26	0.5071658492088318						1.9991253617739866e-06	1.2440384515984358e-08	B_de_markers					74	5.693578720092773					True										
+0	ductal_malignant_context	pdac_gse154778	tested			RPL35A	0.5350808501243591						2.3303056503748425e-06	1.5148669912982363e-08	B_de_markers					75	5.6598711013793945					True										
+0	ductal_malignant_context	pdac_gse154778	tested			S100A11	0.5505484342575073						3.0130185369890453e-06	1.9921613840520968e-08	B_de_markers					76	5.612680435180664					True										
+0	ductal_malignant_context	pdac_gse154778	tested			RPS23	0.531582236289978						3.04833627925083e-06	2.032450013946547e-08	B_de_markers					77	5.609216213226318					True										
+0	ductal_malignant_context	pdac_gse154778	tested			DSP	1.0471117496490479						3.0838711015238834e-06	2.0904115700961983e-08	B_de_markers					78	5.604347229003906					True										
+0	ductal_malignant_context	pdac_gse154778		significant				10	ductal_malignant_context		EPCAM,KRT18,KRT19,MUC1,TACSTD2	5	2.506172685132926e-10	1.627384860475926e-11	C_marker_enrichment							50												20811		
+1	ductal_malignant_context	pdac_gse154778		not_significant				10	ductal_malignant_context			0	1.0	1.0	C_marker_enrichment							50												20811		
+2	ductal_malignant_context	pdac_gse154778		not_significant				10	ductal_malignant_context			0	1.0	1.0	C_marker_enrichment							50												20811		
+2	ductal_malignant_context	pdac_gse154778		significant				10	caf_fibroblast		COL3A1,DCN	2	0.001936244802622774	0.00025146036397698365	C_marker_enrichment							50												20811		
+3	immune_myeloid	pdac_gse154778		significant				10	immune_myeloid		FCER1G,FCGR3A,LST1,MS4A7,TYROBP	5	2.506172685132926e-10	1.627384860475926e-11	C_marker_enrichment							50												20811		
+3	immune_myeloid	pdac_gse154778		significant				10	b_plasma		CD74,HLA-DRA	2	0.001936244802622774	0.00025146036397698365	C_marker_enrichment							50												20811		
+4	ductal_malignant_context	pdac_gse154778		significant				10	ductal_malignant_context		KRT18,MUC1	2	0.0002074373581705213	1.6163949987313347e-05	C_marker_enrichment							13												20811		
+7	ductal_malignant_context	pdac_gse154778		not_significant				10	ductal_malignant_context			0	1.0	1.0	C_marker_enrichment							50												20811		
+0	t_nk	pdac_gse263733		significant				10	t_nk		CCL5,CD2,CD247,GNLY,GZMB,NKG7,PRF1	7	9.130783941849268e-16	3.5574482890321817e-17	C_marker_enrichment							50												20811		
+1	ductal_malignant_context	pdac_gse263733		significant				10	ductal_malignant_context		EPCAM,KRT18,KRT19,KRT7,KRT8,MUC1,TACSTD2	7	9.130783941849268e-16	3.5574482890321817e-17	C_marker_enrichment							50												20811		
+2	immune_myeloid	pdac_gse263733		significant				10	immune_myeloid		CD14,CTSS,FCER1G,LST1,LYZ,MS4A7,S100A9,TYROBP	8	2.1270636856700853e-18	2.7624203710001106e-20	C_marker_enrichment							50												20811		
+2	immune_myeloid	pdac_gse263733		significant				10	b_plasma		CD74,HLA-DRA	2	0.001936244802622774	0.00025146036397698365	C_marker_enrichment							50												20811		
+3	t_nk	pdac_gse263733		not_significant				10	t_nk		TRAC	1	0.16640919152610348	0.02377274164658621	C_marker_enrichment							50												20811		
+5	caf_fibroblast	pdac_gse263733		significant				10	caf_fibroblast		COL1A2,TAGLN	2	0.001936244802622774	0.00025146036397698365	C_marker_enrichment							50												20811		
+					Ductal cell										D_external_signature_validation	0	pdac_gse154778	ductal_malignant_context	True				30	NEAT1,MALAT1,CLDN4,ELF3,KRT19,MUC1,S100A6,LCN2,SPINK1,ATP1B1,LMO7,RPL41,RPL13A,RPL10,TACSTD2,TPT1,ITGA6,FTH1,FXYD3,TM4SF1,RPS27,EIF1,RPS19,RPL8,PERP,IFI27,CYP3A5,FTL,RPS27A,GPRC5A	True				1	2.4468834400177	ductal_malignant_context	Ductal cell	2.634037494659424		pdac_gse263733	
+					Ductal cell										D_external_signature_validation	1	pdac_gse154778	ductal_malignant_context	True				30	SMC4,KIAA0101,DTYMK,RPA3,STMN1,UBE2C,WDR34,HIST1H4C,GGCT,PPP1R14B,ITGB4,LSM4,MRPS16,NME1,PTTG1,POLD2,ANXA3,CENPW,LRRC59,HMGB2,PDAP1,HSPB11,SFN,PSMD1,TMPO,RBBP7,COMMD4,ECT2,HMGB3,STRA13	True				1	0.43824130296707153	ductal_malignant_context	Ductal cell	0.4694037437438965		pdac_gse263733	
+					Ductal cell										D_external_signature_validation	2	pdac_gse154778	ductal_malignant_context	False				30	SLC25A6,MYL9,RPL5,RPSA,SRP14,DSTN,MGST3,HSPB1,EEF2,TIMP1,HNRNPA1,GLTSCR2,PPIB,RPL14,GNB2L1,BTF3,BGN,EEF1D,SELM,NPM1,IFITM3,C1S,RPL4,UBB,IGFBP7,CNN3,C1R,TOMM7,RPL7A,EIF3E	False				4	1.8563804626464844	caf_fibroblast	Fibroblast	2.0557711124420166		pdac_gse263733	
+					Myeloid										D_external_signature_validation	3	pdac_gse154778	immune_myeloid	True				30	SRGN,LAPTM5,FCER1G,TYROBP,CD53,AIF1,LST1,VIM,CXCR4,HLA-DRA,ARHGDIB,CREM,PTPRC,HLA-DRB1,ALOX5AP,CD74,CD52,HCST,EMP3,HLA-DPB1,CD37,GMFG,ITGB2,HLA-C,PFN1,HLA-DPA1,LCP1,YBX1,CD83,PNRC1	True				2	1.9440181255340576	immune_myeloid	Myeloid	2.0055694580078125		pdac_gse263733	
+					Ductal cell										D_external_signature_validation	4	pdac_gse154778	ductal_malignant_context	True				30	RAB25,MUC1,TMEM141,TSPAN1,PPAP2C,KRT18,ELF3,SPINT1,CYP3A5,MARCKSL1,SDCBP2,OCIAD2,OCIAD1,LGALS4,MSLN,SFTA2,CLDN7,PDZK1IP1,EFNA1,STARD10,MMP7,MGST2,RNASE1,FXYD3,TMC5,SYNGR2,LCN2,PLA2G16,TSPAN8,LSR	True				1	0.9578022956848145	ductal_malignant_context	Ductal cell	1.1426148414611816		pdac_gse263733	
+					Ductal cell										D_external_signature_validation	7	pdac_gse154778	ductal_malignant_context	True				30	NUSAP1,HMGB2,PTTG1,MKI67,SRSF7,UBE2S,SMC4,KIF20B,DCAF7,CKS2,H2AFX,UBE2C,HIST1H4C,ARL4A,KIAA0101,TUBB,TUBB4B,KIF5B,METTL15,CDKN3,KPNA2,DUSP4,CDK1,CKS1B,BRD2,CENPF,STMN1,STK17B,SRSF3,H2AFZ	False				0	0.47673606872558594	t_nk	Ductal cell	0.47814223170280457		pdac_gse263733	

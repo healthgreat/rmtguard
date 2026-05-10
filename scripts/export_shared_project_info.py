@@ -208,6 +208,42 @@ COPY_ITEMS = [
         "machine-readable PDAC/TME dual-route runbook",
     ),
     CopyItem(
+        ROOT / "docs" / "pdac_tme_deep_validation.md",
+        "06_next_sprint_inputs",
+        "RMTGuard_PDAC_TME_DEEP_VALIDATION.md",
+        "PDAC/TME deep validation first-pass report",
+    ),
+    CopyItem(
+        ROOT / "results" / "pdac_tme" / "deep_validation" / "pdac_deep_validation_summary.tsv",
+        "06_next_sprint_inputs",
+        "RMTGuard_PDAC_TME_DEEP_VALIDATION_SUMMARY.tsv",
+        "machine-readable PDAC/TME deep validation summary",
+    ),
+    CopyItem(
+        ROOT / "results" / "pdac_tme" / "deep_validation" / "pdac_de_markers_fdr.tsv",
+        "06_next_sprint_inputs",
+        "RMTGuard_PDAC_TME_DE_MARKERS_FDR.tsv",
+        "FDR-controlled PDAC/TME cluster marker table",
+    ),
+    CopyItem(
+        ROOT / "results" / "pdac_tme" / "deep_validation" / "pdac_marker_set_enrichment.tsv",
+        "06_next_sprint_inputs",
+        "RMTGuard_PDAC_TME_MARKER_SET_ENRICHMENT.tsv",
+        "PDAC/TME marker-set enrichment table",
+    ),
+    CopyItem(
+        ROOT / "results" / "pdac_tme" / "deep_validation" / "pdac_external_signature_validation.tsv",
+        "06_next_sprint_inputs",
+        "RMTGuard_PDAC_TME_EXTERNAL_SIGNATURE_VALIDATION.tsv",
+        "PDAC/TME external signature validation table",
+    ),
+    CopyItem(
+        ROOT / "results" / "figures" / "source_data" / "figure4_pdac_tme_deep_validation.tsv",
+        "04_gantt_and_figures",
+        "RMTGuard_FIGURE4_PDAC_TME_DEEP_VALIDATION_SOURCE_DATA.tsv",
+        "Figure 4 PDAC/TME source data",
+    ),
+    CopyItem(
         ROOT / "docs" / "component_ablation_benchmark.md",
         "06_next_sprint_inputs",
         "RMTGuard_COMPONENT_ABLATION_BENCHMARK.md",
@@ -335,7 +371,7 @@ matrices, tokens, passwords, or private clinical materials.
 - GitHub Release: https://github.com/healthgreat/rmtguard/releases/tag/v0.1.0
 - Zenodo DOI: https://doi.org/10.5281/zenodo.20012350
 - Strict 20-50 JIF target: Nature Methods only after gate recovery.
-- Current readiness score: 85/100.
+- Current readiness score: 88/100.
 - Acceptance guarantee: impossible.
 
 ## Main Files
@@ -353,6 +389,7 @@ matrices, tokens, passwords, or private clinical materials.
 - `06_next_sprint_inputs/RMTGuard_PDAC_TME_ROUTE_DECISION_PACKET.md`
 - `06_next_sprint_inputs/RMTGuard_PDAC_TME_DUAL_ROUTE_PREFLIGHT.md`
 - `06_next_sprint_inputs/RMTGuard_PDAC_TME_DUAL_ROUTE_RUNBOOK.md`
+- `06_next_sprint_inputs/RMTGuard_PDAC_TME_DEEP_VALIDATION.md`
 - `06_next_sprint_inputs/RMTGuard_COMPONENT_ABLATION_BENCHMARK.md`
 - `06_next_sprint_inputs/RMTGuard_REALDATA_ABLATION_ANNOTATION.md`
 - `06_next_sprint_inputs/RMTGuard_P0_COMPONENT_ABLATION_RUN_SHEET.md`
@@ -368,7 +405,8 @@ matrices, tokens, passwords, or private clinical materials.
 3. Confirm competing interests statement.
 4. Confirm ethics/public-data-use statement.
 5. Confirm CRediT author roles.
-6. Choose whether PDAC/TME remains a main figure or is demoted to supplement.
+6. Confirm whether PDAC/TME remains a main figure; if yes, add full pathway
+   GSEA and published-atlas marker citation mapping before final Figure 4 wording.
 7. Re-check JCR, CAS partition, and warning-list status immediately before
    journal submission.
 
@@ -401,7 +439,9 @@ stability-superiority is not supported, synthetic and real-data component
 ablation now have 20-repeat CI/annotation layers, realistic null and power
 grids now have 50-repeat calibration output with a low-prevalence/effect
 claim-boundary limitation, and the PDAC/TME biological
-showcase needs deepening or demotion.
+showcase has first-pass DE/signature-transfer support but still needs full
+pathway GSEA, published-atlas marker citation mapping, and final author route
+confirmation.
 
 ## Fast Open
 
@@ -415,6 +455,7 @@ showcase needs deepening or demotion.
 - Null/power grid design: `{package_dir / "06_next_sprint_inputs" / "RMTGuard_NULL_POWER_GRID_DESIGN.md"}`
 - 50-repeat calibration: `{package_dir / "06_next_sprint_inputs" / "RMTGuard_REALISTIC_NULL_POWER_CALIBRATION.md"}`
 - Rare-state claim boundary: `{package_dir / "06_next_sprint_inputs" / "RMTGuard_RARE_STATE_CLAIM_BOUNDARY.md"}`
+- PDAC/TME deep validation: `{package_dir / "06_next_sprint_inputs" / "RMTGuard_PDAC_TME_DEEP_VALIDATION.md"}`
 - Gantt PNG: `{package_dir / "04_gantt_and_figures" / "RMTGuard_PROJECT_GANTT.png"}`
 - Manual checklist: `{package_dir / "02_manual_actions" / "RMTGuard_MANUAL_NEXT_ACTIONS_20_50.md"}`
 - Release blocker report: `{package_dir / "03_release_evidence" / "RMTGuard_PUBLIC_RELEASE_BLOCKER_REPORT.md"}`

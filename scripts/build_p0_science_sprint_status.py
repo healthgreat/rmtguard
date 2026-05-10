@@ -27,6 +27,9 @@ POWER_SUMMARY = ROOT / "results" / "calibration" / "rare_state_power_summary.tsv
 REALDATA_SUMMARY = (
     ROOT / "results" / "ablation" / "realdata_ablation_annotation_summary.tsv"
 )
+PDAC_DEEP_SUMMARY = (
+    ROOT / "results" / "pdac_tme" / "deep_validation" / "pdac_deep_validation_summary.tsv"
+)
 OUT_TSV = ROOT / "results" / "submission" / "p0_science_sprint_status.tsv"
 OUT_MD = ROOT / "docs" / "p0_science_sprint_status.md"
 
@@ -114,11 +117,21 @@ def _calibration_ci_present(df: pd.DataFrame, required: list[str]) -> bool:
     return not df.empty and all(col in df.columns for col in required)
 
 
+def _pdac_deep_status(df: pd.DataFrame) -> str:
+    if df.empty or "summary" not in df.columns or "value" not in df.columns:
+        return "not_started"
+    status_rows = df[df["summary"].astype(str) == "pdac_deep_validation_status"]
+    if status_rows.empty:
+        return "not_started"
+    return str(status_rows.iloc[0]["value"])
+
+
 def build_rows() -> list[dict[str, object]]:
     component = _read_tsv(COMPONENT_SUMMARY)
     null_summary = _read_tsv(NULL_SUMMARY)
     power = _read_tsv(POWER_SUMMARY)
     realdata = _read_tsv(REALDATA_SUMMARY)
+    pdac_deep = _read_tsv(PDAC_DEEP_SUMMARY)
 
     component_min_repeats = _min_repeat(component)
     component_ci = _component_ci_present(component)
@@ -143,6 +156,7 @@ def build_rows() -> list[dict[str, object]]:
         ],
     )
     realdata_component_repeats = _realdata_component_depth(realdata)
+    pdac_deep_status = _pdac_deep_status(pdac_deep)
 
     rows = [
         {
@@ -208,12 +222,34 @@ def build_rows() -> list[dict[str, object]]:
             "evidence": "metadata/pdac_tme_route_decision.tsv",
             "next_action": "Author must choose: deepen PDAC/TME as main figure, or demote it to supplement.",
         },
+        {
+            "gate_id": "NM-G05",
+            "gate_name": "pdac_tme_deep_validation",
+            "status": (
+                "partial_done_supported_with_limits"
+                if pdac_deep_status == "main_figure_candidate_supported_with_limits"
+                else "not_started"
+            ),
+            "repeat_depth": 0,
+            "ci_present": "false",
+            "evidence": _rel(PDAC_DEEP_SUMMARY),
+            "next_action": (
+                "First-pass DE, marker-set enrichment, external signature transfer, and Figure 4 source data are complete; next add full pathway GSEA and published-atlas marker citation mapping."
+                if pdac_deep_status == "main_figure_candidate_supported_with_limits"
+                else "Run PDAC/TME deep validation or demote the showcase to supplement."
+            ),
+        },
     ]
     return rows
 
 
 def build_markdown(rows: list[dict[str, object]]) -> str:
     open_rows = [row for row in rows if row["status"] != "done"]
+    pdac_deep_done = any(
+        row["gate_id"] == "NM-G05"
+        and row["status"] == "partial_done_supported_with_limits"
+        for row in rows
+    )
     realdata_done = any(
         row["gate_id"] == "NM-G02B" and row["status"] == "done" for row in rows
     )
@@ -235,6 +271,9 @@ def build_markdown(rows: list[dict[str, object]]) -> str:
             for row in rows
         )
         else "- Realistic null/power grids still need manuscript-grade 50-repeat depth.",
+        "- PDAC/TME deep validation first pass is complete: FDR-controlled marker DE, marker-set enrichment, external signature transfer, and Figure 4 source data are present; full pathway GSEA and published-atlas citations remain."
+        if pdac_deep_done
+        else "- PDAC/TME deep validation is not complete; keep it out of main-figure claims.",
         "- PDAC/TME route decision packet is available at `docs/pdac_tme_route_decision_packet.md`; final author decision is still required.",
         "- PDAC/TME dual-route preflight and runbook are available at `docs/pdac_tme_dual_route_preflight.md` and `docs/pdac_tme_dual_route_runbook.md`.",
         "- Acceptance guarantee remains `impossible`; this report only tracks scientific gate progress.",

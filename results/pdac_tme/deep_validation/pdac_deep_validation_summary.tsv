@@ -1,0 +1,10 @@
+summary_id	status	value	notes
+pdac_deep_validation_status	main_figure_candidate_supported_with_limits	main_figure_candidate_supported_with_limits	Supports a bounded public biological use case; not a clinical or disease-mechanism proof.
+datasets_validated	pass	pdac_gse154778,pdac_gse263733	Both public PDAC/TME datasets were analyzed from prepared h5ad files.
+significant_de_marker_rows	pass	653	Rows with BH-FDR <=0.05 and positive log fold change.
+de_skipped_tiny_clusters	controlled_boundary	3	Clusters below the pre-specified minimum cell count are not tested for DE.
+significant_marker_set_enrichments	pass	10	Hypergeometric marker-set enrichments with BH-FDR <=0.05; not full pathway GSEA.
+external_label_supported_primary_signatures	pass	5	Primary cluster DE signatures whose top validation public label matched the expected marker family.
+external_cluster_signature_supported_primary_signatures	pass	4	Primary cluster DE signatures whose top validation RMTGuard cluster had the same marker family.
+shared_top_signatures	pass	ductal_malignant_context,immune_myeloid	Shared cluster-level marker families between primary and validation datasets.
+claim_boundary	controlled_boundary	public_data_nonclinical_hypothesis_generating	Do not claim PDAC mechanism, prognosis, therapy, CAF discovery, or clinical validation.

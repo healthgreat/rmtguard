@@ -4,3 +4,4 @@ NM-G02B	realdata_annotation_ablation	done	20	true	results/ablation/realdata_abla
 NM-G03A	realistic_null_calibration	done	50	true	results/calibration/realistic_null_summary.tsv	Use as 50-repeat realistic-null evidence; keep false-positive control claims bounded to the simulated null families.
 NM-G03B	rare_state_power_grid	done	50	true	results/calibration/rare_state_power_summary.tsv	Use as 50-repeat power-curve evidence; explicitly state limited power at the lowest prevalence/effect settings.
 NM-G04	pdac_tme_author_route_decision	waiting_author_decision	0	false	metadata/pdac_tme_route_decision.tsv	Author must choose: deepen PDAC/TME as main figure, or demote it to supplement.
+NM-G05	pdac_tme_deep_validation	not_started	0	false	results/pdac_tme/deep_validation/pdac_deep_validation_summary.tsv	Run PDAC/TME deep validation or demote the showcase to supplement.

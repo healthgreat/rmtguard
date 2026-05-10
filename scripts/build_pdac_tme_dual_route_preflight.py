@@ -32,6 +32,18 @@ PRIMARY_MARKERS = ROOT / "results" / "pdac_tme" / "pdac_gse154778_cluster_marker
 VALIDATION_MARKERS = ROOT / "results" / "pdac_tme" / "pdac_gse263733_cluster_marker_summary.tsv"
 PRIMARY_DETAILS = ROOT / "results" / "pdac_tme" / "pdac_gse154778_rmtguard_details.json"
 VALIDATION_DETAILS = ROOT / "results" / "pdac_tme" / "pdac_gse263733_rmtguard_details.json"
+DEEP_VALIDATION_SUMMARY = (
+    ROOT / "results" / "pdac_tme" / "deep_validation" / "pdac_deep_validation_summary.tsv"
+)
+DEEP_VALIDATION_DE = (
+    ROOT / "results" / "pdac_tme" / "deep_validation" / "pdac_de_markers_fdr.tsv"
+)
+DEEP_VALIDATION_ENRICHMENT = (
+    ROOT / "results" / "pdac_tme" / "deep_validation" / "pdac_marker_set_enrichment.tsv"
+)
+DEEP_VALIDATION_EXTERNAL = (
+    ROOT / "results" / "pdac_tme" / "deep_validation" / "pdac_external_signature_validation.tsv"
+)
 
 PREFLIGHT_TSV = ROOT / "results" / "submission" / "pdac_tme_dual_route_preflight.tsv"
 RUNBOOK_TSV = ROOT / "results" / "submission" / "pdac_tme_dual_route_runbook.tsv"
@@ -123,6 +135,7 @@ def build_preflight_rows() -> list[dict[str, str]]:
     validation_marker_rows = _read_tsv(VALIDATION_MARKERS)
     primary_details = _read_json(PRIMARY_DETAILS)
     validation_details = _read_json(VALIDATION_DETAILS)
+    deep_summary = {row.get("summary_id", ""): row for row in _read_tsv(DEEP_VALIDATION_SUMMARY)}
 
     primary_obs = set(primary.obs_columns)
     validation_obs = set(validation.obs_columns)
@@ -200,24 +213,47 @@ def build_preflight_rows() -> list[dict[str, str]]:
         },
         {
             "check_id": "formal_de_results_present",
-            "status": "blocker",
+            "status": "pass"
+            if DEEP_VALIDATION_DE.exists()
+            and deep_summary.get("significant_de_marker_rows", {}).get("status") == "pass"
+            else "blocker",
             "route_implication": "blocks_main_figure_claim",
-            "evidence": "No FDR-controlled PDAC/TME differential-expression table is present yet.",
-            "next_action": "If deepening, compute cluster/signature DE with BH-FDR and source-data tables.",
+            "evidence": (
+                f"{_rel(DEEP_VALIDATION_DE)} exists; significant_DE_rows="
+                f"{deep_summary.get('significant_de_marker_rows', {}).get('value', 'NA')}."
+                if DEEP_VALIDATION_DE.exists()
+                else "No FDR-controlled PDAC/TME differential-expression table is present yet."
+            ),
+            "next_action": "Use only FDR-controlled DE rows; do not test tiny clusters below the pre-specified minimum cell threshold.",
         },
         {
             "check_id": "pathway_gsea_results_present",
-            "status": "blocker",
+            "status": "partial_pass"
+            if DEEP_VALIDATION_ENRICHMENT.exists()
+            and deep_summary.get("significant_marker_set_enrichments", {}).get("status") == "pass"
+            else "blocker",
             "route_implication": "blocks_main_figure_claim",
-            "evidence": "No PDAC/TME pathway/GSEA table is present yet.",
-            "next_action": "If deepening, run GSEA/Reactome/Hallmark enrichment with explicit gene universe and FDR.",
+            "evidence": (
+                f"{_rel(DEEP_VALIDATION_ENRICHMENT)} exists; significant_marker_set_enrichments="
+                f"{deep_summary.get('significant_marker_set_enrichments', {}).get('value', 'NA')}. "
+                "This is marker-set over-representation, not full MSigDB/Reactome GSEA."
+                if DEEP_VALIDATION_ENRICHMENT.exists()
+                else "No PDAC/TME pathway/GSEA table is present yet."
+            ),
+            "next_action": "For Nature Methods main Figure 4, upgrade to Reactome/MSigDB/Hallmark GSEA if the claim depends on pathway biology.",
         },
         {
             "check_id": "published_atlas_marker_comparison_present",
-            "status": "blocker",
+            "status": "partial_pass" if DEEP_VALIDATION_EXTERNAL.exists() else "blocker",
             "route_implication": "blocks_main_figure_claim",
-            "evidence": "No published PDAC atlas marker-comparison table is present yet.",
-            "next_action": "If deepening, compare signatures against published PDAC ductal/immune/myeloid marker sets.",
+            "evidence": (
+                f"{_rel(DEEP_VALIDATION_EXTERNAL)} exists; external_label_supported_primary_signatures="
+                f"{deep_summary.get('external_label_supported_primary_signatures', {}).get('value', 'NA')}. "
+                "Published-atlas citation mapping still needs final literature-backed labels."
+                if DEEP_VALIDATION_EXTERNAL.exists()
+                else "No published PDAC atlas marker-comparison table is present yet."
+            ),
+            "next_action": "Add exact published atlas marker-set citations before final manuscript wording.",
         },
         {
             "check_id": "trajectory_or_state_transition_present",
@@ -303,6 +339,9 @@ def _overall_status(rows: list[dict[str, str]]) -> str:
     blockers = [row for row in rows if row["status"] == "blocker"]
     if blockers:
         return "ready_for_author_route_decision_but_main_figure_not_validated"
+    partial = [row for row in rows if row["status"] == "partial_pass"]
+    if partial:
+        return "main_figure_candidate_supported_with_limits"
     warnings = [row for row in rows if row["status"] in {"warning", "optional_warning"}]
     if warnings:
         return "ready_with_warnings"
@@ -323,7 +362,7 @@ def build_preflight_markdown(rows: list[dict[str, str]]) -> str:
         f"- Overall status: `{status}`.",
         f"- Blocking main-figure validation gaps: `{len(blockers)}`.",
         f"- Warnings or optional gaps: `{len(warnings)}`.",
-        "- Interpretation: the public datasets are available and usable, but PDAC/TME is not yet a validated main biological figure.",
+        "- Interpretation: the public datasets are available and usable, and the first-pass PDAC/TME deep-validation layer supports a bounded main-figure candidate with limits; it is still not a validated disease-mechanism figure.",
         "- Ethics/privacy boundary: public de-identified data only; no clinical decision or patient-level claim.",
         "",
         "## Preflight Table",
@@ -340,7 +379,7 @@ def build_preflight_markdown(rows: list[dict[str, str]]) -> str:
             "",
             "## Route Recommendation",
             "",
-            "- If the target remains strict 20-50 JIF / Nature Methods: choose `PDAC/TME route: deepen as main figure`, then run DE/GSEA/external-validation.",
+            "- If the target remains strict 20-50 JIF / Nature Methods: choose `PDAC/TME route: deepen as main figure`, then upgrade the first-pass DE/signature-transfer evidence with full pathway GSEA and published-atlas marker citation mapping.",
             "- If the target is a faster defensible genomics software paper: choose `PDAC/TME route: demote to supplement`, then screen a stronger main application.",
             "",
             "## Manual Author Reply Needed",
@@ -367,7 +406,7 @@ def build_runbook_markdown(rows: list[dict[str, str]]) -> str:
         "",
         "## Purpose",
         "",
-        "This runbook keeps both manuscript routes ready while the author decision is pending. It is intentionally claim-bounded and does not mark PDAC/TME as a validated main figure.",
+        "This runbook keeps both manuscript routes ready while the final author decision is pending. The first-pass deep-validation layer supports a bounded main-figure candidate with limits, but it does not mark PDAC/TME as a validated disease-mechanism figure.",
         "",
         "## Runbook Table",
         "",
@@ -383,8 +422,8 @@ def build_runbook_markdown(rows: list[dict[str, str]]) -> str:
             "",
             "## Execution Boundary",
             "",
-            "- Do not run the main-figure deepening workflow until authors choose the deepening route.",
-            "- Do not write PDAC/TME mechanism, clinical, prognosis, therapy, CAF-discovery, or patient-level claims from the current marker-smoke layer.",
+            "- The first-pass deep-validation workflow has been run; do not finalize main-figure wording until authors confirm the route and full pathway/atlas support is added.",
+            "- Do not write PDAC/TME mechanism, clinical, prognosis, therapy, CAF-discovery, or patient-level claims from the current public-data layer.",
             "- All long-running downstream workflows must be resumable, idempotent, and checkpointed.",
         ]
     )

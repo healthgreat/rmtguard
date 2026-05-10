@@ -34,6 +34,12 @@ PDAC_TME_DUAL_ROUTE_PREFLIGHT = (
 PDAC_TME_DUAL_ROUTE_RUNBOOK = (
     ROOT / "results" / "submission" / "pdac_tme_dual_route_runbook.tsv"
 )
+PDAC_TME_DEEP_VALIDATION_SUMMARY = (
+    ROOT / "results" / "pdac_tme" / "deep_validation" / "pdac_deep_validation_summary.tsv"
+)
+PDAC_TME_DEEP_VALIDATION_FIGURE_SOURCE = (
+    ROOT / "results" / "figures" / "source_data" / "figure4_pdac_tme_deep_validation.tsv"
+)
 MANUSCRIPT_STABILITY_STATS = (
     ROOT
     / "results"
@@ -362,6 +368,24 @@ def _component_ablation_summary() -> dict[str, object]:
     }
 
 
+def _pdac_tme_deep_validation_summary() -> dict[str, str]:
+    rows = _read_tsv(PDAC_TME_DEEP_VALIDATION_SUMMARY)
+    if not rows:
+        return {
+            "status": "not_started",
+            "significant_de": "0",
+            "significant_enrichment": "0",
+            "external_label_support": "0",
+        }
+    lookup = {row.get("summary_id", ""): row for row in rows}
+    return {
+        "status": lookup.get("pdac_deep_validation_status", {}).get("value", "unknown"),
+        "significant_de": lookup.get("significant_de_marker_rows", {}).get("value", "0"),
+        "significant_enrichment": lookup.get("significant_marker_set_enrichments", {}).get("value", "0"),
+        "external_label_support": lookup.get("external_label_supported_primary_signatures", {}).get("value", "0"),
+    }
+
+
 def build_gap_rows() -> list[dict[str, object]]:
     gates = _read_tsv(GATE_REPORT)
     actions = _read_tsv(ACTION_PLAN)
@@ -370,6 +394,7 @@ def build_gap_rows() -> list[dict[str, object]]:
     calibration = _calibration_summary()
     manuscript_stability = _manuscript_stability_summary()
     component_ablation = _component_ablation_summary()
+    pdac_deep = _pdac_tme_deep_validation_summary()
     component_matrix_exists = component_ablation["component_count"] > 0
     rare_state_claim_boundary_present = RARE_STATE_CLAIM_BOUNDARY.exists()
     realdata_ablation_assets_present = REALDATA_ABLATION_ASSET_SUMMARY.exists()
@@ -849,17 +874,34 @@ def build_gap_rows() -> list[dict[str, object]]:
         {
             "domain": "biological_showcase",
             "weight": 10,
-            "current_score": 4,
-            "status": _action_status(actions, "06_biological_showcase_decision"),
+            "current_score": (
+                7
+                if pdac_deep["status"] == "main_figure_candidate_supported_with_limits"
+                else 4
+            ),
+            "status": (
+                pdac_deep["status"]
+                if pdac_deep["status"] != "not_started"
+                else _action_status(actions, "06_biological_showcase_decision")
+            ),
             "evidence": (
-                "docs/pdac_tme_showcase_depth.md;docs/pdac_tme_route_decision_packet.md;docs/pdac_tme_dual_route_preflight.md;docs/pdac_tme_dual_route_runbook.md"
+                "docs/pdac_tme_showcase_depth.md;docs/pdac_tme_route_decision_packet.md;docs/pdac_tme_dual_route_preflight.md;docs/pdac_tme_dual_route_runbook.md;docs/pdac_tme_deep_validation.md"
+                if PDAC_TME_DEEP_VALIDATION_SUMMARY.exists()
+                else "docs/pdac_tme_showcase_depth.md;docs/pdac_tme_route_decision_packet.md;docs/pdac_tme_dual_route_preflight.md;docs/pdac_tme_dual_route_runbook.md"
                 if PDAC_TME_ROUTE_PACKET.exists() and PDAC_TME_DUAL_ROUTE_PREFLIGHT.exists()
                 else "docs/pdac_tme_showcase_depth.md;docs/pdac_tme_route_decision_packet.md"
                 if PDAC_TME_ROUTE_PACKET.exists()
                 else "docs/pdac_tme_showcase_depth.md"
             ),
-            "blocking_items": "PDAC_TME_depth_or_demotion",
+            "blocking_items": (
+                "PDAC_TME_full_pathway_GSEA_and_author_route_confirmation"
+                if pdac_deep["status"] == "main_figure_candidate_supported_with_limits"
+                else "PDAC_TME_depth_or_demotion"
+            ),
             "what_is_done": (
+                "PDAC/TME public use case now has FDR-controlled DE markers, marker-set enrichment, external signature transfer, Figure 4 source data, and bounded wording."
+                if pdac_deep["status"] == "main_figure_candidate_supported_with_limits"
+                else
                 "PDAC/TME public use case has marker-level immune/ductal validation, bounded wording, "
                 "a main-figure-versus-supplement route decision packet, and a dual-route preflight/runbook."
                 if PDAC_TME_ROUTE_PACKET.exists() and PDAC_TME_DUAL_ROUTE_PREFLIGHT.exists()
@@ -867,8 +909,16 @@ def build_gap_rows() -> list[dict[str, object]]:
                 if PDAC_TME_ROUTE_PACKET.exists()
                 else "PDAC/TME public use case has marker-level immune/ductal validation and bounded wording."
             ),
-            "what_is_missing": "An explicit author route decision and, if kept as main figure, deeper DE/GSEA/external-validation evidence.",
-            "next_supplement": "Either add DE/GSEA/trajectory/published-atlas validation for PDAC/TME, or demote PDAC/TME and use a stronger ground-truth application.",
+            "what_is_missing": (
+                "Full MSigDB/Reactome/Hallmark GSEA, exact published-atlas marker citations, and explicit author route confirmation."
+                if pdac_deep["status"] == "main_figure_candidate_supported_with_limits"
+                else "An explicit author route decision and, if kept as main figure, deeper DE/GSEA/external-validation evidence."
+            ),
+            "next_supplement": (
+                "Upgrade marker-set enrichment to formal pathway GSEA and add literature-backed PDAC atlas marker mapping before final Nature Methods wording."
+                if pdac_deep["status"] == "main_figure_candidate_supported_with_limits"
+                else "Either add DE/GSEA/trajectory/published-atlas validation for PDAC/TME, or demote PDAC/TME and use a stronger ground-truth application."
+            ),
         },
         {
             "domain": "manuscript_claim_control",
@@ -1219,7 +1269,7 @@ def build_markdown(
             missing_real_data,
             missing_statistics,
             "4. Component ablation has reached the current 20-repeat synthetic and labeled real-data layer; realistic null and rare-state power have reached 50-repeat depth, and the low-prevalence/weak-effect limitation is now captured in a claim-boundary artifact.",
-            "5. PDAC/TME decision packet, dual-route preflight, and runbook are complete, but authors still need to choose: deepen PDAC/TME as main figure or demote it to supplementary use case.",
+            "5. PDAC/TME decision packet, dual-route preflight, runbook, and first-pass deep validation are complete; authors still need to confirm the route, and a Nature Methods-style main figure still needs full MSigDB/Reactome/Hallmark GSEA plus literature-backed PDAC atlas marker mapping.",
             "6. Optional broader atlas-scale dataset if the Nature Methods route remains active after the current blockers are cleared.",
             "7. Final source-data/caption/reporting-summary regeneration after benchmark freeze.",
             "",
@@ -1231,7 +1281,7 @@ def build_markdown(
             "- Add a realistic null family that preserves library size, gene marginals, dropout, and batch structure.",
             "- Add a full `callability map` figure where no-call is treated as a validated decision, not a failure.",
             "- Keep PBMC3k and PDAC GSE154778 as label-free stability/runtime evidence unless reliable cell-state annotations are added.",
-            "- Use `docs/pdac_tme_route_decision_packet.md`, `docs/pdac_tme_dual_route_preflight.md`, and `docs/pdac_tme_dual_route_runbook.md` to choose and execute PDAC/TME deepening versus supplement demotion; add a stronger application with known external ground truth if PDAC/TME remains shallow.",
+            "- Use `docs/pdac_tme_deep_validation.md` as first-pass PDAC/TME support, then add full pathway GSEA and published-atlas marker citation mapping before final Figure 4 wording; choose a stronger application with known external ground truth if PDAC/TME remains shallow.",
             "",
             "## Source Artifacts",
             "",
