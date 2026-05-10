@@ -109,6 +109,7 @@ python benchmarks/run_pdac_showcase.py --h5ad data/processed/pdac_gse154778.h5ad
 python benchmarks/run_pdac_showcase.py --h5ad data/processed/pdac_gse263733.h5ad --dataset-id pdac_gse263733
 python scripts/build_pdac_showcase_depth_report.py
 python scripts/run_pdac_tme_deep_validation.py
+python scripts/run_pdac_tme_pathway_atlas_validation.py
 python scripts/build_figure_source_data.py
 python scripts/render_main_figures.py
 python scripts/build_release_artifact_manifest.py
@@ -211,13 +212,14 @@ The benchmark runner writes per-dataset checkpoint TSVs under
 `--force` is provided.
 
 The current PDAC/TME showcase gate is
-`main_figure_candidate_supported_with_limits`: GSE154778 and GSE263733 now have
+`pathway_atlas_supported_with_limits`: GSE154778 and GSE263733 now have
 FDR-controlled marker DE, marker-set enrichment, external signature transfer,
-and Figure 4 source data in `docs/pdac_tme_deep_validation.md`. This remains a
-public-data, non-clinical, hypothesis-generating use case. Full
-MSigDB/Reactome/Hallmark GSEA, literature-backed PDAC atlas marker citation
-mapping, and final author route confirmation are still required before final
-Nature Methods-style Figure 4 wording.
+rank-based MSigDB Hallmark/Reactome pathway enrichment, atlas marker citation
+mapping, and Figure 4 source data in `docs/pdac_tme_deep_validation.md` and
+`docs/pdac_tme_pathway_atlas_validation.md`. This remains a public-data,
+non-clinical, hypothesis-generating use case. Final author route confirmation
+and bounded Figure 4 wording/source-data freeze are still required before final
+Nature Methods-style wording.
 
 The current figure source-data gate is `pass`: `scripts/build_figure_source_data.py`
 creates `results/figures/figure_reproducibility.tsv` and source-data tables for

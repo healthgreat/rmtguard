@@ -44,6 +44,27 @@ DEEP_VALIDATION_ENRICHMENT = (
 DEEP_VALIDATION_EXTERNAL = (
     ROOT / "results" / "pdac_tme" / "deep_validation" / "pdac_external_signature_validation.tsv"
 )
+PATHWAY_ATLAS_SUMMARY = (
+    ROOT
+    / "results"
+    / "pdac_tme"
+    / "pathway_atlas_validation"
+    / "pdac_pathway_atlas_validation_summary.tsv"
+)
+PATHWAY_RANK_ENRICHMENT = (
+    ROOT
+    / "results"
+    / "pdac_tme"
+    / "pathway_atlas_validation"
+    / "pdac_pathway_rank_enrichment.tsv"
+)
+ATLAS_MARKER_MAPPING = (
+    ROOT
+    / "results"
+    / "pdac_tme"
+    / "pathway_atlas_validation"
+    / "pdac_atlas_marker_citation_mapping.tsv"
+)
 
 PREFLIGHT_TSV = ROOT / "results" / "submission" / "pdac_tme_dual_route_preflight.tsv"
 RUNBOOK_TSV = ROOT / "results" / "submission" / "pdac_tme_dual_route_runbook.tsv"
@@ -136,6 +157,7 @@ def build_preflight_rows() -> list[dict[str, str]]:
     primary_details = _read_json(PRIMARY_DETAILS)
     validation_details = _read_json(VALIDATION_DETAILS)
     deep_summary = {row.get("summary_id", ""): row for row in _read_tsv(DEEP_VALIDATION_SUMMARY)}
+    pathway_summary = {row.get("summary_id", ""): row for row in _read_tsv(PATHWAY_ATLAS_SUMMARY)}
 
     primary_obs = set(primary.obs_columns)
     validation_obs = set(validation.obs_columns)
@@ -228,32 +250,54 @@ def build_preflight_rows() -> list[dict[str, str]]:
         },
         {
             "check_id": "pathway_gsea_results_present",
-            "status": "partial_pass"
+            "status": "pass"
+            if PATHWAY_RANK_ENRICHMENT.exists()
+            and pathway_summary.get("pdac_pathway_atlas_validation_status", {}).get("status")
+            == "pathway_atlas_supported_with_limits"
+            else "partial_pass"
             if DEEP_VALIDATION_ENRICHMENT.exists()
             and deep_summary.get("significant_marker_set_enrichments", {}).get("status") == "pass"
             else "blocker",
-            "route_implication": "blocks_main_figure_claim",
+            "route_implication": "supports_main_figure_with_limits",
             "evidence": (
+                f"{_rel(PATHWAY_RANK_ENRICHMENT)} exists; significant_hallmark_pathways="
+                f"{pathway_summary.get('significant_hallmark_pathways', {}).get('value', 'NA')}; "
+                f"significant_reactome_pathways={pathway_summary.get('significant_reactome_pathways', {}).get('value', 'NA')}; "
+                f"manuscript_interpretable_pathways={pathway_summary.get('manuscript_interpretable_pathways', {}).get('value', 'NA')}. "
+                "This is rank-based pathway enrichment, not Broad GSEA desktop permutation output."
+                if PATHWAY_RANK_ENRICHMENT.exists()
+                else (
                 f"{_rel(DEEP_VALIDATION_ENRICHMENT)} exists; significant_marker_set_enrichments="
                 f"{deep_summary.get('significant_marker_set_enrichments', {}).get('value', 'NA')}. "
                 "This is marker-set over-representation, not full MSigDB/Reactome GSEA."
                 if DEEP_VALIDATION_ENRICHMENT.exists()
                 else "No PDAC/TME pathway/GSEA table is present yet."
+                )
             ),
-            "next_action": "For Nature Methods main Figure 4, upgrade to Reactome/MSigDB/Hallmark GSEA if the claim depends on pathway biology.",
+            "next_action": "Use only manuscript-interpretable pathway hits in main Figure 4; keep low-specificity translation/ribosomal hits in source data rather than main text.",
         },
         {
             "check_id": "published_atlas_marker_comparison_present",
-            "status": "partial_pass" if DEEP_VALIDATION_EXTERNAL.exists() else "blocker",
-            "route_implication": "blocks_main_figure_claim",
+            "status": "pass"
+            if ATLAS_MARKER_MAPPING.exists()
+            and pathway_summary.get("atlas_supported_cluster_signature_rows", {}).get("status") == "pass"
+            else "partial_pass"
+            if DEEP_VALIDATION_EXTERNAL.exists()
+            else "blocker",
+            "route_implication": "supports_main_figure_with_limits",
             "evidence": (
+                f"{_rel(ATLAS_MARKER_MAPPING)} exists; atlas_supported_cluster_signature_rows="
+                f"{pathway_summary.get('atlas_supported_cluster_signature_rows', {}).get('value', 'NA')}."
+                if ATLAS_MARKER_MAPPING.exists()
+                else (
                 f"{_rel(DEEP_VALIDATION_EXTERNAL)} exists; external_label_supported_primary_signatures="
                 f"{deep_summary.get('external_label_supported_primary_signatures', {}).get('value', 'NA')}. "
                 "Published-atlas citation mapping still needs final literature-backed labels."
                 if DEEP_VALIDATION_EXTERNAL.exists()
                 else "No published PDAC atlas marker-comparison table is present yet."
+                )
             ),
-            "next_action": "Add exact published atlas marker-set citations before final manuscript wording.",
+            "next_action": "Use citation-mapped marker overlaps as bounded atlas support; do not convert them into new mechanism claims.",
         },
         {
             "check_id": "trajectory_or_state_transition_present",
@@ -288,8 +332,8 @@ def build_runbook_rows() -> list[dict[str, str]]:
             "route_id": "deepen_as_main_figure",
             "step_order": "3",
             "step_name": "pathway_enrichment",
-            "purpose": "Run Hallmark/Reactome/GO enrichment for supported states with explicit gene universe and BH-FDR.",
-            "expected_output": "results/pdac_tme/deep_validation/pdac_pathway_enrichment.tsv",
+            "purpose": "Run rank-based Hallmark/Reactome enrichment for supported states with explicit gene universe and BH-FDR.",
+            "expected_output": "results/pdac_tme/pathway_atlas_validation/pdac_pathway_rank_enrichment.tsv",
             "resume_rule": "Checkpoint per gene-set database and state.",
         },
         {
@@ -303,9 +347,17 @@ def build_runbook_rows() -> list[dict[str, str]]:
         {
             "route_id": "deepen_as_main_figure",
             "step_order": "5",
+            "step_name": "atlas_marker_citation_mapping",
+            "purpose": "Map supported cluster signatures to cited PDAC atlas/reference marker families.",
+            "expected_output": "results/pdac_tme/pathway_atlas_validation/pdac_atlas_marker_citation_mapping.tsv",
+            "resume_rule": "Regenerate after DE table or reference marker mapping changes.",
+        },
+        {
+            "route_id": "deepen_as_main_figure",
+            "step_order": "6",
             "step_name": "figure4_source_data",
             "purpose": "Generate source data and publication panels only for claims that pass the evidence gate.",
-            "expected_output": "results/figures/source_data/figure4_pdac_tme_deep_validation.tsv",
+            "expected_output": "results/figures/source_data/figure4_pdac_tme_pathway_atlas_source.tsv",
             "resume_rule": "Regenerate only after source tables change.",
         },
         {
@@ -379,7 +431,7 @@ def build_preflight_markdown(rows: list[dict[str, str]]) -> str:
             "",
             "## Route Recommendation",
             "",
-            "- If the target remains strict 20-50 JIF / Nature Methods: choose `PDAC/TME route: deepen as main figure`, then upgrade the first-pass DE/signature-transfer evidence with full pathway GSEA and published-atlas marker citation mapping.",
+            "- If the target remains strict 20-50 JIF / Nature Methods: choose `PDAC/TME route: deepen as main figure`, then freeze bounded Figure 4 wording using the completed DE/signature/pathway/atlas evidence.",
             "- If the target is a faster defensible genomics software paper: choose `PDAC/TME route: demote to supplement`, then screen a stronger main application.",
             "",
             "## Manual Author Reply Needed",

@@ -1,0 +1,9 @@
+summary_id	status	value	notes
+pdac_pathway_atlas_validation_status	pathway_atlas_supported_with_limits	pathway_atlas_supported_with_limits	Supports pathway/atlas layer with public data limits; not clinical or mechanistic proof.
+significant_hallmark_pathways	pass	189	BH-FDR <=0.05 and positive pathway rank effect.
+significant_reactome_pathways	pass	1466	MSigDB C2 Reactome subset; BH-FDR <=0.05 and positive pathway rank effect.
+atlas_supported_cluster_signature_rows	pass	7	Rows with >=2 overlap markers against a cited PDAC atlas/reference marker family.
+manuscript_interpretable_pathways	pass	215	Significant pathways not dominated by low-specificity translation/ribosomal/infection-proxy labels.
+gene_set_collections_with_signal	pass	hallmark,reactome	Collections with at least one significant pathway.
+gene_set_resources	controlled_boundary	hallmark:h.all.v2025.1.Hs.symbols.gmt;reactome:c2.cp.reactome.v2025.1.Hs.symbols.gmt	GMT files are downloaded on demand and not committed as raw external resources.
+claim_boundary	controlled_boundary	public_data_nonclinical_hypothesis_generating_rank_based_pathway_layer	Do not claim prognosis, therapy response, clinical validation, or new PDAC mechanism.

@@ -1,0 +1,8 @@
+resource	path	exists	sha256	url	source_note	force_download
+hallmark	data/external/gene_sets/h.all.v2025.1.Hs.symbols.gmt	True	f22066af72e215ccb7b89d88e492c07e1eef17534c2ca7b0f9902cfecbbdd8e9	https://data.broadinstitute.org/gsea-msigdb/msigdb/release/2025.1.Hs/h.all.v2025.1.Hs.symbols.gmt	MSigDB 2025.1.Hs Hallmark collection, H gene symbols.	False
+reactome	data/external/gene_sets/c2.cp.reactome.v2025.1.Hs.symbols.gmt	True	53b9b506bf3be87700cbb3cbbbb7a6faa847fbe62e65421541b14a2b763bab6b	https://data.broadinstitute.org/gsea-msigdb/msigdb/release/2025.1.Hs/c2.cp.reactome.v2025.1.Hs.symbols.gmt	MSigDB 2025.1.Hs curated Reactome subset, C2:CP:Reactome gene symbols.	False
+pdac_pathway_rank_enrichment	results/pdac_tme/pathway_atlas_validation/pdac_pathway_rank_enrichment.tsv	True	a7ad823989add388a92d2623720b33c3d8cd819ebe761ca77d321c429687e0ca		generated local artifact	False
+pdac_atlas_marker_citation_mapping	results/pdac_tme/pathway_atlas_validation/pdac_atlas_marker_citation_mapping.tsv	True	41a589458814f4f21eaaa47ecef65e156f233f68ec9931db63cdf17190e44383		generated local artifact	False
+pdac_pathway_atlas_validation_summary	results/pdac_tme/pathway_atlas_validation/pdac_pathway_atlas_validation_summary.tsv	True	39467d50f9936c894f51c012300cb807bfb826eab5de6beea91acf380ff23ba3		generated local artifact	False
+figure4_pdac_tme_pathway_atlas_source	results/figures/source_data/figure4_pdac_tme_pathway_atlas_source.tsv	True	a523458d27950b33e0a5c9c6620b16fe85439ee373af3e854f7c3c8c5437bea1		generated local artifact	False
+pdac_tme_pathway_atlas_validation	docs/pdac_tme_pathway_atlas_validation.md	True	6afa555cf4321c10bb67b9aaa7018f037c23390049b589da465e4cc2f564b670		generated local artifact	False

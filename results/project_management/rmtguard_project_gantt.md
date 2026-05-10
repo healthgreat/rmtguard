@@ -35,27 +35,28 @@ gantt
     Official Seurat JackStraw 20-repeat comparator :done, T27, 2026-05-03, 1d
     Paired RMTGuard vs official Seurat statistics :done, T28, 2026-05-03, 1d
     Added-dataset official Seurat rows :done, T29, 2026-05-03, 1d
-    Additional public datasets :done, T32, 2026-05-03, 1d
+    Additional public datasets :done, T33, 2026-05-03, 1d
     section Manuscript package
     External pre-review triage and route reframe :done, T07, 2026-05-01, 2d
     Publication-style figures; tables; and visual audit :done, T08, 2026-05-01, 2d
     Real-data ablation forest plot and supplemental table :done, T22, 2026-05-03, 2d
-    Final figure source data; captions; and reporting summary :T33, 2026-06-02, 15d
+    Final figure source data; captions; and reporting summary :T34, 2026-06-02, 15d
     section Journal route
     20-50 JIF distance and gap assessment :done, T09, 2026-05-02, 1d
     Nature Methods next-round science gate board :done, T10, 2026-05-04, 1d
     Nature Methods 48-hour execution packet :done, T11, 2026-05-04, 1d
-    Nature Methods vs Genome Biology go/no-go :T36, 2026-06-21, 15d
-    Submission package freeze :T37, 2026-07-06, 14d
+    Nature Methods vs Genome Biology go/no-go :T37, 2026-06-21, 15d
+    Submission package freeze :T38, 2026-07-06, 14d
     section Biological application
     PDAC/TME route decision packet :done, T12, 2026-05-04, 1d
     PDAC/TME dual-route preflight and runbook :done, T13, 2026-05-04, 1d
     PDAC/TME deep validation first pass :T30, 2026-05-10, 1d
-    PDAC/TME pathway and atlas upgrade :T31, 2026-05-12, 15d
+    PDAC/TME pathway and atlas upgrade :T31, 2026-05-10, 1d
+    PDAC/TME final Figure 4 wording freeze :T32, 2026-05-12, 8d
     section Release
     Public GitHub repository; release; and Zenodo DOI :done, T14, 2026-05-02, 3d
-    Post-release gates and reproducibility audit :done, T34, 2026-05-04, 1d
-    Cross-project shared information package :done, T35, 2026-05-04, 1d
+    Post-release gates and reproducibility audit :done, T35, 2026-05-04, 1d
+    Cross-project shared information package :done, T36, 2026-05-04, 1d
     section Statistics
     Realistic null and rare-state power calibration :done, T15, 2026-05-02, 3d
     Rare-state weak-regime claim boundary :done, T16, 2026-05-04, 1d
@@ -95,13 +96,14 @@ gantt
 | T28 | Public benchmark | Paired RMTGuard vs official Seurat statistics | 2026-05-03 | 2026-05-03 | done | 100% | `docs/rmtguard_seurat_paired_statistics.md` |
 | T29 | Public benchmark | Added-dataset official Seurat rows | 2026-05-03 | 2026-05-03 | done | 100% | `docs/seurat_matched_baseline.md` |
 | T30 | Biological application | PDAC/TME deep validation first pass | 2026-05-10 | 2026-05-10 | done_with_limit | 75% | `docs/pdac_tme_deep_validation.md` |
-| T31 | Biological application | PDAC/TME pathway and atlas upgrade | 2026-05-12 | 2026-05-26 | planned | 0% | `docs/pdac_tme_showcase_depth.md` |
-| T32 | Public benchmark | Additional public datasets | 2026-05-03 | 2026-05-03 | done | 100% | `docs/manuscript_grade_stability_statistics.md` |
-| T33 | Manuscript package | Final figure source data, captions, and reporting summary | 2026-06-02 | 2026-06-16 | planned | 0% | `docs/nature_reporting_summary_draft.md` |
-| T34 | Release | Post-release gates and reproducibility audit | 2026-05-04 | 2026-05-04 | done | 100% | `results/submission/submission_guard.tsv` |
-| T35 | Release | Cross-project shared information package | 2026-05-04 | 2026-05-04 | done | 100% | `docs/shared_info_export_manifest.md` |
-| T36 | Journal route | Nature Methods vs Genome Biology go/no-go | 2026-06-21 | 2026-07-05 | planned | 0% | `results/submission/post_feedback_journal_route_gate.tsv` |
-| T37 | Journal route | Submission package freeze | 2026-07-06 | 2026-07-19 | planned | 0% | `results/submission/presubmission_gatekeeper.tsv` |
+| T31 | Biological application | PDAC/TME pathway and atlas upgrade | 2026-05-10 | 2026-05-10 | done_with_limit | 85% | `docs/pdac_tme_pathway_atlas_validation.md` |
+| T32 | Biological application | PDAC/TME final Figure 4 wording freeze | 2026-05-12 | 2026-05-19 | planned | 0% | `docs/nature_reporting_summary_draft.md` |
+| T33 | Public benchmark | Additional public datasets | 2026-05-03 | 2026-05-03 | done | 100% | `docs/manuscript_grade_stability_statistics.md` |
+| T34 | Manuscript package | Final figure source data, captions, and reporting summary | 2026-06-02 | 2026-06-16 | planned | 0% | `docs/nature_reporting_summary_draft.md` |
+| T35 | Release | Post-release gates and reproducibility audit | 2026-05-04 | 2026-05-04 | done | 100% | `results/submission/submission_guard.tsv` |
+| T36 | Release | Cross-project shared information package | 2026-05-04 | 2026-05-04 | done | 100% | `docs/shared_info_export_manifest.md` |
+| T37 | Journal route | Nature Methods vs Genome Biology go/no-go | 2026-06-21 | 2026-07-05 | planned | 0% | `results/submission/post_feedback_journal_route_gate.tsv` |
+| T38 | Journal route | Submission package freeze | 2026-07-06 | 2026-07-19 | planned | 0% | `results/submission/presubmission_gatekeeper.tsv` |
 
 ## Current blockers
 
@@ -113,4 +115,4 @@ gantt
 - Realistic count-preserving null calibration and rare-state power grids have reached 50-repeat manuscript-grade depth; low-prevalence weak-effect settings remain an explicit claim-boundary limitation.
 - Component ablation now has synthetic 20-repeat CI evidence and four-dataset labeled real-data 20-repeat annotation checks; remaining ablation risk is interpretation, not missing repeat depth.
 - Local matched Python baselines, official Seurat fixed30/fixed50/elbow/JackStraw 20-repeat rows across seven datasets, paired20 RMTGuard-versus-official-Seurat statistics across five labeled datasets, and seven-dataset stability breadth are now present; PBMC3k and PDAC GSE154778 remain label-free evidence unless annotations are added.
-- PDAC/TME deep validation first pass is complete and supports a bounded main-figure candidate with limits; full pathway GSEA, published-atlas citation mapping, and explicit author route confirmation remain before final high-impact wording.
+- PDAC/TME deep validation plus pathway/atlas upgrade are complete with limits; explicit author route confirmation and final Figure 4 wording/source-data freeze remain before high-impact wording.

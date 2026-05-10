@@ -358,12 +358,22 @@ TASKS = [
     Task(
         "Biological application",
         "PDAC/TME pathway and atlas upgrade",
+        date(2026, 5, 10),
+        date(2026, 5, 10),
+        "done_with_limit",
+        85,
+        "docs/pdac_tme_pathway_atlas_validation.md",
+        "Rank-based MSigDB Hallmark/Reactome enrichment, manuscript-interpretable pathway labeling, atlas marker citation mapping, and Figure 4 pathway/atlas source data are complete; final author route confirmation and wording freeze remain.",
+    ),
+    Task(
+        "Biological application",
+        "PDAC/TME final Figure 4 wording freeze",
         date(2026, 5, 12),
-        date(2026, 5, 26),
+        date(2026, 5, 19),
         "planned",
         0,
-        "docs/pdac_tme_showcase_depth.md",
-        "Upgrade marker-set enrichment to formal pathway GSEA and add literature-backed PDAC atlas marker mapping, or demote the showcase to supplement.",
+        "docs/nature_reporting_summary_draft.md",
+        "Freeze bounded Figure 4 captions and source-data wording after author route confirmation.",
     ),
     Task(
         "Public benchmark",
@@ -622,7 +632,7 @@ def build_markdown(df: pd.DataFrame) -> str:
             "- Realistic count-preserving null calibration and rare-state power grids have reached 50-repeat manuscript-grade depth; low-prevalence weak-effect settings remain an explicit claim-boundary limitation.",
             "- Component ablation now has synthetic 20-repeat CI evidence and four-dataset labeled real-data 20-repeat annotation checks; remaining ablation risk is interpretation, not missing repeat depth.",
             "- Local matched Python baselines, official Seurat fixed30/fixed50/elbow/JackStraw 20-repeat rows across seven datasets, paired20 RMTGuard-versus-official-Seurat statistics across five labeled datasets, and seven-dataset stability breadth are now present; PBMC3k and PDAC GSE154778 remain label-free evidence unless annotations are added.",
-            "- PDAC/TME deep validation first pass is complete and supports a bounded main-figure candidate with limits; full pathway GSEA, published-atlas citation mapping, and explicit author route confirmation remain before final high-impact wording.",
+            "- PDAC/TME deep validation plus pathway/atlas upgrade are complete with limits; explicit author route confirmation and final Figure 4 wording/source-data freeze remain before high-impact wording.",
         ]
     )
     return "\n".join(lines)

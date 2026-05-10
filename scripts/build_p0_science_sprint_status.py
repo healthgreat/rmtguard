@@ -30,6 +30,13 @@ REALDATA_SUMMARY = (
 PDAC_DEEP_SUMMARY = (
     ROOT / "results" / "pdac_tme" / "deep_validation" / "pdac_deep_validation_summary.tsv"
 )
+PDAC_PATHWAY_ATLAS_SUMMARY = (
+    ROOT
+    / "results"
+    / "pdac_tme"
+    / "pathway_atlas_validation"
+    / "pdac_pathway_atlas_validation_summary.tsv"
+)
 OUT_TSV = ROOT / "results" / "submission" / "p0_science_sprint_status.tsv"
 OUT_MD = ROOT / "docs" / "p0_science_sprint_status.md"
 
@@ -118,9 +125,20 @@ def _calibration_ci_present(df: pd.DataFrame, required: list[str]) -> bool:
 
 
 def _pdac_deep_status(df: pd.DataFrame) -> str:
-    if df.empty or "summary" not in df.columns or "value" not in df.columns:
+    if df.empty or "summary_id" not in df.columns or "value" not in df.columns:
         return "not_started"
-    status_rows = df[df["summary"].astype(str) == "pdac_deep_validation_status"]
+    status_rows = df[df["summary_id"].astype(str) == "pdac_deep_validation_status"]
+    if status_rows.empty:
+        return "not_started"
+    return str(status_rows.iloc[0]["value"])
+
+
+def _pdac_pathway_status(df: pd.DataFrame) -> str:
+    if df.empty or "summary_id" not in df.columns or "value" not in df.columns:
+        return "not_started"
+    status_rows = df[
+        df["summary_id"].astype(str) == "pdac_pathway_atlas_validation_status"
+    ]
     if status_rows.empty:
         return "not_started"
     return str(status_rows.iloc[0]["value"])
@@ -132,6 +150,7 @@ def build_rows() -> list[dict[str, object]]:
     power = _read_tsv(POWER_SUMMARY)
     realdata = _read_tsv(REALDATA_SUMMARY)
     pdac_deep = _read_tsv(PDAC_DEEP_SUMMARY)
+    pdac_pathway = _read_tsv(PDAC_PATHWAY_ATLAS_SUMMARY)
 
     component_min_repeats = _min_repeat(component)
     component_ci = _component_ci_present(component)
@@ -157,6 +176,7 @@ def build_rows() -> list[dict[str, object]]:
     )
     realdata_component_repeats = _realdata_component_depth(realdata)
     pdac_deep_status = _pdac_deep_status(pdac_deep)
+    pdac_pathway_status = _pdac_pathway_status(pdac_pathway)
 
     rows = [
         {
@@ -226,7 +246,7 @@ def build_rows() -> list[dict[str, object]]:
             "gate_id": "NM-G05",
             "gate_name": "pdac_tme_deep_validation",
             "status": (
-                "partial_done_supported_with_limits"
+                "done_with_limit"
                 if pdac_deep_status == "main_figure_candidate_supported_with_limits"
                 else "not_started"
             ),
@@ -234,9 +254,26 @@ def build_rows() -> list[dict[str, object]]:
             "ci_present": "false",
             "evidence": _rel(PDAC_DEEP_SUMMARY),
             "next_action": (
-                "First-pass DE, marker-set enrichment, external signature transfer, and Figure 4 source data are complete; next add full pathway GSEA and published-atlas marker citation mapping."
+                "First-pass DE, marker-set enrichment, external signature transfer, and Figure 4 source data are complete; pathway/atlas upgrade is tracked in NM-G05B."
                 if pdac_deep_status == "main_figure_candidate_supported_with_limits"
                 else "Run PDAC/TME deep validation or demote the showcase to supplement."
+            ),
+        },
+        {
+            "gate_id": "NM-G05B",
+            "gate_name": "pdac_tme_pathway_atlas_validation",
+            "status": (
+                "done_with_limit"
+                if pdac_pathway_status == "pathway_atlas_supported_with_limits"
+                else "not_started"
+            ),
+            "repeat_depth": 0,
+            "ci_present": "false",
+            "evidence": _rel(PDAC_PATHWAY_ATLAS_SUMMARY),
+            "next_action": (
+                "Use bounded pathway/atlas source data for Figure 4; obtain author route confirmation and final wording freeze."
+                if pdac_pathway_status == "pathway_atlas_supported_with_limits"
+                else "Run rank-based Hallmark/Reactome pathway enrichment and atlas marker citation mapping."
             ),
         },
     ]
@@ -244,10 +281,14 @@ def build_rows() -> list[dict[str, object]]:
 
 
 def build_markdown(rows: list[dict[str, object]]) -> str:
-    open_rows = [row for row in rows if row["status"] != "done"]
+    open_rows = [row for row in rows if not str(row["status"]).startswith("done")]
     pdac_deep_done = any(
         row["gate_id"] == "NM-G05"
-        and row["status"] == "partial_done_supported_with_limits"
+        and str(row["status"]).startswith("done")
+        for row in rows
+    )
+    pdac_pathway_done = any(
+        row["gate_id"] == "NM-G05B" and row["status"] == "done_with_limit"
         for row in rows
     )
     realdata_done = any(
@@ -271,7 +312,9 @@ def build_markdown(rows: list[dict[str, object]]) -> str:
             for row in rows
         )
         else "- Realistic null/power grids still need manuscript-grade 50-repeat depth.",
-        "- PDAC/TME deep validation first pass is complete: FDR-controlled marker DE, marker-set enrichment, external signature transfer, and Figure 4 source data are present; full pathway GSEA and published-atlas citations remain."
+        "- PDAC/TME pathway/atlas validation is complete with limits: rank-based Hallmark/Reactome enrichment, atlas marker citation mapping, and Figure 4 pathway/atlas source data are present; final author route and wording freeze remain."
+        if pdac_pathway_done
+        else "- PDAC/TME deep validation first pass is complete: FDR-controlled marker DE, marker-set enrichment, external signature transfer, and Figure 4 source data are present; full pathway GSEA and published-atlas citations remain."
         if pdac_deep_done
         else "- PDAC/TME deep validation is not complete; keep it out of main-figure claims.",
         "- PDAC/TME route decision packet is available at `docs/pdac_tme_route_decision_packet.md`; final author decision is still required.",
@@ -316,7 +359,10 @@ def main() -> int:
     _write_text(OUT_MD, build_markdown(rows))
     print(_rel(OUT_TSV))
     print(_rel(OUT_MD))
-    print(f"open_p0_science_items\t{sum(row['status'] != 'done' for row in rows)}")
+    print(
+        "open_p0_science_items\t"
+        f"{sum(not str(row['status']).startswith('done') for row in rows)}"
+    )
     return 0
 
 

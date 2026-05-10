@@ -244,6 +244,36 @@ COPY_ITEMS = [
         "Figure 4 PDAC/TME source data",
     ),
     CopyItem(
+        ROOT / "docs" / "pdac_tme_pathway_atlas_validation.md",
+        "06_next_sprint_inputs",
+        "RMTGuard_PDAC_TME_PATHWAY_ATLAS_VALIDATION.md",
+        "PDAC/TME pathway and atlas validation report",
+    ),
+    CopyItem(
+        ROOT / "results" / "pdac_tme" / "pathway_atlas_validation" / "pdac_pathway_atlas_validation_summary.tsv",
+        "06_next_sprint_inputs",
+        "RMTGuard_PDAC_TME_PATHWAY_ATLAS_SUMMARY.tsv",
+        "machine-readable PDAC/TME pathway and atlas validation summary",
+    ),
+    CopyItem(
+        ROOT / "results" / "pdac_tme" / "pathway_atlas_validation" / "pdac_pathway_rank_enrichment.tsv",
+        "06_next_sprint_inputs",
+        "RMTGuard_PDAC_TME_PATHWAY_RANK_ENRICHMENT.tsv",
+        "rank-based Hallmark/Reactome PDAC/TME pathway enrichment table",
+    ),
+    CopyItem(
+        ROOT / "results" / "pdac_tme" / "pathway_atlas_validation" / "pdac_atlas_marker_citation_mapping.tsv",
+        "06_next_sprint_inputs",
+        "RMTGuard_PDAC_TME_ATLAS_MARKER_CITATION_MAPPING.tsv",
+        "PDAC/TME atlas marker citation mapping table",
+    ),
+    CopyItem(
+        ROOT / "results" / "figures" / "source_data" / "figure4_pdac_tme_pathway_atlas_source.tsv",
+        "04_gantt_and_figures",
+        "RMTGuard_FIGURE4_PDAC_TME_PATHWAY_ATLAS_SOURCE_DATA.tsv",
+        "Figure 4 PDAC/TME pathway and atlas source data",
+    ),
+    CopyItem(
         ROOT / "docs" / "component_ablation_benchmark.md",
         "06_next_sprint_inputs",
         "RMTGuard_COMPONENT_ABLATION_BENCHMARK.md",
@@ -371,7 +401,7 @@ matrices, tokens, passwords, or private clinical materials.
 - GitHub Release: https://github.com/healthgreat/rmtguard/releases/tag/v0.1.0
 - Zenodo DOI: https://doi.org/10.5281/zenodo.20012350
 - Strict 20-50 JIF target: Nature Methods only after gate recovery.
-- Current readiness score: 88/100.
+- Current readiness score: 89/100.
 - Acceptance guarantee: impossible.
 
 ## Main Files
@@ -390,6 +420,7 @@ matrices, tokens, passwords, or private clinical materials.
 - `06_next_sprint_inputs/RMTGuard_PDAC_TME_DUAL_ROUTE_PREFLIGHT.md`
 - `06_next_sprint_inputs/RMTGuard_PDAC_TME_DUAL_ROUTE_RUNBOOK.md`
 - `06_next_sprint_inputs/RMTGuard_PDAC_TME_DEEP_VALIDATION.md`
+- `06_next_sprint_inputs/RMTGuard_PDAC_TME_PATHWAY_ATLAS_VALIDATION.md`
 - `06_next_sprint_inputs/RMTGuard_COMPONENT_ABLATION_BENCHMARK.md`
 - `06_next_sprint_inputs/RMTGuard_REALDATA_ABLATION_ANNOTATION.md`
 - `06_next_sprint_inputs/RMTGuard_P0_COMPONENT_ABLATION_RUN_SHEET.md`
@@ -405,8 +436,8 @@ matrices, tokens, passwords, or private clinical materials.
 3. Confirm competing interests statement.
 4. Confirm ethics/public-data-use statement.
 5. Confirm CRediT author roles.
-6. Confirm whether PDAC/TME remains a main figure; if yes, add full pathway
-   GSEA and published-atlas marker citation mapping before final Figure 4 wording.
+6. Confirm whether PDAC/TME remains a main figure and approve bounded Figure 4
+   wording using only supported pathway/atlas evidence.
 7. Re-check JCR, CAS partition, and warning-list status immediately before
    journal submission.
 
@@ -439,9 +470,9 @@ stability-superiority is not supported, synthetic and real-data component
 ablation now have 20-repeat CI/annotation layers, realistic null and power
 grids now have 50-repeat calibration output with a low-prevalence/effect
 claim-boundary limitation, and the PDAC/TME biological
-showcase has first-pass DE/signature-transfer support but still needs full
-pathway GSEA, published-atlas marker citation mapping, and final author route
-confirmation.
+showcase now has DE/signature-transfer plus rank-based Hallmark/Reactome
+pathway and atlas-marker support with limits; final author route confirmation
+and Figure 4 wording/source-data freeze remain.
 
 ## Fast Open
 
@@ -456,6 +487,7 @@ confirmation.
 - 50-repeat calibration: `{package_dir / "06_next_sprint_inputs" / "RMTGuard_REALISTIC_NULL_POWER_CALIBRATION.md"}`
 - Rare-state claim boundary: `{package_dir / "06_next_sprint_inputs" / "RMTGuard_RARE_STATE_CLAIM_BOUNDARY.md"}`
 - PDAC/TME deep validation: `{package_dir / "06_next_sprint_inputs" / "RMTGuard_PDAC_TME_DEEP_VALIDATION.md"}`
+- PDAC/TME pathway/atlas validation: `{package_dir / "06_next_sprint_inputs" / "RMTGuard_PDAC_TME_PATHWAY_ATLAS_VALIDATION.md"}`
 - Gantt PNG: `{package_dir / "04_gantt_and_figures" / "RMTGuard_PROJECT_GANTT.png"}`
 - Manual checklist: `{package_dir / "02_manual_actions" / "RMTGuard_MANUAL_NEXT_ACTIONS_20_50.md"}`
 - Release blocker report: `{package_dir / "03_release_evidence" / "RMTGuard_PUBLIC_RELEASE_BLOCKER_REPORT.md"}`
