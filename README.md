@@ -182,6 +182,13 @@ draft must not be sent while the packet reports a `hold_*` status, and the
 official Nature Methods presubmission/submission route must be verified
 immediately before any editor-facing send.
 
+The official-source route verification checklist is stored at
+`docs/nature_methods_official_route_verification.md`, with a machine-readable
+copy at `results/submission/nature_methods_official_route_verification.tsv`.
+It records the current official Nature Methods presubmission route, Article
+fit, data/code availability, ethics, and AI-use checks, but still requires a
+fresh manual website check immediately before sending.
+
 The corresponding-author sign-off packet is stored at
 `manuscript/corresponding_author_signoff_packet.md`, with a Word handoff copy
 at `output/doc/RMTGuard_corresponding_author_signoff_packet.docx`.

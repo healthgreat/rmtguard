@@ -376,6 +376,18 @@ COPY_ITEMS = [
         "Nature Methods presubmission send runbook",
     ),
     CopyItem(
+        ROOT / "docs" / "nature_methods_official_route_verification.md",
+        "07_presubmission",
+        "RMTGuard_NATURE_METHODS_OFFICIAL_ROUTE_VERIFICATION.md",
+        "official-source Nature Methods route verification checklist",
+    ),
+    CopyItem(
+        ROOT / "results" / "submission" / "nature_methods_official_route_verification.tsv",
+        "07_presubmission",
+        "RMTGuard_NATURE_METHODS_OFFICIAL_ROUTE_VERIFICATION.tsv",
+        "machine-readable official Nature Methods route verification checklist",
+    ),
+    CopyItem(
         ROOT / "output" / "email" / "RMTGuard_nature_methods_presubmission_inquiry_HOLD.eml",
         "07_presubmission",
         "RMTGuard_NATURE_METHODS_PRESUBMISSION_INQUIRY_HOLD.eml",
@@ -528,6 +540,7 @@ matrices, tokens, passwords, or private clinical materials.
 - `02_manual_actions/RMTGuard_CORRESPONDING_AUTHOR_REPLY_INTAKE_RUNBOOK.md`
 - `07_presubmission/RMTGuard_NATURE_METHODS_PRESUBMISSION_SEND_PACKET.md`
 - `07_presubmission/RMTGuard_NATURE_METHODS_PRESUBMISSION_SEND_RUNBOOK.md`
+- `07_presubmission/RMTGuard_NATURE_METHODS_OFFICIAL_ROUTE_VERIFICATION.md`
 - `07_presubmission/RMTGuard_NATURE_METHODS_PRESUBMISSION_INQUIRY_HOLD.eml`
 - `03_release_evidence/RMTGuard_PUBLIC_RELEASE_BLOCKER_REPORT.md`
 - `04_gantt_and_figures/RMTGuard_PROJECT_GANTT.png`
@@ -620,6 +633,7 @@ frozen, and formal corresponding-author acknowledgement remains.
 - Nature Methods presubmission inquiry draft: `{package_dir / "07_presubmission" / "RMTGuard_NATURE_METHODS_PRESUBMISSION_INQUIRY_DRAFT.md"}`
 - Nature Methods presubmission send packet: `{package_dir / "07_presubmission" / "RMTGuard_NATURE_METHODS_PRESUBMISSION_SEND_PACKET.md"}`
 - Nature Methods presubmission send runbook: `{package_dir / "07_presubmission" / "RMTGuard_NATURE_METHODS_PRESUBMISSION_SEND_RUNBOOK.md"}`
+- Nature Methods official route verification: `{package_dir / "07_presubmission" / "RMTGuard_NATURE_METHODS_OFFICIAL_ROUTE_VERIFICATION.md"}`
 - Nature Methods presubmission HOLD email: `{package_dir / "07_presubmission" / "RMTGuard_NATURE_METHODS_PRESUBMISSION_INQUIRY_HOLD.eml"}`
 - Gantt PNG: `{package_dir / "04_gantt_and_figures" / "RMTGuard_PROJECT_GANTT.png"}`
 - Manual checklist: `{package_dir / "02_manual_actions" / "RMTGuard_MANUAL_NEXT_ACTIONS_20_50.md"}`
