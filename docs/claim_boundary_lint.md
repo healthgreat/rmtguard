@@ -8,7 +8,7 @@ The linter blocks unsupported journal-facing claims while allowing explicit forb
 ## Summary
 
 - Violations: `0`
-- Controlled boundary mentions: `213`
+- Controlled boundary mentions: `215`
 
 ## Violations
 
@@ -54,6 +54,8 @@ The linter blocks unsupported journal-facing claims while allowing explicit forb
 - `acceptance_guarantee` in `docs/external_review_feedback_triage.md:5`
 - `premature_doi_release` in `docs/external_review_feedback_triage.md:33`
 - `broad_fixed_pc_superiority` in `docs/external_review_feedback_triage.md:53`
+- `acceptance_guarantee` in `docs/genome_biology_fallback_v2_packet.md:11`
+- `premature_doi_release` in `docs/genome_biology_fallback_v2_packet.md:29`
 - `acceptance_guarantee` in `docs/genome_biology_transfer_package.md:5`
 - `premature_doi_release` in `docs/genome_biology_transfer_package.md:31`
 - `premature_doi_release` in `docs/genome_biology_transfer_package.md:33`
@@ -114,9 +116,7 @@ The linter blocks unsupported journal-facing claims while allowing explicit forb
 - `broad_fixed_pc_superiority` in `docs/reviewer_defense_package.md:56`
 - `pbmc68k_positive_discovery` in `docs/reviewer_defense_package.md:56`
 - `pbmc68k_positive_discovery` in `docs/reviewer_defense_package.md:91`
-- `pbmc68k_positive_discovery` in `docs/reviewer_defense_package.md:92`
-- `broad_fixed_pc_superiority` in `docs/reviewer_defense_package.md:128`
-- ... 113 additional controlled mentions omitted from Markdown summary.
+- ... 115 additional controlled mentions omitted from Markdown summary.
 
 ## Submission Rule
 

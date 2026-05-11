@@ -64,6 +64,30 @@ COPY_ITEMS = [
         "Nature Methods next-round science gate board",
     ),
     CopyItem(
+        ROOT / "docs" / "genome_biology_fallback_v2_packet.md",
+        "01_project_status",
+        "RMTGuard_GENOME_BIOLOGY_FALLBACK_V2_PACKET.md",
+        "Genome Biology v2 fallback packet",
+    ),
+    CopyItem(
+        ROOT / "results" / "submission" / "genome_biology_fallback_v2_checklist.tsv",
+        "01_project_status",
+        "RMTGuard_GENOME_BIOLOGY_FALLBACK_V2_CHECKLIST.tsv",
+        "machine-readable Genome Biology v2 fallback checklist",
+    ),
+    CopyItem(
+        ROOT / "manuscript" / "genome_biology_abstract_v2.md",
+        "01_project_status",
+        "RMTGuard_GENOME_BIOLOGY_ABSTRACT_V2.md",
+        "Genome Biology v2 abstract draft",
+    ),
+    CopyItem(
+        ROOT / "manuscript" / "genome_biology_cover_letter_v2.md",
+        "01_project_status",
+        "RMTGuard_GENOME_BIOLOGY_COVER_LETTER_V2.md",
+        "Genome Biology v2 cover letter draft",
+    ),
+    CopyItem(
         ROOT / "results" / "submission" / "nature_methods_next_round_gate_board.tsv",
         "01_project_status",
         "RMTGuard_NATURE_METHODS_NEXT_ROUND_GATE_BOARD.tsv",
@@ -595,6 +619,9 @@ matrices, tokens, passwords, or private clinical materials.
 - `01_project_status/RMTGuard_JIF20_50_GAP_ASSESSMENT.md`
 - `01_project_status/RMTGuard_PUBLICATION_EXECUTION_BOARD.md`
 - `01_project_status/RMTGuard_NATURE_METHODS_NEXT_ROUND_GATE_BOARD.md`
+- `01_project_status/RMTGuard_GENOME_BIOLOGY_FALLBACK_V2_PACKET.md`
+- `01_project_status/RMTGuard_GENOME_BIOLOGY_ABSTRACT_V2.md`
+- `01_project_status/RMTGuard_GENOME_BIOLOGY_COVER_LETTER_V2.md`
 - `01_project_status/RMTGuard_PROJECT_GANTT.md`
 - `01_project_status/RMTGuard_MENTOR_JOURNAL_DECISION_2026-05-10.md`
 - `01_project_status/RMTGuard_NATURE_METHODS_GO_NO_GO_FINAL.md`
@@ -686,6 +713,9 @@ frozen, and formal corresponding-author acknowledgement remains.
 
 - Gap report: `{package_dir / "01_project_status" / "RMTGuard_JIF20_50_GAP_ASSESSMENT.md"}`
 - Next-round gate board: `{package_dir / "01_project_status" / "RMTGuard_NATURE_METHODS_NEXT_ROUND_GATE_BOARD.md"}`
+- Genome Biology fallback v2 packet: `{package_dir / "01_project_status" / "RMTGuard_GENOME_BIOLOGY_FALLBACK_V2_PACKET.md"}`
+- Genome Biology abstract v2: `{package_dir / "01_project_status" / "RMTGuard_GENOME_BIOLOGY_ABSTRACT_V2.md"}`
+- Genome Biology cover letter v2: `{package_dir / "01_project_status" / "RMTGuard_GENOME_BIOLOGY_COVER_LETTER_V2.md"}`
 - 48-hour execution packet: `{package_dir / "06_next_sprint_inputs" / "RMTGuard_NATURE_METHODS_48H_EXECUTION_PACKET.md"}`
 - P0 science sprint status: `{package_dir / "06_next_sprint_inputs" / "RMTGuard_P0_SCIENCE_SPRINT_STATUS.md"}`
 - Component ablation benchmark: `{package_dir / "06_next_sprint_inputs" / "RMTGuard_COMPONENT_ABLATION_BENCHMARK.md"}`
