@@ -25,6 +25,9 @@ OBJECTION_MATRIX = ROOT / "results" / "manuscript" / "reviewer_objection_matrix.
 STORYLINE_PANEL_MAP = ROOT / "results" / "manuscript" / "storyline_panel_map.tsv"
 TOP_ROUTE = OUT_DIR / "top_paper_route_decision.tsv"
 PUBLIC_RELEASE_BLOCKERS = ROOT / "results" / "release" / "public_release_blockers.tsv"
+COMPETITOR_POSITIONING = (
+    ROOT / "docs" / "competitor_positioning_concord_sclens_2026-05-12.md"
+)
 
 PACKET_TSV = OUT_DIR / "editorial_presubmission_packet.tsv"
 FIGURE_CHECKLIST_TSV = OUT_DIR / "figure_claim_checklist.tsv"
@@ -147,6 +150,15 @@ def build_packet_rows(
             "evidence_path": _rel(CLAIM_MATRIX),
             "boundary": "Pitch the random-matrix diagnostic contract, not automatic parameter tuning.",
             "next_action": "Use only if the callability-aware benchmark wording is preserved.",
+        },
+        {
+            "item_id": "related_methods_positioning",
+            "target": "Nature Methods",
+            "status": "must_include",
+            "editor_facing_text": "The manuscript will position RMTGuard against recent high-impact single-cell representation-learning work such as CONCORD and against RMT-like single-cell signal-detection work such as scLENS, while making clear that the novelty is workflow-level random-matrix gating and diagnostic callability rather than the invention of random matrix theory.",
+            "evidence_path": _rel(COMPETITOR_POSITIONING),
+            "boundary": "Do not describe CONCORD as an RMT method or scLENS as a recent one-year paper.",
+            "next_action": "Add a Related Methods paragraph to the manuscript and keep direct scLENS head-to-head as a benchmark option.",
         },
         {
             "item_id": "primary_positive_evidence",
@@ -314,6 +326,7 @@ def build_inquiry_markdown(packet_rows: list[dict[str, str]]) -> list[str]:
         "",
         'We are preparing a Methods Article entitled "RMTGuard: random-matrix noise control for reproducible single-cell cell-state discovery".',
         by_item["one_sentence_pitch"]["editor_facing_text"],
+        by_item["related_methods_positioning"]["editor_facing_text"],
         "",
         "The manuscript's current evidence package supports three bounded claims.",
         by_item["primary_positive_evidence"]["editor_facing_text"],

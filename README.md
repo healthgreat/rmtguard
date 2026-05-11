@@ -163,6 +163,16 @@ Genome Biology-style genomics workflow/software framing.
 The current mentor decision memo is stored at
 `docs/mentor_journal_decision_2026-05-10.md`.
 
+The current high-impact competitor positioning memo is stored at
+`docs/competitor_positioning_concord_sclens_2026-05-12.md`, with a
+machine-readable matrix at `results/submission/competitor_positioning_matrix.tsv`.
+It defines CONCORD as the recent high-impact SCI benchmark template and scLENS
+as the closest random-matrix-like single-cell signal-detection competitor.
+The resulting benchmark upgrade checklist is stored at
+`docs/benchmark_upgrade_from_concord_sclens_2026-05-12.md`, with a
+machine-readable action table at
+`results/submission/benchmark_upgrade_from_concord_sclens.tsv`.
+
 The current bounded PDAC/TME Figure 4 wording freeze is stored at
 `docs/figure4_pdac_tme_wording_freeze.md`, with the manuscript caption draft in
 `manuscript/figure4_caption_bounded_draft.md`.

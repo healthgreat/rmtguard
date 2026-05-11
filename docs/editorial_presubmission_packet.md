@@ -23,6 +23,15 @@ This packet controls editor-facing language and does not replace the scientific 
 - Boundary: Pitch the random-matrix diagnostic contract, not automatic parameter tuning.
 - Next action: Use only if the callability-aware benchmark wording is preserved.
 
+## related_methods_positioning
+
+- Target: `Nature Methods`
+- Status: `must_include`
+- Evidence: `docs/competitor_positioning_concord_sclens_2026-05-12.md`
+- Editor-facing text: The manuscript will position RMTGuard against recent high-impact single-cell representation-learning work such as CONCORD and against RMT-like single-cell signal-detection work such as scLENS, while making clear that the novelty is workflow-level random-matrix gating and diagnostic callability rather than the invention of random matrix theory.
+- Boundary: Do not describe CONCORD as an RMT method or scLENS as a recent one-year paper.
+- Next action: Add a Related Methods paragraph to the manuscript and keep direct scLENS head-to-head as a benchmark option.
+
 ## primary_positive_evidence
 
 - Target: `Nature Methods`

@@ -1,0 +1,8 @@
+priority	task	goal	acceptance_gate	why_needed	status
+P0	scLENS feasibility check	Run scLENS on PBMC3k and Kang PBMC or document install/runtime blocker	Versioned command, runtime, memory, output or blocker recorded	Direct RMT-like competitor risk	pending
+P0	CONCORD-style topology stress simulation	Add branch, trajectory, and loop simulations	Structure recovery metrics beyond ARI/NMI reported	High-impact embedding papers test topology, not only clusters	pending
+P0	realistic count-preserving null	Preserve library size, dropout, and mean-variance structure while destroying labels	False signal PC rate near stated alpha	Addresses type-I-error criticism under realistic scRNA-seq nulls	pending
+P0	PBMC3k/Kang comparator refresh	Rerun RMTGuard and baselines under identical subsampling	At least 10 repeats, CI, cluster-number variance, annotation recovery, runtime, memory	Current stability story is not Nature Methods-grade	pending
+P1	no-call decision map	Make diagnostic no-call behavior readable per dataset	Decision heatmap with quantitative reasons	Reframes no-call as a transparent feature	pending
+P1	real-data topology benchmark	Add public differentiation or perturbation trajectory dataset	Trajectory uncertainty and fragmentation compared with baselines	Extends evidence beyond discrete clustering	pending
+P1	component ablation refresh	Quantify MP, TW, permutation, HVG, near-edge gate, and no-call contributions	20-50 synthetic repeats and 10 real-data repeats with CI	Shows marginal contribution of each RMTGuard component	pending

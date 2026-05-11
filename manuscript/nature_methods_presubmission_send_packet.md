@@ -39,6 +39,7 @@ Dear Editors,
 
 We are preparing a Methods Article entitled "RMTGuard: random-matrix noise control for reproducible single-cell cell-state discovery".
 RMTGuard is a random-matrix noise-control framework that turns scRNA-seq embedding construction into an auditable call/no-call decision rather than a manually tuned PCA-and-clustering workflow.
+The manuscript will position RMTGuard against recent high-impact single-cell representation-learning work such as CONCORD and against RMT-like single-cell signal-detection work such as scLENS, while making clear that the novelty is workflow-level random-matrix gating and diagnostic callability rather than the invention of random matrix theory.
 
 The manuscript's current evidence package supports three bounded claims.
 The current evidence supports false-signal control in pure-null simulations, 3/3 diagnostic no-call validation scenarios, rare-state synthetic recovery (ARI 0.923), and four public real-data benchmarks.

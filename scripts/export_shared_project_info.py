@@ -346,6 +346,30 @@ COPY_ITEMS = [
         "mentor journal route decision memo",
     ),
     CopyItem(
+        ROOT / "docs" / "competitor_positioning_concord_sclens_2026-05-12.md",
+        "01_project_status",
+        "RMTGuard_COMPETITOR_POSITIONING_CONCORD_SCLENS.md",
+        "CONCORD and scLENS competitor positioning memo",
+    ),
+    CopyItem(
+        ROOT / "results" / "submission" / "competitor_positioning_matrix.tsv",
+        "01_project_status",
+        "RMTGuard_COMPETITOR_POSITIONING_MATRIX.tsv",
+        "machine-readable competitor positioning matrix",
+    ),
+    CopyItem(
+        ROOT / "docs" / "benchmark_upgrade_from_concord_sclens_2026-05-12.md",
+        "06_next_sprint_inputs",
+        "RMTGuard_BENCHMARK_UPGRADE_FROM_CONCORD_SCLENS.md",
+        "benchmark upgrade checklist from CONCORD and scLENS",
+    ),
+    CopyItem(
+        ROOT / "results" / "submission" / "benchmark_upgrade_from_concord_sclens.tsv",
+        "06_next_sprint_inputs",
+        "RMTGuard_BENCHMARK_UPGRADE_FROM_CONCORD_SCLENS.tsv",
+        "machine-readable benchmark upgrade action table",
+    ),
+    CopyItem(
         ROOT / "docs" / "figure4_pdac_tme_wording_freeze.md",
         "06_next_sprint_inputs",
         "RMTGuard_FIGURE4_PDAC_TME_WORDING_FREEZE.md",
