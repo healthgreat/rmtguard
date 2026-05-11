@@ -33,6 +33,25 @@ INQUIRY_MD = MANUSCRIPT_DIR / "nature_methods_presubmission_inquiry.md"
 RESPONSE_PLAYBOOK_MD = MANUSCRIPT_DIR / "reviewer_response_playbook.md"
 FIGURE_CHECKLIST_MD = MANUSCRIPT_DIR / "figure_claim_checklist.md"
 
+PDAC_DEEP_SUMMARY = (
+    ROOT / "results" / "pdac_tme" / "deep_validation" / "pdac_deep_validation_summary.tsv"
+)
+PDAC_PATHWAY_SUMMARY = (
+    ROOT
+    / "results"
+    / "pdac_tme"
+    / "pathway_atlas_validation"
+    / "pdac_pathway_atlas_validation_summary.tsv"
+)
+FIGURE4_STRENGTHENING_BOARD = OUT_DIR / "pdac_tme_figure4_strengthening_board.tsv"
+FIGURE4_TEXT_AUDIT = OUT_DIR / "figure4_strengthened_text_audit.tsv"
+FIGURE4_STRENGTHENED_CAPTION = (
+    MANUSCRIPT_DIR / "figure4_caption_strengthened_draft.md"
+)
+FIGURE4_STRENGTHENED_RESULTS = (
+    MANUSCRIPT_DIR / "results_figure4_strengthened_draft.md"
+)
+
 
 def _rel(path: Path) -> str:
     try:
@@ -74,6 +93,20 @@ def _route(rows: list[dict[str, str]], route_id: str) -> dict[str, str]:
         if row.get("route_id") == route_id:
             return row
     return {}
+
+
+def _summary_value(path: Path, summary_id: str, default: str = "not_available") -> str:
+    for row in _read_tsv(path):
+        if row.get("summary_id") == summary_id:
+            return row.get("value", default)
+    return default
+
+
+def _board_value(layer: str, column: str, default: str = "not_available") -> str:
+    for row in _read_tsv(FIGURE4_STRENGTHENING_BOARD):
+        if row.get("evidence_layer") == layer:
+            return row.get(column, default)
+    return default
 
 
 def _release_blockers(rows: list[dict[str, str]]) -> list[str]:
@@ -248,11 +281,34 @@ def build_figure_rows(
 
 def build_inquiry_markdown(packet_rows: list[dict[str, str]]) -> list[str]:
     by_item = _by_id(packet_rows, "item_id")
+    de_rows = _summary_value(PDAC_DEEP_SUMMARY, "significant_de_marker_rows")
+    skipped_clusters = _summary_value(PDAC_DEEP_SUMMARY, "de_skipped_tiny_clusters")
+    public_signature = _summary_value(
+        PDAC_DEEP_SUMMARY, "external_label_supported_primary_signatures"
+    )
+    cluster_signature = _summary_value(
+        PDAC_DEEP_SUMMARY, "external_cluster_signature_supported_primary_signatures"
+    )
+    shared_families = _summary_value(
+        PDAC_DEEP_SUMMARY, "shared_top_signatures"
+    ).replace("ductal_malignant_context", "ductal/malignant-context").replace(
+        "immune_myeloid", "immune-myeloid"
+    ).replace(",", ", ")
+    hallmark = _summary_value(PDAC_PATHWAY_SUMMARY, "significant_hallmark_pathways")
+    reactome = _summary_value(PDAC_PATHWAY_SUMMARY, "significant_reactome_pathways")
+    interpretable = _summary_value(
+        PDAC_PATHWAY_SUMMARY, "manuscript_interpretable_pathways"
+    )
+    atlas = _summary_value(
+        PDAC_PATHWAY_SUMMARY, "atlas_supported_cluster_signature_rows"
+    )
+    stability = _board_value("subsampling_stability_context", "key_result")
     return [
         "# Nature Methods Presubmission Inquiry Draft",
         "",
         "Status: do not send; internal author-review draft until Figure 4 author acknowledgement and final go/no-go wording are complete.",
         "Acceptance guarantee: `impossible`.",
+        f"Figure 4 source: `{_rel(FIGURE4_STRENGTHENED_CAPTION)}`; `{_rel(FIGURE4_TEXT_AUDIT)}`.",
         "",
         "Dear Editors,",
         "",
@@ -265,10 +321,31 @@ def build_inquiry_markdown(packet_rows: list[dict[str, str]]) -> list[str]:
         "We would present the real-data benchmark as callability-aware rather than as universal superiority over fixed-PC workflows.",
         "The current real-data benchmark does not show broad superiority over the strongest stability comparator on every dataset, and PBMC68k/Zheng 2017 is retained as a diagnostic no-call rather than a positive discovery.",
         "",
-        "The biological application is a bounded public PDAC/TME use case supported by differential-marker, rank-based Hallmark/Reactome pathway, external-signature, and published-atlas-marker evidence; it is not presented as a standalone disease-mechanism or clinical-validation claim.",
+        (
+            "The biological application is a bounded public PDAC/TME use case "
+            "built around a strengthened Figure 4 evidence board. The current "
+            f"package includes {de_rows} positive cluster-marker rows at "
+            f"BH-FDR <=0.05 ({skipped_clusters} tiny clusters skipped by the "
+            "pre-specified rule), external-signature support for "
+            f"{public_signature} public-label matches and {cluster_signature} "
+            "validation RMTGuard-cluster matches, shared marker families "
+            f"({shared_families}), {hallmark} Hallmark and {reactome} Reactome "
+            f"BH-FDR-significant pathway rows, {interpretable} retained "
+            f"manuscript-interpretable pathway rows, and {atlas} "
+            "published-atlas-marker overlap rows."
+        ),
+        (
+            "This PDAC/TME panel is not presented as a standalone "
+            "disease-mechanism or clinical-validation claim. "
+            + stability
+        ),
         "",
         "The software-release evidence is recorded, but this inquiry remains an internal draft until the corresponding authors acknowledge the bounded Figure 4 route and the final Nature Methods go/no-go is completed.",
         by_item["software_release_disclosure"]["editor_facing_text"],
+        "",
+        "Internal control files for the author-review draft include the strengthened Figure 4 Results draft and text audit:",
+        f"- `{_rel(FIGURE4_STRENGTHENED_RESULTS)}`",
+        f"- `{_rel(FIGURE4_TEXT_AUDIT)}`",
         "",
         "Sincerely,",
         "",

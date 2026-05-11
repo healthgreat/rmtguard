@@ -1,5 +1,5 @@
 Subject: HOLD - DO NOT SEND - RMTGuard Nature Methods presubmission inquiry
-Date: Sun, 10 May 2026 23:18:51 +0800
+Date: Mon, 11 May 2026 12:12:53 +0800
 X-RMTGuard-Send-Status: hold_author_acknowledgement
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
@@ -27,6 +27,8 @@ Editor-facing draft follows.
 Status: do not send; internal author-review draft until Figure 4 author ackno=
 wledgement and final go/no-go wording are complete.
 Acceptance guarantee: `impossible`.
+Figure 4 source: `manuscript/figure4_caption_strengthened_draft.md`; `results=
+/submission/figure4_strengthened_text_audit.tsv`.
 
 Dear Editors,
 
@@ -47,16 +49,29 @@ The current real-data benchmark does not show broad superiority over the stro=
 ngest stability comparator on every dataset, and PBMC68k/Zheng 2017 is retain=
 ed as a diagnostic no-call rather than a positive discovery.
 
-The biological application is a bounded public PDAC/TME use case supported by=
- differential-marker, rank-based Hallmark/Reactome pathway, external-signatur=
-e, and published-atlas-marker evidence; it is not presented as a standalone d=
-isease-mechanism or clinical-validation claim.
+The biological application is a bounded public PDAC/TME use case built around=
+ a strengthened Figure 4 evidence board. The current package includes 9802 po=
+sitive cluster-marker rows at BH-FDR <=3D0.05 (3 tiny clusters skipped by the=
+ pre-specified rule), external-signature support for 5 public-label matches a=
+nd 4 validation RMTGuard-cluster matches, shared marker families (ductal/mali=
+gnant-context, immune-myeloid), 189 Hallmark and 1466 Reactome BH-FDR-signifi=
+cant pathway rows, 215 retained manuscript-interpretable pathway rows, and 7 =
+published-atlas-marker overlap rows.
+This PDAC/TME panel is not presented as a standalone disease-mechanism or cli=
+nical-validation claim. GSE154778 RMTGuard ARI=3D0.619 vs best baseline scanp=
+y_default_like=3D0.793; GSE263733 RMTGuard ARI=3D0.704 vs best baseline scanp=
+y_default_like=3D0.785.
 
 The software-release evidence is recorded, but this inquiry remains an intern=
 al draft until the corresponding authors acknowledge the bounded Figure 4 rou=
 te and the final Nature Methods go/no-go is completed.
 Public repository, GitHub Release, and Zenodo DOI evidence are recorded for t=
 he archived v0.1.0 release.
+
+Internal control files for the author-review draft include the strengthened F=
+igure 4 Results draft and text audit:
+- `manuscript/results_figure4_strengthened_draft.md`
+- `results/submission/figure4_strengthened_text_audit.tsv`
 
 Sincerely,
 
