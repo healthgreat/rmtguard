@@ -250,6 +250,24 @@ COPY_ITEMS = [
         "PDAC/TME pathway and atlas validation report",
     ),
     CopyItem(
+        ROOT / "docs" / "pdac_tme_figure4_strengthening_board.md",
+        "06_next_sprint_inputs",
+        "RMTGuard_PDAC_TME_FIGURE4_STRENGTHENING_BOARD.md",
+        "PDAC/TME Figure 4 strengthening board",
+    ),
+    CopyItem(
+        ROOT / "results" / "submission" / "pdac_tme_figure4_strengthening_board.tsv",
+        "06_next_sprint_inputs",
+        "RMTGuard_PDAC_TME_FIGURE4_STRENGTHENING_BOARD.tsv",
+        "machine-readable PDAC/TME Figure 4 strengthening board",
+    ),
+    CopyItem(
+        ROOT / "manuscript" / "figure4_strengthened_panel_blueprint.md",
+        "04_gantt_and_figures",
+        "RMTGuard_FIGURE4_STRENGTHENED_PANEL_BLUEPRINT.md",
+        "strengthened Figure 4 panel blueprint",
+    ),
+    CopyItem(
         ROOT / "results" / "pdac_tme" / "pathway_atlas_validation" / "pdac_pathway_atlas_validation_summary.tsv",
         "06_next_sprint_inputs",
         "RMTGuard_PDAC_TME_PATHWAY_ATLAS_SUMMARY.tsv",
@@ -553,6 +571,7 @@ matrices, tokens, passwords, or private clinical materials.
 - `06_next_sprint_inputs/RMTGuard_PDAC_TME_DUAL_ROUTE_RUNBOOK.md`
 - `06_next_sprint_inputs/RMTGuard_PDAC_TME_DEEP_VALIDATION.md`
 - `06_next_sprint_inputs/RMTGuard_PDAC_TME_PATHWAY_ATLAS_VALIDATION.md`
+- `06_next_sprint_inputs/RMTGuard_PDAC_TME_FIGURE4_STRENGTHENING_BOARD.md`
 - `06_next_sprint_inputs/RMTGuard_FIGURE4_PDAC_TME_WORDING_FREEZE.md`
 - `06_next_sprint_inputs/RMTGuard_COMPONENT_ABLATION_BENCHMARK.md`
 - `06_next_sprint_inputs/RMTGuard_REALDATA_ABLATION_ANNOTATION.md`
@@ -623,6 +642,7 @@ frozen, and formal corresponding-author acknowledgement remains.
 - Rare-state claim boundary: `{package_dir / "06_next_sprint_inputs" / "RMTGuard_RARE_STATE_CLAIM_BOUNDARY.md"}`
 - PDAC/TME deep validation: `{package_dir / "06_next_sprint_inputs" / "RMTGuard_PDAC_TME_DEEP_VALIDATION.md"}`
 - PDAC/TME pathway/atlas validation: `{package_dir / "06_next_sprint_inputs" / "RMTGuard_PDAC_TME_PATHWAY_ATLAS_VALIDATION.md"}`
+- PDAC/TME Figure 4 strengthening board: `{package_dir / "06_next_sprint_inputs" / "RMTGuard_PDAC_TME_FIGURE4_STRENGTHENING_BOARD.md"}`
 - Figure 4 PDAC/TME wording freeze: `{package_dir / "06_next_sprint_inputs" / "RMTGuard_FIGURE4_PDAC_TME_WORDING_FREEZE.md"}`
 - Nature Methods go/no-go packet: `{package_dir / "01_project_status" / "RMTGuard_NATURE_METHODS_GO_NO_GO_FINAL.md"}`
 - Figure 4 author acknowledgement template: `{package_dir / "02_manual_actions" / "RMTGuard_CORRESPONDING_AUTHOR_FIGURE4_ACKNOWLEDGEMENT_TEMPLATE.md"}`

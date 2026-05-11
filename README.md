@@ -167,6 +167,14 @@ The current bounded PDAC/TME Figure 4 wording freeze is stored at
 `docs/figure4_pdac_tme_wording_freeze.md`, with the manuscript caption draft in
 `manuscript/figure4_caption_bounded_draft.md`.
 
+The strengthened PDAC/TME Figure 4 evidence board is stored at
+`docs/pdac_tme_figure4_strengthening_board.md`, with a machine-readable table at
+`results/submission/pdac_tme_figure4_strengthening_board.tsv` and panel
+blueprint at `manuscript/figure4_strengthened_panel_blueprint.md`. It separates
+what currently supports a bounded methods-paper biological application from
+what would still be required for a PDAC mechanism, clinical, prognosis,
+therapy-response, spatial, or protein-validation claim.
+
 The current Nature Methods route-control decision is stored at
 `docs/nature_methods_go_no_go_final.md`. Full submission is no-go; a
 presubmission inquiry is conditionally allowed only after corresponding-author
