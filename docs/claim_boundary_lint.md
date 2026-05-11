@@ -75,7 +75,7 @@ The linter blocks unsupported journal-facing claims while allowing explicit forb
 - `premature_doi_release` in `docs/method_risk_log.md:401`
 - `acceptance_guarantee` in `docs/nature_methods_48h_execution_packet.md:7`
 - `acceptance_guarantee` in `docs/nature_methods_go_no_go_final.md:10`
-- `acceptance_guarantee` in `docs/nature_methods_go_no_go_final.md:23`
+- `acceptance_guarantee` in `docs/nature_methods_go_no_go_final.md:24`
 - `acceptance_guarantee` in `docs/nature_methods_next_round_gate_board.md:7`
 - `broad_fixed_pc_superiority` in `docs/nature_methods_official_route_verification.md:18`
 - `premature_doi_release` in `docs/nature_methods_official_route_verification.md:22`

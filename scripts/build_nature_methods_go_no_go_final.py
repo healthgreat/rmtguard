@@ -114,6 +114,14 @@ def _author_acknowledgement_status() -> tuple[str, int, int]:
     return "pending_author_reply", confirmed, required
 
 
+def _author_proxy_assumption_count() -> int:
+    return sum(
+        1
+        for row in _read_tsv(AUTHOR_SIGNOFF_TRACKER)
+        if row.get("status") == "proxy_authorized_working_assumption"
+    )
+
+
 def build_rows() -> list[dict[str, str]]:
     gap_rows = _gap_rows()
     score, weight = _score(gap_rows)
@@ -138,6 +146,7 @@ def build_rows() -> list[dict[str, str]]:
     author_ack_status, author_confirmed, author_required = (
         _author_acknowledgement_status()
     )
+    proxy_assumption = _author_proxy_assumption_count()
 
     presubmission_condition = (
         score >= 90
@@ -193,7 +202,8 @@ def build_rows() -> list[dict[str, str]]:
                 f"traceability violations={trace_violations}; Figure 4 wording "
                 f"freeze present={figure4_freeze_present}; send_status={send_status}; "
                 f"author_acknowledgement={author_ack_status} "
-                f"({author_confirmed}/{author_required})."
+                f"({author_confirmed}/{author_required}); "
+                f"proxy_working_assumption={proxy_assumption}/{author_required}."
             ),
             "required_next_action": (
                 "Run one final wording review, then the presubmission inquiry can be sent."
@@ -259,6 +269,7 @@ def build_markdown(rows: list[dict[str, str]]) -> str:
     author_ack_status, author_confirmed, author_required = (
         _author_acknowledgement_status()
     )
+    proxy_assumption = _author_proxy_assumption_count()
     presubmission_line = (
         "go after final wording review"
         if author_ack_status == "all_confirmed"
@@ -277,6 +288,7 @@ def build_markdown(rows: list[dict[str, str]]) -> str:
         "- Acceptance guarantee: `impossible`.",
         f"- Current readiness score: `{score}/{weight}`.",
         f"- Corresponding-author acknowledgement: `{author_ack_status}` ({author_confirmed}/{author_required}).",
+        f"- Internal proxy working assumption: `{proxy_assumption}/{author_required}`; this does not unlock editor-facing submission.",
         "- Active blockers: `" + (";".join(blockers) if blockers else "none") + "`.",
         "",
         "## Decision Table",

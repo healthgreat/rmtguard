@@ -72,15 +72,20 @@ def _write_text(path: Path, text: str) -> None:
     tmp.replace(path)
 
 
-def _author_status() -> tuple[str, int, int]:
+def _author_status() -> tuple[str, int, int, int]:
     rows = _read_tsv(AUTHOR_TRACKER)
     if not rows:
-        return "missing_tracker", 0, 0
+        return "missing_tracker", 0, 0, 0
     confirmed = sum(1 for row in rows if row.get("status") == "confirmed")
+    proxy = sum(
+        1
+        for row in rows
+        if row.get("status") == "proxy_authorized_working_assumption"
+    )
     required = len(rows)
     if confirmed == required and required > 0:
-        return "all_confirmed", confirmed, required
-    return "pending_author_reply", confirmed, required
+        return "all_confirmed", confirmed, required, proxy
+    return "pending_author_reply", confirmed, required, proxy
 
 
 def _go_no_go_row() -> dict[str, str]:
@@ -91,13 +96,18 @@ def _go_no_go_row() -> dict[str, str]:
 
 
 def _send_status() -> tuple[str, str, str]:
-    author_status, confirmed, required = _author_status()
+    author_status, confirmed, required, proxy = _author_status()
     row = _go_no_go_row()
     decision = row.get("decision", "missing_go_no_go")
     if author_status != "all_confirmed":
+        proxy_note = (
+            f"; proxy working assumption is recorded ({proxy}/{required})"
+            if proxy
+            else ""
+        )
         return (
             "hold_author_acknowledgement",
-            f"Corresponding-author acknowledgement is incomplete ({confirmed}/{required}).",
+            f"Corresponding-author acknowledgement is incomplete ({confirmed}/{required}{proxy_note}).",
             "Send the sign-off email first and record both confirmations.",
         )
     if decision != "go_after_final_wording_review":
@@ -114,7 +124,7 @@ def _send_status() -> tuple[str, str, str]:
 
 
 def build_rows() -> list[dict[str, str]]:
-    author_status, confirmed, required = _author_status()
+    author_status, confirmed, required, proxy = _author_status()
     go_no_go = _go_no_go_row()
     send_status, reason, next_action = _send_status()
     today = date.today().isoformat()
@@ -132,7 +142,10 @@ def build_rows() -> list[dict[str, str]]:
             "item_id": "corresponding_author_acknowledgement",
             "status": author_status,
             "evidence_path": _rel(AUTHOR_TRACKER),
-            "reason": f"{confirmed}/{required} required corresponding-author confirmations are recorded.",
+            "reason": (
+                f"{confirmed}/{required} required corresponding-author confirmations "
+                f"are recorded; proxy working assumption={proxy}/{required}."
+            ),
             "required_next_action": (
                 "Keep the packet locked until both Yi Miao and Han Yan are confirmed."
                 if author_status != "all_confirmed"
