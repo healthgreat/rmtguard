@@ -268,6 +268,30 @@ COPY_ITEMS = [
         "strengthened Figure 4 panel blueprint",
     ),
     CopyItem(
+        ROOT / "figures" / "manuscript" / "figure4_pdac_tme_strengthened.png",
+        "04_gantt_and_figures",
+        "RMTGuard_FIGURE4_PDAC_TME_STRENGTHENED.png",
+        "strengthened Figure 4 PNG",
+    ),
+    CopyItem(
+        ROOT / "figures" / "manuscript" / "figure4_pdac_tme_strengthened.pdf",
+        "04_gantt_and_figures",
+        "RMTGuard_FIGURE4_PDAC_TME_STRENGTHENED.pdf",
+        "strengthened Figure 4 vector PDF",
+    ),
+    CopyItem(
+        ROOT / "figures" / "manuscript" / "figure4_pdac_tme_strengthened_manifest.tsv",
+        "04_gantt_and_figures",
+        "RMTGuard_FIGURE4_PDAC_TME_STRENGTHENED_MANIFEST.tsv",
+        "strengthened Figure 4 render manifest",
+    ),
+    CopyItem(
+        ROOT / "results" / "figures" / "source_data" / "figure4_pdac_tme_strengthened_source.tsv",
+        "04_gantt_and_figures",
+        "RMTGuard_FIGURE4_PDAC_TME_STRENGTHENED_SOURCE_DATA.tsv",
+        "strengthened Figure 4 source data",
+    ),
+    CopyItem(
         ROOT / "results" / "pdac_tme" / "pathway_atlas_validation" / "pdac_pathway_atlas_validation_summary.tsv",
         "06_next_sprint_inputs",
         "RMTGuard_PDAC_TME_PATHWAY_ATLAS_SUMMARY.tsv",
@@ -563,6 +587,9 @@ matrices, tokens, passwords, or private clinical materials.
 - `03_release_evidence/RMTGuard_PUBLIC_RELEASE_BLOCKER_REPORT.md`
 - `04_gantt_and_figures/RMTGuard_PROJECT_GANTT.png`
 - `04_gantt_and_figures/RMTGuard_FIGURE4_CAPTION_BOUNDED_DRAFT.md`
+- `04_gantt_and_figures/RMTGuard_FIGURE4_PDAC_TME_STRENGTHENED.png`
+- `04_gantt_and_figures/RMTGuard_FIGURE4_PDAC_TME_STRENGTHENED.pdf`
+- `04_gantt_and_figures/RMTGuard_FIGURE4_PDAC_TME_STRENGTHENED_SOURCE_DATA.tsv`
 - `05_author_metadata/RMTGuard_TITLE_PAGE_AUTHOR_METADATA.md`
 - `06_next_sprint_inputs/RMTGuard_NATURE_METHODS_48H_EXECUTION_PACKET.md`
 - `06_next_sprint_inputs/RMTGuard_P0_SCIENCE_SPRINT_STATUS.md`
@@ -644,6 +671,9 @@ frozen, and formal corresponding-author acknowledgement remains.
 - PDAC/TME pathway/atlas validation: `{package_dir / "06_next_sprint_inputs" / "RMTGuard_PDAC_TME_PATHWAY_ATLAS_VALIDATION.md"}`
 - PDAC/TME Figure 4 strengthening board: `{package_dir / "06_next_sprint_inputs" / "RMTGuard_PDAC_TME_FIGURE4_STRENGTHENING_BOARD.md"}`
 - Figure 4 PDAC/TME wording freeze: `{package_dir / "06_next_sprint_inputs" / "RMTGuard_FIGURE4_PDAC_TME_WORDING_FREEZE.md"}`
+- Strengthened Figure 4 PNG: `{package_dir / "04_gantt_and_figures" / "RMTGuard_FIGURE4_PDAC_TME_STRENGTHENED.png"}`
+- Strengthened Figure 4 PDF: `{package_dir / "04_gantt_and_figures" / "RMTGuard_FIGURE4_PDAC_TME_STRENGTHENED.pdf"}`
+- Strengthened Figure 4 source data: `{package_dir / "04_gantt_and_figures" / "RMTGuard_FIGURE4_PDAC_TME_STRENGTHENED_SOURCE_DATA.tsv"}`
 - Nature Methods go/no-go packet: `{package_dir / "01_project_status" / "RMTGuard_NATURE_METHODS_GO_NO_GO_FINAL.md"}`
 - Figure 4 author acknowledgement template: `{package_dir / "02_manual_actions" / "RMTGuard_CORRESPONDING_AUTHOR_FIGURE4_ACKNOWLEDGEMENT_TEMPLATE.md"}`
 - Figure 4 author sign-off DOCX: `{package_dir / "02_manual_actions" / "RMTGuard_CORRESPONDING_AUTHOR_SIGNOFF_PACKET.docx"}`

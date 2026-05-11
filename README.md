@@ -174,6 +174,12 @@ blueprint at `manuscript/figure4_strengthened_panel_blueprint.md`. It separates
 what currently supports a bounded methods-paper biological application from
 what would still be required for a PDAC mechanism, clinical, prognosis,
 therapy-response, spatial, or protein-validation claim.
+The strengthened source-data-driven Figure 4 draft is rendered by
+`python scripts/render_figure4_strengthened.py` and written to
+`figures/manuscript/figure4_pdac_tme_strengthened.png`,
+`figures/manuscript/figure4_pdac_tme_strengthened.pdf`, and
+`figures/manuscript/figure4_pdac_tme_strengthened.tiff`, with source data at
+`results/figures/source_data/figure4_pdac_tme_strengthened_source.tsv`.
 
 The current Nature Methods route-control decision is stored at
 `docs/nature_methods_go_no_go_final.md`. Full submission is no-go; a
