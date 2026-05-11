@@ -351,12 +351,12 @@ def _plot_panel_a(ax: plt.Axes, board: pd.DataFrame) -> None:
         "bounded_wording_freeze",
     ]
     labels = {
-        "FDR_controlled_cluster_DE": "FDR markers",
-        "external_signature_transfer": "external\nsignature",
-        "rank_based_pathway_layer": "pathway\nlayer",
-        "published_atlas_marker_overlap": "atlas\nmarkers",
-        "subsampling_stability_context": "stability\ncontext",
-        "bounded_wording_freeze": "author\nack",
+        "FDR_controlled_cluster_DE": "DE markers",
+        "external_signature_transfer": "signature transfer",
+        "rank_based_pathway_layer": "pathway layer",
+        "published_atlas_marker_overlap": "atlas markers",
+        "subsampling_stability_context": "stability boundary",
+        "bounded_wording_freeze": "author sign-off",
     }
     subset = board[board["evidence_layer"].isin(keep)].copy()
     subset["order"] = subset["evidence_layer"].map({key: i for i, key in enumerate(keep)})
@@ -368,20 +368,21 @@ def _plot_panel_a(ax: plt.Axes, board: pd.DataFrame) -> None:
         ax.text(
             0.18,
             yi,
-            labels[row["evidence_layer"]].replace("\n", " "),
+            labels[row["evidence_layer"]],
             ha="left",
             va="center",
             fontsize=7.4,
             color="#1F2933",
         )
     ax.text(
-        0.18,
-        -0.46,
-        "Bounded public-data use case;\nno mechanism claim.",
-        ha="left",
-        va="center",
-        fontsize=6.5,
-        color=COLORS["boundary"],
+        0.98,
+        0.02,
+        "Public-data showcase only; no mechanism or clinical claim.",
+        transform=ax.transAxes,
+        ha="right",
+        va="bottom",
+        fontsize=6.2,
+        color=COLORS["neutral"],
     )
     ax.set_ylim(-0.75, len(subset) - 0.25)
     ax.set_xlim(0, 1)
@@ -498,14 +499,6 @@ def _plot_panel_f(ax: plt.Axes, stability: pd.DataFrame) -> None:
     ax.set_ylabel("Mean pairwise ARI")
     ax.set_title("Stability reported as boundary context", loc="left")
     ax.legend(frameon=False, loc="upper left")
-    ax.text(
-        0.02,
-        0.08,
-        "Context only: not a\nstability-superiority claim",
-        transform=ax.transAxes,
-        fontsize=7.0,
-        color=COLORS["boundary"],
-    )
     _clean_axis(ax)
     _panel_label(ax, "F")
 
