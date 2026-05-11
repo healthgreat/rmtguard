@@ -1,6 +1,6 @@
 # RMTGuard Corresponding Author Sign-off Packet
 
-Generated: 2026-05-10
+Generated: 2026-05-11
 
 ## Mentor Decision
 
@@ -15,7 +15,7 @@ Generated: 2026-05-10
 
 ## Exact Figure 4 Caption Draft
 
-**Figure 4 | Bounded PDAC/TME public-data showcase of RMTGuard callability.** Public PDAC/TME scRNA-seq datasets were used as a bounded application to illustrate how RMTGuard reports callable cell-state structure together with pathway and atlas-marker support. Rank-based pathway testing identified 189 Hallmark and 1466 Reactome significant rows, with 215 retained as manuscript-interpretable pathway hits after excluding low-specificity labels. Representative hits include pdac_gse154778 cluster 2: HALLMARK_EPITHELIAL_MESENCHYMAL_TRANSITION (BH-FDR=6.20e-26); pdac_gse263733 cluster 0: REACTOME_CYTOKINE_SIGNALING_IN_IMMUNE_SYSTEM (BH-FDR=1.31e-24); pdac_gse263733 cluster 2: HALLMARK_TNFA_SIGNALING_VIA_NFKB (BH-FDR=2.16e-20); pdac_gse263733 cluster 3: REACTOME_CYTOKINE_SIGNALING_IN_IMMUNE_SYSTEM (BH-FDR=1.15e-19); pdac_gse263733 cluster 2: REACTOME_CYTOKINE_SIGNALING_IN_IMMUNE_SYSTEM (BH-FDR=1.80e-15). Atlas-marker comparison supported 7 cluster/signature rows with at least two overlapping published markers. Representative supported labels include pdac_gse154778 cluster 0: ductal/malignant-context (Peng et al., Cell Research 2019, overlap=7); pdac_gse154778 cluster 1: ductal/malignant-context (Peng et al., Cell Research 2019, overlap=3); pdac_gse154778 cluster 3: myeloid/macrophage (Peng et al., Cell Research 2019, overlap=10); pdac_gse263733 cluster 0: T/NK cell (Oh et al., Nature Communications 2023, overlap=9); pdac_gse263733 cluster 1: ductal/malignant-context (Peng et al., Cell Research 2019, overlap=8); pdac_gse263733 cluster 2: myeloid/macrophage (Peng et al., Cell Research 2019, overlap=10). All PDAC/TME interpretations are public-data, non-clinical, and hypothesis-generating.
+**Figure 4 | Bounded public-data PDAC/TME application of RMTGuard.** (A) Evidence board summarizing the claim-bounded PDAC/TME application layers and the corresponding stop rules. (B) Marker-program heatmap for RMTGuard clusters in GSE154778 and GSE263733, highlighting ductal/malignant-context, myeloid, T/NK, B/plasma, CAF/fibroblast, and endothelial marker families. (C) External signature transfer layer; 5 primary signatures matched expected public labels; 4 matched validation RMTGuard cluster signatures; shared families: ductal/malignant-context, immune-myeloid. (D) Rank-based pathway layer; 189 Hallmark and 1466 Reactome pathways pass BH-FDR <=0.05 with positive rank effect. (E) Published atlas-marker overlap layer; 7 cluster-signature rows have >=2 marker overlaps with cited PDAC atlas/reference marker families. (F) Stability boundary layer; GSE154778 RMTGuard ARI=0.619 vs best baseline scanpy_default_like=0.793; GSE263733 RMTGuard ARI=0.704 vs best baseline scanpy_default_like=0.785. Marker evidence: 9802 positive cluster-marker rows at BH-FDR <=0.05; 3 tiny clusters skipped by rule. All analyses use public scRNA-seq datasets and are presented as a hypothesis-generating methods showcase. No panel is used to claim a new PDAC mechanism, a new CAF subtype, clinical validation, prognosis, therapy-response prediction, patient-level utility, spatial validation, or protein validation.
 
 ## Sign-off Table
 
@@ -42,6 +42,6 @@ Notes:
 
 - Go/no-go packet: `docs/nature_methods_go_no_go_final.md`
 - Figure 4 wording freeze: `docs/figure4_pdac_tme_wording_freeze.md`
-- Figure 4 caption draft: `manuscript/figure4_caption_bounded_draft.md`
+- Figure 4 caption draft: `manuscript/figure4_caption_strengthened_draft.md`
 - Presubmission inquiry draft: `manuscript/nature_methods_presubmission_inquiry.md`
 - Acknowledgement template: `manuscript/corresponding_author_figure4_acknowledgement_template.md`

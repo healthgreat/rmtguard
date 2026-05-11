@@ -25,7 +25,9 @@ ROOT = Path(__file__).resolve().parents[1]
 
 GO_NO_GO_MD = ROOT / "docs" / "nature_methods_go_no_go_final.md"
 FIGURE4_FREEZE_MD = ROOT / "docs" / "figure4_pdac_tme_wording_freeze.md"
-FIGURE4_CAPTION_MD = ROOT / "manuscript" / "figure4_caption_bounded_draft.md"
+FIGURE4_CAPTION_MD = (
+    ROOT / "manuscript" / "figure4_caption_strengthened_draft.md"
+)
 PRESUBMISSION_MD = ROOT / "manuscript" / "nature_methods_presubmission_inquiry.md"
 ACK_TEMPLATE_MD = (
     ROOT

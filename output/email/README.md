@@ -12,9 +12,10 @@ This folder contains local `.eml` drafts. These files are not sent by scripts.
 
 ## Boundary
 
-The Nature Methods HOLD draft intentionally has no recipient because the
-official submission/presubmission route must be verified manually immediately
-before sending.
+The corresponding-author sign-off email can be used only to request author
+acknowledgement. The Nature Methods HOLD draft intentionally has no recipient
+because the official submission/presubmission route must be verified manually
+immediately before sending.
 
 ## Regenerate
 

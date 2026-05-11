@@ -340,6 +340,30 @@ COPY_ITEMS = [
         "Figure 4 bounded caption draft",
     ),
     CopyItem(
+        ROOT / "manuscript" / "figure4_caption_strengthened_draft.md",
+        "04_gantt_and_figures",
+        "RMTGuard_FIGURE4_CAPTION_STRENGTHENED_DRAFT.md",
+        "strengthened Figure 4 caption draft",
+    ),
+    CopyItem(
+        ROOT / "manuscript" / "results_figure4_strengthened_draft.md",
+        "04_gantt_and_figures",
+        "RMTGuard_RESULTS_FIGURE4_STRENGTHENED_DRAFT.md",
+        "strengthened Figure 4 Results draft",
+    ),
+    CopyItem(
+        ROOT / "docs" / "figure4_strengthened_text_audit.md",
+        "04_gantt_and_figures",
+        "RMTGuard_FIGURE4_STRENGTHENED_TEXT_AUDIT.md",
+        "strengthened Figure 4 text audit",
+    ),
+    CopyItem(
+        ROOT / "results" / "submission" / "figure4_strengthened_text_audit.tsv",
+        "04_gantt_and_figures",
+        "RMTGuard_FIGURE4_STRENGTHENED_TEXT_AUDIT.tsv",
+        "machine-readable strengthened Figure 4 text audit",
+    ),
+    CopyItem(
         ROOT / "manuscript" / "corresponding_author_figure4_acknowledgement_template.md",
         "02_manual_actions",
         "RMTGuard_CORRESPONDING_AUTHOR_FIGURE4_ACKNOWLEDGEMENT_TEMPLATE.md",
@@ -587,6 +611,9 @@ matrices, tokens, passwords, or private clinical materials.
 - `03_release_evidence/RMTGuard_PUBLIC_RELEASE_BLOCKER_REPORT.md`
 - `04_gantt_and_figures/RMTGuard_PROJECT_GANTT.png`
 - `04_gantt_and_figures/RMTGuard_FIGURE4_CAPTION_BOUNDED_DRAFT.md`
+- `04_gantt_and_figures/RMTGuard_FIGURE4_CAPTION_STRENGTHENED_DRAFT.md`
+- `04_gantt_and_figures/RMTGuard_RESULTS_FIGURE4_STRENGTHENED_DRAFT.md`
+- `04_gantt_and_figures/RMTGuard_FIGURE4_STRENGTHENED_TEXT_AUDIT.md`
 - `04_gantt_and_figures/RMTGuard_FIGURE4_PDAC_TME_STRENGTHENED.png`
 - `04_gantt_and_figures/RMTGuard_FIGURE4_PDAC_TME_STRENGTHENED.pdf`
 - `04_gantt_and_figures/RMTGuard_FIGURE4_PDAC_TME_STRENGTHENED_SOURCE_DATA.tsv`
@@ -671,6 +698,9 @@ frozen, and formal corresponding-author acknowledgement remains.
 - PDAC/TME pathway/atlas validation: `{package_dir / "06_next_sprint_inputs" / "RMTGuard_PDAC_TME_PATHWAY_ATLAS_VALIDATION.md"}`
 - PDAC/TME Figure 4 strengthening board: `{package_dir / "06_next_sprint_inputs" / "RMTGuard_PDAC_TME_FIGURE4_STRENGTHENING_BOARD.md"}`
 - Figure 4 PDAC/TME wording freeze: `{package_dir / "06_next_sprint_inputs" / "RMTGuard_FIGURE4_PDAC_TME_WORDING_FREEZE.md"}`
+- Strengthened Figure 4 caption draft: `{package_dir / "04_gantt_and_figures" / "RMTGuard_FIGURE4_CAPTION_STRENGTHENED_DRAFT.md"}`
+- Strengthened Figure 4 Results draft: `{package_dir / "04_gantt_and_figures" / "RMTGuard_RESULTS_FIGURE4_STRENGTHENED_DRAFT.md"}`
+- Strengthened Figure 4 text audit: `{package_dir / "04_gantt_and_figures" / "RMTGuard_FIGURE4_STRENGTHENED_TEXT_AUDIT.md"}`
 - Strengthened Figure 4 PNG: `{package_dir / "04_gantt_and_figures" / "RMTGuard_FIGURE4_PDAC_TME_STRENGTHENED.png"}`
 - Strengthened Figure 4 PDF: `{package_dir / "04_gantt_and_figures" / "RMTGuard_FIGURE4_PDAC_TME_STRENGTHENED.pdf"}`
 - Strengthened Figure 4 source data: `{package_dir / "04_gantt_and_figures" / "RMTGuard_FIGURE4_PDAC_TME_STRENGTHENED_SOURCE_DATA.tsv"}`
