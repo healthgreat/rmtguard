@@ -16,6 +16,10 @@ Genome Biology decision.
    - Acceptance: installable workflow, exact versions recorded, runtime and
      memory captured, and either successful output or a documented blocker.
    - Reason: reviewers may ask whether RMTGuard is incremental versus scLENS.
+   - Current status: Python scLENSpy smoke tests passed on the bundled Zheng
+     example and on the prepared PBMC3k/Kang h5ad files; Julia scLENS remains
+     blocked because `julia` is not on PATH. See
+     `docs/sclens_feasibility_check_2026-05-12.md`.
 
 2. CONCORD-style topology stress simulation
    - Goal: add continuous trajectory, branch, and loop-like simulated
@@ -75,4 +79,3 @@ Nature Methods remains possible only if the P0 experiments strengthen the
 evidence arc. Genome Biology becomes more realistic if the work is framed as an
 open reproducible callability workflow with transparent boundaries. Without
 the P0 additions, the paper should not be sold as a 20-50 JIF-ready method.
-

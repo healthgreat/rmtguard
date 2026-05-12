@@ -1,0 +1,2 @@
+dataset_id	method	status	h5ad_path	input_shape	preprocessed_shape	embedding_shape	robust_components	cluster_n	label_key	ari	nmi	n_rand_matrix	device	torch_version	torch_cuda_available	cuda_peak_memory_mb	elapsed_sec	python_executable	sclens_commit	error
+kang_ifnb_pbmc	scLENSpy_smoke	pass	E:\4实验数据\10新算法\data\processed\kang_ifnb_pbmc.h5ad	1000x15701	1000x5813	1000x15	15	5	cell	0.571479	0.644012	2	cuda	2.7.0+cu118	True	318.576	12.327	D:\BioSoft\python\Python311\python.exe	bf267224753af88c3f11bf31be1ee6916d3351b3	

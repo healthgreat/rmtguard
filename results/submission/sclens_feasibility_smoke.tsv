@@ -1,0 +1,2 @@
+check_id	status	input_csv	input_shape	preprocessed_shape	embedding_shape	robust_components	n_rand_matrix	device	torch_version	torch_cuda_available	cuda_peak_memory_mb	elapsed_sec	python_executable	sclens_path	sclens_commit	julia_available	error
+sclens_python_smoke	pass	E:\4实验数据\10新算法\external\scLENSpy\data\z_data_785.csv.gz	778x4803	778x4782	778x11	11	2	cuda	2.7.0+cu118	True	291.973	6.507	D:\BioSoft\python\Python311\python.exe	E:\4实验数据\10新算法\external\scLENSpy	bf267224753af88c3f11bf31be1ee6916d3351b3	False	

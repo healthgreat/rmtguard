@@ -370,6 +370,24 @@ COPY_ITEMS = [
         "machine-readable benchmark upgrade action table",
     ),
     CopyItem(
+        ROOT / "docs" / "sclens_feasibility_check_2026-05-12.md",
+        "06_next_sprint_inputs",
+        "RMTGuard_SCLENS_FEASIBILITY_CHECK.md",
+        "scLENS feasibility check report",
+    ),
+    CopyItem(
+        ROOT / "results" / "submission" / "sclens_feasibility_smoke.tsv",
+        "06_next_sprint_inputs",
+        "RMTGuard_SCLENS_FEASIBILITY_SMOKE.tsv",
+        "machine-readable scLENS smoke-test output",
+    ),
+    CopyItem(
+        ROOT / "results" / "submission" / "sclens_h5ad_smoke_summary.tsv",
+        "06_next_sprint_inputs",
+        "RMTGuard_SCLENS_H5AD_SMOKE_SUMMARY.tsv",
+        "machine-readable scLENSpy PBMC3k/Kang h5ad smoke summary",
+    ),
+    CopyItem(
         ROOT / "docs" / "figure4_pdac_tme_wording_freeze.md",
         "06_next_sprint_inputs",
         "RMTGuard_FIGURE4_PDAC_TME_WORDING_FREEZE.md",

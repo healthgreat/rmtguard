@@ -172,6 +172,12 @@ The resulting benchmark upgrade checklist is stored at
 `docs/benchmark_upgrade_from_concord_sclens_2026-05-12.md`, with a
 machine-readable action table at
 `results/submission/benchmark_upgrade_from_concord_sclens.tsv`.
+The first scLENS feasibility check is stored at
+`docs/sclens_feasibility_check_2026-05-12.md`; the reproducible smoke runner is
+`scripts/run_sclens_feasibility_smoke.py`, and its output table is
+`results/submission/sclens_feasibility_smoke.tsv`. The h5ad adapter smoke test
+is `benchmarks/run_sclens_h5ad_smoke.py`, with summary results at
+`results/submission/sclens_h5ad_smoke_summary.tsv`.
 
 The current bounded PDAC/TME Figure 4 wording freeze is stored at
 `docs/figure4_pdac_tme_wording_freeze.md`, with the manuscript caption draft in
