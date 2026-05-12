@@ -246,6 +246,14 @@ ITEMS = [
         "Controls wording boundaries; does not certify journal acceptance.",
         "Re-run after any Results or legend change.",
     ),
+    FreezeItem(
+        "external_review_docx",
+        "manuscript_text",
+        ROOT / "output" / "doc" / "RMTGuard_external_review_packet_2026-05-12.docx",
+        "Word packet for external scientific review",
+        "Handoff document only; it packages evidence boundaries and reviewer questions but does not certify submission readiness.",
+        "Share with external reviewers and route their comments through the feedback triage pipeline.",
+    ),
 ]
 
 

@@ -28,41 +28,42 @@ gantt
     Phase 1 public data preparation and benchmark :done, T05, 2026-04-29, 2d
     Four-dataset stability gate diagnostics :done, T06, 2026-04-30, 2d
     Manuscript-grade stability rerun and stronger baselines :active, T17, 2026-05-02, 18d
-    Matched Seurat/JackStraw baseline design :done, T25, 2026-05-03, 1d
-    Local matched Python baseline pilot :done, T26, 2026-05-03, 1d
-    Official Seurat MTX bridge and smoke :done, T27, 2026-05-03, 1d
-    Official Seurat fixed-PC/elbow 20-repeat comparator :done, T28, 2026-05-03, 1d
-    Official Seurat JackStraw 20-repeat comparator :done, T29, 2026-05-03, 1d
-    Paired RMTGuard vs official Seurat statistics :done, T30, 2026-05-03, 1d
-    Added-dataset official Seurat rows :done, T31, 2026-05-03, 1d
-    Direct scLENSpy n_rand_matrix=20 comparator :done, T32, 2026-05-12, 1d
-    CONCORD-style topology stress benchmark :done, T33, 2026-05-12, 1d
-    Paul15 real-data topology monitor :T34, 2026-05-12, 1d
-    Additional public datasets :done, T38, 2026-05-03, 1d
+    Matched Seurat/JackStraw baseline design :done, T26, 2026-05-03, 1d
+    Local matched Python baseline pilot :done, T27, 2026-05-03, 1d
+    Official Seurat MTX bridge and smoke :done, T28, 2026-05-03, 1d
+    Official Seurat fixed-PC/elbow 20-repeat comparator :done, T29, 2026-05-03, 1d
+    Official Seurat JackStraw 20-repeat comparator :done, T30, 2026-05-03, 1d
+    Paired RMTGuard vs official Seurat statistics :done, T31, 2026-05-03, 1d
+    Added-dataset official Seurat rows :done, T32, 2026-05-03, 1d
+    Direct scLENSpy n_rand_matrix=20 comparator :done, T33, 2026-05-12, 1d
+    CONCORD-style topology stress benchmark :done, T34, 2026-05-12, 1d
+    Paul15 real-data topology monitor :T35, 2026-05-12, 1d
+    Additional public datasets :done, T39, 2026-05-03, 1d
     section Manuscript package
     External pre-review triage and route reframe :done, T07, 2026-05-01, 2d
     Publication-style figures; tables; and visual audit :done, T08, 2026-05-01, 2d
     Real-data ablation forest plot and supplemental table :done, T22, 2026-05-03, 2d
     Current evidence-freeze manifest :done, T23, 2026-05-12, 1d
     Freeze-aligned Results and figure legends :done, T24, 2026-05-12, 1d
-    Final figure source data; captions; and reporting summary :T39, 2026-06-02, 15d
+    External review Word packet :done, T25, 2026-05-12, 1d
+    Final figure source data; captions; and reporting summary :T40, 2026-06-02, 15d
     section Journal route
     20-50 JIF distance and gap assessment :done, T09, 2026-05-02, 1d
     Nature Methods next-round science gate board :done, T10, 2026-05-04, 1d
     Nature Methods 48-hour execution packet :done, T11, 2026-05-04, 1d
-    Nature Methods presubmission go/no-go packet :T42, 2026-05-10, 1d
-    Nature Methods vs Genome Biology go/no-go :T43, 2026-06-21, 15d
-    Submission package freeze :T44, 2026-07-06, 14d
+    Nature Methods presubmission go/no-go packet :T43, 2026-05-10, 1d
+    Nature Methods vs Genome Biology go/no-go :T44, 2026-06-21, 15d
+    Submission package freeze :T45, 2026-07-06, 14d
     section Biological application
     PDAC/TME route decision packet :done, T12, 2026-05-04, 1d
     PDAC/TME dual-route preflight and runbook :done, T13, 2026-05-04, 1d
-    PDAC/TME deep validation first pass :T35, 2026-05-10, 1d
-    PDAC/TME pathway and atlas upgrade :T36, 2026-05-10, 1d
-    PDAC/TME final Figure 4 wording freeze :T37, 2026-05-10, 1d
+    PDAC/TME deep validation first pass :T36, 2026-05-10, 1d
+    PDAC/TME pathway and atlas upgrade :T37, 2026-05-10, 1d
+    PDAC/TME final Figure 4 wording freeze :T38, 2026-05-10, 1d
     section Release
     Public GitHub repository; release; and Zenodo DOI :done, T14, 2026-05-02, 3d
-    Post-release gates and reproducibility audit :done, T40, 2026-05-04, 1d
-    Cross-project shared information package :done, T41, 2026-05-04, 1d
+    Post-release gates and reproducibility audit :done, T41, 2026-05-04, 1d
+    Cross-project shared information package :done, T42, 2026-05-04, 1d
     section Statistics
     Realistic null and rare-state power calibration :done, T15, 2026-05-02, 3d
     Rare-state weak-regime claim boundary :done, T16, 2026-05-04, 1d
@@ -96,26 +97,27 @@ gantt
 | T22 | Manuscript package | Real-data ablation forest plot and supplemental table | 2026-05-03 | 2026-05-04 | done | 100% | `docs/realdata_ablation_figure_table.md` |
 | T23 | Manuscript package | Current evidence-freeze manifest | 2026-05-12 | 2026-05-12 | done | 100% | `docs/current_evidence_freeze_2026-05-12.md` |
 | T24 | Manuscript package | Freeze-aligned Results and figure legends | 2026-05-12 | 2026-05-12 | done | 100% | `manuscript/results_freeze_aligned_draft.md` |
-| T25 | Public benchmark | Matched Seurat/JackStraw baseline design | 2026-05-03 | 2026-05-03 | done | 100% | `docs/matched_baseline_design.md` |
-| T26 | Public benchmark | Local matched Python baseline pilot | 2026-05-03 | 2026-05-03 | done | 100% | `docs/matched_baseline_pilot.md` |
-| T27 | Public benchmark | Official Seurat MTX bridge and smoke | 2026-05-03 | 2026-05-03 | done | 100% | `docs/seurat_matched_baseline.md` |
-| T28 | Public benchmark | Official Seurat fixed-PC/elbow 20-repeat comparator | 2026-05-03 | 2026-05-03 | done | 100% | `docs/seurat_matched_baseline.md` |
-| T29 | Public benchmark | Official Seurat JackStraw 20-repeat comparator | 2026-05-03 | 2026-05-03 | done | 100% | `docs/seurat_jackstraw_feasibility.md` |
-| T30 | Public benchmark | Paired RMTGuard vs official Seurat statistics | 2026-05-03 | 2026-05-03 | done | 100% | `docs/rmtguard_seurat_paired_statistics.md` |
-| T31 | Public benchmark | Added-dataset official Seurat rows | 2026-05-03 | 2026-05-03 | done | 100% | `docs/seurat_matched_baseline.md` |
-| T32 | Public benchmark | Direct scLENSpy n_rand_matrix=20 comparator | 2026-05-12 | 2026-05-12 | done | 100% | `docs/sclens_stability_nrand20_2026-05-12.md` |
-| T33 | Public benchmark | CONCORD-style topology stress benchmark | 2026-05-12 | 2026-05-12 | done | 100% | `docs/topology_stress_benchmark_2026-05-12.md` |
-| T34 | Public benchmark | Paul15 real-data topology monitor | 2026-05-12 | 2026-05-12 | done_with_limit | 90% | `docs/realdata_topology_benchmark_2026-05-12.md` |
-| T35 | Biological application | PDAC/TME deep validation first pass | 2026-05-10 | 2026-05-10 | done_with_limit | 75% | `docs/pdac_tme_deep_validation.md` |
-| T36 | Biological application | PDAC/TME pathway and atlas upgrade | 2026-05-10 | 2026-05-10 | done_with_limit | 85% | `docs/pdac_tme_pathway_atlas_validation.md` |
-| T37 | Biological application | PDAC/TME final Figure 4 wording freeze | 2026-05-10 | 2026-05-10 | done_with_limit | 90% | `docs/figure4_pdac_tme_wording_freeze.md` |
-| T38 | Public benchmark | Additional public datasets | 2026-05-03 | 2026-05-03 | done | 100% | `docs/manuscript_grade_stability_statistics.md` |
-| T39 | Manuscript package | Final figure source data, captions, and reporting summary | 2026-06-02 | 2026-06-16 | planned | 0% | `docs/nature_reporting_summary_draft.md` |
-| T40 | Release | Post-release gates and reproducibility audit | 2026-05-04 | 2026-05-04 | done | 100% | `results/submission/submission_guard.tsv` |
-| T41 | Release | Cross-project shared information package | 2026-05-04 | 2026-05-04 | done | 100% | `docs/shared_info_export_manifest.md` |
-| T42 | Journal route | Nature Methods presubmission go/no-go packet | 2026-05-10 | 2026-05-10 | done_with_limit | 90% | `docs/nature_methods_go_no_go_final.md` |
-| T43 | Journal route | Nature Methods vs Genome Biology go/no-go | 2026-06-21 | 2026-07-05 | planned | 0% | `results/submission/post_feedback_journal_route_gate.tsv` |
-| T44 | Journal route | Submission package freeze | 2026-07-06 | 2026-07-19 | planned | 0% | `results/submission/presubmission_gatekeeper.tsv` |
+| T25 | Manuscript package | External review Word packet | 2026-05-12 | 2026-05-12 | done | 100% | `output/doc/RMTGuard_external_review_packet_2026-05-12.docx` |
+| T26 | Public benchmark | Matched Seurat/JackStraw baseline design | 2026-05-03 | 2026-05-03 | done | 100% | `docs/matched_baseline_design.md` |
+| T27 | Public benchmark | Local matched Python baseline pilot | 2026-05-03 | 2026-05-03 | done | 100% | `docs/matched_baseline_pilot.md` |
+| T28 | Public benchmark | Official Seurat MTX bridge and smoke | 2026-05-03 | 2026-05-03 | done | 100% | `docs/seurat_matched_baseline.md` |
+| T29 | Public benchmark | Official Seurat fixed-PC/elbow 20-repeat comparator | 2026-05-03 | 2026-05-03 | done | 100% | `docs/seurat_matched_baseline.md` |
+| T30 | Public benchmark | Official Seurat JackStraw 20-repeat comparator | 2026-05-03 | 2026-05-03 | done | 100% | `docs/seurat_jackstraw_feasibility.md` |
+| T31 | Public benchmark | Paired RMTGuard vs official Seurat statistics | 2026-05-03 | 2026-05-03 | done | 100% | `docs/rmtguard_seurat_paired_statistics.md` |
+| T32 | Public benchmark | Added-dataset official Seurat rows | 2026-05-03 | 2026-05-03 | done | 100% | `docs/seurat_matched_baseline.md` |
+| T33 | Public benchmark | Direct scLENSpy n_rand_matrix=20 comparator | 2026-05-12 | 2026-05-12 | done | 100% | `docs/sclens_stability_nrand20_2026-05-12.md` |
+| T34 | Public benchmark | CONCORD-style topology stress benchmark | 2026-05-12 | 2026-05-12 | done | 100% | `docs/topology_stress_benchmark_2026-05-12.md` |
+| T35 | Public benchmark | Paul15 real-data topology monitor | 2026-05-12 | 2026-05-12 | done_with_limit | 90% | `docs/realdata_topology_benchmark_2026-05-12.md` |
+| T36 | Biological application | PDAC/TME deep validation first pass | 2026-05-10 | 2026-05-10 | done_with_limit | 75% | `docs/pdac_tme_deep_validation.md` |
+| T37 | Biological application | PDAC/TME pathway and atlas upgrade | 2026-05-10 | 2026-05-10 | done_with_limit | 85% | `docs/pdac_tme_pathway_atlas_validation.md` |
+| T38 | Biological application | PDAC/TME final Figure 4 wording freeze | 2026-05-10 | 2026-05-10 | done_with_limit | 90% | `docs/figure4_pdac_tme_wording_freeze.md` |
+| T39 | Public benchmark | Additional public datasets | 2026-05-03 | 2026-05-03 | done | 100% | `docs/manuscript_grade_stability_statistics.md` |
+| T40 | Manuscript package | Final figure source data, captions, and reporting summary | 2026-06-02 | 2026-06-16 | planned | 0% | `docs/nature_reporting_summary_draft.md` |
+| T41 | Release | Post-release gates and reproducibility audit | 2026-05-04 | 2026-05-04 | done | 100% | `results/submission/submission_guard.tsv` |
+| T42 | Release | Cross-project shared information package | 2026-05-04 | 2026-05-04 | done | 100% | `docs/shared_info_export_manifest.md` |
+| T43 | Journal route | Nature Methods presubmission go/no-go packet | 2026-05-10 | 2026-05-10 | done_with_limit | 90% | `docs/nature_methods_go_no_go_final.md` |
+| T44 | Journal route | Nature Methods vs Genome Biology go/no-go | 2026-06-21 | 2026-07-05 | planned | 0% | `results/submission/post_feedback_journal_route_gate.tsv` |
+| T45 | Journal route | Submission package freeze | 2026-07-06 | 2026-07-19 | planned | 0% | `results/submission/presubmission_gatekeeper.tsv` |
 
 ## Current blockers
 

@@ -12,7 +12,7 @@ submission.
 
 ## Freeze Status
 
-- Items checked: `26`
+- Items checked: `27`
 - Missing items: `0`
 - Manifest: `results/submission/current_evidence_freeze_manifest.tsv`
 
@@ -22,7 +22,7 @@ submission.
 - `figure`: 9
 - `journal_route`: 2
 - `manual_blocker`: 1
-- `manuscript_text`: 3
+- `manuscript_text`: 4
 - `project_management`: 1
 - `release`: 1
 - `source_data`: 5
@@ -72,6 +72,7 @@ submission.
 | results_freeze_aligned_draft | manuscript_text | True | Freeze-aligned Results draft | Draft Results text only; every paragraph remains bounded by current evidence and is not final journal prose. | Use as source-controlled starting text for the next manuscript assembly pass. |
 | figure_legends_freeze_aligned | manuscript_text | True | Freeze-aligned figure legends draft | Draft captions only; legends must not upgrade caveated or no-call evidence. | Use as caption source and revise only after final figure layout is chosen. |
 | freeze_aligned_text_audit | manuscript_text | True | Machine-readable claim audit for freeze-aligned text | Controls wording boundaries; does not certify journal acceptance. | Re-run after any Results or legend change. |
+| external_review_docx | manuscript_text | True | Word packet for external scientific review | Handoff document only; it packages evidence boundaries and reviewer questions but does not certify submission readiness. | Share with external reviewers and route their comments through the feedback triage pipeline. |
 
 ## Use In Manuscript Planning
 

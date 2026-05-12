@@ -297,6 +297,16 @@ TASKS = [
         "Results paragraphs, figure legends, and text-level claim audit generated from the current evidence freeze.",
     ),
     Task(
+        "Manuscript package",
+        "External review Word packet",
+        date(2026, 5, 12),
+        date(2026, 5, 12),
+        "done",
+        100,
+        "output/doc/RMTGuard_external_review_packet_2026-05-12.docx",
+        "Reviewer-facing DOCX packet built from the evidence freeze, gap assessment, Results draft, figure legends, audit table, Gantt snapshot, and manual-action checklist.",
+    ),
+    Task(
         "Public benchmark",
         "Matched Seurat/JackStraw baseline design",
         date(2026, 5, 3),
