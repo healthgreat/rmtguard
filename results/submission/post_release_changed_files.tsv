@@ -15,6 +15,7 @@ A	docs/author_declaration_reply_intake_runbook.md	submission_doc	True	submission
 M	docs/author_declarations_and_credit_roles.md	submission_doc	True	submission, route, audit and validation reports
 M	docs/author_metadata_status.md	submission_doc	True	submission, route, audit and validation reports
 M	docs/author_release_execution_packet.md	submission_doc	True	submission, route, audit and validation reports
+A	docs/author_reply_triage.md	submission_doc	True	submission, route, audit and validation reports
 A	docs/benchmark_upgrade_from_concord_sclens_2026-05-12.md	submission_doc	True	submission, route, audit and validation reports
 M	docs/claim_boundary_lint.md	submission_doc	True	submission, route, audit and validation reports
 M	docs/claim_traceability.md	submission_doc	True	submission, route, audit and validation reports
@@ -107,7 +108,9 @@ A	manuscript/results_figure4_strengthened_draft.md	manuscript_text	True	manuscri
 A	manuscript/results_freeze_aligned_draft.md	manuscript_text	True	manuscript drafts, captions, title page and sign-off text
 M	manuscript/title_page_author_metadata.md	manuscript_text	True	manuscript drafts, captions, title page and sign-off text
 M	metadata/author_metadata.tsv	metadata	True	author, dataset and sign-off metadata
+A	metadata/author_reply_evidence/2026-05-12_mentor_preliminary_ok_user_relay.txt	metadata	True	author, dataset and sign-off metadata
 A	metadata/author_reply_evidence/README.md	metadata	True	author, dataset and sign-off metadata
+A	metadata/author_reply_evidence/author_reply_log.tsv	metadata	True	author, dataset and sign-off metadata
 A	metadata/corresponding_author_signoff_tracker.tsv	metadata	True	author, dataset and sign-off metadata
 A	metadata/pdac_tme_route_decision_template.tsv	metadata	True	author, dataset and sign-off metadata
 A	output/delivery/RMTGuard_author_confirmation_delivery_2026-05-12.zip	other	False	not manuscript-facing by default
@@ -181,6 +184,7 @@ A	results/shared_info/rmtguard_shared_export_manifest.tsv	shared_export	False	cr
 A	results/submission/added_dataset_annotation_boundary.tsv	submission_table	True	submission-facing machine-readable tables
 A	results/submission/author_confirmation_delivery_manifest.tsv	submission_table	True	submission-facing machine-readable tables
 A	results/submission/author_declaration_confirmation_checklist.tsv	submission_table	True	submission-facing machine-readable tables
+A	results/submission/author_reply_triage.tsv	submission_table	True	submission-facing machine-readable tables
 A	results/submission/benchmark_upgrade_from_concord_sclens.tsv	submission_table	True	submission-facing machine-readable tables
 A	results/submission/claim_boundary_lint.tsv	submission_table	True	submission-facing machine-readable tables
 A	results/submission/claim_scope_final_audit.tsv	submission_table	True	submission-facing machine-readable tables
@@ -229,6 +233,7 @@ A	scripts/build_author_confirmation_delivery_bundle.py	pipeline_code	True	analys
 A	scripts/build_author_declaration_confirmation_packet.py	pipeline_code	True	analysis, figure, release and submission-control scripts
 A	scripts/build_author_declaration_email_packet.py	pipeline_code	True	analysis, figure, release and submission-control scripts
 M	scripts/build_author_release_execution_packet.py	pipeline_code	True	analysis, figure, release and submission-control scripts
+A	scripts/build_author_reply_triage.py	pipeline_code	True	analysis, figure, release and submission-control scripts
 M	scripts/build_callability_decision_map.py	pipeline_code	True	analysis, figure, release and submission-control scripts
 A	scripts/build_corresponding_author_email_packet.py	pipeline_code	True	analysis, figure, release and submission-control scripts
 A	scripts/build_corresponding_author_signoff_packet.py	pipeline_code	True	analysis, figure, release and submission-control scripts

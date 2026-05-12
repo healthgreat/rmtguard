@@ -9,13 +9,13 @@ This is a no-action preflight. It does not create a Git tag, GitHub Release, or 
 ## Decision
 
 - Release decision: `do_not_release`.
-- Blocking or holding gates: `author_declarations;corresponding_author_figure4_ack;figure_caption_source_audit`.
+- Blocking or holding gates: `author_declarations;corresponding_author_figure4_ack;figure_caption_source_audit;git_worktree_clean`.
 - Candidate release: `v0.1.1`.
 
 ## Status Counts
 
-- `blocked`: `3`
-- `pass`: `3`
+- `blocked`: `4`
+- `pass`: `2`
 - `pending_author_verification`: `1`
 - `ready_after_manual_blockers`: `1`
 
@@ -29,8 +29,8 @@ This is a no-action preflight. It does not create a Git tag, GitHub Release, or 
 | reporting_summary | pending_author_verification | manual_blocker | Have the corresponding author verify the reporting-summary worksheet before official submission. | Statistics/Multiple testing and uncertainty;Reporting summary/Official form status |
 | claim_integrity | pass | controlled | No action. | lint_violations=0;trace_violations=0;lint_rows=215;trace_rows=21 |
 | version_coverage | ready_after_manual_blockers | release_blocker | After author blockers are resolved, tag and archive v0.1.1 so DOI covers the submitted files. | recommendation=prepare_v0.1.1_after_author_ack;worktree=clean |
-| evidence_freeze_manifest | pass | controlled | No action. | 35 frozen evidence items exist. |
-| git_worktree_clean | pass | controlled | No action. | Worktree is clean except self-generated preflight outputs. |
+| evidence_freeze_manifest | pass | controlled | No action. | 36 frozen evidence items exist. |
+| git_worktree_clean | blocked | release_blocker | Commit all release-facing changes before creating a tag. | M docs/post_release_version_coverage_audit.md; M results/submission/post_release_changed_files.tsv; M results/submission/post_release_version_coverage_audit.tsv |
 
 ## Interpretation
 

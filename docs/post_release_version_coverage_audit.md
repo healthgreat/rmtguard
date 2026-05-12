@@ -8,9 +8,9 @@ This audit compares the archived `v0.1.0` release with the current branch. It do
 
 ## Bottom Line
 
-- Commits after `v0.1.0`: `58`.
-- Changed files after `v0.1.0`: `276`.
-- Manuscript-facing changed files: `265`.
+- Commits after `v0.1.0`: `61`.
+- Changed files after `v0.1.0`: `281`.
+- Manuscript-facing changed files: `270`.
 - Recommendation: `prepare_v0.1.1_after_author_ack`.
 - Candidate next release: `v0.1.1`.
 
@@ -19,11 +19,11 @@ This audit compares the archived `v0.1.0` release with the current branch. It do
 | Audit ID | Status | Evidence | Required action | Notes |
 | --- | --- | --- | --- | --- |
 | release_tag | present | v0.1.0 | Keep v0.1.0 immutable. | v0.1.0 commit 053b84ad3bf04ebc1193b5fff420b770946a3845. |
-| current_head | tracked | 7a6c87368f350887a9f6dcb0a715cdb1452d534d | Use this commit or a later clean commit as the basis for any v0.1.1 release. | 58 commits after v0.1.0. |
+| current_head | tracked | 3eaa218103be71c154ad3a15f10d64efdbd249ba | Use this commit or a later clean commit as the basis for any v0.1.1 release. | 61 commits after v0.1.0. |
 | worktree_cleanliness | clean | none | Commit or intentionally ignore all changes before release. | A clean worktree is required before tagging a new release. |
-| manuscript_facing_delta | needs_new_release_if_submitted | 265 | Create v0.1.1 only after Figure 4 acknowledgement and final figure/source-data freeze if these post-release files are cited. | Manuscript-facing files changed after the archived v0.1.0 DOI. |
+| manuscript_facing_delta | needs_new_release_if_submitted | 270 | Create v0.1.1 only after Figure 4 acknowledgement and final figure/source-data freeze if these post-release files are cited. | Manuscript-facing files changed after the archived v0.1.0 DOI. |
 | figure_source_delta | changed | 27 | Ensure final figures and source data are included in the next release if used in submission. | Figure/source-data changes after v0.1.0 affect reproducibility coverage. |
-| pipeline_code_delta | changed | 54 | Archive updated scripts/benchmarks in the same release as the submitted source data. | Code changes after v0.1.0 affect rerun parity. |
+| pipeline_code_delta | changed | 55 | Archive updated scripts/benchmarks in the same release as the submitted source data. | Code changes after v0.1.0 affect rerun parity. |
 | release_recommendation | prepare_v0.1.1_after_author_ack | v0.1.1 | Do not tag the new release until manual Figure 4 and author-declaration blockers are resolved. | The release refresh is a submission-readiness action, not a current scientific pass. |
 
 ## Changed File Classes
@@ -40,23 +40,23 @@ This audit compares the archived `v0.1.0` release with the current branch. It do
 | handoff_email | 4 |
 | journal_figure | 18 |
 | manuscript_text | 18 |
-| metadata | 4 |
+| metadata | 6 |
 | other | 10 |
 | pdac_result | 10 |
-| pipeline_code | 50 |
+| pipeline_code | 51 |
 | release_metadata | 2 |
 | repository_doc | 1 |
 | reproducibility_entrypoint | 1 |
 | shared_export | 1 |
-| submission_doc | 57 |
-| submission_table | 41 |
+| submission_doc | 58 |
+| submission_table | 42 |
 | topology_result | 6 |
 
 ## Change Status Counts
 
 | Git status | Count |
 | --- | ---: |
-| A | 234 |
+| A | 239 |
 | M | 42 |
 
 ## Example Manuscript-facing Changed Files
@@ -78,6 +78,7 @@ This audit compares the archived `v0.1.0` release with the current branch. It do
 | M | submission_doc | `docs/author_declarations_and_credit_roles.md` |
 | M | submission_doc | `docs/author_metadata_status.md` |
 | M | submission_doc | `docs/author_release_execution_packet.md` |
+| A | submission_doc | `docs/author_reply_triage.md` |
 | A | submission_doc | `docs/benchmark_upgrade_from_concord_sclens_2026-05-12.md` |
 | M | submission_doc | `docs/claim_boundary_lint.md` |
 | M | submission_doc | `docs/claim_traceability.md` |
@@ -102,7 +103,6 @@ This audit compares the archived `v0.1.0` release with the current branch. It do
 | A | submission_doc | `docs/nature_methods_go_no_go_final.md` |
 | A | submission_doc | `docs/nature_methods_next_round_gate_board.md` |
 | A | submission_doc | `docs/nature_methods_official_route_verification.md` |
-| A | submission_doc | `docs/nature_methods_presubmission_send_runbook.md` |
 
 ## Interpretation
 
