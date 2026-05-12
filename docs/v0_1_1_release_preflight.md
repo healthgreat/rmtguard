@@ -29,7 +29,7 @@ This is a no-action preflight. It does not create a Git tag, GitHub Release, or 
 | reporting_summary | pending_author_verification | manual_blocker | Have the corresponding author verify the reporting-summary worksheet before official submission. | Statistics/Multiple testing and uncertainty;Reporting summary/Official form status |
 | claim_integrity | pass | controlled | No action. | lint_violations=0;trace_violations=0;lint_rows=215;trace_rows=21 |
 | version_coverage | ready_after_manual_blockers | release_blocker | After author blockers are resolved, tag and archive v0.1.1 so DOI covers the submitted files. | recommendation=prepare_v0.1.1_after_author_ack;worktree=clean |
-| evidence_freeze_manifest | pass | controlled | No action. | 32 frozen evidence items exist. |
+| evidence_freeze_manifest | pass | controlled | No action. | 33 frozen evidence items exist. |
 | git_worktree_clean | pass | controlled | No action. | Worktree is clean except self-generated preflight outputs. |
 
 ## Interpretation
