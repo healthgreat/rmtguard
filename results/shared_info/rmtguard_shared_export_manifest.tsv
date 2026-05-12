@@ -60,6 +60,13 @@ machine-readable topology stress benchmark summary	copied	results/submission/top
 topology stress benchmark PNG	copied	figures/manuscript/figure_topology_stress.png	D:\99、共用信息\RMTGuard_20_50投稿资料包\04_gantt_and_figures\RMTGuard_TOPOLOGY_STRESS.png	source copied
 topology stress benchmark PDF	copied	figures/manuscript/figure_topology_stress.pdf	D:\99、共用信息\RMTGuard_20_50投稿资料包\04_gantt_and_figures\RMTGuard_TOPOLOGY_STRESS.pdf	source copied
 topology stress figure manifest	copied	figures/manuscript/topology_stress_figure_manifest.tsv	D:\99、共用信息\RMTGuard_20_50投稿资料包\04_gantt_and_figures\RMTGuard_TOPOLOGY_STRESS_FIGURE_MANIFEST.tsv	source copied
+Figure 3 callability and no-call decision map report	copied	docs/no_call_decision_map.md	D:\99、共用信息\RMTGuard_20_50投稿资料包\06_next_sprint_inputs\RMTGuard_NO_CALL_DECISION_MAP.md	source copied
+machine-readable callability and no-call decision map	copied	results/callability/no_call_decision_map.tsv	D:\99、共用信息\RMTGuard_20_50投稿资料包\06_next_sprint_inputs\RMTGuard_NO_CALL_DECISION_MAP.tsv	source copied
+Figure 3 callability decision-map source data	copied	results/figures/source_data/figure3_callability_decision_map.tsv	D:\99、共用信息\RMTGuard_20_50投稿资料包\04_gantt_and_figures\RMTGuard_FIGURE3_CALLABILITY_DECISION_MAP_SOURCE_DATA.tsv	source copied
+Figure 3 callability and no-call decision map PNG	copied	figures/manuscript/figure_no_call_decision_map.png	D:\99、共用信息\RMTGuard_20_50投稿资料包\04_gantt_and_figures\RMTGuard_NO_CALL_DECISION_MAP.png	source copied
+Figure 3 callability and no-call decision map PDF	copied	figures/manuscript/figure_no_call_decision_map.pdf	D:\99、共用信息\RMTGuard_20_50投稿资料包\04_gantt_and_figures\RMTGuard_NO_CALL_DECISION_MAP.pdf	source copied
+Figure 3 callability and no-call decision map TIFF	copied	figures/manuscript/figure_no_call_decision_map.tiff	D:\99、共用信息\RMTGuard_20_50投稿资料包\04_gantt_and_figures\RMTGuard_NO_CALL_DECISION_MAP.tiff	source copied
+Figure 3 callability decision-map render manifest	copied	figures/manuscript/no_call_decision_map_manifest.tsv	D:\99、共用信息\RMTGuard_20_50投稿资料包\04_gantt_and_figures\RMTGuard_NO_CALL_DECISION_MAP_MANIFEST.tsv	source copied
 scLENS feasibility check report	copied	docs/sclens_feasibility_check_2026-05-12.md	D:\99、共用信息\RMTGuard_20_50投稿资料包\06_next_sprint_inputs\RMTGuard_SCLENS_FEASIBILITY_CHECK.md	source copied
 machine-readable scLENS smoke-test output	copied	results/submission/sclens_feasibility_smoke.tsv	D:\99、共用信息\RMTGuard_20_50投稿资料包\06_next_sprint_inputs\RMTGuard_SCLENS_FEASIBILITY_SMOKE.tsv	source copied
 machine-readable scLENSpy PBMC3k/Kang h5ad smoke summary	copied	results/submission/sclens_h5ad_smoke_summary.tsv	D:\99、共用信息\RMTGuard_20_50投稿资料包\06_next_sprint_inputs\RMTGuard_SCLENS_H5AD_SMOKE_SUMMARY.tsv	source copied

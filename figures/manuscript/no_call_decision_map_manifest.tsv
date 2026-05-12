@@ -1,0 +1,4 @@
+asset	path	source_data	status
+figure_no_call_decision_map.png	figures/manuscript/figure_no_call_decision_map.png	results/callability/no_call_decision_map.tsv	written
+figure_no_call_decision_map.pdf	figures/manuscript/figure_no_call_decision_map.pdf	results/callability/no_call_decision_map.tsv	written
+figure_no_call_decision_map.tiff	figures/manuscript/figure_no_call_decision_map.tiff	results/callability/no_call_decision_map.tsv	written

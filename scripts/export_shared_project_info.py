@@ -406,6 +406,52 @@ COPY_ITEMS = [
         "topology stress figure manifest",
     ),
     CopyItem(
+        ROOT / "docs" / "no_call_decision_map.md",
+        "06_next_sprint_inputs",
+        "RMTGuard_NO_CALL_DECISION_MAP.md",
+        "Figure 3 callability and no-call decision map report",
+    ),
+    CopyItem(
+        ROOT / "results" / "callability" / "no_call_decision_map.tsv",
+        "06_next_sprint_inputs",
+        "RMTGuard_NO_CALL_DECISION_MAP.tsv",
+        "machine-readable callability and no-call decision map",
+    ),
+    CopyItem(
+        ROOT
+        / "results"
+        / "figures"
+        / "source_data"
+        / "figure3_callability_decision_map.tsv",
+        "04_gantt_and_figures",
+        "RMTGuard_FIGURE3_CALLABILITY_DECISION_MAP_SOURCE_DATA.tsv",
+        "Figure 3 callability decision-map source data",
+    ),
+    CopyItem(
+        ROOT / "figures" / "manuscript" / "figure_no_call_decision_map.png",
+        "04_gantt_and_figures",
+        "RMTGuard_NO_CALL_DECISION_MAP.png",
+        "Figure 3 callability and no-call decision map PNG",
+    ),
+    CopyItem(
+        ROOT / "figures" / "manuscript" / "figure_no_call_decision_map.pdf",
+        "04_gantt_and_figures",
+        "RMTGuard_NO_CALL_DECISION_MAP.pdf",
+        "Figure 3 callability and no-call decision map PDF",
+    ),
+    CopyItem(
+        ROOT / "figures" / "manuscript" / "figure_no_call_decision_map.tiff",
+        "04_gantt_and_figures",
+        "RMTGuard_NO_CALL_DECISION_MAP.tiff",
+        "Figure 3 callability and no-call decision map TIFF",
+    ),
+    CopyItem(
+        ROOT / "figures" / "manuscript" / "no_call_decision_map_manifest.tsv",
+        "04_gantt_and_figures",
+        "RMTGuard_NO_CALL_DECISION_MAP_MANIFEST.tsv",
+        "Figure 3 callability decision-map render manifest",
+    ),
+    CopyItem(
         ROOT / "docs" / "sclens_feasibility_check_2026-05-12.md",
         "06_next_sprint_inputs",
         "RMTGuard_SCLENS_FEASIBILITY_CHECK.md",
@@ -752,12 +798,18 @@ matrices, tokens, passwords, or private clinical materials.
 - `04_gantt_and_figures/RMTGuard_FIGURE4_PDAC_TME_STRENGTHENED.png`
 - `04_gantt_and_figures/RMTGuard_FIGURE4_PDAC_TME_STRENGTHENED.pdf`
 - `04_gantt_and_figures/RMTGuard_FIGURE4_PDAC_TME_STRENGTHENED_SOURCE_DATA.tsv`
+- `04_gantt_and_figures/RMTGuard_NO_CALL_DECISION_MAP.png`
+- `04_gantt_and_figures/RMTGuard_NO_CALL_DECISION_MAP.pdf`
+- `04_gantt_and_figures/RMTGuard_FIGURE3_CALLABILITY_DECISION_MAP_SOURCE_DATA.tsv`
+- `04_gantt_and_figures/RMTGuard_NO_CALL_DECISION_MAP.tiff`
 - `05_author_metadata/RMTGuard_TITLE_PAGE_AUTHOR_METADATA.md`
 - `06_next_sprint_inputs/RMTGuard_NATURE_METHODS_48H_EXECUTION_PACKET.md`
 - `06_next_sprint_inputs/RMTGuard_P0_SCIENCE_SPRINT_STATUS.md`
 - `06_next_sprint_inputs/RMTGuard_P0_BENCHMARK_UPGRADE_STATUS.md`
 - `06_next_sprint_inputs/RMTGuard_TOPOLOGY_STRESS_BENCHMARK.md`
 - `06_next_sprint_inputs/RMTGuard_TOPOLOGY_STRESS_SUMMARY.tsv`
+- `06_next_sprint_inputs/RMTGuard_NO_CALL_DECISION_MAP.md`
+- `06_next_sprint_inputs/RMTGuard_NO_CALL_DECISION_MAP.tsv`
 - `06_next_sprint_inputs/RMTGuard_PDAC_TME_ROUTE_DECISION_PACKET.md`
 - `06_next_sprint_inputs/RMTGuard_PDAC_TME_DUAL_ROUTE_PREFLIGHT.md`
 - `06_next_sprint_inputs/RMTGuard_PDAC_TME_DUAL_ROUTE_RUNBOOK.md`
@@ -823,8 +875,10 @@ claim-boundary limitation, and the PDAC/TME biological
 showcase now has DE/signature-transfer plus rank-based Hallmark/Reactome
 pathway and atlas-marker support with limits; a scLENSpy `n_rand_matrix=20`
 direct comparator is complete on PBMC3k and Kang but still needs broader
-dataset coverage before broad superiority language; bounded Figure 4 wording
-is frozen, and formal corresponding-author acknowledgement remains.
+dataset coverage before broad superiority language; the Figure 3 no-call
+decision map now has source data plus rendered PNG/PDF/TIFF assets; bounded
+Figure 4 wording is frozen, and formal corresponding-author acknowledgement
+remains.
 
 ## Fast Open
 
@@ -838,6 +892,12 @@ is frozen, and formal corresponding-author acknowledgement remains.
 - P0 benchmark upgrade status: `{package_dir / "06_next_sprint_inputs" / "RMTGuard_P0_BENCHMARK_UPGRADE_STATUS.md"}`
 - Topology stress benchmark: `{package_dir / "06_next_sprint_inputs" / "RMTGuard_TOPOLOGY_STRESS_BENCHMARK.md"}`
 - Topology stress summary: `{package_dir / "06_next_sprint_inputs" / "RMTGuard_TOPOLOGY_STRESS_SUMMARY.tsv"}`
+- No-call decision-map report: `{package_dir / "06_next_sprint_inputs" / "RMTGuard_NO_CALL_DECISION_MAP.md"}`
+- No-call decision-map table: `{package_dir / "06_next_sprint_inputs" / "RMTGuard_NO_CALL_DECISION_MAP.tsv"}`
+- No-call decision-map PNG: `{package_dir / "04_gantt_and_figures" / "RMTGuard_NO_CALL_DECISION_MAP.png"}`
+- No-call decision-map PDF: `{package_dir / "04_gantt_and_figures" / "RMTGuard_NO_CALL_DECISION_MAP.pdf"}`
+- No-call decision-map TIFF: `{package_dir / "04_gantt_and_figures" / "RMTGuard_NO_CALL_DECISION_MAP.tiff"}`
+- Figure 3 no-call source data: `{package_dir / "04_gantt_and_figures" / "RMTGuard_FIGURE3_CALLABILITY_DECISION_MAP_SOURCE_DATA.tsv"}`
 - Component ablation benchmark: `{package_dir / "06_next_sprint_inputs" / "RMTGuard_COMPONENT_ABLATION_BENCHMARK.md"}`
 - Real-data ablation annotation: `{package_dir / "06_next_sprint_inputs" / "RMTGuard_REALDATA_ABLATION_ANNOTATION.md"}`
 - P0 ablation run sheet: `{package_dir / "06_next_sprint_inputs" / "RMTGuard_P0_COMPONENT_ABLATION_RUN_SHEET.md"}`

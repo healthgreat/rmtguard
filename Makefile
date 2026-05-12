@@ -21,6 +21,7 @@ no-call:
 
 callability-decision-map:
 	python scripts/build_callability_decision_map.py
+	python scripts/render_no_call_decision_map.py
 
 component-ablation-evidence:
 	python scripts/build_component_ablation_evidence.py

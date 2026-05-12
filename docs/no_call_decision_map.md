@@ -17,6 +17,15 @@ This report turns RMTGuard's diagnostic boundary into an auditable table for Fig
 - `positive_control_pass`: 2
 - `stress_monitor`: 4
 
+## Figure Assets
+
+- Source table: `results/callability/no_call_decision_map.tsv`
+- Figure 3 source-data copy: `results/figures/source_data/figure3_callability_decision_map.tsv`
+- Rendered PNG: `figures/manuscript/figure_no_call_decision_map.png`
+- Rendered PDF: `figures/manuscript/figure_no_call_decision_map.pdf`
+- Rendered TIFF: `figures/manuscript/figure_no_call_decision_map.tiff`
+- Render manifest: `figures/manuscript/no_call_decision_map_manifest.tsv`
+
 ## Decision Map
 
 | Unit type | Unit | Decision | Score | Main reason | Recommended claim |

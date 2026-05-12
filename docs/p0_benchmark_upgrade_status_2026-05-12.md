@@ -34,6 +34,7 @@ The remaining high-impact methods gap is not "no calibration". After the
 | rare-state power grid | `done_with_limit_50repeat_ci` | `docs/rare_state_claim_boundary.md` | Moderate prevalence/effect settings are supported; lowest prevalence/weakest effect is an explicit limitation. |
 | component ablation | `done_current_20repeat_ci` | `docs/p0_science_sprint_status.md` | Current component-level evidence exists; avoid universal component-necessity wording. |
 | CONCORD-style topology stress | `done_20repeat_line_branch_loop` | `docs/topology_stress_benchmark_2026-05-12.md` | RMTGuard preserves synthetic line, branch, and loop topology better than fixed-PC baselines across kNN recall, trustworthiness, continuity, and distance-rank metrics. |
+| no-call decision map | `done_figure_source_data_ready` | `docs/no_call_decision_map.md`; `figures/manuscript/figure_no_call_decision_map.pdf` | Diagnostic no-call and caveated-call decisions are now shown as an explicit Figure 3-ready map with source data and render manifest. |
 | PBMC3k/Kang comparator refresh | `partial_scLENSpy_nrand20_added` | `results/submission/sclens_vs_rmtguard_stability_nrand20.tsv` | Direct scLENSpy is added; broader Seurat/Scanpy CI refresh remains useful before final freeze. |
 
 ## Current 20-50 JIF Distance
@@ -43,9 +44,9 @@ release, direct scLENS-like comparator, basic null calibration, or synthetic
 topology stress evidence. The current distance is now mainly scientific
 positioning and final manuscript defensibility:
 
-- Nature Methods remains high risk unless topology/no-call evidence is made
-  visually compelling and the claim is kept as diagnostic random-matrix
-  callability rather than broad superiority.
+- Nature Methods remains high risk unless the topology and callability evidence
+  is kept as diagnostic random-matrix callability rather than broad
+  superiority.
 - Genome Biology-style fallback is increasingly realistic if the paper is
   framed as a reproducible genomics workflow with transparent no-call
   boundaries.
