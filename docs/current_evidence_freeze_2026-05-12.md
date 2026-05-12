@@ -12,7 +12,7 @@ submission.
 
 ## Freeze Status
 
-- Items checked: `29`
+- Items checked: `30`
 - Missing items: `0`
 - Manifest: `results/submission/current_evidence_freeze_manifest.tsv`
 
@@ -24,7 +24,7 @@ submission.
 - `manual_blocker`: 1
 - `manuscript_text`: 4
 - `project_management`: 1
-- `release`: 1
+- `release`: 2
 - `source_data`: 5
 - `statistics`: 3
 
@@ -75,6 +75,7 @@ submission.
 | external_review_docx | manuscript_text | True | Word packet for external scientific review | Handoff document only; it packages evidence boundaries and reviewer questions but does not certify submission readiness. | Share with external reviewers and route their comments through the feedback triage pipeline. |
 | nature_reporting_summary_draft | journal_route | True | Nature Portfolio reporting-summary worksheet | Draft worksheet only; it pre-fills reproducibility, data, statistics and software answers but requires corresponding-author verification. | Transfer verified content into the official Nature Portfolio form only after final figure/source-data freeze. |
 | figure_caption_source_audit | figure | True | Figure-caption-source consistency audit | Confirms rendered assets, source data and frozen legends exist while preserving claim boundaries; does not certify journal acceptance. | Keep Figure 4 author acknowledgement as the remaining figure-level manual blocker. |
+| post_release_version_coverage_audit | release | True | Post-release version coverage audit | Shows whether the current manuscript-facing branch is covered by the archived DOI; does not create a new release. | Prepare v0.1.1 only after Figure 4 acknowledgement, final author declarations, and final figure/source-data freeze. |
 
 ## Use In Manuscript Planning
 

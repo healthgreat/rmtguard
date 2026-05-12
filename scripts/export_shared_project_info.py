@@ -442,6 +442,24 @@ COPY_ITEMS = [
         "machine-readable figure-caption-source audit",
     ),
     CopyItem(
+        ROOT / "docs" / "post_release_version_coverage_audit.md",
+        "03_release_evidence",
+        "RMTGuard_POST_RELEASE_VERSION_COVERAGE_AUDIT.md",
+        "post-release version coverage audit",
+    ),
+    CopyItem(
+        ROOT / "results" / "submission" / "post_release_version_coverage_audit.tsv",
+        "03_release_evidence",
+        "RMTGuard_POST_RELEASE_VERSION_COVERAGE_AUDIT.tsv",
+        "machine-readable post-release version coverage audit",
+    ),
+    CopyItem(
+        ROOT / "results" / "submission" / "post_release_changed_files.tsv",
+        "03_release_evidence",
+        "RMTGuard_POST_RELEASE_CHANGED_FILES.tsv",
+        "post-release changed-file classification table",
+    ),
+    CopyItem(
         ROOT / "results" / "submission" / "topology_stress_summary.tsv",
         "06_next_sprint_inputs",
         "RMTGuard_TOPOLOGY_STRESS_SUMMARY.tsv",
@@ -891,6 +909,8 @@ matrices, tokens, passwords, or private clinical materials.
 - `07_presubmission/RMTGuard_NATURE_REPORTING_SUMMARY_DRAFT.tsv`
 - `04_gantt_and_figures/RMTGuard_FIGURE_CAPTION_SOURCE_AUDIT.md`
 - `04_gantt_and_figures/RMTGuard_FIGURE_CAPTION_SOURCE_AUDIT.tsv`
+- `03_release_evidence/RMTGuard_POST_RELEASE_VERSION_COVERAGE_AUDIT.md`
+- `03_release_evidence/RMTGuard_POST_RELEASE_VERSION_COVERAGE_AUDIT.tsv`
 - `02_manual_actions/RMTGuard_MANUAL_NEXT_ACTIONS_20_50.md`
 - `02_manual_actions/RMTGuard_CORRESPONDING_AUTHOR_FIGURE4_ACKNOWLEDGEMENT_TEMPLATE.md`
 - `02_manual_actions/RMTGuard_CORRESPONDING_AUTHOR_SIGNOFF_PACKET.docx`
@@ -1054,6 +1074,7 @@ remains.
 - External review Word packet: `{package_dir / "07_presubmission" / "RMTGuard_EXTERNAL_REVIEW_PACKET_2026-05-12.docx"}`
 - Nature reporting-summary worksheet: `{package_dir / "07_presubmission" / "RMTGuard_NATURE_REPORTING_SUMMARY_DRAFT.md"}`
 - Figure-caption-source audit: `{package_dir / "04_gantt_and_figures" / "RMTGuard_FIGURE_CAPTION_SOURCE_AUDIT.md"}`
+- Post-release version coverage audit: `{package_dir / "03_release_evidence" / "RMTGuard_POST_RELEASE_VERSION_COVERAGE_AUDIT.md"}`
 - Nature Methods presubmission send packet: `{package_dir / "07_presubmission" / "RMTGuard_NATURE_METHODS_PRESUBMISSION_SEND_PACKET.md"}`
 - Nature Methods presubmission send runbook: `{package_dir / "07_presubmission" / "RMTGuard_NATURE_METHODS_PRESUBMISSION_SEND_RUNBOOK.md"}`
 - Nature Methods official route verification: `{package_dir / "07_presubmission" / "RMTGuard_NATURE_METHODS_OFFICIAL_ROUTE_VERIFICATION.md"}`

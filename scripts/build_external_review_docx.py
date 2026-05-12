@@ -32,6 +32,7 @@ INPUTS = {
     "freeze": ROOT / "docs" / "current_evidence_freeze_2026-05-12.md",
     "reporting": ROOT / "docs" / "nature_reporting_summary_draft.md",
     "figure_audit": ROOT / "docs" / "figure_caption_source_audit.md",
+    "version_audit": ROOT / "docs" / "post_release_version_coverage_audit.md",
     "manual": ROOT / "docs" / "manual_next_actions_20_50.md",
     "audit": ROOT / "results" / "submission" / "freeze_aligned_text_audit.tsv",
     "gantt": ROOT / "figures" / "project_management" / "rmtguard_project_gantt.png",
@@ -220,6 +221,7 @@ def build_document() -> None:
     add_markdown_section(document, "Current evidence freeze", read_text(INPUTS["freeze"]), max_lines=43)
     add_markdown_section(document, "20-50 JIF gap assessment", read_text(INPUTS["gap"]), max_lines=140)
     add_markdown_section(document, "Figure-caption-source audit", read_text(INPUTS["figure_audit"]), max_lines=120)
+    add_markdown_section(document, "Post-release version coverage audit", read_text(INPUTS["version_audit"]), max_lines=120)
     add_markdown_section(document, "Nature reporting-summary worksheet", read_text(INPUTS["reporting"]), max_lines=150)
     add_markdown_section(document, "Freeze-aligned Results draft", read_text(INPUTS["results"]))
     add_markdown_section(document, "Freeze-aligned figure legends", read_text(INPUTS["legends"]))

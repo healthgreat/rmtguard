@@ -270,6 +270,14 @@ ITEMS = [
         "Confirms rendered assets, source data and frozen legends exist while preserving claim boundaries; does not certify journal acceptance.",
         "Keep Figure 4 author acknowledgement as the remaining figure-level manual blocker.",
     ),
+    FreezeItem(
+        "post_release_version_coverage_audit",
+        "release",
+        ROOT / "docs" / "post_release_version_coverage_audit.md",
+        "Post-release version coverage audit",
+        "Shows whether the current manuscript-facing branch is covered by the archived DOI; does not create a new release.",
+        "Prepare v0.1.1 only after Figure 4 acknowledgement, final author declarations, and final figure/source-data freeze.",
+    ),
 ]
 
 

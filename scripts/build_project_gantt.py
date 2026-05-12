@@ -327,6 +327,16 @@ TASKS = [
         "All intended display items have rendered assets, source data and frozen legends; Figure 5 is fixed as main release/runtime/PBMC3k ablation, with real-data ablation moved to Extended Data.",
     ),
     Task(
+        "Release",
+        "Post-release version coverage audit",
+        date(2026, 5, 12),
+        date(2026, 5, 12),
+        "done_with_limit",
+        90,
+        "docs/post_release_version_coverage_audit.md",
+        "v0.1.0 remains immutable; current manuscript-facing branch requires a future v0.1.1 if these post-release files are used in submission, but tagging waits for author-controlled blockers.",
+    ),
+    Task(
         "Public benchmark",
         "Matched Seurat/JackStraw baseline design",
         date(2026, 5, 3),

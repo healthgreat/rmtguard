@@ -1,0 +1,254 @@
+change_status	path	class	manuscript_facing	notes
+M	.gitignore	other	False	not manuscript-facing by default
+M	.zenodo.json	release_metadata	True	Zenodo metadata
+M	CITATION.cff	release_metadata	True	software citation metadata
+M	Makefile	reproducibility_entrypoint	True	workflow entry points
+M	README.md	repository_doc	True	repository landing documentation
+A	benchmarks/run_realdata_topology_benchmark.py	benchmark_code	True	benchmark execution code
+A	benchmarks/run_sclens_h5ad_smoke.py	benchmark_code	True	benchmark execution code
+A	benchmarks/run_sclens_stability_benchmark.py	benchmark_code	True	benchmark execution code
+A	benchmarks/run_topology_stress_benchmark.py	benchmark_code	True	benchmark execution code
+A	docs/added_dataset_annotation_boundary.md	submission_doc	True	submission, route, audit and validation reports
+M	docs/author_declarations_and_credit_roles.md	submission_doc	True	submission, route, audit and validation reports
+M	docs/author_metadata_status.md	submission_doc	True	submission, route, audit and validation reports
+M	docs/author_release_execution_packet.md	submission_doc	True	submission, route, audit and validation reports
+A	docs/benchmark_upgrade_from_concord_sclens_2026-05-12.md	submission_doc	True	submission, route, audit and validation reports
+M	docs/claim_boundary_lint.md	submission_doc	True	submission, route, audit and validation reports
+M	docs/claim_traceability.md	submission_doc	True	submission, route, audit and validation reports
+A	docs/competitor_positioning_concord_sclens_2026-05-12.md	submission_doc	True	submission, route, audit and validation reports
+M	docs/component_ablation_benchmark.md	submission_doc	True	submission, route, audit and validation reports
+A	docs/corresponding_author_proxy_assumption.md	submission_doc	True	submission, route, audit and validation reports
+A	docs/corresponding_author_reply_intake_runbook.md	submission_doc	True	submission, route, audit and validation reports
+A	docs/corresponding_author_signoff_tracker.md	submission_doc	True	submission, route, audit and validation reports
+A	docs/current_evidence_freeze_2026-05-12.md	submission_doc	True	submission, route, audit and validation reports
+M	docs/editorial_presubmission_packet.md	submission_doc	True	submission, route, audit and validation reports
+A	docs/figure4_pdac_tme_wording_freeze.md	submission_doc	True	submission, route, audit and validation reports
+A	docs/figure4_strengthened_text_audit.md	submission_doc	True	submission, route, audit and validation reports
+A	docs/figure_caption_source_audit.md	submission_doc	True	submission, route, audit and validation reports
+A	docs/genome_biology_fallback_v2_packet.md	submission_doc	True	submission, route, audit and validation reports
+M	docs/jif20_50_gap_assessment.md	submission_doc	True	submission, route, audit and validation reports
+M	docs/manual_author_execution_steps.md	submission_doc	True	submission, route, audit and validation reports
+A	docs/manual_next_actions_20_50.md	submission_doc	True	submission, route, audit and validation reports
+A	docs/manuscript_grade_null_power_grid_design.md	submission_doc	True	submission, route, audit and validation reports
+A	docs/mentor_journal_decision_2026-05-10.md	submission_doc	True	submission, route, audit and validation reports
+A	docs/nature_methods_48h_execution_packet.md	submission_doc	True	submission, route, audit and validation reports
+A	docs/nature_methods_go_no_go_final.md	submission_doc	True	submission, route, audit and validation reports
+A	docs/nature_methods_next_round_gate_board.md	submission_doc	True	submission, route, audit and validation reports
+A	docs/nature_methods_official_route_verification.md	submission_doc	True	submission, route, audit and validation reports
+A	docs/nature_methods_presubmission_send_runbook.md	submission_doc	True	submission, route, audit and validation reports
+M	docs/nature_reporting_summary_draft.md	submission_doc	True	submission, route, audit and validation reports
+M	docs/no_call_decision_map.md	submission_doc	True	submission, route, audit and validation reports
+A	docs/p0_benchmark_upgrade_status_2026-05-12.md	submission_doc	True	submission, route, audit and validation reports
+A	docs/p0_component_ablation_run_sheet.md	submission_doc	True	submission, route, audit and validation reports
+A	docs/p0_science_sprint_status.md	submission_doc	True	submission, route, audit and validation reports
+A	docs/pdac_tme_deep_validation.md	submission_doc	True	submission, route, audit and validation reports
+A	docs/pdac_tme_dual_route_preflight.md	submission_doc	True	submission, route, audit and validation reports
+A	docs/pdac_tme_dual_route_runbook.md	submission_doc	True	submission, route, audit and validation reports
+A	docs/pdac_tme_figure4_strengthening_board.md	submission_doc	True	submission, route, audit and validation reports
+A	docs/pdac_tme_pathway_atlas_validation.md	submission_doc	True	submission, route, audit and validation reports
+A	docs/pdac_tme_route_decision_packet.md	submission_doc	True	submission, route, audit and validation reports
+M	docs/public_release_blocker_report.md	submission_doc	True	submission, route, audit and validation reports
+M	docs/publication_execution_board.md	submission_doc	True	submission, route, audit and validation reports
+A	docs/rare_state_claim_boundary.md	submission_doc	True	submission, route, audit and validation reports
+M	docs/realdata_ablation_annotation.md	submission_doc	True	submission, route, audit and validation reports
+M	docs/realdata_ablation_figure_table.md	submission_doc	True	submission, route, audit and validation reports
+A	docs/realdata_topology_benchmark_2026-05-12.md	submission_doc	True	submission, route, audit and validation reports
+M	docs/realistic_null_power_calibration.md	submission_doc	True	submission, route, audit and validation reports
+A	docs/sclens_feasibility_check_2026-05-12.md	submission_doc	True	submission, route, audit and validation reports
+A	docs/sclens_stability_nrand20_2026-05-12.md	submission_doc	True	submission, route, audit and validation reports
+A	docs/sclens_stability_pilot_2026-05-12.md	submission_doc	True	submission, route, audit and validation reports
+A	docs/shared_info_export_manifest.md	submission_doc	True	submission, route, audit and validation reports
+A	docs/topology_stress_benchmark_2026-05-12.md	submission_doc	True	submission, route, audit and validation reports
+A	figures/calibration/calibration_figure_manifest.tsv	calibration_figure	True	calibration figure assets
+A	figures/calibration/realistic_null_power_calibration.pdf	calibration_figure	True	calibration figure assets
+A	figures/calibration/realistic_null_power_calibration.png	calibration_figure	True	calibration figure assets
+A	figures/manuscript/figure4_pdac_tme_strengthened.pdf	journal_figure	True	rendered figure assets
+A	figures/manuscript/figure4_pdac_tme_strengthened.png	journal_figure	True	rendered figure assets
+A	figures/manuscript/figure4_pdac_tme_strengthened_manifest.tsv	journal_figure	True	rendered figure assets
+A	figures/manuscript/figure5_realdata_ablation_forest.pdf	journal_figure	True	rendered figure assets
+A	figures/manuscript/figure5_realdata_ablation_forest.png	journal_figure	True	rendered figure assets
+A	figures/manuscript/figure_no_call_decision_map.pdf	journal_figure	True	rendered figure assets
+A	figures/manuscript/figure_no_call_decision_map.png	journal_figure	True	rendered figure assets
+A	figures/manuscript/figure_no_call_decision_map.tiff	journal_figure	True	rendered figure assets
+A	figures/manuscript/figure_realdata_topology_benchmark.pdf	journal_figure	True	rendered figure assets
+A	figures/manuscript/figure_realdata_topology_benchmark.png	journal_figure	True	rendered figure assets
+A	figures/manuscript/figure_realdata_topology_benchmark.tiff	journal_figure	True	rendered figure assets
+A	figures/manuscript/figure_realdata_topology_manifest.tsv	journal_figure	True	rendered figure assets
+A	figures/manuscript/figure_topology_stress.pdf	journal_figure	True	rendered figure assets
+A	figures/manuscript/figure_topology_stress.png	journal_figure	True	rendered figure assets
+A	figures/manuscript/figure_topology_stress.tiff	journal_figure	True	rendered figure assets
+A	figures/manuscript/no_call_decision_map_manifest.tsv	journal_figure	True	rendered figure assets
+A	figures/manuscript/realdata_ablation_figure_manifest.tsv	journal_figure	True	rendered figure assets
+A	figures/manuscript/topology_stress_figure_manifest.tsv	journal_figure	True	rendered figure assets
+A	figures/project_management/rmtguard_project_gantt.pdf	other	False	not manuscript-facing by default
+A	figures/project_management/rmtguard_project_gantt.png	other	False	not manuscript-facing by default
+A	manuscript/claim_scope_final.md	manuscript_text	True	manuscript drafts, captions, title page and sign-off text
+A	manuscript/corresponding_author_figure4_acknowledgement_template.md	manuscript_text	True	manuscript drafts, captions, title page and sign-off text
+A	manuscript/corresponding_author_signoff_email_draft.md	manuscript_text	True	manuscript drafts, captions, title page and sign-off text
+A	manuscript/corresponding_author_signoff_packet.md	manuscript_text	True	manuscript drafts, captions, title page and sign-off text
+A	manuscript/figure4_caption_bounded_draft.md	manuscript_text	True	manuscript drafts, captions, title page and sign-off text
+A	manuscript/figure4_caption_strengthened_draft.md	manuscript_text	True	manuscript drafts, captions, title page and sign-off text
+A	manuscript/figure4_strengthened_panel_blueprint.md	manuscript_text	True	manuscript drafts, captions, title page and sign-off text
+M	manuscript/figure_claim_checklist.md	manuscript_text	True	manuscript drafts, captions, title page and sign-off text
+A	manuscript/figure_legends_freeze_aligned.md	manuscript_text	True	manuscript drafts, captions, title page and sign-off text
+A	manuscript/genome_biology_abstract_v2.md	manuscript_text	True	manuscript drafts, captions, title page and sign-off text
+A	manuscript/genome_biology_cover_letter_v2.md	manuscript_text	True	manuscript drafts, captions, title page and sign-off text
+M	manuscript/nature_methods_presubmission_inquiry.md	manuscript_text	True	manuscript drafts, captions, title page and sign-off text
+A	manuscript/nature_methods_presubmission_send_packet.md	manuscript_text	True	manuscript drafts, captions, title page and sign-off text
+A	manuscript/results_figure4_strengthened_draft.md	manuscript_text	True	manuscript drafts, captions, title page and sign-off text
+A	manuscript/results_freeze_aligned_draft.md	manuscript_text	True	manuscript drafts, captions, title page and sign-off text
+M	manuscript/title_page_author_metadata.md	manuscript_text	True	manuscript drafts, captions, title page and sign-off text
+M	metadata/author_metadata.tsv	metadata	True	author, dataset and sign-off metadata
+A	metadata/author_reply_evidence/README.md	metadata	True	author, dataset and sign-off metadata
+A	metadata/corresponding_author_signoff_tracker.tsv	metadata	True	author, dataset and sign-off metadata
+A	metadata/pdac_tme_route_decision_template.tsv	metadata	True	author, dataset and sign-off metadata
+A	output/doc/README.md	handoff_document	True	Word handoff and author sign-off packets
+A	output/doc/RMTGuard_corresponding_author_signoff_packet.docx	handoff_document	True	Word handoff and author sign-off packets
+A	output/doc/RMTGuard_external_review_packet_2026-05-12.docx	handoff_document	True	Word handoff and author sign-off packets
+A	output/email/README.md	handoff_email	True	email drafts for manual author actions
+A	output/email/RMTGuard_corresponding_author_signoff_email.eml	handoff_email	True	email drafts for manual author actions
+A	output/email/RMTGuard_nature_methods_presubmission_inquiry_HOLD.eml	handoff_email	True	email drafts for manual author actions
+A	results/ablation/component_ablation_detail.tsv	ablation_result	True	component ablation outputs
+A	results/ablation/component_ablation_summary.tsv	ablation_result	True	component ablation outputs
+A	results/ablation/p0_component_ablation_run_sheet.tsv	ablation_result	True	component ablation outputs
+A	results/ablation/realdata_ablation_annotation_detail.tsv	ablation_result	True	component ablation outputs
+A	results/ablation/realdata_ablation_annotation_summary.tsv	ablation_result	True	component ablation outputs
+A	results/calibration/manuscript_grade_null_power_grid_design.tsv	calibration_result	True	50-repeat calibration outputs
+A	results/calibration/rare_state_power_detail.tsv	calibration_result	True	50-repeat calibration outputs
+A	results/calibration/rare_state_power_summary.tsv	calibration_result	True	50-repeat calibration outputs
+A	results/calibration/realistic_null_detail.tsv	calibration_result	True	50-repeat calibration outputs
+A	results/calibration/realistic_null_summary.tsv	calibration_result	True	50-repeat calibration outputs
+A	results/callability/no_call_decision_map.tsv	other	False	not manuscript-facing by default
+A	results/figures/source_data/figure3_callability_decision_map.tsv	figure_source_data	True	figure source data and reproducibility manifests
+A	results/figures/source_data/figure4_pdac_tme_deep_validation.tsv	figure_source_data	True	figure source data and reproducibility manifests
+A	results/figures/source_data/figure4_pdac_tme_pathway_atlas_source.tsv	figure_source_data	True	figure source data and reproducibility manifests
+A	results/figures/source_data/figure4_pdac_tme_strengthened_source.tsv	figure_source_data	True	figure source data and reproducibility manifests
+A	results/figures/source_data/figure5_realdata_ablation_delta_summary.tsv	figure_source_data	True	figure source data and reproducibility manifests
+A	results/figures/source_data/figure_realdata_topology_source.tsv	figure_source_data	True	figure source data and reproducibility manifests
+A	results/pdac_tme/deep_validation/pdac_cell_assignments.tsv	pdac_result	True	PDAC/TME application outputs
+A	results/pdac_tme/deep_validation/pdac_de_markers_fdr.tsv	pdac_result	True	PDAC/TME application outputs
+A	results/pdac_tme/deep_validation/pdac_deep_validation_manifest.tsv	pdac_result	True	PDAC/TME application outputs
+A	results/pdac_tme/deep_validation/pdac_deep_validation_summary.tsv	pdac_result	True	PDAC/TME application outputs
+A	results/pdac_tme/deep_validation/pdac_external_signature_validation.tsv	pdac_result	True	PDAC/TME application outputs
+A	results/pdac_tme/deep_validation/pdac_marker_set_enrichment.tsv	pdac_result	True	PDAC/TME application outputs
+A	results/pdac_tme/pathway_atlas_validation/pdac_atlas_marker_citation_mapping.tsv	pdac_result	True	PDAC/TME application outputs
+A	results/pdac_tme/pathway_atlas_validation/pdac_pathway_atlas_validation_manifest.tsv	pdac_result	True	PDAC/TME application outputs
+A	results/pdac_tme/pathway_atlas_validation/pdac_pathway_atlas_validation_summary.tsv	pdac_result	True	PDAC/TME application outputs
+A	results/pdac_tme/pathway_atlas_validation/pdac_pathway_rank_enrichment.tsv	pdac_result	True	PDAC/TME application outputs
+A	results/project_management/rmtguard_project_gantt.md	other	False	not manuscript-facing by default
+A	results/project_management/rmtguard_project_gantt.tsv	other	False	not manuscript-facing by default
+A	results/realdata_topology/realdata_topology_detail.tsv	topology_result	True	real-data topology benchmark outputs
+A	results/realdata_topology/realdata_topology_metadata.json	topology_result	True	real-data topology benchmark outputs
+A	results/realdata_topology/realdata_topology_summary.tsv	topology_result	True	real-data topology benchmark outputs
+A	results/sclens_comparator/kang_ifnb_pbmc_sclens_h5ad_smoke.tsv	competitor_result	True	scLENSpy comparator outputs
+A	results/sclens_comparator/pbmc3k_10x_sclens_h5ad_smoke.tsv	competitor_result	True	scLENSpy comparator outputs
+A	results/sclens_stability_benchmarks/kang_ifnb_pbmc_sclens_stability_pairwise.tsv	competitor_result	True	scLENSpy comparator outputs
+A	results/sclens_stability_benchmarks/kang_ifnb_pbmc_sclens_stability_run_labels.tsv	competitor_result	True	scLENSpy comparator outputs
+A	results/sclens_stability_benchmarks/kang_ifnb_pbmc_sclens_stability_runs.tsv	competitor_result	True	scLENSpy comparator outputs
+A	results/sclens_stability_benchmarks/kang_ifnb_pbmc_sclens_stability_summary.tsv	competitor_result	True	scLENSpy comparator outputs
+A	results/sclens_stability_benchmarks/pbmc3k_10x_sclens_stability_pairwise.tsv	competitor_result	True	scLENSpy comparator outputs
+A	results/sclens_stability_benchmarks/pbmc3k_10x_sclens_stability_run_labels.tsv	competitor_result	True	scLENSpy comparator outputs
+A	results/sclens_stability_benchmarks/pbmc3k_10x_sclens_stability_runs.tsv	competitor_result	True	scLENSpy comparator outputs
+A	results/sclens_stability_benchmarks/pbmc3k_10x_sclens_stability_summary.tsv	competitor_result	True	scLENSpy comparator outputs
+A	results/sclens_stability_benchmarks/sclens_stability_metadata.json	competitor_result	True	scLENSpy comparator outputs
+A	results/sclens_stability_benchmarks/sclens_stability_pairwise.tsv	competitor_result	True	scLENSpy comparator outputs
+A	results/sclens_stability_benchmarks/sclens_stability_runs.tsv	competitor_result	True	scLENSpy comparator outputs
+A	results/sclens_stability_benchmarks/sclens_stability_summary.tsv	competitor_result	True	scLENSpy comparator outputs
+A	results/sclens_stability_benchmarks_nrand20/kang_ifnb_pbmc_sclens_stability_pairwise.tsv	competitor_result	True	scLENSpy comparator outputs
+A	results/sclens_stability_benchmarks_nrand20/kang_ifnb_pbmc_sclens_stability_run_labels.tsv	competitor_result	True	scLENSpy comparator outputs
+A	results/sclens_stability_benchmarks_nrand20/kang_ifnb_pbmc_sclens_stability_runs.tsv	competitor_result	True	scLENSpy comparator outputs
+A	results/sclens_stability_benchmarks_nrand20/kang_ifnb_pbmc_sclens_stability_summary.tsv	competitor_result	True	scLENSpy comparator outputs
+A	results/sclens_stability_benchmarks_nrand20/pbmc3k_10x_sclens_stability_pairwise.tsv	competitor_result	True	scLENSpy comparator outputs
+A	results/sclens_stability_benchmarks_nrand20/pbmc3k_10x_sclens_stability_run_labels.tsv	competitor_result	True	scLENSpy comparator outputs
+A	results/sclens_stability_benchmarks_nrand20/pbmc3k_10x_sclens_stability_runs.tsv	competitor_result	True	scLENSpy comparator outputs
+A	results/sclens_stability_benchmarks_nrand20/pbmc3k_10x_sclens_stability_summary.tsv	competitor_result	True	scLENSpy comparator outputs
+A	results/sclens_stability_benchmarks_nrand20/sclens_stability_metadata.json	competitor_result	True	scLENSpy comparator outputs
+A	results/sclens_stability_benchmarks_nrand20/sclens_stability_pairwise.tsv	competitor_result	True	scLENSpy comparator outputs
+A	results/sclens_stability_benchmarks_nrand20/sclens_stability_runs.tsv	competitor_result	True	scLENSpy comparator outputs
+A	results/sclens_stability_benchmarks_nrand20/sclens_stability_summary.tsv	competitor_result	True	scLENSpy comparator outputs
+A	results/shared_info/rmtguard_shared_export_manifest.tsv	shared_export	False	cross-project export manifest
+A	results/submission/added_dataset_annotation_boundary.tsv	submission_table	True	submission-facing machine-readable tables
+A	results/submission/benchmark_upgrade_from_concord_sclens.tsv	submission_table	True	submission-facing machine-readable tables
+A	results/submission/claim_boundary_lint.tsv	submission_table	True	submission-facing machine-readable tables
+A	results/submission/claim_scope_final_audit.tsv	submission_table	True	submission-facing machine-readable tables
+A	results/submission/claim_traceability.tsv	submission_table	True	submission-facing machine-readable tables
+A	results/submission/competitor_positioning_matrix.tsv	submission_table	True	submission-facing machine-readable tables
+A	results/submission/corresponding_author_signoff_packet.tsv	submission_table	True	submission-facing machine-readable tables
+A	results/submission/current_evidence_freeze_manifest.tsv	submission_table	True	submission-facing machine-readable tables
+A	results/submission/editorial_presubmission_packet.tsv	submission_table	True	submission-facing machine-readable tables
+A	results/submission/figure4_pdac_tme_wording_freeze.tsv	submission_table	True	submission-facing machine-readable tables
+A	results/submission/figure4_strengthened_text_audit.tsv	submission_table	True	submission-facing machine-readable tables
+A	results/submission/figure_caption_source_audit.tsv	submission_table	True	submission-facing machine-readable tables
+A	results/submission/figure_claim_checklist.tsv	submission_table	True	submission-facing machine-readable tables
+A	results/submission/freeze_aligned_text_audit.tsv	submission_table	True	submission-facing machine-readable tables
+A	results/submission/genome_biology_fallback_v2_checklist.tsv	submission_table	True	submission-facing machine-readable tables
+A	results/submission/jif20_50_gap_assessment.tsv	submission_table	True	submission-facing machine-readable tables
+A	results/submission/jif20_50_journal_route.tsv	submission_table	True	submission-facing machine-readable tables
+A	results/submission/nature_methods_48h_execution_packet.tsv	submission_table	True	submission-facing machine-readable tables
+A	results/submission/nature_methods_go_no_go_final.tsv	submission_table	True	submission-facing machine-readable tables
+A	results/submission/nature_methods_next_round_gate_board.tsv	submission_table	True	submission-facing machine-readable tables
+A	results/submission/nature_methods_official_route_verification.tsv	submission_table	True	submission-facing machine-readable tables
+A	results/submission/nature_methods_presubmission_send_packet.tsv	submission_table	True	submission-facing machine-readable tables
+A	results/submission/p0_science_sprint_status.tsv	submission_table	True	submission-facing machine-readable tables
+A	results/submission/pdac_tme_dual_route_preflight.tsv	submission_table	True	submission-facing machine-readable tables
+A	results/submission/pdac_tme_dual_route_runbook.tsv	submission_table	True	submission-facing machine-readable tables
+A	results/submission/pdac_tme_figure4_strengthening_board.tsv	submission_table	True	submission-facing machine-readable tables
+A	results/submission/pdac_tme_route_decision_packet.tsv	submission_table	True	submission-facing machine-readable tables
+A	results/submission/rare_state_claim_boundary.tsv	submission_table	True	submission-facing machine-readable tables
+A	results/submission/realdata_topology_summary.tsv	submission_table	True	submission-facing machine-readable tables
+A	results/submission/reporting_summary_draft.tsv	submission_table	True	submission-facing machine-readable tables
+A	results/submission/sclens_feasibility_smoke.tsv	submission_table	True	submission-facing machine-readable tables
+A	results/submission/sclens_h5ad_smoke_summary.tsv	submission_table	True	submission-facing machine-readable tables
+A	results/submission/sclens_vs_rmtguard_stability_nrand20.tsv	submission_table	True	submission-facing machine-readable tables
+A	results/submission/sclens_vs_rmtguard_stability_pilot.tsv	submission_table	True	submission-facing machine-readable tables
+A	results/submission/topology_stress_summary.tsv	submission_table	True	submission-facing machine-readable tables
+A	results/tables/manuscript/realdata_ablation_table_manifest.tsv	other	False	not manuscript-facing by default
+A	results/tables/manuscript/supplemental_realdata_ablation_table.docx	other	False	not manuscript-facing by default
+A	results/tables/manuscript/supplemental_realdata_ablation_table.tsv	other	False	not manuscript-facing by default
+A	results/topology_stress_benchmarks/topology_stress_detail.tsv	topology_result	True	synthetic topology benchmark outputs
+A	results/topology_stress_benchmarks/topology_stress_metadata.json	topology_result	True	synthetic topology benchmark outputs
+A	results/topology_stress_benchmarks/topology_stress_summary.tsv	topology_result	True	synthetic topology benchmark outputs
+M	scripts/build_author_release_execution_packet.py	pipeline_code	True	analysis, figure, release and submission-control scripts
+M	scripts/build_callability_decision_map.py	pipeline_code	True	analysis, figure, release and submission-control scripts
+A	scripts/build_corresponding_author_email_packet.py	pipeline_code	True	analysis, figure, release and submission-control scripts
+A	scripts/build_corresponding_author_signoff_packet.py	pipeline_code	True	analysis, figure, release and submission-control scripts
+A	scripts/build_current_evidence_freeze.py	pipeline_code	True	analysis, figure, release and submission-control scripts
+M	scripts/build_editorial_presubmission_packet.py	pipeline_code	True	analysis, figure, release and submission-control scripts
+A	scripts/build_external_review_docx.py	pipeline_code	True	analysis, figure, release and submission-control scripts
+A	scripts/build_figure4_strengthened_text.py	pipeline_code	True	analysis, figure, release and submission-control scripts
+A	scripts/build_figure4_wording_freeze.py	pipeline_code	True	analysis, figure, release and submission-control scripts
+A	scripts/build_figure_caption_source_audit.py	pipeline_code	True	analysis, figure, release and submission-control scripts
+A	scripts/build_freeze_aligned_manuscript_text.py	pipeline_code	True	analysis, figure, release and submission-control scripts
+A	scripts/build_genome_biology_fallback_v2.py	pipeline_code	True	analysis, figure, release and submission-control scripts
+M	scripts/build_github_release_handoff.py	pipeline_code	True	analysis, figure, release and submission-control scripts
+M	scripts/build_jif20_50_gap_assessment.py	pipeline_code	True	analysis, figure, release and submission-control scripts
+A	scripts/build_nature_methods_48h_execution_packet.py	pipeline_code	True	analysis, figure, release and submission-control scripts
+A	scripts/build_nature_methods_go_no_go_final.py	pipeline_code	True	analysis, figure, release and submission-control scripts
+A	scripts/build_nature_methods_next_round_gate_board.py	pipeline_code	True	analysis, figure, release and submission-control scripts
+A	scripts/build_nature_methods_official_route_verification.py	pipeline_code	True	analysis, figure, release and submission-control scripts
+A	scripts/build_nature_methods_presubmission_send_packet.py	pipeline_code	True	analysis, figure, release and submission-control scripts
+A	scripts/build_p0_science_sprint_status.py	pipeline_code	True	analysis, figure, release and submission-control scripts
+A	scripts/build_pdac_tme_dual_route_preflight.py	pipeline_code	True	analysis, figure, release and submission-control scripts
+A	scripts/build_pdac_tme_figure4_strengthening_board.py	pipeline_code	True	analysis, figure, release and submission-control scripts
+A	scripts/build_pdac_tme_route_decision_packet.py	pipeline_code	True	analysis, figure, release and submission-control scripts
+M	scripts/build_presubmission_package.py	pipeline_code	True	analysis, figure, release and submission-control scripts
+M	scripts/build_project_gantt.py	pipeline_code	True	analysis, figure, release and submission-control scripts
+M	scripts/build_public_release_blocker_report.py	pipeline_code	True	analysis, figure, release and submission-control scripts
+M	scripts/build_publication_execution_board.py	pipeline_code	True	analysis, figure, release and submission-control scripts
+A	scripts/build_rare_state_claim_boundary.py	pipeline_code	True	analysis, figure, release and submission-control scripts
+M	scripts/build_reporting_summary_draft.py	pipeline_code	True	analysis, figure, release and submission-control scripts
+M	scripts/execute_github_release.py	pipeline_code	True	analysis, figure, release and submission-control scripts
+A	scripts/export_shared_project_info.py	pipeline_code	True	analysis, figure, release and submission-control scripts
+M	scripts/finalize_submission_release.py	pipeline_code	True	analysis, figure, release and submission-control scripts
+M	scripts/lint_claim_boundaries.py	pipeline_code	True	analysis, figure, release and submission-control scripts
+A	scripts/record_corresponding_author_signoff.py	pipeline_code	True	analysis, figure, release and submission-control scripts
+M	scripts/render_calibration_figures.py	pipeline_code	True	analysis, figure, release and submission-control scripts
+A	scripts/render_figure4_strengthened.py	pipeline_code	True	analysis, figure, release and submission-control scripts
+A	scripts/render_no_call_decision_map.py	pipeline_code	True	analysis, figure, release and submission-control scripts
+A	scripts/render_topology_stress_figure.py	pipeline_code	True	analysis, figure, release and submission-control scripts
+M	scripts/run_component_ablation_benchmark.py	pipeline_code	True	analysis, figure, release and submission-control scripts
+A	scripts/run_pdac_tme_deep_validation.py	pipeline_code	True	analysis, figure, release and submission-control scripts
+A	scripts/run_pdac_tme_pathway_atlas_validation.py	pipeline_code	True	analysis, figure, release and submission-control scripts
+M	scripts/run_realdata_ablation_annotation.py	pipeline_code	True	analysis, figure, release and submission-control scripts
+M	scripts/run_realistic_null_power_calibration.py	pipeline_code	True	analysis, figure, release and submission-control scripts
+A	scripts/run_sclens_feasibility_smoke.py	pipeline_code	True	analysis, figure, release and submission-control scripts
