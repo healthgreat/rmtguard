@@ -47,6 +47,7 @@ A	docs/pdac_tme_dual_route_runbook.md	submission_doc	True	submission, route, aud
 A	docs/pdac_tme_figure4_strengthening_board.md	submission_doc	True	submission, route, audit and validation reports
 A	docs/pdac_tme_pathway_atlas_validation.md	submission_doc	True	submission, route, audit and validation reports
 A	docs/pdac_tme_route_decision_packet.md	submission_doc	True	submission, route, audit and validation reports
+A	docs/post_release_version_coverage_audit.md	submission_doc	True	submission, route, audit and validation reports
 M	docs/public_release_blocker_report.md	submission_doc	True	submission, route, audit and validation reports
 M	docs/publication_execution_board.md	submission_doc	True	submission, route, audit and validation reports
 A	docs/rare_state_claim_boundary.md	submission_doc	True	submission, route, audit and validation reports
@@ -194,6 +195,8 @@ A	results/submission/pdac_tme_dual_route_preflight.tsv	submission_table	True	sub
 A	results/submission/pdac_tme_dual_route_runbook.tsv	submission_table	True	submission-facing machine-readable tables
 A	results/submission/pdac_tme_figure4_strengthening_board.tsv	submission_table	True	submission-facing machine-readable tables
 A	results/submission/pdac_tme_route_decision_packet.tsv	submission_table	True	submission-facing machine-readable tables
+A	results/submission/post_release_changed_files.tsv	submission_table	True	submission-facing machine-readable tables
+A	results/submission/post_release_version_coverage_audit.tsv	submission_table	True	submission-facing machine-readable tables
 A	results/submission/rare_state_claim_boundary.tsv	submission_table	True	submission-facing machine-readable tables
 A	results/submission/realdata_topology_summary.tsv	submission_table	True	submission-facing machine-readable tables
 A	results/submission/reporting_summary_draft.tsv	submission_table	True	submission-facing machine-readable tables
@@ -231,6 +234,7 @@ A	scripts/build_p0_science_sprint_status.py	pipeline_code	True	analysis, figure,
 A	scripts/build_pdac_tme_dual_route_preflight.py	pipeline_code	True	analysis, figure, release and submission-control scripts
 A	scripts/build_pdac_tme_figure4_strengthening_board.py	pipeline_code	True	analysis, figure, release and submission-control scripts
 A	scripts/build_pdac_tme_route_decision_packet.py	pipeline_code	True	analysis, figure, release and submission-control scripts
+A	scripts/build_post_release_version_coverage_audit.py	pipeline_code	True	analysis, figure, release and submission-control scripts
 M	scripts/build_presubmission_package.py	pipeline_code	True	analysis, figure, release and submission-control scripts
 M	scripts/build_project_gantt.py	pipeline_code	True	analysis, figure, release and submission-control scripts
 M	scripts/build_public_release_blocker_report.py	pipeline_code	True	analysis, figure, release and submission-control scripts
