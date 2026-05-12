@@ -231,6 +231,14 @@ ITEMS = [
         "Send the Word packet to authors, save replies, then rerun the v0.1.1 preflight.",
     ),
     FreezeItem(
+        "high_impact_submission_dashboard",
+        "journal_route",
+        ROOT / "docs" / "high_impact_submission_dashboard.md",
+        "High-impact submission dashboard",
+        "Consolidates the current 20-50 JIF distance, Nature Methods go/no-go status, author blockers, release preflight, evidence freeze, and remaining science gaps.",
+        "Refresh after every author-confirmation, benchmark, figure, or release-control change.",
+    ),
+    FreezeItem(
         "results_freeze_aligned_draft",
         "manuscript_text",
         ROOT / "manuscript" / "results_freeze_aligned_draft.md",

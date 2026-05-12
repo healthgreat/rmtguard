@@ -1,5 +1,7 @@
 role	status	source_path	shared_path	notes
 20-50 JIF gap assessment	copied	docs/jif20_50_gap_assessment.md	D:\99、共用信息\RMTGuard_20_50投稿资料包\01_project_status\RMTGuard_JIF20_50_GAP_ASSESSMENT.md	source copied
+high-impact submission dashboard	copied	docs/high_impact_submission_dashboard.md	D:\99、共用信息\RMTGuard_20_50投稿资料包\01_project_status\RMTGuard_HIGH_IMPACT_SUBMISSION_DASHBOARD.md	source copied
+machine-readable high-impact submission dashboard	copied	results/submission/high_impact_submission_dashboard.tsv	D:\99、共用信息\RMTGuard_20_50投稿资料包\01_project_status\RMTGuard_HIGH_IMPACT_SUBMISSION_DASHBOARD.tsv	source copied
 machine-readable gap assessment	copied	results/submission/jif20_50_gap_assessment.tsv	D:\99、共用信息\RMTGuard_20_50投稿资料包\01_project_status\RMTGuard_JIF20_50_GAP_ASSESSMENT.tsv	source copied
 submission execution board	copied	docs/publication_execution_board.md	D:\99、共用信息\RMTGuard_20_50投稿资料包\01_project_status\RMTGuard_PUBLICATION_EXECUTION_BOARD.md	source copied
 Nature Methods next-round science gate board	copied	docs/nature_methods_next_round_gate_board.md	D:\99、共用信息\RMTGuard_20_50投稿资料包\01_project_status\RMTGuard_NATURE_METHODS_NEXT_ROUND_GATE_BOARD.md	source copied

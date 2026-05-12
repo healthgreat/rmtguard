@@ -28,6 +28,7 @@ OUTPUT = ROOT / "output" / "doc" / "RMTGuard_external_review_packet_2026-05-12.d
 INPUTS = {
     "results": ROOT / "manuscript" / "results_freeze_aligned_draft.md",
     "legends": ROOT / "manuscript" / "figure_legends_freeze_aligned.md",
+    "dashboard": ROOT / "docs" / "high_impact_submission_dashboard.md",
     "gap": ROOT / "docs" / "jif20_50_gap_assessment.md",
     "freeze": ROOT / "docs" / "current_evidence_freeze_2026-05-12.md",
     "reporting": ROOT / "docs" / "nature_reporting_summary_draft.md",
@@ -221,6 +222,7 @@ def build_document() -> None:
 
     document.add_section(WD_SECTION.NEW_PAGE)
     add_markdown_section(document, "Current evidence freeze", read_text(INPUTS["freeze"]), max_lines=43)
+    add_markdown_section(document, "High-impact submission dashboard", read_text(INPUTS["dashboard"]), max_lines=130)
     add_markdown_section(document, "20-50 JIF gap assessment", read_text(INPUTS["gap"]), max_lines=140)
     add_markdown_section(document, "Figure-caption-source audit", read_text(INPUTS["figure_audit"]), max_lines=120)
     add_markdown_section(document, "Post-release version coverage audit", read_text(INPUTS["version_audit"]), max_lines=120)

@@ -328,6 +328,16 @@ TASKS = [
     ),
     Task(
         "Manuscript package",
+        "High-impact submission dashboard",
+        date(2026, 5, 12),
+        date(2026, 5, 12),
+        "done_with_limit",
+        90,
+        "docs/high_impact_submission_dashboard.md",
+        "Single dashboard now merges 20-50 JIF distance, Nature Methods go/no-go, v0.1.1 preflight, author blockers, Figure 4 acknowledgement, reporting summary, claim integrity, and remaining science gaps.",
+    ),
+    Task(
+        "Manuscript package",
         "Figure-caption-source audit and Figure 5 layout decision",
         date(2026, 5, 12),
         date(2026, 5, 12),

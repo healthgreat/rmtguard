@@ -46,6 +46,18 @@ COPY_ITEMS = [
         "20-50 JIF gap assessment",
     ),
     CopyItem(
+        ROOT / "docs" / "high_impact_submission_dashboard.md",
+        "01_project_status",
+        "RMTGuard_HIGH_IMPACT_SUBMISSION_DASHBOARD.md",
+        "high-impact submission dashboard",
+    ),
+    CopyItem(
+        ROOT / "results" / "submission" / "high_impact_submission_dashboard.tsv",
+        "01_project_status",
+        "RMTGuard_HIGH_IMPACT_SUBMISSION_DASHBOARD.tsv",
+        "machine-readable high-impact submission dashboard",
+    ),
+    CopyItem(
         ROOT / "results" / "submission" / "jif20_50_gap_assessment.tsv",
         "01_project_status",
         "RMTGuard_JIF20_50_GAP_ASSESSMENT.tsv",
@@ -921,6 +933,8 @@ matrices, tokens, passwords, or private clinical materials.
 ## Main Files
 
 - `01_project_status/RMTGuard_JIF20_50_GAP_ASSESSMENT.md`
+- `01_project_status/RMTGuard_HIGH_IMPACT_SUBMISSION_DASHBOARD.md`
+- `01_project_status/RMTGuard_HIGH_IMPACT_SUBMISSION_DASHBOARD.tsv`
 - `01_project_status/RMTGuard_PUBLICATION_EXECUTION_BOARD.md`
 - `01_project_status/RMTGuard_NATURE_METHODS_NEXT_ROUND_GATE_BOARD.md`
 - `01_project_status/RMTGuard_GENOME_BIOLOGY_FALLBACK_V2_PACKET.md`
@@ -1054,6 +1068,7 @@ remains.
 ## Fast Open
 
 - Gap report: `{package_dir / "01_project_status" / "RMTGuard_JIF20_50_GAP_ASSESSMENT.md"}`
+- High-impact dashboard: `{package_dir / "01_project_status" / "RMTGuard_HIGH_IMPACT_SUBMISSION_DASHBOARD.md"}`
 - Next-round gate board: `{package_dir / "01_project_status" / "RMTGuard_NATURE_METHODS_NEXT_ROUND_GATE_BOARD.md"}`
 - Genome Biology fallback v2 packet: `{package_dir / "01_project_status" / "RMTGuard_GENOME_BIOLOGY_FALLBACK_V2_PACKET.md"}`
 - Genome Biology abstract v2: `{package_dir / "01_project_status" / "RMTGuard_GENOME_BIOLOGY_ABSTRACT_V2.md"}`
