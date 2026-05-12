@@ -1,0 +1,15 @@
+dataset_id	method	mean_pairwise_ari	ci95_pairwise_ari_low	ci95_pairwise_ari_high	n_repeats	sample_fraction	mean_cluster_n	mean_annotation_ari	mean_annotation_nmi	mean_runtime_sec	mean_cuda_peak_memory_mb	notes
+pbmc3k_10x	rmtguard	0.8667649002713178			10	0.8	4.3					existing_manuscript_stability_benchmark
+pbmc3k_10x	rmtguard_strict_signal	0.8489727273623047			10	0.8	4.4					existing_manuscript_stability_benchmark
+pbmc3k_10x	scanpy_default_like	0.8294845873949585			10	0.8	8.0					existing_manuscript_stability_benchmark
+pbmc3k_10x	fixed_pcs_30	0.9004941933705677			10	0.8	8.0					existing_manuscript_stability_benchmark
+pbmc3k_10x	fixed_pcs_50	0.8294845873949585			10	0.8	8.0					existing_manuscript_stability_benchmark
+pbmc3k_10x	elbow_rule	0.9835983794607606			10	0.8	8.0					existing_manuscript_stability_benchmark
+pbmc3k_10x	scLENSpy_nrand20	0.6944301075272782	0.6674980572488017	0.7213621578057546	10	0.8	4.3			13.443497080000089	314.44384765625	manuscript_grade_n_rand_matrix_two_dataset_direct_comparator
+kang_ifnb_pbmc	rmtguard	0.7893139006970947			10	0.8	4.9					existing_manuscript_stability_benchmark
+kang_ifnb_pbmc	rmtguard_strict_signal	0.6707932569099186			10	0.8	4.5					existing_manuscript_stability_benchmark
+kang_ifnb_pbmc	scanpy_default_like	0.6789007114404347			10	0.8	8.0					existing_manuscript_stability_benchmark
+kang_ifnb_pbmc	fixed_pcs_30	0.719448609458023			10	0.8	8.0					existing_manuscript_stability_benchmark
+kang_ifnb_pbmc	fixed_pcs_50	0.6789007114404347			10	0.8	8.0					existing_manuscript_stability_benchmark
+kang_ifnb_pbmc	elbow_rule	0.8416410671237944			10	0.8	8.0					existing_manuscript_stability_benchmark
+kang_ifnb_pbmc	scLENSpy_nrand20	0.5864361809558877	0.5512856975121457	0.6215866643996296	10	0.8	4.4	0.5407032373929633	0.6327702783652395	12.862581850000243	232.47783203125	manuscript_grade_n_rand_matrix_two_dataset_direct_comparator

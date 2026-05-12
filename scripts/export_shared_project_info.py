@@ -403,6 +403,21 @@ COPY_ITEMS = [
         "machine-readable scLENSpy versus RMTGuard stability pilot table",
     ),
     CopyItem(
+        ROOT / "docs" / "sclens_stability_nrand20_2026-05-12.md",
+        "06_next_sprint_inputs",
+        "RMTGuard_SCLENS_STABILITY_NRAND20.md",
+        "scLENSpy n_rand_matrix=20 stability comparator report",
+    ),
+    CopyItem(
+        ROOT
+        / "results"
+        / "submission"
+        / "sclens_vs_rmtguard_stability_nrand20.tsv",
+        "06_next_sprint_inputs",
+        "RMTGuard_SCLENS_VS_RMTGUARD_STABILITY_NRAND20.tsv",
+        "machine-readable scLENSpy n_rand_matrix=20 versus RMTGuard table",
+    ),
+    CopyItem(
         ROOT / "docs" / "figure4_pdac_tme_wording_freeze.md",
         "06_next_sprint_inputs",
         "RMTGuard_FIGURE4_PDAC_TME_WORDING_FREEZE.md",
@@ -713,6 +728,8 @@ matrices, tokens, passwords, or private clinical materials.
 - `06_next_sprint_inputs/RMTGuard_FIGURE4_PDAC_TME_WORDING_FREEZE.md`
 - `06_next_sprint_inputs/RMTGuard_SCLENS_STABILITY_PILOT.md`
 - `06_next_sprint_inputs/RMTGuard_SCLENS_VS_RMTGUARD_STABILITY_PILOT.tsv`
+- `06_next_sprint_inputs/RMTGuard_SCLENS_STABILITY_NRAND20.md`
+- `06_next_sprint_inputs/RMTGuard_SCLENS_VS_RMTGUARD_STABILITY_NRAND20.tsv`
 - `06_next_sprint_inputs/RMTGuard_COMPONENT_ABLATION_BENCHMARK.md`
 - `06_next_sprint_inputs/RMTGuard_REALDATA_ABLATION_ANNOTATION.md`
 - `06_next_sprint_inputs/RMTGuard_P0_COMPONENT_ABLATION_RUN_SHEET.md`
@@ -765,10 +782,10 @@ ablation now have 20-repeat CI/annotation layers, realistic null and power
 grids now have 50-repeat calibration output with a low-prevalence/effect
 claim-boundary limitation, and the PDAC/TME biological
 showcase now has DE/signature-transfer plus rank-based Hallmark/Reactome
-pathway and atlas-marker support with limits; a scLENSpy 10-repeat direct
-comparator pilot is complete but still needs a stronger `n_rand_matrix>=20`
-attempt; bounded Figure 4 wording is frozen, and formal corresponding-author
-acknowledgement remains.
+pathway and atlas-marker support with limits; a scLENSpy `n_rand_matrix=20`
+direct comparator is complete on PBMC3k and Kang but still needs broader
+dataset coverage before broad superiority language; bounded Figure 4 wording
+is frozen, and formal corresponding-author acknowledgement remains.
 
 ## Fast Open
 
@@ -791,6 +808,8 @@ acknowledgement remains.
 - Figure 4 PDAC/TME wording freeze: `{package_dir / "06_next_sprint_inputs" / "RMTGuard_FIGURE4_PDAC_TME_WORDING_FREEZE.md"}`
 - scLENSpy stability pilot: `{package_dir / "06_next_sprint_inputs" / "RMTGuard_SCLENS_STABILITY_PILOT.md"}`
 - scLENSpy versus RMTGuard pilot table: `{package_dir / "06_next_sprint_inputs" / "RMTGuard_SCLENS_VS_RMTGUARD_STABILITY_PILOT.tsv"}`
+- scLENSpy n_rand_matrix=20 report: `{package_dir / "06_next_sprint_inputs" / "RMTGuard_SCLENS_STABILITY_NRAND20.md"}`
+- scLENSpy n_rand_matrix=20 table: `{package_dir / "06_next_sprint_inputs" / "RMTGuard_SCLENS_VS_RMTGUARD_STABILITY_NRAND20.tsv"}`
 - Strengthened Figure 4 caption draft: `{package_dir / "04_gantt_and_figures" / "RMTGuard_FIGURE4_CAPTION_STRENGTHENED_DRAFT.md"}`
 - Strengthened Figure 4 Results draft: `{package_dir / "04_gantt_and_figures" / "RMTGuard_RESULTS_FIGURE4_STRENGTHENED_DRAFT.md"}`
 - Strengthened Figure 4 text audit: `{package_dir / "04_gantt_and_figures" / "RMTGuard_FIGURE4_STRENGTHENED_TEXT_AUDIT.md"}`

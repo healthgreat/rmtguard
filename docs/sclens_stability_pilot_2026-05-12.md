@@ -7,7 +7,7 @@ on the same prepared PBMC3k and Kang PBMC h5ad files used by RMTGuard.
 
 ## Bottom Line
 
-Status: `pilot_10repeat_complete_stronger_nrand_pending`.
+Status: `pilot_10repeat_complete_stronger_nrand_complete`.
 
 The Python scLENSpy comparator is now runnable as a repeated stability
 benchmark on PBMC3k and Kang IFN-beta PBMC. Under this pilot setting
@@ -19,6 +19,10 @@ claim about scLENS because the scLENSpy random-matrix ensemble was intentionally
 kept small for a first local pilot. A stronger run with `n_rand_matrix>=20`,
 plus at least the same reporting fields, is still required before any final
 head-to-head language.
+
+Update: the stronger `n_rand_matrix=20` run is now complete and is documented
+in `docs/sclens_stability_nrand20_2026-05-12.md`. Use that report for current
+manuscript-facing direct-comparator interpretation.
 
 ## Command
 

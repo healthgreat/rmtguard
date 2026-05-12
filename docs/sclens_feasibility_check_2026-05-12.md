@@ -122,7 +122,7 @@ fair-comparison benchmark:
 ## Current Gate Impact
 
 The scLENS comparator gate moves from `pending` to
-`pilot_10repeat_complete_stronger_nrand_pending`.
+`complete_nrand20_10repeat_pbmc3k_kang`.
 
 Nature Methods readiness is not unlocked by this smoke test. It only removes
 one uncertainty: a direct RMT-like comparator is technically reachable through
@@ -159,6 +159,34 @@ results/submission/sclens_vs_rmtguard_stability_pilot.tsv
 This pilot strengthens comparator feasibility but does not support final
 superiority language because `n_rand_matrix=2` is below the stronger
 manuscript-grade setting that should be attempted next.
+
+## n_rand_matrix=20 Stability Comparator
+
+The stronger scLENSpy run has also completed:
+
+```bash
+python benchmarks/run_sclens_stability_benchmark.py \
+  --datasets pbmc3k_10x kang_ifnb_pbmc \
+  --n-repeats 10 \
+  --sample-fraction 0.8 \
+  --n-rand-matrix 20 \
+  --outdir results/sclens_stability_benchmarks_nrand20 \
+  --force
+```
+
+Summary:
+
+- PBMC3k scLENSpy mean pairwise ARI: `0.694` (95% CI `0.667-0.721`).
+- Kang IFN-beta PBMC scLENSpy mean pairwise ARI: `0.586` (95% CI
+  `0.551-0.622`).
+- Kang IFN-beta PBMC scLENSpy annotation ARI: `0.541`.
+
+Detailed stronger-comparator report:
+
+```text
+docs/sclens_stability_nrand20_2026-05-12.md
+results/submission/sclens_vs_rmtguard_stability_nrand20.tsv
+```
 
 ## Sources
 

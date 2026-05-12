@@ -17,11 +17,11 @@ Genome Biology decision.
      memory captured, and either successful output or a documented blocker.
    - Reason: reviewers may ask whether RMTGuard is incremental versus scLENS.
    - Current status: Python scLENSpy smoke tests passed on the bundled Zheng
-     example and on the prepared PBMC3k/Kang h5ad files; a 10-repeat pilot
-     stability run is complete with `n_rand_matrix=2`; Julia scLENS remains
-     blocked because `julia` is not on PATH. See
+     example and on the prepared PBMC3k/Kang h5ad files; 10-repeat stability
+     runs are complete for both `n_rand_matrix=2` and `n_rand_matrix=20`;
+     Julia scLENS remains blocked because `julia` is not on PATH. See
      `docs/sclens_feasibility_check_2026-05-12.md` and
-     `docs/sclens_stability_pilot_2026-05-12.md`.
+     `docs/sclens_stability_nrand20_2026-05-12.md`.
 
 2. CONCORD-style topology stress simulation
    - Goal: add continuous trajectory, branch, and loop-like simulated
@@ -86,7 +86,8 @@ the P0 additions, the paper should not be sold as a 20-50 JIF-ready method.
 
 The direct scLENSpy comparator has moved beyond feasibility smoke testing. The
 new runner `benchmarks/run_sclens_stability_benchmark.py` completed 10 repeats
-on PBMC3k and Kang IFN-beta PBMC. Under the pilot setting
-`n_rand_matrix=2`, scLENSpy stability was lower than RMTGuard v3.2 on both
-datasets, but this remains a pilot because a stronger random-matrix ensemble
-setting is still pending.
+on PBMC3k and Kang IFN-beta PBMC under both the pilot `n_rand_matrix=2` setting
+and the stronger `n_rand_matrix=20` setting. Under `n_rand_matrix=20`, scLENSpy
+stability remained lower than RMTGuard v3.2 on both datasets. This closes the
+first direct scLENS-like comparator blocker for PBMC3k/Kang, but not the full
+Nature Methods benchmark gate.
