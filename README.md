@@ -185,6 +185,13 @@ The stronger `n_rand_matrix=20` direct comparator is reported in
 `docs/sclens_stability_nrand20_2026-05-12.md`, with a machine-readable
 comparison table at
 `results/submission/sclens_vs_rmtguard_stability_nrand20.tsv`.
+The CONCORD-style topology stress benchmark is run by
+`benchmarks/run_topology_stress_benchmark.py` and reported at
+`docs/topology_stress_benchmark_2026-05-12.md`, with source data at
+`results/submission/topology_stress_summary.tsv` and figure drafts at
+`figures/manuscript/figure_topology_stress.png`,
+`figures/manuscript/figure_topology_stress.pdf`, and
+`figures/manuscript/figure_topology_stress.tiff`.
 
 The current bounded PDAC/TME Figure 4 wording freeze is stored at
 `docs/figure4_pdac_tme_wording_freeze.md`, with the manuscript caption draft in

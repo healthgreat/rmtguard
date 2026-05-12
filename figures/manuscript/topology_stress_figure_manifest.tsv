@@ -1,0 +1,4 @@
+asset	path	source_data	status
+figure_topology_stress.png	figures/manuscript/figure_topology_stress.png	results/submission/topology_stress_summary.tsv	written
+figure_topology_stress.pdf	figures/manuscript/figure_topology_stress.pdf	results/submission/topology_stress_summary.tsv	written
+figure_topology_stress.tiff	figures/manuscript/figure_topology_stress.tiff	results/submission/topology_stress_summary.tsv	written

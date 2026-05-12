@@ -370,10 +370,40 @@ COPY_ITEMS = [
         "P0 benchmark upgrade status after scLENSpy n_rand_matrix=20",
     ),
     CopyItem(
+        ROOT / "docs" / "topology_stress_benchmark_2026-05-12.md",
+        "06_next_sprint_inputs",
+        "RMTGuard_TOPOLOGY_STRESS_BENCHMARK.md",
+        "CONCORD-style topology stress benchmark report",
+    ),
+    CopyItem(
         ROOT / "results" / "submission" / "benchmark_upgrade_from_concord_sclens.tsv",
         "06_next_sprint_inputs",
         "RMTGuard_BENCHMARK_UPGRADE_FROM_CONCORD_SCLENS.tsv",
         "machine-readable benchmark upgrade action table",
+    ),
+    CopyItem(
+        ROOT / "results" / "submission" / "topology_stress_summary.tsv",
+        "06_next_sprint_inputs",
+        "RMTGuard_TOPOLOGY_STRESS_SUMMARY.tsv",
+        "machine-readable topology stress benchmark summary",
+    ),
+    CopyItem(
+        ROOT / "figures" / "manuscript" / "figure_topology_stress.png",
+        "04_gantt_and_figures",
+        "RMTGuard_TOPOLOGY_STRESS.png",
+        "topology stress benchmark PNG",
+    ),
+    CopyItem(
+        ROOT / "figures" / "manuscript" / "figure_topology_stress.pdf",
+        "04_gantt_and_figures",
+        "RMTGuard_TOPOLOGY_STRESS.pdf",
+        "topology stress benchmark PDF",
+    ),
+    CopyItem(
+        ROOT / "figures" / "manuscript" / "topology_stress_figure_manifest.tsv",
+        "04_gantt_and_figures",
+        "RMTGuard_TOPOLOGY_STRESS_FIGURE_MANIFEST.tsv",
+        "topology stress figure manifest",
     ),
     CopyItem(
         ROOT / "docs" / "sclens_feasibility_check_2026-05-12.md",
@@ -726,6 +756,8 @@ matrices, tokens, passwords, or private clinical materials.
 - `06_next_sprint_inputs/RMTGuard_NATURE_METHODS_48H_EXECUTION_PACKET.md`
 - `06_next_sprint_inputs/RMTGuard_P0_SCIENCE_SPRINT_STATUS.md`
 - `06_next_sprint_inputs/RMTGuard_P0_BENCHMARK_UPGRADE_STATUS.md`
+- `06_next_sprint_inputs/RMTGuard_TOPOLOGY_STRESS_BENCHMARK.md`
+- `06_next_sprint_inputs/RMTGuard_TOPOLOGY_STRESS_SUMMARY.tsv`
 - `06_next_sprint_inputs/RMTGuard_PDAC_TME_ROUTE_DECISION_PACKET.md`
 - `06_next_sprint_inputs/RMTGuard_PDAC_TME_DUAL_ROUTE_PREFLIGHT.md`
 - `06_next_sprint_inputs/RMTGuard_PDAC_TME_DUAL_ROUTE_RUNBOOK.md`
@@ -804,6 +836,8 @@ is frozen, and formal corresponding-author acknowledgement remains.
 - 48-hour execution packet: `{package_dir / "06_next_sprint_inputs" / "RMTGuard_NATURE_METHODS_48H_EXECUTION_PACKET.md"}`
 - P0 science sprint status: `{package_dir / "06_next_sprint_inputs" / "RMTGuard_P0_SCIENCE_SPRINT_STATUS.md"}`
 - P0 benchmark upgrade status: `{package_dir / "06_next_sprint_inputs" / "RMTGuard_P0_BENCHMARK_UPGRADE_STATUS.md"}`
+- Topology stress benchmark: `{package_dir / "06_next_sprint_inputs" / "RMTGuard_TOPOLOGY_STRESS_BENCHMARK.md"}`
+- Topology stress summary: `{package_dir / "06_next_sprint_inputs" / "RMTGuard_TOPOLOGY_STRESS_SUMMARY.tsv"}`
 - Component ablation benchmark: `{package_dir / "06_next_sprint_inputs" / "RMTGuard_COMPONENT_ABLATION_BENCHMARK.md"}`
 - Real-data ablation annotation: `{package_dir / "06_next_sprint_inputs" / "RMTGuard_REALDATA_ABLATION_ANNOTATION.md"}`
 - P0 ablation run sheet: `{package_dir / "06_next_sprint_inputs" / "RMTGuard_P0_COMPONENT_ABLATION_RUN_SHEET.md"}`

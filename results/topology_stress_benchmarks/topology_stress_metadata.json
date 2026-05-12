@@ -1,0 +1,41 @@
+{
+  "outdir": "results\\topology_stress_benchmarks",
+  "doc": "docs\\topology_stress_benchmark_2026-05-12.md",
+  "submission_summary": "results\\submission\\topology_stress_summary.tsv",
+  "n_repeats": 20,
+  "n_cells": 300,
+  "n_genes": 700,
+  "dropout_strength": 0.2,
+  "random_state": 20260427,
+  "scenarios": [
+    "linear_trajectory",
+    "branching_trajectory",
+    "cyclic_loop"
+  ],
+  "methods": [
+    "rmtguard",
+    "rmtguard_strict_signal",
+    "fixed_pcs_30",
+    "fixed_pcs_50"
+  ],
+  "hvg_grid": [
+    200,
+    400,
+    700
+  ],
+  "max_pcs": 40,
+  "embedding_source": "standard_pca",
+  "graph_resolution_grid": [
+    1.0
+  ],
+  "graph_neighbors": 15,
+  "fixed_pca_resolution": 1.0,
+  "topology_neighbors": 15,
+  "max_pair_samples": 10000,
+  "n_permutations": 0,
+  "cluster_stability_threshold": 0.8,
+  "neighbor_stability_threshold": 0.7,
+  "force": false,
+  "detail_path": "results\\topology_stress_benchmarks\\topology_stress_detail.tsv",
+  "summary_path": "results\\topology_stress_benchmarks\\topology_stress_summary.tsv"
+}

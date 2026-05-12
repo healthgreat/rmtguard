@@ -54,7 +54,12 @@ CONCORD and scLENS competitor positioning memo	copied	docs/competitor_positionin
 machine-readable competitor positioning matrix	copied	results/submission/competitor_positioning_matrix.tsv	D:\99、共用信息\RMTGuard_20_50投稿资料包\01_project_status\RMTGuard_COMPETITOR_POSITIONING_MATRIX.tsv	source copied
 benchmark upgrade checklist from CONCORD and scLENS	copied	docs/benchmark_upgrade_from_concord_sclens_2026-05-12.md	D:\99、共用信息\RMTGuard_20_50投稿资料包\06_next_sprint_inputs\RMTGuard_BENCHMARK_UPGRADE_FROM_CONCORD_SCLENS.md	source copied
 P0 benchmark upgrade status after scLENSpy n_rand_matrix=20	copied	docs/p0_benchmark_upgrade_status_2026-05-12.md	D:\99、共用信息\RMTGuard_20_50投稿资料包\06_next_sprint_inputs\RMTGuard_P0_BENCHMARK_UPGRADE_STATUS.md	source copied
+CONCORD-style topology stress benchmark report	copied	docs/topology_stress_benchmark_2026-05-12.md	D:\99、共用信息\RMTGuard_20_50投稿资料包\06_next_sprint_inputs\RMTGuard_TOPOLOGY_STRESS_BENCHMARK.md	source copied
 machine-readable benchmark upgrade action table	copied	results/submission/benchmark_upgrade_from_concord_sclens.tsv	D:\99、共用信息\RMTGuard_20_50投稿资料包\06_next_sprint_inputs\RMTGuard_BENCHMARK_UPGRADE_FROM_CONCORD_SCLENS.tsv	source copied
+machine-readable topology stress benchmark summary	copied	results/submission/topology_stress_summary.tsv	D:\99、共用信息\RMTGuard_20_50投稿资料包\06_next_sprint_inputs\RMTGuard_TOPOLOGY_STRESS_SUMMARY.tsv	source copied
+topology stress benchmark PNG	copied	figures/manuscript/figure_topology_stress.png	D:\99、共用信息\RMTGuard_20_50投稿资料包\04_gantt_and_figures\RMTGuard_TOPOLOGY_STRESS.png	source copied
+topology stress benchmark PDF	copied	figures/manuscript/figure_topology_stress.pdf	D:\99、共用信息\RMTGuard_20_50投稿资料包\04_gantt_and_figures\RMTGuard_TOPOLOGY_STRESS.pdf	source copied
+topology stress figure manifest	copied	figures/manuscript/topology_stress_figure_manifest.tsv	D:\99、共用信息\RMTGuard_20_50投稿资料包\04_gantt_and_figures\RMTGuard_TOPOLOGY_STRESS_FIGURE_MANIFEST.tsv	source copied
 scLENS feasibility check report	copied	docs/sclens_feasibility_check_2026-05-12.md	D:\99、共用信息\RMTGuard_20_50投稿资料包\06_next_sprint_inputs\RMTGuard_SCLENS_FEASIBILITY_CHECK.md	source copied
 machine-readable scLENS smoke-test output	copied	results/submission/sclens_feasibility_smoke.tsv	D:\99、共用信息\RMTGuard_20_50投稿资料包\06_next_sprint_inputs\RMTGuard_SCLENS_FEASIBILITY_SMOKE.tsv	source copied
 machine-readable scLENSpy PBMC3k/Kang h5ad smoke summary	copied	results/submission/sclens_h5ad_smoke_summary.tsv	D:\99、共用信息\RMTGuard_20_50投稿资料包\06_next_sprint_inputs\RMTGuard_SCLENS_H5AD_SMOKE_SUMMARY.tsv	source copied

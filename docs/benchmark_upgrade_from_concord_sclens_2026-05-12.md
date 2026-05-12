@@ -29,6 +29,10 @@ Genome Biology decision.
    - Acceptance: report structure recovery metrics in addition to ARI/NMI.
    - Reason: high-impact embedding papers now test whether latent spaces
      preserve biological geometry, not only cluster agreement.
+   - Current status: complete at 20-repeat depth for linear, branching, and
+     cyclic synthetic topologies. See
+     `docs/topology_stress_benchmark_2026-05-12.md` and
+     `figures/manuscript/figure_topology_stress.png`.
 
 3. realistic count-preserving null
    - Goal: preserve library-size variation, dropout, and gene mean-variance
@@ -105,7 +109,9 @@ After rechecking the local evidence assets, the realistic count-preserving null
 and rare-state power grid are already at 50-repeat depth with CI columns and an
 explicit rare-state claim boundary. The component ablation layer is also
 complete for the current 20-repeat synthetic and real-data annotation layer.
-The remaining unresolved high-impact benchmark gap is therefore the
-CONCORD-style topology stress layer, not basic null calibration.
+The CONCORD-style topology stress layer is now complete for synthetic linear,
+branching, and cyclic structures. The remaining unresolved high-impact gaps are
+final source-data/figure freeze, optional real-data topology validation, and
+author-controlled PDAC/TME route confirmation.
 
 See `docs/p0_benchmark_upgrade_status_2026-05-12.md`.
