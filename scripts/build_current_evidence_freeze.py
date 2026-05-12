@@ -247,6 +247,14 @@ ITEMS = [
         "Send the Word packet and message draft manually, then save written replies.",
     ),
     FreezeItem(
+        "author_reply_triage",
+        "manual_blocker",
+        ROOT / "docs" / "author_reply_triage.md",
+        "Author reply triage report",
+        "Records brief author/mentor replies conservatively and prevents overinterpreting preliminary approval as final journal-facing confirmation.",
+        "Obtain explicit final wording for funding, COI, postal code, CRediT, reporting summary, and named Figure 4 acknowledgement.",
+    ),
+    FreezeItem(
         "high_impact_submission_dashboard",
         "journal_route",
         ROOT / "docs" / "high_impact_submission_dashboard.md",

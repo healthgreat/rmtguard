@@ -220,6 +220,24 @@ COPY_ITEMS = [
         "machine-readable author confirmation delivery manifest",
     ),
     CopyItem(
+        ROOT / "docs" / "author_reply_triage.md",
+        "05_author_metadata",
+        "RMTGuard_AUTHOR_REPLY_TRIAGE.md",
+        "author reply triage report",
+    ),
+    CopyItem(
+        ROOT / "results" / "submission" / "author_reply_triage.tsv",
+        "05_author_metadata",
+        "RMTGuard_AUTHOR_REPLY_TRIAGE.tsv",
+        "machine-readable author reply triage",
+    ),
+    CopyItem(
+        ROOT / "metadata" / "author_reply_evidence" / "2026-05-12_mentor_preliminary_ok_user_relay.txt",
+        "05_author_metadata",
+        "RMTGuard_AUTHOR_REPLY_EVIDENCE_2026-05-12_MENTOR_OK.txt",
+        "saved preliminary mentor reply evidence",
+    ),
+    CopyItem(
         ROOT / "docs" / "nature_methods_48h_execution_packet.md",
         "06_next_sprint_inputs",
         "RMTGuard_NATURE_METHODS_48H_EXECUTION_PACKET.md",
@@ -1028,6 +1046,7 @@ matrices, tokens, passwords, or private clinical materials.
 - `05_author_metadata/RMTGuard_AUTHOR_DECLARATION_CONFIRMATION_EMAIL.eml`
 - `05_author_metadata/RMTGuard_AUTHOR_DECLARATION_CONFIRMATION_WECHAT_DRAFT.md`
 - `05_author_metadata/RMTGuard_AUTHOR_CONFIRMATION_DELIVERY_2026-05-12.zip`
+- `05_author_metadata/RMTGuard_AUTHOR_REPLY_TRIAGE.md`
 - `06_next_sprint_inputs/RMTGuard_NATURE_METHODS_48H_EXECUTION_PACKET.md`
 - `06_next_sprint_inputs/RMTGuard_P0_SCIENCE_SPRINT_STATUS.md`
 - `06_next_sprint_inputs/RMTGuard_P0_BENCHMARK_UPGRADE_STATUS.md`
@@ -1182,6 +1201,7 @@ remains.
 - Author declaration confirmation email: `{package_dir / "05_author_metadata" / "RMTGuard_AUTHOR_DECLARATION_CONFIRMATION_EMAIL.eml"}`
 - Author declaration confirmation WeChat draft: `{package_dir / "05_author_metadata" / "RMTGuard_AUTHOR_DECLARATION_CONFIRMATION_WECHAT_DRAFT.md"}`
 - Author confirmation delivery ZIP: `{package_dir / "05_author_metadata" / "RMTGuard_AUTHOR_CONFIRMATION_DELIVERY_2026-05-12.zip"}`
+- Author reply triage: `{package_dir / "05_author_metadata" / "RMTGuard_AUTHOR_REPLY_TRIAGE.md"}`
 
 ## Current Journal Route
 

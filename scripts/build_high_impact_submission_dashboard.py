@@ -27,6 +27,7 @@ PREFLIGHT = ROOT / "results" / "submission" / "v0_1_1_release_preflight.tsv"
 AUTHOR_CONFIRM = ROOT / "results" / "submission" / "author_declaration_confirmation_checklist.tsv"
 AUTHOR_EMAIL = ROOT / "manuscript" / "author_declaration_confirmation_email_draft.md"
 AUTHOR_DELIVERY = ROOT / "output" / "delivery" / "RMTGuard_author_confirmation_delivery_2026-05-12.zip"
+AUTHOR_REPLY_TRIAGE = ROOT / "docs" / "author_reply_triage.md"
 FIGURE_AUDIT = ROOT / "results" / "submission" / "figure_caption_source_audit.tsv"
 REPORTING = ROOT / "results" / "submission" / "reporting_summary_draft.tsv"
 GO_NO_GO = ROOT / "results" / "submission" / "nature_methods_go_no_go_final.tsv"
@@ -200,9 +201,9 @@ def build_rows() -> list[DashboardRow]:
             "author_declarations",
             author_gate.get("status", "blocked"),
             "manual_blocker",
-            f"{_rel(AUTHOR_CONFIRM)};{_rel(ROOT / 'docs' / 'author_declaration_confirmation_packet.md')};{_rel(AUTHOR_EMAIL)};{_rel(AUTHOR_DELIVERY)}",
+            f"{_rel(AUTHOR_CONFIRM)};{_rel(ROOT / 'docs' / 'author_declaration_confirmation_packet.md')};{_rel(AUTHOR_EMAIL)};{_rel(AUTHOR_DELIVERY)};{_rel(AUTHOR_REPLY_TRIAGE)}",
             f"{author_pending} author-confirmation items remain.",
-            "Send the author confirmation delivery ZIP or the Word packet plus email/WeChat draft, then save written replies.",
+            "A preliminary mentor OK is recorded; obtain explicit final wording for funding, COI, postal code, CRediT, reporting summary, and named Figure 4 acknowledgement.",
             "Blocks v0.1.1 release metadata and any editor-facing package.",
             "All authors",
         ),

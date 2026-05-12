@@ -187,6 +187,10 @@ def _write_manifest(rows: list[dict[str, str]]) -> None:
 
 def build_zip() -> list[dict[str, str]]:
     OUT_DIR.mkdir(parents=True, exist_ok=True)
+    for loose_name in ["README_TO_AUTHORS.md", *(item.archive_name for item in ITEMS)]:
+        loose_path = OUT_DIR / loose_name
+        if loose_path.exists() and loose_path.is_file():
+            loose_path.unlink()
     rows: list[dict[str, str]] = []
     tmp_zip = OUT_ZIP.with_suffix(OUT_ZIP.suffix + ".tmp")
     if tmp_zip.exists():

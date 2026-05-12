@@ -1,0 +1,22 @@
+Evidence type: user-relayed mentor reply
+Recorded at: 2026-05-12 14:29:03 Asia/Shanghai
+Recorded by: Codex during RMTGuard route-control workflow
+
+Raw user message:
+导师：可以
+
+Context:
+The reply followed the generation of the RMTGuard author confirmation delivery
+bundle:
+output/delivery/RMTGuard_author_confirmation_delivery_2026-05-12.zip
+
+Conservative interpretation:
+This is recorded as preliminary mentor approval that the author-confirmation
+materials can proceed. It is not by itself sufficient to certify all final
+journal-facing statements, because funding, competing interests, CRediT roles,
+postal code, reporting-summary verification, and both corresponding-author
+Figure 4 acknowledgements require explicit written text or named-author
+confirmation before v0.1.1 release or editor-facing submission.
+
+Current gate use:
+preliminary_mentor_ok_only

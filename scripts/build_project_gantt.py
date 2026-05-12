@@ -348,6 +348,16 @@ TASKS = [
     ),
     Task(
         "Manuscript package",
+        "Author reply triage",
+        date(2026, 5, 12),
+        date(2026, 5, 12),
+        "blocked",
+        88,
+        "docs/author_reply_triage.md",
+        "The relayed mentor response '可以' is saved as preliminary progress, but final release/submission gates remain blocked until exact funding, COI, postal code, CRediT, reporting-summary, and named Figure 4 confirmations are recorded.",
+    ),
+    Task(
+        "Manuscript package",
         "High-impact submission dashboard",
         date(2026, 5, 12),
         date(2026, 5, 12),
