@@ -59,12 +59,20 @@ Genome Biology decision.
 5. no-call decision map
    - Goal: convert diagnostic no-call behavior into a readable decision heatmap.
    - Acceptance: each dataset has explicit call/no-call reasons and thresholds.
+   - Current status: complete as a Figure 3-ready callability/no-call decision
+     map with source data. See `docs/no_call_decision_map.md`.
 
 6. real-data topology benchmark
    - Goal: include one public trajectory dataset with known differentiation or
      perturbation structure.
    - Acceptance: RMTGuard does not fragment the known trajectory more than
      reasonable baselines and clearly reports uncertainty.
+   - Current status: complete with limits on Paul15 hematopoiesis. RMTGuard is
+     stronger on annotation ARI, same-lineage kNN, and neighbor tree distance,
+     while fixed-PC baselines remain stronger on centroid tree rho and
+     reference edge recall. Treat this as a bounded real-data topology monitor,
+     not a trajectory-discovery claim. See
+     `docs/realdata_topology_benchmark_2026-05-12.md`.
 
 7. component ablation refresh
    - Goal: quantify marginal value of MP edge, TW proxy, permutation
@@ -110,8 +118,9 @@ and rare-state power grid are already at 50-repeat depth with CI columns and an
 explicit rare-state claim boundary. The component ablation layer is also
 complete for the current 20-repeat synthetic and real-data annotation layer.
 The CONCORD-style topology stress layer is now complete for synthetic linear,
-branching, and cyclic structures. The remaining unresolved high-impact gaps are
-final source-data/figure freeze, optional real-data topology validation, and
-author-controlled PDAC/TME route confirmation.
+branching, and cyclic structures, and the Paul15 real-data topology monitor is
+complete with explicit trade-off wording. The remaining unresolved high-impact
+gaps are final source-data/figure freeze, optional expansion to a second real
+topology dataset, and author-controlled PDAC/TME route confirmation.
 
 See `docs/p0_benchmark_upgrade_status_2026-05-12.md`.

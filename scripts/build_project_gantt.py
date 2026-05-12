@@ -367,6 +367,16 @@ TASKS = [
         "Line, branch, and loop topology stress tests completed with 20 repeats and journal-ready source data/figure assets.",
     ),
     Task(
+        "Public benchmark",
+        "Paul15 real-data topology monitor",
+        date(2026, 5, 12),
+        date(2026, 5, 12),
+        "done_with_limit",
+        90,
+        "docs/realdata_topology_benchmark_2026-05-12.md",
+        "Paul15 annotation-derived topology monitor completed with 10 repeats; it supports bounded trade-off wording rather than broad topology superiority.",
+    ),
+    Task(
         "Biological application",
         "PDAC/TME deep validation first pass",
         date(2026, 5, 10),

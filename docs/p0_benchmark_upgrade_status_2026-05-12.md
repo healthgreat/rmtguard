@@ -18,12 +18,12 @@ The P0 benchmark story is stronger than the older checklist suggested:
   real-data annotation layer, according to `docs/p0_science_sprint_status.md`.
 
 The remaining high-impact methods gap is not "no calibration". After the
-20-repeat topology run, it is now:
+20-repeat topology run and the Paul15 real-data topology monitor, it is now:
 
-1. optional real-data topology validation if we want a stronger Nature Methods
-   argument;
-2. final figure/source-data regeneration after benchmark freeze;
-3. author-controlled PDAC/TME route confirmation.
+1. final figure/source-data regeneration after benchmark freeze;
+2. author-controlled PDAC/TME route confirmation;
+3. optional expansion from one real topology dataset to a second perturbation
+   or differentiation dataset if we continue pushing Nature Methods.
 
 ## Evidence Snapshot
 
@@ -34,6 +34,7 @@ The remaining high-impact methods gap is not "no calibration". After the
 | rare-state power grid | `done_with_limit_50repeat_ci` | `docs/rare_state_claim_boundary.md` | Moderate prevalence/effect settings are supported; lowest prevalence/weakest effect is an explicit limitation. |
 | component ablation | `done_current_20repeat_ci` | `docs/p0_science_sprint_status.md` | Current component-level evidence exists; avoid universal component-necessity wording. |
 | CONCORD-style topology stress | `done_20repeat_line_branch_loop` | `docs/topology_stress_benchmark_2026-05-12.md` | RMTGuard preserves synthetic line, branch, and loop topology better than fixed-PC baselines across kNN recall, trustworthiness, continuity, and distance-rank metrics. |
+| real-data topology monitor | `done_paul15_annotation_topology_monitor` | `docs/realdata_topology_benchmark_2026-05-12.md` | Paul15 shows a mixed but useful trade-off: RMTGuard is stronger on annotation ARI, same-lineage kNN, and neighbor tree distance, while fixed-PC baselines are stronger on centroid tree rho/reference edge recall. Keep wording bounded. |
 | no-call decision map | `done_figure_source_data_ready` | `docs/no_call_decision_map.md`; `figures/manuscript/figure_no_call_decision_map.pdf` | Diagnostic no-call and caveated-call decisions are now shown as an explicit Figure 3-ready map with source data and render manifest. |
 | PBMC3k/Kang comparator refresh | `partial_scLENSpy_nrand20_added` | `results/submission/sclens_vs_rmtguard_stability_nrand20.tsv` | Direct scLENSpy is added; broader Seurat/Scanpy CI refresh remains useful before final freeze. |
 

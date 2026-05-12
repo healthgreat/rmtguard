@@ -406,6 +406,48 @@ COPY_ITEMS = [
         "topology stress figure manifest",
     ),
     CopyItem(
+        ROOT / "docs" / "realdata_topology_benchmark_2026-05-12.md",
+        "06_next_sprint_inputs",
+        "RMTGuard_REALDATA_TOPOLOGY_BENCHMARK.md",
+        "Paul15 real-data topology monitor report",
+    ),
+    CopyItem(
+        ROOT / "results" / "submission" / "realdata_topology_summary.tsv",
+        "06_next_sprint_inputs",
+        "RMTGuard_REALDATA_TOPOLOGY_SUMMARY.tsv",
+        "machine-readable Paul15 real-data topology summary",
+    ),
+    CopyItem(
+        ROOT / "results" / "figures" / "source_data" / "figure_realdata_topology_source.tsv",
+        "04_gantt_and_figures",
+        "RMTGuard_REALDATA_TOPOLOGY_SOURCE_DATA.tsv",
+        "Paul15 real-data topology figure source data",
+    ),
+    CopyItem(
+        ROOT / "figures" / "manuscript" / "figure_realdata_topology_benchmark.png",
+        "04_gantt_and_figures",
+        "RMTGuard_REALDATA_TOPOLOGY.png",
+        "Paul15 real-data topology monitor PNG",
+    ),
+    CopyItem(
+        ROOT / "figures" / "manuscript" / "figure_realdata_topology_benchmark.pdf",
+        "04_gantt_and_figures",
+        "RMTGuard_REALDATA_TOPOLOGY.pdf",
+        "Paul15 real-data topology monitor PDF",
+    ),
+    CopyItem(
+        ROOT / "figures" / "manuscript" / "figure_realdata_topology_benchmark.tiff",
+        "04_gantt_and_figures",
+        "RMTGuard_REALDATA_TOPOLOGY.tiff",
+        "Paul15 real-data topology monitor TIFF",
+    ),
+    CopyItem(
+        ROOT / "figures" / "manuscript" / "figure_realdata_topology_manifest.tsv",
+        "04_gantt_and_figures",
+        "RMTGuard_REALDATA_TOPOLOGY_MANIFEST.tsv",
+        "Paul15 real-data topology render manifest",
+    ),
+    CopyItem(
         ROOT / "docs" / "no_call_decision_map.md",
         "06_next_sprint_inputs",
         "RMTGuard_NO_CALL_DECISION_MAP.md",
@@ -808,6 +850,10 @@ matrices, tokens, passwords, or private clinical materials.
 - `06_next_sprint_inputs/RMTGuard_P0_BENCHMARK_UPGRADE_STATUS.md`
 - `06_next_sprint_inputs/RMTGuard_TOPOLOGY_STRESS_BENCHMARK.md`
 - `06_next_sprint_inputs/RMTGuard_TOPOLOGY_STRESS_SUMMARY.tsv`
+- `06_next_sprint_inputs/RMTGuard_REALDATA_TOPOLOGY_BENCHMARK.md`
+- `06_next_sprint_inputs/RMTGuard_REALDATA_TOPOLOGY_SUMMARY.tsv`
+- `04_gantt_and_figures/RMTGuard_REALDATA_TOPOLOGY.png`
+- `04_gantt_and_figures/RMTGuard_REALDATA_TOPOLOGY.pdf`
 - `06_next_sprint_inputs/RMTGuard_NO_CALL_DECISION_MAP.md`
 - `06_next_sprint_inputs/RMTGuard_NO_CALL_DECISION_MAP.tsv`
 - `06_next_sprint_inputs/RMTGuard_PDAC_TME_ROUTE_DECISION_PACKET.md`
@@ -876,7 +922,8 @@ showcase now has DE/signature-transfer plus rank-based Hallmark/Reactome
 pathway and atlas-marker support with limits; a scLENSpy `n_rand_matrix=20`
 direct comparator is complete on PBMC3k and Kang but still needs broader
 dataset coverage before broad superiority language; the Figure 3 no-call
-decision map now has source data plus rendered PNG/PDF/TIFF assets; bounded
+decision map now has source data plus rendered PNG/PDF/TIFF assets; the Paul15
+real-data topology monitor is complete with bounded trade-off wording; bounded
 Figure 4 wording is frozen, and formal corresponding-author acknowledgement
 remains.
 
@@ -892,6 +939,10 @@ remains.
 - P0 benchmark upgrade status: `{package_dir / "06_next_sprint_inputs" / "RMTGuard_P0_BENCHMARK_UPGRADE_STATUS.md"}`
 - Topology stress benchmark: `{package_dir / "06_next_sprint_inputs" / "RMTGuard_TOPOLOGY_STRESS_BENCHMARK.md"}`
 - Topology stress summary: `{package_dir / "06_next_sprint_inputs" / "RMTGuard_TOPOLOGY_STRESS_SUMMARY.tsv"}`
+- Real-data topology benchmark: `{package_dir / "06_next_sprint_inputs" / "RMTGuard_REALDATA_TOPOLOGY_BENCHMARK.md"}`
+- Real-data topology summary: `{package_dir / "06_next_sprint_inputs" / "RMTGuard_REALDATA_TOPOLOGY_SUMMARY.tsv"}`
+- Real-data topology PNG: `{package_dir / "04_gantt_and_figures" / "RMTGuard_REALDATA_TOPOLOGY.png"}`
+- Real-data topology PDF: `{package_dir / "04_gantt_and_figures" / "RMTGuard_REALDATA_TOPOLOGY.pdf"}`
 - No-call decision-map report: `{package_dir / "06_next_sprint_inputs" / "RMTGuard_NO_CALL_DECISION_MAP.md"}`
 - No-call decision-map table: `{package_dir / "06_next_sprint_inputs" / "RMTGuard_NO_CALL_DECISION_MAP.tsv"}`
 - No-call decision-map PNG: `{package_dir / "04_gantt_and_figures" / "RMTGuard_NO_CALL_DECISION_MAP.png"}`

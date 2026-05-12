@@ -1,0 +1,45 @@
+{
+  "input": "E:\\4\u5b9e\u9a8c\u6570\u636e\\10\u65b0\u7b97\u6cd5\\data\\processed\\paul15_hematopoiesis.h5ad",
+  "outdir": "E:\\4\u5b9e\u9a8c\u6570\u636e\\10\u65b0\u7b97\u6cd5\\results\\realdata_topology",
+  "doc": "E:\\4\u5b9e\u9a8c\u6570\u636e\\10\u65b0\u7b97\u6cd5\\docs\\realdata_topology_benchmark_2026-05-12.md",
+  "submission_summary": "E:\\4\u5b9e\u9a8c\u6570\u636e\\10\u65b0\u7b97\u6cd5\\results\\submission\\realdata_topology_summary.tsv",
+  "figure_source": "E:\\4\u5b9e\u9a8c\u6570\u636e\\10\u65b0\u7b97\u6cd5\\results\\figures\\source_data\\figure_realdata_topology_source.tsv",
+  "fig_dir": "E:\\4\u5b9e\u9a8c\u6570\u636e\\10\u65b0\u7b97\u6cd5\\figures\\manuscript",
+  "dataset_id": "paul15_hematopoiesis",
+  "label_key": "paul15_clusters",
+  "n_repeats": 10,
+  "sample_fraction": 0.8,
+  "random_state": 20260427,
+  "methods": [
+    "rmtguard",
+    "rmtguard_strict_signal",
+    "fixed_pcs_30",
+    "fixed_pcs_50"
+  ],
+  "hvg_grid": [
+    500,
+    1000,
+    2000
+  ],
+  "max_pcs": 50,
+  "embedding_source": "standard_pca",
+  "graph_resolution_grid": [
+    1.0
+  ],
+  "graph_neighbors": 15,
+  "fixed_pca_resolution": 1.0,
+  "topology_neighbors": 15,
+  "centroid_neighbor_k": 3,
+  "n_permutations": 0,
+  "cluster_stability_threshold": 0.8,
+  "neighbor_stability_threshold": 0.7,
+  "force": false,
+  "detail_path": "E:\\4\u5b9e\u9a8c\u6570\u636e\\10\u65b0\u7b97\u6cd5\\results\\realdata_topology\\realdata_topology_detail.tsv",
+  "summary_path": "E:\\4\u5b9e\u9a8c\u6570\u636e\\10\u65b0\u7b97\u6cd5\\results\\realdata_topology\\realdata_topology_summary.tsv",
+  "figure_manifest": "E:\\4\u5b9e\u9a8c\u6570\u636e\\10\u65b0\u7b97\u6cd5\\figures\\manuscript\\figure_realdata_topology_manifest.tsv",
+  "figure_paths": [
+    "E:\\4\u5b9e\u9a8c\u6570\u636e\\10\u65b0\u7b97\u6cd5\\figures\\manuscript\\figure_realdata_topology_benchmark.png",
+    "E:\\4\u5b9e\u9a8c\u6570\u636e\\10\u65b0\u7b97\u6cd5\\figures\\manuscript\\figure_realdata_topology_benchmark.pdf",
+    "E:\\4\u5b9e\u9a8c\u6570\u636e\\10\u65b0\u7b97\u6cd5\\figures\\manuscript\\figure_realdata_topology_benchmark.tiff"
+  ]
+}

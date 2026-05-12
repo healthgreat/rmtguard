@@ -1,0 +1,21 @@
+ci95_high	ci95_low	dataset_id	higher_is_better	mean	method	method_label	metric	metric_label	n_repeats
+0.25319615531476614	0.2395770290059959	paul15_hematopoiesis	True	0.246386592160381	fixed_pcs_30	Fixed 30 PCs	centroid_tree_spearman	Centroid tree rho	10
+0.6570370370370371	0.6207407407407408	paul15_hematopoiesis	True	0.638888888888889	fixed_pcs_30	Fixed 30 PCs	reference_edge_recall	Reference edge recall	10
+1.3008199368764573	1.2764578409013205	paul15_hematopoiesis	False	1.288638888888889	fixed_pcs_30	Fixed 30 PCs	neighbor_tree_distance	Neighbor tree distance	10
+0.7042859573070198	0.7000195982485354	paul15_hematopoiesis	True	0.7021527777777776	fixed_pcs_30	Fixed 30 PCs	neighbor_same_lineage_rate	Same-lineage kNN	10
+0.1919270561965801	0.1600841117974268	paul15_hematopoiesis	True	0.17600558399700345	fixed_pcs_30	Fixed 30 PCs	annotation_ari	Annotation ARI	10
+0.24264751410218235	0.23032983462345794	paul15_hematopoiesis	True	0.23648867436282014	fixed_pcs_50	Fixed 50 PCs	centroid_tree_spearman	Centroid tree rho	10
+0.6666330525224323	0.6333669474775677	paul15_hematopoiesis	True	0.65	fixed_pcs_50	Fixed 50 PCs	reference_edge_recall	Reference edge recall	10
+1.447038448132443	1.4228782185342237	paul15_hematopoiesis	False	1.4349583333333333	fixed_pcs_50	Fixed 50 PCs	neighbor_tree_distance	Neighbor tree distance	10
+0.6773979657170276	0.6727409231718612	paul15_hematopoiesis	True	0.6750694444444444	fixed_pcs_50	Fixed 50 PCs	neighbor_same_lineage_rate	Same-lineage kNN	10
+0.10873930175030144	0.0676448490128696	paul15_hematopoiesis	True	0.08819207538158552	fixed_pcs_50	Fixed 50 PCs	annotation_ari	Annotation ARI	10
+0.24026328293735516	0.2234553842216519	paul15_hematopoiesis	True	0.23185933357950353	rmtguard	RMTGuard	centroid_tree_spearman	Centroid tree rho	10
+0.6217777777777778	0.5782222222222222	paul15_hematopoiesis	True	0.6	rmtguard	RMTGuard	reference_edge_recall	Reference edge recall	10
+1.1627155623169565	1.1440761043497099	paul15_hematopoiesis	False	1.1533958333333332	rmtguard	RMTGuard	neighbor_tree_distance	Neighbor tree distance	10
+0.7391011688464074	0.7358710533758149	paul15_hematopoiesis	True	0.7374861111111112	rmtguard	RMTGuard	neighbor_same_lineage_rate	Same-lineage kNN	10
+0.2808977906301307	0.2588242570688399	paul15_hematopoiesis	True	0.2698610238494853	rmtguard	RMTGuard	annotation_ari	Annotation ARI	10
+0.24136222481282787	0.22491920622287315	paul15_hematopoiesis	True	0.2331407155178505	rmtguard_strict_signal	RMTGuard strict	centroid_tree_spearman	Centroid tree rho	10
+0.6066703699846483	0.5711074077931295	paul15_hematopoiesis	True	0.5888888888888889	rmtguard_strict_signal	RMTGuard strict	reference_edge_recall	Reference edge recall	10
+1.1556866777476171	1.137535544474605	paul15_hematopoiesis	False	1.146611111111111	rmtguard_strict_signal	RMTGuard strict	neighbor_tree_distance	Neighbor tree distance	10
+0.7411322966305458	0.7372704811472321	paul15_hematopoiesis	True	0.739201388888889	rmtguard_strict_signal	RMTGuard strict	neighbor_same_lineage_rate	Same-lineage kNN	10
+0.2769770560238291	0.2522967800426395	paul15_hematopoiesis	True	0.2646369180332343	rmtguard_strict_signal	RMTGuard strict	annotation_ari	Annotation ARI	10
