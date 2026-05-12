@@ -277,6 +277,16 @@ TASKS = [
         "Four-dataset real-data ablation checks are packaged as source data, PNG/PDF/TIFF forest plot, Word supplemental table, and visual-audit manifests.",
     ),
     Task(
+        "Manuscript package",
+        "Current evidence-freeze manifest",
+        date(2026, 5, 12),
+        date(2026, 5, 12),
+        "done",
+        100,
+        "docs/current_evidence_freeze_2026-05-12.md",
+        "Manuscript-facing figures, source-data tables, reports, checksums, claim boundaries, and next actions are frozen for the current evidence state.",
+    ),
+    Task(
         "Public benchmark",
         "Matched Seurat/JackStraw baseline design",
         date(2026, 5, 3),

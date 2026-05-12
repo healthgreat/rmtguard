@@ -382,6 +382,18 @@ COPY_ITEMS = [
         "machine-readable benchmark upgrade action table",
     ),
     CopyItem(
+        ROOT / "docs" / "current_evidence_freeze_2026-05-12.md",
+        "01_project_status",
+        "RMTGuard_CURRENT_EVIDENCE_FREEZE.md",
+        "current evidence-freeze report",
+    ),
+    CopyItem(
+        ROOT / "results" / "submission" / "current_evidence_freeze_manifest.tsv",
+        "01_project_status",
+        "RMTGuard_CURRENT_EVIDENCE_FREEZE_MANIFEST.tsv",
+        "machine-readable current evidence-freeze manifest",
+    ),
+    CopyItem(
         ROOT / "results" / "submission" / "topology_stress_summary.tsv",
         "06_next_sprint_inputs",
         "RMTGuard_TOPOLOGY_STRESS_SUMMARY.tsv",
@@ -821,6 +833,8 @@ matrices, tokens, passwords, or private clinical materials.
 - `01_project_status/RMTGuard_PROJECT_GANTT.md`
 - `01_project_status/RMTGuard_MENTOR_JOURNAL_DECISION_2026-05-10.md`
 - `01_project_status/RMTGuard_NATURE_METHODS_GO_NO_GO_FINAL.md`
+- `01_project_status/RMTGuard_CURRENT_EVIDENCE_FREEZE.md`
+- `01_project_status/RMTGuard_CURRENT_EVIDENCE_FREEZE_MANIFEST.tsv`
 - `02_manual_actions/RMTGuard_MANUAL_NEXT_ACTIONS_20_50.md`
 - `02_manual_actions/RMTGuard_CORRESPONDING_AUTHOR_FIGURE4_ACKNOWLEDGEMENT_TEMPLATE.md`
 - `02_manual_actions/RMTGuard_CORRESPONDING_AUTHOR_SIGNOFF_PACKET.docx`
@@ -937,6 +951,8 @@ remains.
 - 48-hour execution packet: `{package_dir / "06_next_sprint_inputs" / "RMTGuard_NATURE_METHODS_48H_EXECUTION_PACKET.md"}`
 - P0 science sprint status: `{package_dir / "06_next_sprint_inputs" / "RMTGuard_P0_SCIENCE_SPRINT_STATUS.md"}`
 - P0 benchmark upgrade status: `{package_dir / "06_next_sprint_inputs" / "RMTGuard_P0_BENCHMARK_UPGRADE_STATUS.md"}`
+- Current evidence freeze: `{package_dir / "01_project_status" / "RMTGuard_CURRENT_EVIDENCE_FREEZE.md"}`
+- Current evidence freeze manifest: `{package_dir / "01_project_status" / "RMTGuard_CURRENT_EVIDENCE_FREEZE_MANIFEST.tsv"}`
 - Topology stress benchmark: `{package_dir / "06_next_sprint_inputs" / "RMTGuard_TOPOLOGY_STRESS_BENCHMARK.md"}`
 - Topology stress summary: `{package_dir / "06_next_sprint_inputs" / "RMTGuard_TOPOLOGY_STRESS_SUMMARY.tsv"}`
 - Real-data topology benchmark: `{package_dir / "06_next_sprint_inputs" / "RMTGuard_REALDATA_TOPOLOGY_BENCHMARK.md"}`
