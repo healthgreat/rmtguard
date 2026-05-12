@@ -262,6 +262,14 @@ ITEMS = [
         "Draft worksheet only; it pre-fills reproducibility, data, statistics and software answers but requires corresponding-author verification.",
         "Transfer verified content into the official Nature Portfolio form only after final figure/source-data freeze.",
     ),
+    FreezeItem(
+        "figure_caption_source_audit",
+        "figure",
+        ROOT / "docs" / "figure_caption_source_audit.md",
+        "Figure-caption-source consistency audit",
+        "Confirms rendered assets, source data and frozen legends exist while preserving claim boundaries; does not certify journal acceptance.",
+        "Keep Figure 4 author acknowledgement as the remaining figure-level manual blocker.",
+    ),
 ]
 
 

@@ -12,14 +12,14 @@ submission.
 
 ## Freeze Status
 
-- Items checked: `28`
+- Items checked: `29`
 - Missing items: `0`
 - Manifest: `results/submission/current_evidence_freeze_manifest.tsv`
 
 ## Category Counts
 
 - `competitor`: 1
-- `figure`: 9
+- `figure`: 10
 - `journal_route`: 3
 - `manual_blocker`: 1
 - `manuscript_text`: 4
@@ -74,6 +74,7 @@ submission.
 | freeze_aligned_text_audit | manuscript_text | True | Machine-readable claim audit for freeze-aligned text | Controls wording boundaries; does not certify journal acceptance. | Re-run after any Results or legend change. |
 | external_review_docx | manuscript_text | True | Word packet for external scientific review | Handoff document only; it packages evidence boundaries and reviewer questions but does not certify submission readiness. | Share with external reviewers and route their comments through the feedback triage pipeline. |
 | nature_reporting_summary_draft | journal_route | True | Nature Portfolio reporting-summary worksheet | Draft worksheet only; it pre-fills reproducibility, data, statistics and software answers but requires corresponding-author verification. | Transfer verified content into the official Nature Portfolio form only after final figure/source-data freeze. |
+| figure_caption_source_audit | figure | True | Figure-caption-source consistency audit | Confirms rendered assets, source data and frozen legends exist while preserving claim boundaries; does not certify journal acceptance. | Keep Figure 4 author acknowledgement as the remaining figure-level manual blocker. |
 
 ## Use In Manuscript Planning
 

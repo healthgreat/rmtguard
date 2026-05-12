@@ -14,7 +14,7 @@ Status: draft text for manuscript assembly; not a submission-ready final Results
 
 
 
-RMTGuard was evaluated as a callability-aware random-matrix workflow rather than as a universal replacement for fixed-parameter single-cell analysis. The current evidence freeze contains 23 manuscript-facing items with 0 missing files, linking algorithm figures, source-data tables, release evidence, public benchmarks, topology monitors and manual author blockers. This freeze defines the Results boundary used below: supported structures may be reported, but diagnostic no-call and caveated-call outcomes are not relabelled as biological discoveries. [Evidence: docs/current_evidence_freeze_2026-05-12.md]
+RMTGuard was evaluated as a callability-aware random-matrix workflow rather than as a universal replacement for fixed-parameter single-cell analysis. The current evidence freeze contains 28 manuscript-facing items with 0 missing files, linking algorithm figures, source-data tables, release evidence, public benchmarks, topology monitors and manual author blockers. This freeze defines the Results boundary used below: supported structures may be reported, but diagnostic no-call and caveated-call outcomes are not relabelled as biological discoveries. [Evidence: docs/current_evidence_freeze_2026-05-12.md]
 
 
 

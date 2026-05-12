@@ -378,13 +378,23 @@ def _build_legends(values: dict[str, Any]) -> str:
             "",
             "## Figure 5. Ablation, reproducibility and release readiness.",
             (
-                "Ablation and reproducibility panels summarize the tested contributions of "
-                "RMTGuard components, runtime/memory reporting and release artifacts. The public "
-                "repository, GitHub Release and Zenodo DOI support code availability for the "
-                "archived release, while post-release working-branch changes should not be "
-                "described as part of the immutable DOI snapshot unless a new release is issued. "
-                "Source data: `results/figures/source_data/figure5_realdata_ablation_delta_summary.tsv` "
-                "and release manifests."
+                "Main Figure 5 summarizes runtime, memory, submission-gate status and the "
+                "PBMC3k stability-ablation panel used for software/reproducibility reporting. "
+                "The public repository, GitHub Release and Zenodo DOI support code availability "
+                "for the archived release, while post-release working-branch changes should not "
+                "be described as part of the immutable DOI snapshot unless a new release is "
+                "issued. Source data: `results/figures/source_data/figure5_runtime_memory_summary.tsv`, "
+                "`results/figures/source_data/figure5_gate_evidence.tsv`, "
+                "`results/figures/source_data/figure5_ablation_stability_summary.tsv` and release manifests."
+            ),
+            "",
+            "## Extended Data Figure. Real-data ablation annotation monitor.",
+            (
+                "The real-data ablation forest plot summarizes annotation-ARI and batch-ARI deltas "
+                "for tested RMTGuard component variants across labeled public datasets. This panel "
+                "supports component-sensitivity discussion under the tested datasets and repeats, "
+                "but it should not be described as proving universal component necessity. Source "
+                "data: `results/figures/source_data/figure5_realdata_ablation_delta_summary.tsv`."
             ),
             "",
             "## Extended Data Figure. Topology stress and Paul15 real-data topology monitor.",

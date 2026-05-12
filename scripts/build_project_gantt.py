@@ -317,6 +317,16 @@ TASKS = [
         "Reporting-summary worksheet refreshed to reflect completed public GitHub/Zenodo evidence and remaining version-coverage/manual-author checks.",
     ),
     Task(
+        "Manuscript package",
+        "Figure-caption-source audit and Figure 5 layout decision",
+        date(2026, 5, 12),
+        date(2026, 5, 12),
+        "done",
+        100,
+        "docs/figure_caption_source_audit.md",
+        "All intended display items have rendered assets, source data and frozen legends; Figure 5 is fixed as main release/runtime/PBMC3k ablation, with real-data ablation moved to Extended Data.",
+    ),
+    Task(
         "Public benchmark",
         "Matched Seurat/JackStraw baseline design",
         date(2026, 5, 3),
