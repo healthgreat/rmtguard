@@ -9,13 +9,13 @@ This is a no-action preflight. It does not create a Git tag, GitHub Release, or 
 ## Decision
 
 - Release decision: `do_not_release`.
-- Blocking or holding gates: `author_declarations;corresponding_author_figure4_ack;figure_caption_source_audit;git_worktree_clean`.
+- Blocking or holding gates: `author_declarations;corresponding_author_figure4_ack;figure_caption_source_audit`.
 - Candidate release: `v0.1.1`.
 
 ## Status Counts
 
-- `blocked`: `4`
-- `pass`: `2`
+- `blocked`: `3`
+- `pass`: `3`
 - `pending_author_verification`: `1`
 - `ready_after_manual_blockers`: `1`
 
@@ -29,8 +29,8 @@ This is a no-action preflight. It does not create a Git tag, GitHub Release, or 
 | reporting_summary | pending_author_verification | manual_blocker | Have the corresponding author verify the reporting-summary worksheet before official submission. | Statistics/Multiple testing and uncertainty;Reporting summary/Official form status |
 | claim_integrity | pass | controlled | No action. | lint_violations=0;trace_violations=0;lint_rows=215;trace_rows=21 |
 | version_coverage | ready_after_manual_blockers | release_blocker | After author blockers are resolved, tag and archive v0.1.1 so DOI covers the submitted files. | recommendation=prepare_v0.1.1_after_author_ack;worktree=clean |
-| evidence_freeze_manifest | pass | controlled | No action. | 30 frozen evidence items exist. |
-| git_worktree_clean | blocked | release_blocker | Commit all release-facing changes before creating a tag. | M Makefile; M README.md; M scripts/build_current_evidence_freeze.py; M scripts/build_external_review_docx.py; M scripts/build_project_gantt.py; M scripts/export_shared_project_info.py;?? scripts/build_v0_1_1_release_preflight.py |
+| evidence_freeze_manifest | pass | controlled | No action. | 31 frozen evidence items exist. |
+| git_worktree_clean | pass | controlled | No action. | Worktree is clean except self-generated preflight outputs. |
 
 ## Interpretation
 
