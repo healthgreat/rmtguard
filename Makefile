@@ -1,4 +1,4 @@
-.PHONY: install test demo benchmark topology-stress realdata-topology evidence-freeze freeze-aligned-text external-review-docx figure-caption-audit author-declaration-packet high-impact-dashboard post-release-coverage v0-1-1-preflight no-call callability-decision-map component-ablation-benchmark realdata-ablation-annotation realdata-ablation-assets matched-baseline-design matched-baseline-pilot seurat-mtx-inputs seurat-matched-report seurat-jackstraw-feasibility-report component-ablation-evidence visual-asset-audit project-gantt calibration calibration-figures jif20-50-gap phase1 stability stability-phase1 manuscript-stability-pilot manuscript-stability-statistics seurat-baseline stability-report stability-utility algorithm-rescue pdac-depth publication-plan publication-tables claim-scope journal-compliance publication-board reporting-summary-draft editorial-risk public-release-blockers top-paper-route editorial-presubmission claim-boundary-lint claim-traceability submission-guard external-review-packet external-review-triage external-review-action-plan post-feedback-route route-reframe gb-transfer reviewer-defense author-release github-release-dry-run finalize-release-dry-run gates gate-results release-manifests audit clean
+.PHONY: install test demo benchmark topology-stress realdata-topology evidence-freeze freeze-aligned-text external-review-docx figure-caption-audit author-declaration-packet author-declaration-email high-impact-dashboard post-release-coverage v0-1-1-preflight no-call callability-decision-map component-ablation-benchmark realdata-ablation-annotation realdata-ablation-assets matched-baseline-design matched-baseline-pilot seurat-mtx-inputs seurat-matched-report seurat-jackstraw-feasibility-report component-ablation-evidence visual-asset-audit project-gantt calibration calibration-figures jif20-50-gap phase1 stability stability-phase1 manuscript-stability-pilot manuscript-stability-statistics seurat-baseline stability-report stability-utility algorithm-rescue pdac-depth publication-plan publication-tables claim-scope journal-compliance publication-board reporting-summary-draft editorial-risk public-release-blockers top-paper-route editorial-presubmission claim-boundary-lint claim-traceability submission-guard external-review-packet external-review-triage external-review-action-plan post-feedback-route route-reframe gb-transfer reviewer-defense author-release github-release-dry-run finalize-release-dry-run gates gate-results release-manifests audit clean
 
 install:
 	python -m pip install -e ".[scanpy,dev]"
@@ -33,6 +33,9 @@ figure-caption-audit:
 
 author-declaration-packet:
 	python scripts/build_author_declaration_confirmation_packet.py
+
+author-declaration-email:
+	python scripts/build_author_declaration_email_packet.py
 
 high-impact-dashboard:
 	python scripts/build_high_impact_submission_dashboard.py

@@ -178,6 +178,30 @@ COPY_ITEMS = [
         "Word author declaration confirmation packet",
     ),
     CopyItem(
+        ROOT / "manuscript" / "author_declaration_confirmation_email_draft.md",
+        "05_author_metadata",
+        "RMTGuard_AUTHOR_DECLARATION_CONFIRMATION_EMAIL_DRAFT.md",
+        "author declaration confirmation email draft",
+    ),
+    CopyItem(
+        ROOT / "manuscript" / "author_declaration_confirmation_wechat_draft.md",
+        "05_author_metadata",
+        "RMTGuard_AUTHOR_DECLARATION_CONFIRMATION_WECHAT_DRAFT.md",
+        "author declaration confirmation WeChat draft",
+    ),
+    CopyItem(
+        ROOT / "output" / "email" / "RMTGuard_author_declaration_confirmation_email.eml",
+        "05_author_metadata",
+        "RMTGuard_AUTHOR_DECLARATION_CONFIRMATION_EMAIL.eml",
+        "author declaration confirmation EML draft",
+    ),
+    CopyItem(
+        ROOT / "docs" / "author_declaration_reply_intake_runbook.md",
+        "05_author_metadata",
+        "RMTGuard_AUTHOR_DECLARATION_REPLY_INTAKE_RUNBOOK.md",
+        "author declaration reply intake runbook",
+    ),
+    CopyItem(
         ROOT / "docs" / "nature_methods_48h_execution_packet.md",
         "06_next_sprint_inputs",
         "RMTGuard_NATURE_METHODS_48H_EXECUTION_PACKET.md",
@@ -983,6 +1007,8 @@ matrices, tokens, passwords, or private clinical materials.
 - `05_author_metadata/RMTGuard_TITLE_PAGE_AUTHOR_METADATA.md`
 - `05_author_metadata/RMTGuard_AUTHOR_DECLARATION_CONFIRMATION_PACKET.docx`
 - `05_author_metadata/RMTGuard_AUTHOR_DECLARATION_CONFIRMATION_CHECKLIST.tsv`
+- `05_author_metadata/RMTGuard_AUTHOR_DECLARATION_CONFIRMATION_EMAIL.eml`
+- `05_author_metadata/RMTGuard_AUTHOR_DECLARATION_CONFIRMATION_WECHAT_DRAFT.md`
 - `06_next_sprint_inputs/RMTGuard_NATURE_METHODS_48H_EXECUTION_PACKET.md`
 - `06_next_sprint_inputs/RMTGuard_P0_SCIENCE_SPRINT_STATUS.md`
 - `06_next_sprint_inputs/RMTGuard_P0_BENCHMARK_UPGRADE_STATUS.md`
@@ -1134,6 +1160,8 @@ remains.
 - Release blocker report: `{package_dir / "03_release_evidence" / "RMTGuard_PUBLIC_RELEASE_BLOCKER_REPORT.md"}`
 - Author declaration confirmation DOCX: `{package_dir / "05_author_metadata" / "RMTGuard_AUTHOR_DECLARATION_CONFIRMATION_PACKET.docx"}`
 - Author declaration confirmation checklist: `{package_dir / "05_author_metadata" / "RMTGuard_AUTHOR_DECLARATION_CONFIRMATION_CHECKLIST.tsv"}`
+- Author declaration confirmation email: `{package_dir / "05_author_metadata" / "RMTGuard_AUTHOR_DECLARATION_CONFIRMATION_EMAIL.eml"}`
+- Author declaration confirmation WeChat draft: `{package_dir / "05_author_metadata" / "RMTGuard_AUTHOR_DECLARATION_CONFIRMATION_WECHAT_DRAFT.md"}`
 
 ## Current Journal Route
 

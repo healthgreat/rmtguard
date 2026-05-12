@@ -328,6 +328,16 @@ TASKS = [
     ),
     Task(
         "Manuscript package",
+        "Author declaration email and reply-intake drafts",
+        date(2026, 5, 12),
+        date(2026, 5, 12),
+        "blocked",
+        80,
+        "manuscript/author_declaration_confirmation_email_draft.md",
+        "Send-ready email, WeChat draft, EML file, and reply-intake runbook created for the eight author-controlled declaration items; manual sending and written replies remain required.",
+    ),
+    Task(
+        "Manuscript package",
         "High-impact submission dashboard",
         date(2026, 5, 12),
         date(2026, 5, 12),

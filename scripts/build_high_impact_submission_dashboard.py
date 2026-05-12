@@ -25,6 +25,7 @@ ROOT = Path(__file__).resolve().parents[1]
 GAP = ROOT / "results" / "submission" / "jif20_50_gap_assessment.tsv"
 PREFLIGHT = ROOT / "results" / "submission" / "v0_1_1_release_preflight.tsv"
 AUTHOR_CONFIRM = ROOT / "results" / "submission" / "author_declaration_confirmation_checklist.tsv"
+AUTHOR_EMAIL = ROOT / "manuscript" / "author_declaration_confirmation_email_draft.md"
 FIGURE_AUDIT = ROOT / "results" / "submission" / "figure_caption_source_audit.tsv"
 REPORTING = ROOT / "results" / "submission" / "reporting_summary_draft.tsv"
 GO_NO_GO = ROOT / "results" / "submission" / "nature_methods_go_no_go_final.tsv"
@@ -198,9 +199,9 @@ def build_rows() -> list[DashboardRow]:
             "author_declarations",
             author_gate.get("status", "blocked"),
             "manual_blocker",
-            f"{_rel(AUTHOR_CONFIRM)};{_rel(ROOT / 'docs' / 'author_declaration_confirmation_packet.md')}",
+            f"{_rel(AUTHOR_CONFIRM)};{_rel(ROOT / 'docs' / 'author_declaration_confirmation_packet.md')};{_rel(AUTHOR_EMAIL)}",
             f"{author_pending} author-confirmation items remain.",
-            "Send/verify the author declaration confirmation packet and save written replies.",
+            "Send the author declaration email or WeChat draft with the Word packet, then save written replies.",
             "Blocks v0.1.1 release metadata and any editor-facing package.",
             "All authors",
         ),

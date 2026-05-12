@@ -231,6 +231,14 @@ ITEMS = [
         "Send the Word packet to authors, save replies, then rerun the v0.1.1 preflight.",
     ),
     FreezeItem(
+        "author_declaration_email_packet",
+        "manual_blocker",
+        ROOT / "manuscript" / "author_declaration_confirmation_email_draft.md",
+        "Author declaration email and chat packet",
+        "Provides send-ready local drafts for requesting author confirmation; it does not send email or certify approval.",
+        "Send manually, save replies, then follow the reply intake runbook.",
+    ),
+    FreezeItem(
         "high_impact_submission_dashboard",
         "journal_route",
         ROOT / "docs" / "high_impact_submission_dashboard.md",
