@@ -338,6 +338,16 @@ TASKS = [
     ),
     Task(
         "Manuscript package",
+        "Author confirmation delivery ZIP",
+        date(2026, 5, 12),
+        date(2026, 5, 12),
+        "blocked",
+        85,
+        "output/delivery/RMTGuard_author_confirmation_delivery_2026-05-12.zip",
+        "Clean author-facing ZIP bundle created with Word packet, WeChat/email drafts, EML draft, Figure 4 support files, dashboard, and reply-intake runbook; author replies remain required.",
+    ),
+    Task(
+        "Manuscript package",
         "High-impact submission dashboard",
         date(2026, 5, 12),
         date(2026, 5, 12),

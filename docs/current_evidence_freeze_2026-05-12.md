@@ -12,7 +12,7 @@ submission.
 
 ## Freeze Status
 
-- Items checked: `34`
+- Items checked: `35`
 - Missing items: `0`
 - Manifest: `results/submission/current_evidence_freeze_manifest.tsv`
 
@@ -21,7 +21,7 @@ submission.
 - `competitor`: 1
 - `figure`: 10
 - `journal_route`: 4
-- `manual_blocker`: 3
+- `manual_blocker`: 4
 - `manuscript_text`: 4
 - `project_management`: 1
 - `release`: 3
@@ -71,6 +71,7 @@ submission.
 | manual_author_actions | manual_blocker | True | Manual author action checklist | Tracks actions Codex cannot certify alone. | Authors must verify funding, COI, ethics, and Figure 4 acknowledgement. |
 | author_declaration_confirmation_packet | manual_blocker | True | Author declaration confirmation packet | Converts funding, COI, ethics, postal code, CRediT, reporting-summary, and Figure 4 acknowledgement blockers into auditable author questions. | Send the Word packet to authors, save replies, then rerun the v0.1.1 preflight. |
 | author_declaration_email_packet | manual_blocker | True | Author declaration email and chat packet | Provides send-ready local drafts for requesting author confirmation; it does not send email or certify approval. | Send manually, save replies, then follow the reply intake runbook. |
+| author_confirmation_delivery_bundle | manual_blocker | True | Author confirmation delivery ZIP | Packages only author-facing confirmation materials and reply-intake instructions; it does not certify approval. | Send the Word packet and message draft manually, then save written replies. |
 | high_impact_submission_dashboard | journal_route | True | High-impact submission dashboard | Consolidates the current 20-50 JIF distance, Nature Methods go/no-go status, author blockers, release preflight, evidence freeze, and remaining science gaps. | Refresh after every author-confirmation, benchmark, figure, or release-control change. |
 | results_freeze_aligned_draft | manuscript_text | True | Freeze-aligned Results draft | Draft Results text only; every paragraph remains bounded by current evidence and is not final journal prose. | Use as source-controlled starting text for the next manuscript assembly pass. |
 | figure_legends_freeze_aligned | manuscript_text | True | Freeze-aligned figure legends draft | Draft captions only; legends must not upgrade caveated or no-call evidence. | Use as caption source and revise only after final figure layout is chosen. |

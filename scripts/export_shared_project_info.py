@@ -202,6 +202,24 @@ COPY_ITEMS = [
         "author declaration reply intake runbook",
     ),
     CopyItem(
+        ROOT / "output" / "delivery" / "RMTGuard_author_confirmation_delivery_2026-05-12.zip",
+        "05_author_metadata",
+        "RMTGuard_AUTHOR_CONFIRMATION_DELIVERY_2026-05-12.zip",
+        "author confirmation delivery ZIP",
+    ),
+    CopyItem(
+        ROOT / "docs" / "author_confirmation_delivery_bundle.md",
+        "05_author_metadata",
+        "RMTGuard_AUTHOR_CONFIRMATION_DELIVERY_BUNDLE.md",
+        "author confirmation delivery bundle report",
+    ),
+    CopyItem(
+        ROOT / "results" / "submission" / "author_confirmation_delivery_manifest.tsv",
+        "05_author_metadata",
+        "RMTGuard_AUTHOR_CONFIRMATION_DELIVERY_MANIFEST.tsv",
+        "machine-readable author confirmation delivery manifest",
+    ),
+    CopyItem(
         ROOT / "docs" / "nature_methods_48h_execution_packet.md",
         "06_next_sprint_inputs",
         "RMTGuard_NATURE_METHODS_48H_EXECUTION_PACKET.md",
@@ -1009,6 +1027,7 @@ matrices, tokens, passwords, or private clinical materials.
 - `05_author_metadata/RMTGuard_AUTHOR_DECLARATION_CONFIRMATION_CHECKLIST.tsv`
 - `05_author_metadata/RMTGuard_AUTHOR_DECLARATION_CONFIRMATION_EMAIL.eml`
 - `05_author_metadata/RMTGuard_AUTHOR_DECLARATION_CONFIRMATION_WECHAT_DRAFT.md`
+- `05_author_metadata/RMTGuard_AUTHOR_CONFIRMATION_DELIVERY_2026-05-12.zip`
 - `06_next_sprint_inputs/RMTGuard_NATURE_METHODS_48H_EXECUTION_PACKET.md`
 - `06_next_sprint_inputs/RMTGuard_P0_SCIENCE_SPRINT_STATUS.md`
 - `06_next_sprint_inputs/RMTGuard_P0_BENCHMARK_UPGRADE_STATUS.md`
@@ -1162,6 +1181,7 @@ remains.
 - Author declaration confirmation checklist: `{package_dir / "05_author_metadata" / "RMTGuard_AUTHOR_DECLARATION_CONFIRMATION_CHECKLIST.tsv"}`
 - Author declaration confirmation email: `{package_dir / "05_author_metadata" / "RMTGuard_AUTHOR_DECLARATION_CONFIRMATION_EMAIL.eml"}`
 - Author declaration confirmation WeChat draft: `{package_dir / "05_author_metadata" / "RMTGuard_AUTHOR_DECLARATION_CONFIRMATION_WECHAT_DRAFT.md"}`
+- Author confirmation delivery ZIP: `{package_dir / "05_author_metadata" / "RMTGuard_AUTHOR_CONFIRMATION_DELIVERY_2026-05-12.zip"}`
 
 ## Current Journal Route
 

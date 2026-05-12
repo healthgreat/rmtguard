@@ -239,6 +239,14 @@ ITEMS = [
         "Send manually, save replies, then follow the reply intake runbook.",
     ),
     FreezeItem(
+        "author_confirmation_delivery_bundle",
+        "manual_blocker",
+        ROOT / "output" / "delivery" / "RMTGuard_author_confirmation_delivery_2026-05-12.zip",
+        "Author confirmation delivery ZIP",
+        "Packages only author-facing confirmation materials and reply-intake instructions; it does not certify approval.",
+        "Send the Word packet and message draft manually, then save written replies.",
+    ),
+    FreezeItem(
         "high_impact_submission_dashboard",
         "journal_route",
         ROOT / "docs" / "high_impact_submission_dashboard.md",
