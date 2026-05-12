@@ -1,8 +1,8 @@
 audit_id	status	evidence	required_action	notes
 release_tag	present	v0.1.0	Keep v0.1.0 immutable.	v0.1.0 commit 053b84ad3bf04ebc1193b5fff420b770946a3845.
-current_head	tracked	171c0cf665ef8599a449bbb7f2952f0371f6c7d9	Use this commit or a later clean commit as the basis for any v0.1.1 release.	46 commits after v0.1.0.
+current_head	tracked	d70a84e8e8352c9cbcc5c3e3fe2d6f91821f49f4	Use this commit or a later clean commit as the basis for any v0.1.1 release.	49 commits after v0.1.0.
 worktree_cleanliness	clean	none	Commit or intentionally ignore all changes before release.	A clean worktree is required before tagging a new release.
-manuscript_facing_delta	needs_new_release_if_submitted	250	Create v0.1.1 only after Figure 4 acknowledgement and final figure/source-data freeze if these post-release files are cited.	Manuscript-facing files changed after the archived v0.1.0 DOI.
+manuscript_facing_delta	needs_new_release_if_submitted	254	Create v0.1.1 only after Figure 4 acknowledgement and final figure/source-data freeze if these post-release files are cited.	Manuscript-facing files changed after the archived v0.1.0 DOI.
 figure_source_delta	changed	27	Ensure final figures and source data are included in the next release if used in submission.	Figure/source-data changes after v0.1.0 affect reproducibility coverage.
-pipeline_code_delta	changed	50	Archive updated scripts/benchmarks in the same release as the submitted source data.	Code changes after v0.1.0 affect rerun parity.
+pipeline_code_delta	changed	51	Archive updated scripts/benchmarks in the same release as the submitted source data.	Code changes after v0.1.0 affect rerun parity.
 release_recommendation	prepare_v0.1.1_after_author_ack	v0.1.1	Do not tag the new release until manual Figure 4 and author-declaration blockers are resolved.	The release refresh is a submission-readiness action, not a current scientific pass.

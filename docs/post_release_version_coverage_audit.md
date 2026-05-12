@@ -8,9 +8,9 @@ This audit compares the archived `v0.1.0` release with the current branch. It do
 
 ## Bottom Line
 
-- Commits after `v0.1.0`: `46`.
-- Changed files after `v0.1.0`: `260`.
-- Manuscript-facing changed files: `250`.
+- Commits after `v0.1.0`: `49`.
+- Changed files after `v0.1.0`: `264`.
+- Manuscript-facing changed files: `254`.
 - Recommendation: `prepare_v0.1.1_after_author_ack`.
 - Candidate next release: `v0.1.1`.
 
@@ -19,11 +19,11 @@ This audit compares the archived `v0.1.0` release with the current branch. It do
 | Audit ID | Status | Evidence | Required action | Notes |
 | --- | --- | --- | --- | --- |
 | release_tag | present | v0.1.0 | Keep v0.1.0 immutable. | v0.1.0 commit 053b84ad3bf04ebc1193b5fff420b770946a3845. |
-| current_head | tracked | 171c0cf665ef8599a449bbb7f2952f0371f6c7d9 | Use this commit or a later clean commit as the basis for any v0.1.1 release. | 46 commits after v0.1.0. |
+| current_head | tracked | d70a84e8e8352c9cbcc5c3e3fe2d6f91821f49f4 | Use this commit or a later clean commit as the basis for any v0.1.1 release. | 49 commits after v0.1.0. |
 | worktree_cleanliness | clean | none | Commit or intentionally ignore all changes before release. | A clean worktree is required before tagging a new release. |
-| manuscript_facing_delta | needs_new_release_if_submitted | 250 | Create v0.1.1 only after Figure 4 acknowledgement and final figure/source-data freeze if these post-release files are cited. | Manuscript-facing files changed after the archived v0.1.0 DOI. |
+| manuscript_facing_delta | needs_new_release_if_submitted | 254 | Create v0.1.1 only after Figure 4 acknowledgement and final figure/source-data freeze if these post-release files are cited. | Manuscript-facing files changed after the archived v0.1.0 DOI. |
 | figure_source_delta | changed | 27 | Ensure final figures and source data are included in the next release if used in submission. | Figure/source-data changes after v0.1.0 affect reproducibility coverage. |
-| pipeline_code_delta | changed | 50 | Archive updated scripts/benchmarks in the same release as the submitted source data. | Code changes after v0.1.0 affect rerun parity. |
+| pipeline_code_delta | changed | 51 | Archive updated scripts/benchmarks in the same release as the submitted source data. | Code changes after v0.1.0 affect rerun parity. |
 | release_recommendation | prepare_v0.1.1_after_author_ack | v0.1.1 | Do not tag the new release until manual Figure 4 and author-declaration blockers are resolved. | The release refresh is a submission-readiness action, not a current scientific pass. |
 
 ## Changed File Classes
@@ -36,27 +36,27 @@ This audit compares the archived `v0.1.0` release with the current branch. It do
 | calibration_result | 5 |
 | competitor_result | 26 |
 | figure_source_data | 6 |
-| handoff_document | 3 |
+| handoff_document | 4 |
 | handoff_email | 3 |
 | journal_figure | 18 |
 | manuscript_text | 16 |
 | metadata | 4 |
 | other | 9 |
 | pdac_result | 10 |
-| pipeline_code | 46 |
+| pipeline_code | 47 |
 | release_metadata | 2 |
 | repository_doc | 1 |
 | reproducibility_entrypoint | 1 |
 | shared_export | 1 |
-| submission_doc | 53 |
-| submission_table | 38 |
+| submission_doc | 54 |
+| submission_table | 39 |
 | topology_result | 6 |
 
 ## Change Status Counts
 
 | Git status | Count |
 | --- | ---: |
-| A | 218 |
+| A | 222 |
 | M | 42 |
 
 ## Example Manuscript-facing Changed Files
@@ -72,6 +72,7 @@ This audit compares the archived `v0.1.0` release with the current branch. It do
 | A | benchmark_code | `benchmarks/run_sclens_stability_benchmark.py` |
 | A | benchmark_code | `benchmarks/run_topology_stress_benchmark.py` |
 | A | submission_doc | `docs/added_dataset_annotation_boundary.md` |
+| A | submission_doc | `docs/author_declaration_confirmation_packet.md` |
 | M | submission_doc | `docs/author_declarations_and_credit_roles.md` |
 | M | submission_doc | `docs/author_metadata_status.md` |
 | M | submission_doc | `docs/author_release_execution_packet.md` |
@@ -102,7 +103,6 @@ This audit compares the archived `v0.1.0` release with the current branch. It do
 | M | submission_doc | `docs/nature_reporting_summary_draft.md` |
 | M | submission_doc | `docs/no_call_decision_map.md` |
 | A | submission_doc | `docs/p0_benchmark_upgrade_status_2026-05-12.md` |
-| A | submission_doc | `docs/p0_component_ablation_run_sheet.md` |
 
 ## Interpretation
 

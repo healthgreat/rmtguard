@@ -9,6 +9,7 @@ A	benchmarks/run_sclens_h5ad_smoke.py	benchmark_code	True	benchmark execution co
 A	benchmarks/run_sclens_stability_benchmark.py	benchmark_code	True	benchmark execution code
 A	benchmarks/run_topology_stress_benchmark.py	benchmark_code	True	benchmark execution code
 A	docs/added_dataset_annotation_boundary.md	submission_doc	True	submission, route, audit and validation reports
+A	docs/author_declaration_confirmation_packet.md	submission_doc	True	submission, route, audit and validation reports
 M	docs/author_declarations_and_credit_roles.md	submission_doc	True	submission, route, audit and validation reports
 M	docs/author_metadata_status.md	submission_doc	True	submission, route, audit and validation reports
 M	docs/author_release_execution_packet.md	submission_doc	True	submission, route, audit and validation reports
@@ -105,6 +106,7 @@ A	metadata/author_reply_evidence/README.md	metadata	True	author, dataset and sig
 A	metadata/corresponding_author_signoff_tracker.tsv	metadata	True	author, dataset and sign-off metadata
 A	metadata/pdac_tme_route_decision_template.tsv	metadata	True	author, dataset and sign-off metadata
 A	output/doc/README.md	handoff_document	True	Word handoff and author sign-off packets
+A	output/doc/RMTGuard_author_declaration_confirmation_packet.docx	handoff_document	True	Word handoff and author sign-off packets
 A	output/doc/RMTGuard_corresponding_author_signoff_packet.docx	handoff_document	True	Word handoff and author sign-off packets
 A	output/doc/RMTGuard_external_review_packet_2026-05-12.docx	handoff_document	True	Word handoff and author sign-off packets
 A	output/email/README.md	handoff_email	True	email drafts for manual author actions
@@ -170,6 +172,7 @@ A	results/sclens_stability_benchmarks_nrand20/sclens_stability_runs.tsv	competit
 A	results/sclens_stability_benchmarks_nrand20/sclens_stability_summary.tsv	competitor_result	True	scLENSpy comparator outputs
 A	results/shared_info/rmtguard_shared_export_manifest.tsv	shared_export	False	cross-project export manifest
 A	results/submission/added_dataset_annotation_boundary.tsv	submission_table	True	submission-facing machine-readable tables
+A	results/submission/author_declaration_confirmation_checklist.tsv	submission_table	True	submission-facing machine-readable tables
 A	results/submission/benchmark_upgrade_from_concord_sclens.tsv	submission_table	True	submission-facing machine-readable tables
 A	results/submission/claim_boundary_lint.tsv	submission_table	True	submission-facing machine-readable tables
 A	results/submission/claim_scope_final_audit.tsv	submission_table	True	submission-facing machine-readable tables
@@ -213,6 +216,7 @@ A	results/tables/manuscript/supplemental_realdata_ablation_table.tsv	other	False
 A	results/topology_stress_benchmarks/topology_stress_detail.tsv	topology_result	True	synthetic topology benchmark outputs
 A	results/topology_stress_benchmarks/topology_stress_metadata.json	topology_result	True	synthetic topology benchmark outputs
 A	results/topology_stress_benchmarks/topology_stress_summary.tsv	topology_result	True	synthetic topology benchmark outputs
+A	scripts/build_author_declaration_confirmation_packet.py	pipeline_code	True	analysis, figure, release and submission-control scripts
 M	scripts/build_author_release_execution_packet.py	pipeline_code	True	analysis, figure, release and submission-control scripts
 M	scripts/build_callability_decision_map.py	pipeline_code	True	analysis, figure, release and submission-control scripts
 A	scripts/build_corresponding_author_email_packet.py	pipeline_code	True	analysis, figure, release and submission-control scripts
