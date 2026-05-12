@@ -25,6 +25,7 @@ OUT_TSV = ROOT / "results" / "submission" / "v0_1_1_release_preflight.tsv"
 OUT_MD = ROOT / "docs" / "v0_1_1_release_preflight.md"
 
 AUTHOR_META = ROOT / "metadata" / "author_metadata.tsv"
+AUTHOR_CONFIRMATION_PACKET = ROOT / "docs" / "author_declaration_confirmation_packet.md"
 SIGNOFF = ROOT / "metadata" / "corresponding_author_signoff_tracker.tsv"
 FIGURE_AUDIT = ROOT / "results" / "submission" / "figure_caption_source_audit.tsv"
 REPORTING = ROOT / "results" / "submission" / "reporting_summary_draft.tsv"
@@ -117,15 +118,15 @@ def author_declaration_gate() -> Gate:
             "author_declarations",
             "blocked",
             "manual_blocker",
-            _rel(AUTHOR_META),
-            "Confirm funding, competing interests, public-data ethics, postal code, and CRediT roles before release.",
-            ";".join(pending_fields),
+            f"{_rel(AUTHOR_META)};{_rel(AUTHOR_CONFIRMATION_PACKET)}",
+            "Use the author declaration confirmation packet to confirm funding, competing interests, public-data ethics, postal code, CRediT roles, and title-page metadata before release.",
+            f"pending={';'.join(pending_fields)};packet_exists={AUTHOR_CONFIRMATION_PACKET.exists()}",
         )
     return Gate(
         "author_declarations",
         "pass",
         "controlled",
-        _rel(AUTHOR_META),
+        f"{_rel(AUTHOR_META)};{_rel(AUTHOR_CONFIRMATION_PACKET)}",
         "No action.",
         "Author metadata has no pending release-blocking declaration rows.",
     )

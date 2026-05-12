@@ -223,6 +223,14 @@ ITEMS = [
         "Authors must verify funding, COI, ethics, and Figure 4 acknowledgement.",
     ),
     FreezeItem(
+        "author_declaration_confirmation_packet",
+        "manual_blocker",
+        ROOT / "docs" / "author_declaration_confirmation_packet.md",
+        "Author declaration confirmation packet",
+        "Converts funding, COI, ethics, postal code, CRediT, reporting-summary, and Figure 4 acknowledgement blockers into auditable author questions.",
+        "Send the Word packet to authors, save replies, then rerun the v0.1.1 preflight.",
+    ),
+    FreezeItem(
         "results_freeze_aligned_draft",
         "manuscript_text",
         ROOT / "manuscript" / "results_freeze_aligned_draft.md",

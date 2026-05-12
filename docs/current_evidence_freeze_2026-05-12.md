@@ -12,7 +12,7 @@ submission.
 
 ## Freeze Status
 
-- Items checked: `31`
+- Items checked: `32`
 - Missing items: `0`
 - Manifest: `results/submission/current_evidence_freeze_manifest.tsv`
 
@@ -21,7 +21,7 @@ submission.
 - `competitor`: 1
 - `figure`: 10
 - `journal_route`: 3
-- `manual_blocker`: 1
+- `manual_blocker`: 2
 - `manuscript_text`: 4
 - `project_management`: 1
 - `release`: 3
@@ -69,6 +69,7 @@ submission.
 | realdata_ablation_report | statistics | True | Real-data ablation annotation report | Supports annotation/batch ablation checks on included labeled datasets. | Keep dataset coverage explicit. |
 | gantt | project_management | True | Current project Gantt chart | Project-management status only; not scientific evidence. | Refresh after each major benchmark addition. |
 | manual_author_actions | manual_blocker | True | Manual author action checklist | Tracks actions Codex cannot certify alone. | Authors must verify funding, COI, ethics, and Figure 4 acknowledgement. |
+| author_declaration_confirmation_packet | manual_blocker | True | Author declaration confirmation packet | Converts funding, COI, ethics, postal code, CRediT, reporting-summary, and Figure 4 acknowledgement blockers into auditable author questions. | Send the Word packet to authors, save replies, then rerun the v0.1.1 preflight. |
 | results_freeze_aligned_draft | manuscript_text | True | Freeze-aligned Results draft | Draft Results text only; every paragraph remains bounded by current evidence and is not final journal prose. | Use as source-controlled starting text for the next manuscript assembly pass. |
 | figure_legends_freeze_aligned | manuscript_text | True | Freeze-aligned figure legends draft | Draft captions only; legends must not upgrade caveated or no-call evidence. | Use as caption source and revise only after final figure layout is chosen. |
 | freeze_aligned_text_audit | manuscript_text | True | Machine-readable claim audit for freeze-aligned text | Controls wording boundaries; does not certify journal acceptance. | Re-run after any Results or legend change. |

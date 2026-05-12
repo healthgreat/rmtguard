@@ -318,6 +318,16 @@ TASKS = [
     ),
     Task(
         "Manuscript package",
+        "Author declaration confirmation packet",
+        date(2026, 5, 12),
+        date(2026, 5, 12),
+        "blocked",
+        75,
+        "docs/author_declaration_confirmation_packet.md",
+        "Funding, competing interests, ethics/public-data wording, postal code, CRediT roles, title-page metadata, reporting-summary verification, and Figure 4 acknowledgement are converted into exact author-confirmation questions.",
+    ),
+    Task(
+        "Manuscript package",
         "Figure-caption-source audit and Figure 5 layout decision",
         date(2026, 5, 12),
         date(2026, 5, 12),

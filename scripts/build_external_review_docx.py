@@ -34,6 +34,7 @@ INPUTS = {
     "figure_audit": ROOT / "docs" / "figure_caption_source_audit.md",
     "version_audit": ROOT / "docs" / "post_release_version_coverage_audit.md",
     "v011_preflight": ROOT / "docs" / "v0_1_1_release_preflight.md",
+    "author_declarations": ROOT / "docs" / "author_declaration_confirmation_packet.md",
     "manual": ROOT / "docs" / "manual_next_actions_20_50.md",
     "audit": ROOT / "results" / "submission" / "freeze_aligned_text_audit.tsv",
     "gantt": ROOT / "figures" / "project_management" / "rmtguard_project_gantt.png",
@@ -224,6 +225,7 @@ def build_document() -> None:
     add_markdown_section(document, "Figure-caption-source audit", read_text(INPUTS["figure_audit"]), max_lines=120)
     add_markdown_section(document, "Post-release version coverage audit", read_text(INPUTS["version_audit"]), max_lines=120)
     add_markdown_section(document, "v0.1.1 release preflight", read_text(INPUTS["v011_preflight"]), max_lines=110)
+    add_markdown_section(document, "Author declaration confirmation packet", read_text(INPUTS["author_declarations"]), max_lines=130)
     add_markdown_section(document, "Nature reporting-summary worksheet", read_text(INPUTS["reporting"]), max_lines=150)
     add_markdown_section(document, "Freeze-aligned Results draft", read_text(INPUTS["results"]))
     add_markdown_section(document, "Freeze-aligned figure legends", read_text(INPUTS["legends"]))

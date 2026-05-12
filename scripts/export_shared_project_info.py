@@ -148,6 +148,24 @@ COPY_ITEMS = [
         "author declarations and CRediT roles",
     ),
     CopyItem(
+        ROOT / "docs" / "author_declaration_confirmation_packet.md",
+        "05_author_metadata",
+        "RMTGuard_AUTHOR_DECLARATION_CONFIRMATION_PACKET.md",
+        "author declaration confirmation packet",
+    ),
+    CopyItem(
+        ROOT / "results" / "submission" / "author_declaration_confirmation_checklist.tsv",
+        "05_author_metadata",
+        "RMTGuard_AUTHOR_DECLARATION_CONFIRMATION_CHECKLIST.tsv",
+        "machine-readable author declaration confirmation checklist",
+    ),
+    CopyItem(
+        ROOT / "output" / "doc" / "RMTGuard_author_declaration_confirmation_packet.docx",
+        "05_author_metadata",
+        "RMTGuard_AUTHOR_DECLARATION_CONFIRMATION_PACKET.docx",
+        "Word author declaration confirmation packet",
+    ),
+    CopyItem(
         ROOT / "docs" / "nature_methods_48h_execution_packet.md",
         "06_next_sprint_inputs",
         "RMTGuard_NATURE_METHODS_48H_EXECUTION_PACKET.md",
@@ -949,6 +967,8 @@ matrices, tokens, passwords, or private clinical materials.
 - `04_gantt_and_figures/RMTGuard_FIGURE3_CALLABILITY_DECISION_MAP_SOURCE_DATA.tsv`
 - `04_gantt_and_figures/RMTGuard_NO_CALL_DECISION_MAP.tiff`
 - `05_author_metadata/RMTGuard_TITLE_PAGE_AUTHOR_METADATA.md`
+- `05_author_metadata/RMTGuard_AUTHOR_DECLARATION_CONFIRMATION_PACKET.docx`
+- `05_author_metadata/RMTGuard_AUTHOR_DECLARATION_CONFIRMATION_CHECKLIST.tsv`
 - `06_next_sprint_inputs/RMTGuard_NATURE_METHODS_48H_EXECUTION_PACKET.md`
 - `06_next_sprint_inputs/RMTGuard_P0_SCIENCE_SPRINT_STATUS.md`
 - `06_next_sprint_inputs/RMTGuard_P0_BENCHMARK_UPGRADE_STATUS.md`
@@ -1097,6 +1117,8 @@ remains.
 - Gantt PNG: `{package_dir / "04_gantt_and_figures" / "RMTGuard_PROJECT_GANTT.png"}`
 - Manual checklist: `{package_dir / "02_manual_actions" / "RMTGuard_MANUAL_NEXT_ACTIONS_20_50.md"}`
 - Release blocker report: `{package_dir / "03_release_evidence" / "RMTGuard_PUBLIC_RELEASE_BLOCKER_REPORT.md"}`
+- Author declaration confirmation DOCX: `{package_dir / "05_author_metadata" / "RMTGuard_AUTHOR_DECLARATION_CONFIRMATION_PACKET.docx"}`
+- Author declaration confirmation checklist: `{package_dir / "05_author_metadata" / "RMTGuard_AUTHOR_DECLARATION_CONFIRMATION_CHECKLIST.tsv"}`
 
 ## Current Journal Route
 
