@@ -10,6 +10,7 @@ A	benchmarks/run_sclens_stability_benchmark.py	benchmark_code	True	benchmark exe
 A	benchmarks/run_topology_stress_benchmark.py	benchmark_code	True	benchmark execution code
 A	docs/added_dataset_annotation_boundary.md	submission_doc	True	submission, route, audit and validation reports
 A	docs/author_declaration_confirmation_packet.md	submission_doc	True	submission, route, audit and validation reports
+A	docs/author_declaration_reply_intake_runbook.md	submission_doc	True	submission, route, audit and validation reports
 M	docs/author_declarations_and_credit_roles.md	submission_doc	True	submission, route, audit and validation reports
 M	docs/author_metadata_status.md	submission_doc	True	submission, route, audit and validation reports
 M	docs/author_release_execution_packet.md	submission_doc	True	submission, route, audit and validation reports
@@ -86,6 +87,8 @@ A	figures/manuscript/realdata_ablation_figure_manifest.tsv	journal_figure	True	r
 A	figures/manuscript/topology_stress_figure_manifest.tsv	journal_figure	True	rendered figure assets
 A	figures/project_management/rmtguard_project_gantt.pdf	other	False	not manuscript-facing by default
 A	figures/project_management/rmtguard_project_gantt.png	other	False	not manuscript-facing by default
+A	manuscript/author_declaration_confirmation_email_draft.md	manuscript_text	True	manuscript drafts, captions, title page and sign-off text
+A	manuscript/author_declaration_confirmation_wechat_draft.md	manuscript_text	True	manuscript drafts, captions, title page and sign-off text
 A	manuscript/claim_scope_final.md	manuscript_text	True	manuscript drafts, captions, title page and sign-off text
 A	manuscript/corresponding_author_figure4_acknowledgement_template.md	manuscript_text	True	manuscript drafts, captions, title page and sign-off text
 A	manuscript/corresponding_author_signoff_email_draft.md	manuscript_text	True	manuscript drafts, captions, title page and sign-off text
@@ -111,6 +114,7 @@ A	output/doc/RMTGuard_author_declaration_confirmation_packet.docx	handoff_docume
 A	output/doc/RMTGuard_corresponding_author_signoff_packet.docx	handoff_document	True	Word handoff and author sign-off packets
 A	output/doc/RMTGuard_external_review_packet_2026-05-12.docx	handoff_document	True	Word handoff and author sign-off packets
 A	output/email/README.md	handoff_email	True	email drafts for manual author actions
+A	output/email/RMTGuard_author_declaration_confirmation_email.eml	handoff_email	True	email drafts for manual author actions
 A	output/email/RMTGuard_corresponding_author_signoff_email.eml	handoff_email	True	email drafts for manual author actions
 A	output/email/RMTGuard_nature_methods_presubmission_inquiry_HOLD.eml	handoff_email	True	email drafts for manual author actions
 A	results/ablation/component_ablation_detail.tsv	ablation_result	True	component ablation outputs
@@ -219,6 +223,7 @@ A	results/topology_stress_benchmarks/topology_stress_detail.tsv	topology_result	
 A	results/topology_stress_benchmarks/topology_stress_metadata.json	topology_result	True	synthetic topology benchmark outputs
 A	results/topology_stress_benchmarks/topology_stress_summary.tsv	topology_result	True	synthetic topology benchmark outputs
 A	scripts/build_author_declaration_confirmation_packet.py	pipeline_code	True	analysis, figure, release and submission-control scripts
+A	scripts/build_author_declaration_email_packet.py	pipeline_code	True	analysis, figure, release and submission-control scripts
 M	scripts/build_author_release_execution_packet.py	pipeline_code	True	analysis, figure, release and submission-control scripts
 M	scripts/build_callability_decision_map.py	pipeline_code	True	analysis, figure, release and submission-control scripts
 A	scripts/build_corresponding_author_email_packet.py	pipeline_code	True	analysis, figure, release and submission-control scripts
