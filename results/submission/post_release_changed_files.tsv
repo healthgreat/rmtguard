@@ -27,6 +27,7 @@ A	docs/figure4_pdac_tme_wording_freeze.md	submission_doc	True	submission, route,
 A	docs/figure4_strengthened_text_audit.md	submission_doc	True	submission, route, audit and validation reports
 A	docs/figure_caption_source_audit.md	submission_doc	True	submission, route, audit and validation reports
 A	docs/genome_biology_fallback_v2_packet.md	submission_doc	True	submission, route, audit and validation reports
+A	docs/high_impact_submission_dashboard.md	submission_doc	True	submission, route, audit and validation reports
 M	docs/jif20_50_gap_assessment.md	submission_doc	True	submission, route, audit and validation reports
 M	docs/manual_author_execution_steps.md	submission_doc	True	submission, route, audit and validation reports
 A	docs/manual_next_actions_20_50.md	submission_doc	True	submission, route, audit and validation reports
@@ -187,6 +188,7 @@ A	results/submission/figure_caption_source_audit.tsv	submission_table	True	submi
 A	results/submission/figure_claim_checklist.tsv	submission_table	True	submission-facing machine-readable tables
 A	results/submission/freeze_aligned_text_audit.tsv	submission_table	True	submission-facing machine-readable tables
 A	results/submission/genome_biology_fallback_v2_checklist.tsv	submission_table	True	submission-facing machine-readable tables
+A	results/submission/high_impact_submission_dashboard.tsv	submission_table	True	submission-facing machine-readable tables
 A	results/submission/jif20_50_gap_assessment.tsv	submission_table	True	submission-facing machine-readable tables
 A	results/submission/jif20_50_journal_route.tsv	submission_table	True	submission-facing machine-readable tables
 A	results/submission/nature_methods_48h_execution_packet.tsv	submission_table	True	submission-facing machine-readable tables
@@ -230,6 +232,7 @@ A	scripts/build_figure_caption_source_audit.py	pipeline_code	True	analysis, figu
 A	scripts/build_freeze_aligned_manuscript_text.py	pipeline_code	True	analysis, figure, release and submission-control scripts
 A	scripts/build_genome_biology_fallback_v2.py	pipeline_code	True	analysis, figure, release and submission-control scripts
 M	scripts/build_github_release_handoff.py	pipeline_code	True	analysis, figure, release and submission-control scripts
+A	scripts/build_high_impact_submission_dashboard.py	pipeline_code	True	analysis, figure, release and submission-control scripts
 M	scripts/build_jif20_50_gap_assessment.py	pipeline_code	True	analysis, figure, release and submission-control scripts
 A	scripts/build_nature_methods_48h_execution_packet.py	pipeline_code	True	analysis, figure, release and submission-control scripts
 A	scripts/build_nature_methods_go_no_go_final.py	pipeline_code	True	analysis, figure, release and submission-control scripts

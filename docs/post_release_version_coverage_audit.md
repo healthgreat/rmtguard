@@ -8,9 +8,9 @@ This audit compares the archived `v0.1.0` release with the current branch. It do
 
 ## Bottom Line
 
-- Commits after `v0.1.0`: `49`.
-- Changed files after `v0.1.0`: `264`.
-- Manuscript-facing changed files: `254`.
+- Commits after `v0.1.0`: `52`.
+- Changed files after `v0.1.0`: `267`.
+- Manuscript-facing changed files: `257`.
 - Recommendation: `prepare_v0.1.1_after_author_ack`.
 - Candidate next release: `v0.1.1`.
 
@@ -19,11 +19,11 @@ This audit compares the archived `v0.1.0` release with the current branch. It do
 | Audit ID | Status | Evidence | Required action | Notes |
 | --- | --- | --- | --- | --- |
 | release_tag | present | v0.1.0 | Keep v0.1.0 immutable. | v0.1.0 commit 053b84ad3bf04ebc1193b5fff420b770946a3845. |
-| current_head | tracked | d70a84e8e8352c9cbcc5c3e3fe2d6f91821f49f4 | Use this commit or a later clean commit as the basis for any v0.1.1 release. | 49 commits after v0.1.0. |
+| current_head | tracked | f6c3b2e918300d83462893beaf0048461e4e22f3 | Use this commit or a later clean commit as the basis for any v0.1.1 release. | 52 commits after v0.1.0. |
 | worktree_cleanliness | clean | none | Commit or intentionally ignore all changes before release. | A clean worktree is required before tagging a new release. |
-| manuscript_facing_delta | needs_new_release_if_submitted | 254 | Create v0.1.1 only after Figure 4 acknowledgement and final figure/source-data freeze if these post-release files are cited. | Manuscript-facing files changed after the archived v0.1.0 DOI. |
+| manuscript_facing_delta | needs_new_release_if_submitted | 257 | Create v0.1.1 only after Figure 4 acknowledgement and final figure/source-data freeze if these post-release files are cited. | Manuscript-facing files changed after the archived v0.1.0 DOI. |
 | figure_source_delta | changed | 27 | Ensure final figures and source data are included in the next release if used in submission. | Figure/source-data changes after v0.1.0 affect reproducibility coverage. |
-| pipeline_code_delta | changed | 51 | Archive updated scripts/benchmarks in the same release as the submitted source data. | Code changes after v0.1.0 affect rerun parity. |
+| pipeline_code_delta | changed | 52 | Archive updated scripts/benchmarks in the same release as the submitted source data. | Code changes after v0.1.0 affect rerun parity. |
 | release_recommendation | prepare_v0.1.1_after_author_ack | v0.1.1 | Do not tag the new release until manual Figure 4 and author-declaration blockers are resolved. | The release refresh is a submission-readiness action, not a current scientific pass. |
 
 ## Changed File Classes
@@ -43,20 +43,20 @@ This audit compares the archived `v0.1.0` release with the current branch. It do
 | metadata | 4 |
 | other | 9 |
 | pdac_result | 10 |
-| pipeline_code | 47 |
+| pipeline_code | 48 |
 | release_metadata | 2 |
 | repository_doc | 1 |
 | reproducibility_entrypoint | 1 |
 | shared_export | 1 |
-| submission_doc | 54 |
-| submission_table | 39 |
+| submission_doc | 55 |
+| submission_table | 40 |
 | topology_result | 6 |
 
 ## Change Status Counts
 
 | Git status | Count |
 | --- | ---: |
-| A | 222 |
+| A | 225 |
 | M | 42 |
 
 ## Example Manuscript-facing Changed Files
@@ -90,6 +90,7 @@ This audit compares the archived `v0.1.0` release with the current branch. It do
 | A | submission_doc | `docs/figure4_strengthened_text_audit.md` |
 | A | submission_doc | `docs/figure_caption_source_audit.md` |
 | A | submission_doc | `docs/genome_biology_fallback_v2_packet.md` |
+| A | submission_doc | `docs/high_impact_submission_dashboard.md` |
 | M | submission_doc | `docs/jif20_50_gap_assessment.md` |
 | M | submission_doc | `docs/manual_author_execution_steps.md` |
 | A | submission_doc | `docs/manual_next_actions_20_50.md` |
@@ -102,7 +103,6 @@ This audit compares the archived `v0.1.0` release with the current branch. It do
 | A | submission_doc | `docs/nature_methods_presubmission_send_runbook.md` |
 | M | submission_doc | `docs/nature_reporting_summary_draft.md` |
 | M | submission_doc | `docs/no_call_decision_map.md` |
-| A | submission_doc | `docs/p0_benchmark_upgrade_status_2026-05-12.md` |
 
 ## Interpretation
 
