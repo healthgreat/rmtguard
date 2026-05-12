@@ -337,6 +337,16 @@ TASKS = [
         "v0.1.0 remains immutable; current manuscript-facing branch requires a future v0.1.1 if these post-release files are used in submission, but tagging waits for author-controlled blockers.",
     ),
     Task(
+        "Release",
+        "v0.1.1 no-action release preflight",
+        date(2026, 5, 12),
+        date(2026, 5, 12),
+        "blocked",
+        70,
+        "docs/v0_1_1_release_preflight.md",
+        "Preflight gate created and intentionally blocks release until author declarations, Figure 4 acknowledgement, reporting-summary verification, and final version coverage are resolved.",
+    ),
+    Task(
         "Public benchmark",
         "Matched Seurat/JackStraw baseline design",
         date(2026, 5, 3),

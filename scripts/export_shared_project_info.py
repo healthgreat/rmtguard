@@ -460,6 +460,18 @@ COPY_ITEMS = [
         "post-release changed-file classification table",
     ),
     CopyItem(
+        ROOT / "docs" / "v0_1_1_release_preflight.md",
+        "03_release_evidence",
+        "RMTGuard_V0_1_1_RELEASE_PREFLIGHT.md",
+        "v0.1.1 no-action release preflight",
+    ),
+    CopyItem(
+        ROOT / "results" / "submission" / "v0_1_1_release_preflight.tsv",
+        "03_release_evidence",
+        "RMTGuard_V0_1_1_RELEASE_PREFLIGHT.tsv",
+        "machine-readable v0.1.1 no-action release preflight",
+    ),
+    CopyItem(
         ROOT / "results" / "submission" / "topology_stress_summary.tsv",
         "06_next_sprint_inputs",
         "RMTGuard_TOPOLOGY_STRESS_SUMMARY.tsv",
@@ -911,6 +923,8 @@ matrices, tokens, passwords, or private clinical materials.
 - `04_gantt_and_figures/RMTGuard_FIGURE_CAPTION_SOURCE_AUDIT.tsv`
 - `03_release_evidence/RMTGuard_POST_RELEASE_VERSION_COVERAGE_AUDIT.md`
 - `03_release_evidence/RMTGuard_POST_RELEASE_VERSION_COVERAGE_AUDIT.tsv`
+- `03_release_evidence/RMTGuard_V0_1_1_RELEASE_PREFLIGHT.md`
+- `03_release_evidence/RMTGuard_V0_1_1_RELEASE_PREFLIGHT.tsv`
 - `02_manual_actions/RMTGuard_MANUAL_NEXT_ACTIONS_20_50.md`
 - `02_manual_actions/RMTGuard_CORRESPONDING_AUTHOR_FIGURE4_ACKNOWLEDGEMENT_TEMPLATE.md`
 - `02_manual_actions/RMTGuard_CORRESPONDING_AUTHOR_SIGNOFF_PACKET.docx`
@@ -1075,6 +1089,7 @@ remains.
 - Nature reporting-summary worksheet: `{package_dir / "07_presubmission" / "RMTGuard_NATURE_REPORTING_SUMMARY_DRAFT.md"}`
 - Figure-caption-source audit: `{package_dir / "04_gantt_and_figures" / "RMTGuard_FIGURE_CAPTION_SOURCE_AUDIT.md"}`
 - Post-release version coverage audit: `{package_dir / "03_release_evidence" / "RMTGuard_POST_RELEASE_VERSION_COVERAGE_AUDIT.md"}`
+- v0.1.1 release preflight: `{package_dir / "03_release_evidence" / "RMTGuard_V0_1_1_RELEASE_PREFLIGHT.md"}`
 - Nature Methods presubmission send packet: `{package_dir / "07_presubmission" / "RMTGuard_NATURE_METHODS_PRESUBMISSION_SEND_PACKET.md"}`
 - Nature Methods presubmission send runbook: `{package_dir / "07_presubmission" / "RMTGuard_NATURE_METHODS_PRESUBMISSION_SEND_RUNBOOK.md"}`
 - Nature Methods official route verification: `{package_dir / "07_presubmission" / "RMTGuard_NATURE_METHODS_OFFICIAL_ROUTE_VERIFICATION.md"}`

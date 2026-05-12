@@ -278,6 +278,14 @@ ITEMS = [
         "Shows whether the current manuscript-facing branch is covered by the archived DOI; does not create a new release.",
         "Prepare v0.1.1 only after Figure 4 acknowledgement, final author declarations, and final figure/source-data freeze.",
     ),
+    FreezeItem(
+        "v0_1_1_release_preflight",
+        "release",
+        ROOT / "docs" / "v0_1_1_release_preflight.md",
+        "v0.1.1 no-action release preflight",
+        "Blocks premature release creation until author declarations, Figure 4 acknowledgement, reporting-summary verification, claim integrity, and version coverage are controlled.",
+        "Rerun immediately before any v0.1.1 tag or Zenodo archive.",
+    ),
 ]
 
 

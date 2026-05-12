@@ -8,7 +8,7 @@ This audit compares the archived `v0.1.0` release with the current branch. It do
 
 ## Bottom Line
 
-- Commits after `v0.1.0`: `44`.
+- Commits after `v0.1.0`: `45`.
 - Changed files after `v0.1.0`: `257`.
 - Manuscript-facing changed files: `247`.
 - Recommendation: `prepare_v0.1.1_after_author_ack`.
@@ -19,8 +19,8 @@ This audit compares the archived `v0.1.0` release with the current branch. It do
 | Audit ID | Status | Evidence | Required action | Notes |
 | --- | --- | --- | --- | --- |
 | release_tag | present | v0.1.0 | Keep v0.1.0 immutable. | v0.1.0 commit 053b84ad3bf04ebc1193b5fff420b770946a3845. |
-| current_head | tracked | d29c9636eb5ab678f69698851b02edc867bcb5ff | Use this commit or a later clean commit as the basis for any v0.1.1 release. | 44 commits after v0.1.0. |
-| worktree_cleanliness | clean | none | Commit or intentionally ignore all changes before release. | A clean worktree is required before tagging a new release. |
+| current_head | tracked | c48036a7c13ae4d5f0768758354b4b4d12c7af03 | Use this commit or a later clean commit as the basis for any v0.1.1 release. | 45 commits after v0.1.0. |
+| worktree_cleanliness | dirty | M Makefile<br> M README.md<br> M scripts/build_current_evidence_freeze.py<br> M scripts/build_external_review_docx.py<br> M scripts/build_project_gantt.py<br> M scripts/export_shared_project_info.py<br>?? docs/v0_1_1_release_preflight.md<br>?? scripts/build_v0_1_1_release_preflight.py | Commit or intentionally ignore all changes before release. | A clean worktree is required before tagging a new release. |
 | manuscript_facing_delta | needs_new_release_if_submitted | 247 | Create v0.1.1 only after Figure 4 acknowledgement and final figure/source-data freeze if these post-release files are cited. | Manuscript-facing files changed after the archived v0.1.0 DOI. |
 | figure_source_delta | changed | 27 | Ensure final figures and source data are included in the next release if used in submission. | Figure/source-data changes after v0.1.0 affect reproducibility coverage. |
 | pipeline_code_delta | changed | 49 | Archive updated scripts/benchmarks in the same release as the submitted source data. | Code changes after v0.1.0 affect rerun parity. |

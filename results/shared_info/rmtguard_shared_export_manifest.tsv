@@ -69,6 +69,8 @@ machine-readable figure-caption-source audit	copied	results/submission/figure_ca
 post-release version coverage audit	copied	docs/post_release_version_coverage_audit.md	D:\99、共用信息\RMTGuard_20_50投稿资料包\03_release_evidence\RMTGuard_POST_RELEASE_VERSION_COVERAGE_AUDIT.md	source copied
 machine-readable post-release version coverage audit	copied	results/submission/post_release_version_coverage_audit.tsv	D:\99、共用信息\RMTGuard_20_50投稿资料包\03_release_evidence\RMTGuard_POST_RELEASE_VERSION_COVERAGE_AUDIT.tsv	source copied
 post-release changed-file classification table	copied	results/submission/post_release_changed_files.tsv	D:\99、共用信息\RMTGuard_20_50投稿资料包\03_release_evidence\RMTGuard_POST_RELEASE_CHANGED_FILES.tsv	source copied
+v0.1.1 no-action release preflight	copied	docs/v0_1_1_release_preflight.md	D:\99、共用信息\RMTGuard_20_50投稿资料包\03_release_evidence\RMTGuard_V0_1_1_RELEASE_PREFLIGHT.md	source copied
+machine-readable v0.1.1 no-action release preflight	copied	results/submission/v0_1_1_release_preflight.tsv	D:\99、共用信息\RMTGuard_20_50投稿资料包\03_release_evidence\RMTGuard_V0_1_1_RELEASE_PREFLIGHT.tsv	source copied
 machine-readable topology stress benchmark summary	copied	results/submission/topology_stress_summary.tsv	D:\99、共用信息\RMTGuard_20_50投稿资料包\06_next_sprint_inputs\RMTGuard_TOPOLOGY_STRESS_SUMMARY.tsv	source copied
 topology stress benchmark PNG	copied	figures/manuscript/figure_topology_stress.png	D:\99、共用信息\RMTGuard_20_50投稿资料包\04_gantt_and_figures\RMTGuard_TOPOLOGY_STRESS.png	source copied
 topology stress benchmark PDF	copied	figures/manuscript/figure_topology_stress.pdf	D:\99、共用信息\RMTGuard_20_50投稿资料包\04_gantt_and_figures\RMTGuard_TOPOLOGY_STRESS.pdf	source copied
