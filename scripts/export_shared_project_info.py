@@ -364,6 +364,12 @@ COPY_ITEMS = [
         "benchmark upgrade checklist from CONCORD and scLENS",
     ),
     CopyItem(
+        ROOT / "docs" / "p0_benchmark_upgrade_status_2026-05-12.md",
+        "06_next_sprint_inputs",
+        "RMTGuard_P0_BENCHMARK_UPGRADE_STATUS.md",
+        "P0 benchmark upgrade status after scLENSpy n_rand_matrix=20",
+    ),
+    CopyItem(
         ROOT / "results" / "submission" / "benchmark_upgrade_from_concord_sclens.tsv",
         "06_next_sprint_inputs",
         "RMTGuard_BENCHMARK_UPGRADE_FROM_CONCORD_SCLENS.tsv",
@@ -719,6 +725,7 @@ matrices, tokens, passwords, or private clinical materials.
 - `05_author_metadata/RMTGuard_TITLE_PAGE_AUTHOR_METADATA.md`
 - `06_next_sprint_inputs/RMTGuard_NATURE_METHODS_48H_EXECUTION_PACKET.md`
 - `06_next_sprint_inputs/RMTGuard_P0_SCIENCE_SPRINT_STATUS.md`
+- `06_next_sprint_inputs/RMTGuard_P0_BENCHMARK_UPGRADE_STATUS.md`
 - `06_next_sprint_inputs/RMTGuard_PDAC_TME_ROUTE_DECISION_PACKET.md`
 - `06_next_sprint_inputs/RMTGuard_PDAC_TME_DUAL_ROUTE_PREFLIGHT.md`
 - `06_next_sprint_inputs/RMTGuard_PDAC_TME_DUAL_ROUTE_RUNBOOK.md`
@@ -796,6 +803,7 @@ is frozen, and formal corresponding-author acknowledgement remains.
 - Genome Biology cover letter v2: `{package_dir / "01_project_status" / "RMTGuard_GENOME_BIOLOGY_COVER_LETTER_V2.md"}`
 - 48-hour execution packet: `{package_dir / "06_next_sprint_inputs" / "RMTGuard_NATURE_METHODS_48H_EXECUTION_PACKET.md"}`
 - P0 science sprint status: `{package_dir / "06_next_sprint_inputs" / "RMTGuard_P0_SCIENCE_SPRINT_STATUS.md"}`
+- P0 benchmark upgrade status: `{package_dir / "06_next_sprint_inputs" / "RMTGuard_P0_BENCHMARK_UPGRADE_STATUS.md"}`
 - Component ablation benchmark: `{package_dir / "06_next_sprint_inputs" / "RMTGuard_COMPONENT_ABLATION_BENCHMARK.md"}`
 - Real-data ablation annotation: `{package_dir / "06_next_sprint_inputs" / "RMTGuard_REALDATA_ABLATION_ANNOTATION.md"}`
 - P0 ablation run sheet: `{package_dir / "06_next_sprint_inputs" / "RMTGuard_P0_COMPONENT_ABLATION_RUN_SHEET.md"}`

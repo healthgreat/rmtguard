@@ -36,6 +36,11 @@ Genome Biology decision.
    - Acceptance: false signal PC rate stays near the stated alpha under this
      null, not only under Gaussian pure-noise simulations.
    - Reason: this is the strongest response to type-I-error criticism.
+   - Current status: complete with limits. `docs/realistic_null_power_calibration.md`
+     reports 50 repeats, CI columns, three count-based null families, and a
+     claim-boundary report in `docs/rare_state_claim_boundary.md`. The lowest
+     prevalence/weakest-effect rare-state setting remains an explicit
+     limitation, not a hidden failure.
 
 4. PBMC3k/Kang direct comparator refresh
    - Goal: rerun RMTGuard, Scanpy-like, fixed-PC, elbow, and any feasible
@@ -62,6 +67,8 @@ Genome Biology decision.
      calibration, HVG plateau, near-edge stability gate, and no-call contract.
    - Acceptance: 20-50 repeats where synthetic, 10 repeats where real-data
      runtime is limiting, with confidence intervals.
+   - Current status: complete for the current 20-repeat synthetic and
+     real-data annotation layer. See `docs/p0_science_sprint_status.md`.
 
 ## Manuscript Changes Required
 
@@ -91,3 +98,14 @@ and the stronger `n_rand_matrix=20` setting. Under `n_rand_matrix=20`, scLENSpy
 stability remained lower than RMTGuard v3.2 on both datasets. This closes the
 first direct scLENS-like comparator blocker for PBMC3k/Kang, but not the full
 Nature Methods benchmark gate.
+
+## 2026-05-12 Status Reconciliation
+
+After rechecking the local evidence assets, the realistic count-preserving null
+and rare-state power grid are already at 50-repeat depth with CI columns and an
+explicit rare-state claim boundary. The component ablation layer is also
+complete for the current 20-repeat synthetic and real-data annotation layer.
+The remaining unresolved high-impact benchmark gap is therefore the
+CONCORD-style topology stress layer, not basic null calibration.
+
+See `docs/p0_benchmark_upgrade_status_2026-05-12.md`.
