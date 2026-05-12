@@ -287,6 +287,16 @@ TASKS = [
         "Manuscript-facing figures, source-data tables, reports, checksums, claim boundaries, and next actions are frozen for the current evidence state.",
     ),
     Task(
+        "Manuscript package",
+        "Freeze-aligned Results and figure legends",
+        date(2026, 5, 12),
+        date(2026, 5, 12),
+        "done",
+        100,
+        "manuscript/results_freeze_aligned_draft.md",
+        "Results paragraphs, figure legends, and text-level claim audit generated from the current evidence freeze.",
+    ),
+    Task(
         "Public benchmark",
         "Matched Seurat/JackStraw baseline design",
         date(2026, 5, 3),

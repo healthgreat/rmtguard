@@ -1,0 +1,7 @@
+text_item	claim_type	evidence_path	allowed_wording	forbidden_wording	status
+Results section 1	workflow_boundary	docs/current_evidence_freeze_2026-05-12.md	callability-aware random-matrix workflow	universal replacement for Seurat/Scanpy/fixed-PC workflows	controlled
+Results section 2	null_and_rare_state	results/calibration/realistic_null_summary.tsv;results/calibration/rare_state_power_summary.tsv	supported under tested null and rare-state settings	exact type-I control or guaranteed rare-state retention in all scRNA-seq datasets	controlled
+Results section 3	public_benchmark	results/callability/no_call_decision_map.tsv;results/submission/sclens_vs_rmtguard_stability_nrand20.tsv	callability and caveat reporting	broad stability superiority over all strongest baselines	controlled
+Results section 4	topology	results/submission/topology_stress_summary.tsv;results/submission/realdata_topology_summary.tsv	topology monitor with real-data trade-offs	de novo trajectory inference or topology superiority	controlled
+Results section 5	pdac_and_ablation	docs/figure4_pdac_tme_wording_freeze.md;docs/component_ablation_benchmark.md;docs/realdata_ablation_annotation.md	bounded public-data use case and tested ablation findings	new PDAC mechanism, clinical validation, or universal component necessity	controlled
+Figure legends	caption_boundary	manuscript/figure_legends_freeze_aligned.md	explicit source data and caveats in every legend	caption-level upgrade of caveated or no-call results	controlled

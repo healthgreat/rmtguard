@@ -394,6 +394,24 @@ COPY_ITEMS = [
         "machine-readable current evidence-freeze manifest",
     ),
     CopyItem(
+        ROOT / "manuscript" / "results_freeze_aligned_draft.md",
+        "07_presubmission",
+        "RMTGuard_RESULTS_FREEZE_ALIGNED_DRAFT.md",
+        "freeze-aligned Results draft",
+    ),
+    CopyItem(
+        ROOT / "manuscript" / "figure_legends_freeze_aligned.md",
+        "07_presubmission",
+        "RMTGuard_FIGURE_LEGENDS_FREEZE_ALIGNED.md",
+        "freeze-aligned figure legends draft",
+    ),
+    CopyItem(
+        ROOT / "results" / "submission" / "freeze_aligned_text_audit.tsv",
+        "07_presubmission",
+        "RMTGuard_FREEZE_ALIGNED_TEXT_AUDIT.tsv",
+        "machine-readable claim audit for freeze-aligned text",
+    ),
+    CopyItem(
         ROOT / "results" / "submission" / "topology_stress_summary.tsv",
         "06_next_sprint_inputs",
         "RMTGuard_TOPOLOGY_STRESS_SUMMARY.tsv",
@@ -835,6 +853,9 @@ matrices, tokens, passwords, or private clinical materials.
 - `01_project_status/RMTGuard_NATURE_METHODS_GO_NO_GO_FINAL.md`
 - `01_project_status/RMTGuard_CURRENT_EVIDENCE_FREEZE.md`
 - `01_project_status/RMTGuard_CURRENT_EVIDENCE_FREEZE_MANIFEST.tsv`
+- `07_presubmission/RMTGuard_RESULTS_FREEZE_ALIGNED_DRAFT.md`
+- `07_presubmission/RMTGuard_FIGURE_LEGENDS_FREEZE_ALIGNED.md`
+- `07_presubmission/RMTGuard_FREEZE_ALIGNED_TEXT_AUDIT.tsv`
 - `02_manual_actions/RMTGuard_MANUAL_NEXT_ACTIONS_20_50.md`
 - `02_manual_actions/RMTGuard_CORRESPONDING_AUTHOR_FIGURE4_ACKNOWLEDGEMENT_TEMPLATE.md`
 - `02_manual_actions/RMTGuard_CORRESPONDING_AUTHOR_SIGNOFF_PACKET.docx`
@@ -992,6 +1013,9 @@ remains.
 - Figure 4 author sign-off tracker: `{package_dir / "02_manual_actions" / "RMTGuard_CORRESPONDING_AUTHOR_SIGNOFF_TRACKER.tsv"}`
 - Figure 4 reply intake runbook: `{package_dir / "02_manual_actions" / "RMTGuard_CORRESPONDING_AUTHOR_REPLY_INTAKE_RUNBOOK.md"}`
 - Nature Methods presubmission inquiry draft: `{package_dir / "07_presubmission" / "RMTGuard_NATURE_METHODS_PRESUBMISSION_INQUIRY_DRAFT.md"}`
+- Freeze-aligned Results draft: `{package_dir / "07_presubmission" / "RMTGuard_RESULTS_FREEZE_ALIGNED_DRAFT.md"}`
+- Freeze-aligned figure legends draft: `{package_dir / "07_presubmission" / "RMTGuard_FIGURE_LEGENDS_FREEZE_ALIGNED.md"}`
+- Freeze-aligned text audit: `{package_dir / "07_presubmission" / "RMTGuard_FREEZE_ALIGNED_TEXT_AUDIT.tsv"}`
 - Nature Methods presubmission send packet: `{package_dir / "07_presubmission" / "RMTGuard_NATURE_METHODS_PRESUBMISSION_SEND_PACKET.md"}`
 - Nature Methods presubmission send runbook: `{package_dir / "07_presubmission" / "RMTGuard_NATURE_METHODS_PRESUBMISSION_SEND_RUNBOOK.md"}`
 - Nature Methods official route verification: `{package_dir / "07_presubmission" / "RMTGuard_NATURE_METHODS_OFFICIAL_ROUTE_VERIFICATION.md"}`

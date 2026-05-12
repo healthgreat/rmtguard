@@ -222,6 +222,30 @@ ITEMS = [
         "Tracks actions Codex cannot certify alone.",
         "Authors must verify funding, COI, ethics, and Figure 4 acknowledgement.",
     ),
+    FreezeItem(
+        "results_freeze_aligned_draft",
+        "manuscript_text",
+        ROOT / "manuscript" / "results_freeze_aligned_draft.md",
+        "Freeze-aligned Results draft",
+        "Draft Results text only; every paragraph remains bounded by current evidence and is not final journal prose.",
+        "Use as source-controlled starting text for the next manuscript assembly pass.",
+    ),
+    FreezeItem(
+        "figure_legends_freeze_aligned",
+        "manuscript_text",
+        ROOT / "manuscript" / "figure_legends_freeze_aligned.md",
+        "Freeze-aligned figure legends draft",
+        "Draft captions only; legends must not upgrade caveated or no-call evidence.",
+        "Use as caption source and revise only after final figure layout is chosen.",
+    ),
+    FreezeItem(
+        "freeze_aligned_text_audit",
+        "manuscript_text",
+        ROOT / "results" / "submission" / "freeze_aligned_text_audit.tsv",
+        "Machine-readable claim audit for freeze-aligned text",
+        "Controls wording boundaries; does not certify journal acceptance.",
+        "Re-run after any Results or legend change.",
+    ),
 ]
 
 
