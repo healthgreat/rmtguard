@@ -60,6 +60,7 @@ A	docs/sclens_stability_nrand20_2026-05-12.md	submission_doc	True	submission, ro
 A	docs/sclens_stability_pilot_2026-05-12.md	submission_doc	True	submission, route, audit and validation reports
 A	docs/shared_info_export_manifest.md	submission_doc	True	submission, route, audit and validation reports
 A	docs/topology_stress_benchmark_2026-05-12.md	submission_doc	True	submission, route, audit and validation reports
+A	docs/v0_1_1_release_preflight.md	submission_doc	True	submission, route, audit and validation reports
 A	figures/calibration/calibration_figure_manifest.tsv	calibration_figure	True	calibration figure assets
 A	figures/calibration/realistic_null_power_calibration.pdf	calibration_figure	True	calibration figure assets
 A	figures/calibration/realistic_null_power_calibration.png	calibration_figure	True	calibration figure assets
@@ -205,6 +206,7 @@ A	results/submission/sclens_h5ad_smoke_summary.tsv	submission_table	True	submiss
 A	results/submission/sclens_vs_rmtguard_stability_nrand20.tsv	submission_table	True	submission-facing machine-readable tables
 A	results/submission/sclens_vs_rmtguard_stability_pilot.tsv	submission_table	True	submission-facing machine-readable tables
 A	results/submission/topology_stress_summary.tsv	submission_table	True	submission-facing machine-readable tables
+A	results/submission/v0_1_1_release_preflight.tsv	submission_table	True	submission-facing machine-readable tables
 A	results/tables/manuscript/realdata_ablation_table_manifest.tsv	other	False	not manuscript-facing by default
 A	results/tables/manuscript/supplemental_realdata_ablation_table.docx	other	False	not manuscript-facing by default
 A	results/tables/manuscript/supplemental_realdata_ablation_table.tsv	other	False	not manuscript-facing by default
@@ -241,6 +243,7 @@ M	scripts/build_public_release_blocker_report.py	pipeline_code	True	analysis, fi
 M	scripts/build_publication_execution_board.py	pipeline_code	True	analysis, figure, release and submission-control scripts
 A	scripts/build_rare_state_claim_boundary.py	pipeline_code	True	analysis, figure, release and submission-control scripts
 M	scripts/build_reporting_summary_draft.py	pipeline_code	True	analysis, figure, release and submission-control scripts
+A	scripts/build_v0_1_1_release_preflight.py	pipeline_code	True	analysis, figure, release and submission-control scripts
 M	scripts/execute_github_release.py	pipeline_code	True	analysis, figure, release and submission-control scripts
 A	scripts/export_shared_project_info.py	pipeline_code	True	analysis, figure, release and submission-control scripts
 M	scripts/finalize_submission_release.py	pipeline_code	True	analysis, figure, release and submission-control scripts
