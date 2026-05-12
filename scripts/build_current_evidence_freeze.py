@@ -254,6 +254,14 @@ ITEMS = [
         "Handoff document only; it packages evidence boundaries and reviewer questions but does not certify submission readiness.",
         "Share with external reviewers and route their comments through the feedback triage pipeline.",
     ),
+    FreezeItem(
+        "nature_reporting_summary_draft",
+        "journal_route",
+        ROOT / "docs" / "nature_reporting_summary_draft.md",
+        "Nature Portfolio reporting-summary worksheet",
+        "Draft worksheet only; it pre-fills reproducibility, data, statistics and software answers but requires corresponding-author verification.",
+        "Transfer verified content into the official Nature Portfolio form only after final figure/source-data freeze.",
+    ),
 ]
 
 

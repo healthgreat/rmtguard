@@ -8,15 +8,19 @@ This is a draft worksheet, not the official Nature Portfolio reporting summary f
 
 ## Status
 
-- Blocked rows: `3`.
-- Manual/author-completion rows: `2`.
+- Blocked rows: `0`.
+- Manual/author-completion rows: `3`.
 - Acceptance guarantee: `impossible`; this worksheet only reduces reporting omission risk.
 
 ## Blocked Rows
 
-- `Method validation / Callability and no-call boundary`: Keep PBMC68k as diagnostic no-call in text and reviewer responses.
-- `Software / Code availability`: Create public GitHub repository, push tag, and replace placeholder URLs.
-- `Software / Code DOI`: Archive the GitHub Release with Zenodo and run finalize_submission_release.py.
+- none
+
+## Manual Or Release-Refresh Rows
+
+- `Statistics / Multiple testing and uncertainty` (needs_author_completion): Add final marker/pathway multiple-testing details if those analyses enter the main text.
+- `Software / Code DOI` (needs_release_refresh): Create a new GitHub Release/Zenodo archive if the final manuscript depends on post-v0.1.0 files.
+- `Reporting summary / Official form status` (pending_manual): Transfer verified answers into the official submission system.
 
 ## Draft Responses
 
@@ -55,8 +59,8 @@ This is a draft worksheet, not the official Nature Portfolio reporting summary f
 ### Statistics - Sample size and replication
 
 - Status: `ready_for_author_check`
-- Draft response: No prospective sample-size calculation was performed. The method is evaluated by simulations, repeated subsampling stability, four Phase 1 public real datasets, and a PDAC/TME external validation dataset.
-- Evidence: `results/gates/gate_evidence.tsv`
+- Draft response: No prospective sample-size calculation was performed. The method is evaluated by 50-repeat realistic-null and rare-state calibration, repeated-subsampling real-data benchmarks, official Seurat/JackStraw comparator rows, scLENSpy comparator rows, topology stress tests, and public PDAC/TME application data.
+- Evidence: `docs/current_evidence_freeze_2026-05-12.md`
 - Author action required: Confirm final manuscript still uses the same benchmark set.
 - Notes: This supports computational reproducibility, not prospective clinical power.
 
@@ -71,18 +75,18 @@ This is a draft worksheet, not the official Nature Portfolio reporting summary f
 ### Method validation - Noise-control and rare-state claims
 
 - Status: `ready_for_author_check`
-- Draft response: Pure-null benchmark retained 1 signal PC(s), satisfying the pre-specified <=1 criterion. Rare-state synthetic ARI reached 0.9234648221808079.
-- Evidence: `results/manuscript/claim_evidence_matrix.tsv`
+- Draft response: Across the current 50-repeat count-preserving null families, the maximum observed false-signal rate was 0.0%. Rare-state power was bounded by prevalence and effect size: all tested prevalence >=0.04 settings reached power >=84% (6 settings), whereas prevalence 0.02/effect 2.5 had power 0.12 and mean rare-state F1 0.151.
+- Evidence: `results/calibration/realistic_null_summary.tsv; results/calibration/rare_state_power_summary.tsv`
 - Author action required: Confirm exact benchmark numbers match final figures.
-- Notes: Avoid exact type-I calibration claims beyond tested simulations.
+- Notes: Avoid exact type-I calibration claims beyond the tested null families and preprocessing regime.
 
 ### Method validation - Callability and no-call boundary
 
-- Status: `blocked`
+- Status: `ready_for_author_check`
 - Draft response: Callability-aware multi-dataset diagnostics: baron_pancreas: fail_below_best_baseline RMTGuard=0.859187 best=elbow_rule 0.980448; kang_ifnb_pbmc: fail_below_best_baseline RMTGuard=0.826068 best=elbow_rule 0.880112; pbmc3k_10x: fail_below_best_baseline RMTGuard=0.891308 best=elbow_rule 0.986578; pbmc68k_zheng2017: diagnostic_no_call RMTGuard=0.600000 best=fixed_pcs_30 0.805652. PBMC3k mean pairwise ARI: RMTGuard=0.8913076392119752, Scanpy-like=0.8210209608290601, fixed30=0.9083477856918997; PBMC68k is reported as a diagnostic no-call, not as a positive discovery.
 - Evidence: `results/manuscript/claim_evidence_matrix.tsv`
-- Author action required: Keep PBMC68k as diagnostic no-call in text and reviewer responses.
-- Notes: This is the key overclaim-control statement.
+- Author action required: Keep PBMC68k as diagnostic no-call and avoid broad stability-superiority wording.
+- Notes: The reporting summary can be completed, but the Nature Methods scientific claim remains gated by the stability_advantage result.
 
 ### Biological application - PDAC/TME public showcase
 
@@ -94,19 +98,19 @@ This is a draft worksheet, not the official Nature Portfolio reporting summary f
 
 ### Software - Code availability
 
-- Status: `blocked`
-- Draft response: Local code, tests, CI, Dockerfile, release manifests, and source bundle are prepared. Public GitHub repository and GitHub Release are still pending until a real repository URL is provided.
+- Status: `ready_for_author_check`
+- Draft response: Public code is available at https://github.com/healthgreat/rmtguard. The repository includes local code, tests, CI, Dockerfile, release manifests, dataset metadata and regeneration scripts. Post-release working-branch changes should not be described as part of the immutable release unless a new release is issued.
 - Evidence: `results/release/release_readiness.tsv`
-- Author action required: Create public GitHub repository, push tag, and replace placeholder URLs.
-- Notes: Do not mark this complete before repository_url and github_remote pass.
+- Author action required: Before submission, verify that the final submitted code corresponds to an archived release.
+- Notes: Code availability is no longer the hard P0 blocker; final release coverage remains author-controlled.
 
 ### Software - Code DOI
 
-- Status: `blocked`
-- Draft response: Zenodo DOI is pending until the GitHub Release is archived and the DOI is recorded in .zenodo.json, CITATION.cff, and Code Availability text.
+- Status: `needs_release_refresh`
+- Draft response: The archived software DOI recorded in .zenodo.json and CITATION.cff is 10.5281/zenodo.20012350. The current working branch contains post-release changes; if these are cited in the submitted manuscript, create and archive a new release before submission.
 - Evidence: `results/release/release_readiness.tsv`
-- Author action required: Archive the GitHub Release with Zenodo and run finalize_submission_release.py.
-- Notes: This remains the hard Nature Portfolio code-release blocker.
+- Author action required: Create a new GitHub Release/Zenodo archive if the final manuscript depends on post-v0.1.0 files.
+- Notes: The DOI exists; the remaining issue is exact version coverage, not absence of DOI.
 
 ### Reporting summary - Official form status
 

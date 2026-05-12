@@ -12,7 +12,7 @@ submission.
 
 ## Freeze Status
 
-- Items checked: `27`
+- Items checked: `28`
 - Missing items: `0`
 - Manifest: `results/submission/current_evidence_freeze_manifest.tsv`
 
@@ -20,7 +20,7 @@ submission.
 
 - `competitor`: 1
 - `figure`: 9
-- `journal_route`: 2
+- `journal_route`: 3
 - `manual_blocker`: 1
 - `manuscript_text`: 4
 - `project_management`: 1
@@ -73,6 +73,7 @@ submission.
 | figure_legends_freeze_aligned | manuscript_text | True | Freeze-aligned figure legends draft | Draft captions only; legends must not upgrade caveated or no-call evidence. | Use as caption source and revise only after final figure layout is chosen. |
 | freeze_aligned_text_audit | manuscript_text | True | Machine-readable claim audit for freeze-aligned text | Controls wording boundaries; does not certify journal acceptance. | Re-run after any Results or legend change. |
 | external_review_docx | manuscript_text | True | Word packet for external scientific review | Handoff document only; it packages evidence boundaries and reviewer questions but does not certify submission readiness. | Share with external reviewers and route their comments through the feedback triage pipeline. |
+| nature_reporting_summary_draft | journal_route | True | Nature Portfolio reporting-summary worksheet | Draft worksheet only; it pre-fills reproducibility, data, statistics and software answers but requires corresponding-author verification. | Transfer verified content into the official Nature Portfolio form only after final figure/source-data freeze. |
 
 ## Use In Manuscript Planning
 

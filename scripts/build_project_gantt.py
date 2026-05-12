@@ -307,6 +307,16 @@ TASKS = [
         "Reviewer-facing DOCX packet built from the evidence freeze, gap assessment, Results draft, figure legends, audit table, Gantt snapshot, and manual-action checklist.",
     ),
     Task(
+        "Manuscript package",
+        "Nature reporting-summary worksheet refresh",
+        date(2026, 5, 12),
+        date(2026, 5, 12),
+        "done",
+        100,
+        "docs/nature_reporting_summary_draft.md",
+        "Reporting-summary worksheet refreshed to reflect completed public GitHub/Zenodo evidence and remaining version-coverage/manual-author checks.",
+    ),
+    Task(
         "Public benchmark",
         "Matched Seurat/JackStraw baseline design",
         date(2026, 5, 3),

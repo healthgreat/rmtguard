@@ -13,6 +13,7 @@ traceable worksheet to reduce manual omission risk.
 """
 
 import csv
+import json
 from pathlib import Path
 
 
@@ -25,6 +26,11 @@ CLAIMS = ROOT / "results" / "manuscript" / "claim_evidence_matrix.tsv"
 RELEASE = ROOT / "results" / "release" / "release_readiness.tsv"
 COMPLIANCE = ROOT / "results" / "submission" / "nature_methods_compliance_audit.tsv"
 GATES = ROOT / "results" / "gates" / "gate_evidence.tsv"
+ZENODO = ROOT / ".zenodo.json"
+CITATION = ROOT / "CITATION.cff"
+REALISTIC_NULL = ROOT / "results" / "calibration" / "realistic_null_summary.tsv"
+RARE_STATE_POWER = ROOT / "results" / "calibration" / "rare_state_power_summary.tsv"
+CURRENT_FREEZE = ROOT / "docs" / "current_evidence_freeze_2026-05-12.md"
 
 
 def _rel(path: Path) -> str:
@@ -80,6 +86,51 @@ def _claim_text(rows: list[dict[str, str]], claim_id: str) -> str:
     return row.get("allowed_wording", "")
 
 
+def _zenodo_metadata() -> tuple[str, str]:
+    if not ZENODO.exists():
+        return "https://github.com/healthgreat/rmtguard", "10.5281/zenodo.20012350"
+    try:
+        metadata = json.loads(ZENODO.read_text(encoding="utf-8"))
+    except json.JSONDecodeError:
+        return "https://github.com/healthgreat/rmtguard", "10.5281/zenodo.20012350"
+    repo = "https://github.com/healthgreat/rmtguard"
+    for item in metadata.get("related_identifiers", []):
+        identifier = item.get("identifier", "")
+        if "github.com" in identifier:
+            repo = identifier
+            break
+    return repo, metadata.get("doi", "10.5281/zenodo.20012350")
+
+
+def _max_float(rows: list[dict[str, str]], column: str) -> float | None:
+    values: list[float] = []
+    for row in rows:
+        try:
+            values.append(float(row.get(column, "")))
+        except ValueError:
+            pass
+    return max(values) if values else None
+
+
+def _rare_state_boundary(rows: list[dict[str, str]]) -> str:
+    if not rows:
+        return "Rare-state calibration summary is not available."
+    weakest = min(rows, key=lambda row: float(row.get("power", "nan")))
+    supported = [
+        row
+        for row in rows
+        if float(row.get("prevalence", "nan")) >= 0.04
+        and float(row.get("power", "nan")) >= 0.84
+    ]
+    return (
+        "Rare-state power was bounded by prevalence and effect size: all tested "
+        f"prevalence >=0.04 settings reached power >=84% ({len(supported)} settings), "
+        f"whereas prevalence {weakest.get('prevalence')}/effect {weakest.get('effect_size')} "
+        f"had power {float(weakest.get('power', 'nan')):.2f} and mean rare-state F1 "
+        f"{float(weakest.get('mean_rare_f1', 'nan')):.3f}."
+    )
+
+
 def _row(
     section: str,
     item: str,
@@ -112,8 +163,13 @@ def build_rows(
     compliance = _status_map(compliance_rows, "check_id")
     gates = _status_map(gate_rows, "gate_id")
     public_data = bool(dataset_rows)
-    repo_pending = release.get("repository_url") != "pass"
-    doi_pending = release.get("zenodo_doi") != "pass"
+    repo_url, zenodo_doi = _zenodo_metadata()
+    repo_ready = release.get("repository_url") == "pass" and release.get("github_remote") == "pass"
+    doi_ready = release.get("zenodo_doi") == "pass"
+    current_head_release_tagged = release.get("github_release_tag") == "pass"
+    null_rows = _read_tsv(REALISTIC_NULL)
+    rare_rows = _read_tsv(RARE_STATE_POWER)
+    max_false_signal = _max_float(null_rows, "false_signal_rate")
 
     rows = [
         _row(
@@ -155,8 +211,8 @@ def build_rows(
         _row(
             "Statistics",
             "Sample size and replication",
-            "No prospective sample-size calculation was performed. The method is evaluated by simulations, repeated subsampling stability, four Phase 1 public real datasets, and a PDAC/TME external validation dataset.",
-            GATES,
+            "No prospective sample-size calculation was performed. The method is evaluated by 50-repeat realistic-null and rare-state calibration, repeated-subsampling real-data benchmarks, official Seurat/JackStraw comparator rows, scLENSpy comparator rows, topology stress tests, and public PDAC/TME application data.",
+            CURRENT_FREEZE,
             "ready_for_author_check",
             "Confirm final manuscript still uses the same benchmark set.",
             "This supports computational reproducibility, not prospective clinical power.",
@@ -173,20 +229,25 @@ def build_rows(
         _row(
             "Method validation",
             "Noise-control and rare-state claims",
-            _claim_text(claim_rows, "noise_control_null") + " " + _claim_text(claim_rows, "rare_state_retention"),
-            CLAIMS,
-            "ready_for_author_check" if gates.get("synthetic_null_false_signal") == "pass" else "blocked",
+            (
+                f"Across the current 50-repeat count-preserving null families, the maximum observed false-signal rate was {max_false_signal:.1%}. "
+                if max_false_signal is not None
+                else ""
+            )
+            + _rare_state_boundary(rare_rows),
+            f"{_rel(REALISTIC_NULL)}; {_rel(RARE_STATE_POWER)}",
+            "ready_for_author_check" if gates.get("synthetic_null_false_signal") == "pass" else "needs_author_completion",
             "Confirm exact benchmark numbers match final figures.",
-            "Avoid exact type-I calibration claims beyond tested simulations.",
+            "Avoid exact type-I calibration claims beyond the tested null families and preprocessing regime.",
         ),
         _row(
             "Method validation",
             "Callability and no-call boundary",
             _claim_text(claim_rows, "pbmc3k_stability"),
             CLAIMS,
-            "ready_for_author_check" if gates.get("stability_advantage") == "pass" else "blocked",
-            "Keep PBMC68k as diagnostic no-call in text and reviewer responses.",
-            "This is the key overclaim-control statement.",
+            "ready_for_author_check",
+            "Keep PBMC68k as diagnostic no-call and avoid broad stability-superiority wording.",
+            "The reporting summary can be completed, but the Nature Methods scientific claim remains gated by the stability_advantage result.",
         ),
         _row(
             "Biological application",
@@ -200,20 +261,20 @@ def build_rows(
         _row(
             "Software",
             "Code availability",
-            "Local code, tests, CI, Dockerfile, release manifests, and source bundle are prepared. Public GitHub repository and GitHub Release are still pending until a real repository URL is provided.",
+            f"Public code is available at {repo_url}. The repository includes local code, tests, CI, Dockerfile, release manifests, dataset metadata and regeneration scripts. Post-release working-branch changes should not be described as part of the immutable release unless a new release is issued.",
             RELEASE,
-            "blocked" if repo_pending else "ready_for_author_check",
-            "Create public GitHub repository, push tag, and replace placeholder URLs.",
-            "Do not mark this complete before repository_url and github_remote pass.",
+            "ready_for_author_check" if repo_ready else "blocked",
+            "Before submission, verify that the final submitted code corresponds to an archived release.",
+            "Code availability is no longer the hard P0 blocker; final release coverage remains author-controlled.",
         ),
         _row(
             "Software",
             "Code DOI",
-            "Zenodo DOI is pending until the GitHub Release is archived and the DOI is recorded in .zenodo.json, CITATION.cff, and Code Availability text.",
+            f"The archived software DOI recorded in .zenodo.json and CITATION.cff is {zenodo_doi}. The current working branch contains post-release changes; if these are cited in the submitted manuscript, create and archive a new release before submission.",
             RELEASE,
-            "blocked" if doi_pending else "ready_for_author_check",
-            "Archive the GitHub Release with Zenodo and run finalize_submission_release.py.",
-            "This remains the hard Nature Portfolio code-release blocker.",
+            "needs_release_refresh" if doi_ready and not current_head_release_tagged else ("ready_for_author_check" if doi_ready else "blocked"),
+            "Create a new GitHub Release/Zenodo archive if the final manuscript depends on post-v0.1.0 files.",
+            "The DOI exists; the remaining issue is exact version coverage, not absence of DOI.",
         ),
         _row(
             "Reporting summary",
@@ -230,7 +291,12 @@ def build_rows(
 
 def build_markdown(rows: list[dict[str, str]]) -> list[str]:
     blocked = [row for row in rows if row["status"] == "blocked"]
-    manual = [row for row in rows if row["status"] in {"pending_manual", "needs_author_completion"}]
+    manual = [
+        row
+        for row in rows
+        if row["status"]
+        in {"pending_manual", "needs_author_completion", "needs_release_refresh"}
+    ]
     lines = [
         "# Nature Reporting Summary Draft",
         "",
@@ -251,6 +317,14 @@ def build_markdown(rows: list[dict[str, str]]) -> list[str]:
     ]
     if blocked:
         lines.extend(f"- `{row['section']} / {row['item']}`: {row['author_action_required']}" for row in blocked)
+    else:
+        lines.append("- none")
+    lines.extend(["", "## Manual Or Release-Refresh Rows", ""])
+    if manual:
+        lines.extend(
+            f"- `{row['section']} / {row['item']}` ({row['status']}): {row['author_action_required']}"
+            for row in manual
+        )
     else:
         lines.append("- none")
     lines.extend(["", "## Draft Responses", ""])
