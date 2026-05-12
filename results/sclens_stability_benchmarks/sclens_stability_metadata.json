@@ -1,0 +1,29 @@
+{
+  "processed_dir": "E:\\4\u5b9e\u9a8c\u6570\u636e\\10\u65b0\u7b97\u6cd5\\data\\processed",
+  "outdir": "results\\sclens_stability_benchmarks",
+  "datasets": [
+    "pbmc3k_10x",
+    "kang_ifnb_pbmc"
+  ],
+  "sclens_path": "E:\\4\u5b9e\u9a8c\u6570\u636e\\10\u65b0\u7b97\u6cd5\\external\\scLENSpy",
+  "layer": "counts",
+  "label_key": "auto",
+  "n_repeats": 10,
+  "sample_fraction": 0.8,
+  "n_rand_matrix": 2,
+  "n_neighbors": 15,
+  "resolution": 1.0,
+  "device": "auto",
+  "random_state": 20260427,
+  "quiet_third_party": true,
+  "force": true,
+  "current_run_id": 9,
+  "sclens_commit": "bf267224753af88c3f11bf31be1ee6916d3351b3",
+  "python_executable": "D:\\BioSoft\\python\\Python311\\python.exe",
+  "torch_version": "2.7.0+cu118",
+  "torch_cuda_available": true,
+  "dataset_filenames": {
+    "pbmc3k_10x": "pbmc3k_10x.h5ad",
+    "kang_ifnb_pbmc": "kang_ifnb_pbmc.h5ad"
+  }
+}

@@ -1,5 +1,5 @@
 priority	task	goal	acceptance_gate	why_needed	status
-P0	scLENS feasibility check	Run scLENS on PBMC3k and Kang PBMC or document install/runtime blocker	Versioned command, runtime, memory, output or blocker recorded	Direct RMT-like competitor risk	in_progress_h5ad_smoke_pass_julia_missing
+P0	scLENS feasibility check	Run scLENS on PBMC3k and Kang PBMC or document install/runtime blocker	Versioned command, runtime, memory, output or blocker recorded	Direct RMT-like competitor risk	pilot_10repeat_complete_stronger_nrand_pending
 P0	CONCORD-style topology stress simulation	Add branch, trajectory, and loop simulations	Structure recovery metrics beyond ARI/NMI reported	High-impact embedding papers test topology, not only clusters	pending
 P0	realistic count-preserving null	Preserve library size, dropout, and mean-variance structure while destroying labels	False signal PC rate near stated alpha	Addresses type-I-error criticism under realistic scRNA-seq nulls	pending
 P0	PBMC3k/Kang comparator refresh	Rerun RMTGuard and baselines under identical subsampling	At least 10 repeats, CI, cluster-number variance, annotation recovery, runtime, memory	Current stability story is not Nature Methods-grade	pending

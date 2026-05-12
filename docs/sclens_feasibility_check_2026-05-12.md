@@ -122,11 +122,43 @@ fair-comparison benchmark:
 ## Current Gate Impact
 
 The scLENS comparator gate moves from `pending` to
-`in_progress_h5ad_smoke_pass_julia_missing`.
+`pilot_10repeat_complete_stronger_nrand_pending`.
 
 Nature Methods readiness is not unlocked by this smoke test. It only removes
 one uncertainty: a direct RMT-like comparator is technically reachable through
 Python scLENSpy on the same PBMC3k and Kang h5ad files used by RMTGuard.
+
+## 10-repeat Stability Pilot
+
+A repeated scLENSpy stability pilot was completed after the h5ad smoke tests:
+
+```bash
+python benchmarks/run_sclens_stability_benchmark.py \
+  --datasets pbmc3k_10x kang_ifnb_pbmc \
+  --n-repeats 10 \
+  --sample-fraction 0.8 \
+  --n-rand-matrix 2 \
+  --outdir results/sclens_stability_benchmarks \
+  --force
+```
+
+Summary:
+
+- PBMC3k scLENSpy mean pairwise ARI: `0.668` (95% CI `0.646-0.690`).
+- Kang IFN-beta PBMC scLENSpy mean pairwise ARI: `0.549` (95% CI
+  `0.513-0.585`).
+- Kang IFN-beta PBMC scLENSpy annotation ARI: `0.535`.
+
+Detailed pilot report:
+
+```text
+docs/sclens_stability_pilot_2026-05-12.md
+results/submission/sclens_vs_rmtguard_stability_pilot.tsv
+```
+
+This pilot strengthens comparator feasibility but does not support final
+superiority language because `n_rand_matrix=2` is below the stronger
+manuscript-grade setting that should be attempted next.
 
 ## Sources
 

@@ -177,7 +177,12 @@ The first scLENS feasibility check is stored at
 `scripts/run_sclens_feasibility_smoke.py`, and its output table is
 `results/submission/sclens_feasibility_smoke.tsv`. The h5ad adapter smoke test
 is `benchmarks/run_sclens_h5ad_smoke.py`, with summary results at
-`results/submission/sclens_h5ad_smoke_summary.tsv`.
+`results/submission/sclens_h5ad_smoke_summary.tsv`. The 10-repeat scLENSpy
+stability pilot is run by `benchmarks/run_sclens_stability_benchmark.py` and
+reported in `docs/sclens_stability_pilot_2026-05-12.md`, with a direct
+comparison table at `results/submission/sclens_vs_rmtguard_stability_pilot.tsv`.
+This remains a pilot until a stronger `n_rand_matrix>=20` run is completed or
+explicitly documented as runtime-limited.
 
 The current bounded PDAC/TME Figure 4 wording freeze is stored at
 `docs/figure4_pdac_tme_wording_freeze.md`, with the manuscript caption draft in
